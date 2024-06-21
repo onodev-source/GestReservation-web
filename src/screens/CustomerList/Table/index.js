@@ -51,6 +51,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
             up={customers.length - index <= 2}
             value={selectedFilters.includes(x.id)}
             onChange={() => handleChange(x.id)}
+            customersDetails={true}
           />
         ))}
       </div>

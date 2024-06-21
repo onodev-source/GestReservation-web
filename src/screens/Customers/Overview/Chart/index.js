@@ -94,7 +94,7 @@ const Chart = () => {
             dataKey="customers"
             dot={false}
             strokeWidth={4}
-            stroke="#2A85FF"
+            stroke="#F2D45F"
           />
         </LineChart>
       </ResponsiveContainer>

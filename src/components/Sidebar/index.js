@@ -27,24 +27,25 @@ const navigation = [
             {
                 title: "Packages",
                 url: "/products/released",
-                counter: "2",
-                colorCounter: "#FFBC99",
+                counter: "4",
+                colorCounter: "#F2D45F",
             },
-            {
+           /* {
                 title: "Released",
                 url: "/products/released",
             },
             {
                 title: "Comments",
                 url: "/products/comments",
-            },
+            },*/
         ],
     },
     {
         title: "Customers",
         slug: "customers",
         icon: "profile-circle",
-        dropdown: [
+        url: "/customers/customer-list",
+        /*dropdown: [
             {
                 title: "Overview",
                 url: "/customers/overview",
@@ -53,7 +54,7 @@ const navigation = [
                 title: "Customer list",
                 url: "/customers/customer-list",
             },
-        ],
+        ],*/
     },
     {
         title: "Reservations",
@@ -61,8 +62,8 @@ const navigation = [
         icon: "store",
         dropdown: [
             {
-                title: "Earning",
-                url: "/income/earning",
+                title: "Reservations",
+                url: "/reservations/reservationList",
             },
             {
                 title: "Refunds",
@@ -72,14 +73,14 @@ const navigation = [
                 title: "Scheduled",
                 url: "/products/scheduled",
                 counter: "8",
-                colorCounter: "#B5E4CA",
+                colorCounter: "#F2D45F",
             },
         ],
     },
     {
         title: "Income",
         icon: "pie-chart",
-        url: "/shop",
+        url: "/income/earning",
     },
 ];
 

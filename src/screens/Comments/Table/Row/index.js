@@ -12,11 +12,7 @@ const Row = ({ item, value, onChange }) => {
   return (
     <div className={cn(styles.row, { [styles.active]: visible })} onMouseLeave={() => setVisibleSmile(false)} >
       <div className={styles.col}>
-        <Checkbox
-          className={styles.checkbox}
-          value={value}
-          onChange={onChange}
-        />
+        <Checkbox className={styles.checkbox}  value={value}  onChange={onChange}/>
       </div>
       <div className={styles.col}>
         <div className={styles.box}>

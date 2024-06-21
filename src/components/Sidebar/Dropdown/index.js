@@ -46,18 +46,10 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
       )}
     >
       {item.add ? (
-        <div
-          className={cn(styles.top, {
-            [styles.active]: pathname.startsWith("/products/add"),
-          })}
-        >
+        <div  className={cn(styles.top, {   [styles.active]: pathname.startsWith("/products/add"), })} >
           <Head />
-          <Link
-            className={cn(styles.add, {
-              [styles.active]: pathname.startsWith("/products/add"),
-            })}
-            to="/products/add"
-            onClick={onClose}
+          <Link  className={cn(styles.add, { [styles.active]: pathname.startsWith("/products/add"), })}
+            to="/products/add"  onClick={onClose}
           >
             <Icon name="plus" size="10" />
           </Link>
@@ -67,20 +59,10 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
       )}
       <div className={styles.body}>
         {item.dropdown.map((x, index) => (
-          <NavLink
-            className={styles.link}
-            activeClassName={styles.active}
-            to={x.url}
-            key={index}
-            onClick={onClose}
-            exact
-          >
+          <NavLink className={styles.link} activeClassName={styles.active} to={x.url} key={index} onClick={onClose} exact>
             {x.title}
             {x.counter ? (
-              <div
-                className={styles.counter}
-                style={{ backgroundColor: x.colorCounter }}
-              >
+              <div className={styles.counter} style={{ backgroundColor: x.colorCounter }}>
                 {x.counter}
               </div>
             ) : (

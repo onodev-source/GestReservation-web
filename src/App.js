@@ -41,6 +41,7 @@ const router = createBrowserRouter(
       <Route path="/customers/overview" element={<Page title="Customers"><Customers /></Page>} />
       <Route path="/customers/customer-list" element={<Page title="Customers"><CustomerList /></Page>} />
       <Route path="/shop" element={<Page wide><Shop /></Page>} />
+      <Route path="/reservations/reservationList" element={<Page title="Reservations"><Earning resertList={true} /></Page>} />
       <Route path="/income/earning" element={<Page title="Income"><Earning /></Page>} />
       <Route path="/income/refunds" element={<Page title="Refunds"><Refunds /></Page>} />
       <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />
