@@ -27,22 +27,19 @@ const users = [
   },
 ];
 
-const Users = ({ className }) => {
+const Users = ({ className, customerList }) => {
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.head}>
         <div className={styles.info}>
-          Last <strong>04 users</strong> online{" "}
+          {!customerList ? <> Last <strong>04 users</strong> online </> : "Most active"}{" "}
           <span role="img" aria-label="smile">
             😎
           </span>
         </div>
-        <Link
-          className={cn("button-stroke", styles.button)}
-          to="/customers"
-        >
+        {!customerList && <Link  className={cn("button-stroke", styles.button)}  to="/customers/customer-list">
           View<span> all</span>
-        </Link>
+        </Link>}
       </div>
       <div className={styles.list}>
         {users.map((x, index) => (

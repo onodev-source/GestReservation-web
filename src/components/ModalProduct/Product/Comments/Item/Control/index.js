@@ -10,29 +10,21 @@ const Control = ({ valueAnswer, setValueAnswer }) => {
   return (
     <>
       <div className={styles.control}>
-        <button
-          className={cn(styles.favorite, { [styles.active]: visibleFavorite })}
-          onClick={() => setVisibleFavorite(!visibleFavorite)}
-        >
+        <button className={cn(styles.favorite, { [styles.active]: visibleFavorite })} onClick={() => setVisibleFavorite(!visibleFavorite)}>
           <span>
             <Icon name="heart" size="20" />
             <Icon name="heart-fill" size="20" />
           </span>
           Like
         </button>
-        <button
-          className={cn(styles.reply, { [styles.active]: visibleReply })}
-          onClick={() => setVisibleReply(true)}
-        >
+        <button  className={cn(styles.reply, { [styles.active]: visibleReply })} onClick={() => setVisibleReply(true)} >
           <span>
             <Icon name="repeat" size="20" />
           </span>
           Reply
         </button>
       </div>
-      <Answer
-        className={cn(styles.answer, { [styles.show]: visibleReply })}
-        avatar="/images/content/avatar.jpg"
+      <Answer className={cn(styles.answer, { [styles.show]: visibleReply })}  avatar="/images/content/avatar.jpg"
         onClose={() => setVisibleReply(false)}
         currentValue={valueAnswer}
         setCurrentValue={setValueAnswer}

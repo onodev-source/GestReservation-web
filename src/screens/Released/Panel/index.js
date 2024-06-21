@@ -21,10 +21,11 @@ const Panel = () => {
       </div> */}
       <div className={styles.btns}>
         <button className={cn("button-stroke-red", styles.button)}>
-          <span>Deleted</span>
+          <span>Cancel</span>
+        </button>
+        <button className={cn("button", styles.button)}>Deleted
           <Icon name="trash" size="24" />
         </button>
-        <button className={cn("button", styles.button)}>Unpublish</button>
       </div>
     </div>
   );

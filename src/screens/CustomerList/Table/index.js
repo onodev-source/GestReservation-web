@@ -48,6 +48,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
             setActiveTable={setActiveTable}
             activeId={activeId}
             setActiveId={setActiveId}
+            up={customers.length - index <= 2}
             value={selectedFilters.includes(x.id)}
             onChange={() => handleChange(x.id)}
           />

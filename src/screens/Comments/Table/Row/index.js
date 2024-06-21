@@ -10,10 +10,7 @@ const Row = ({ item, value, onChange }) => {
   const [currentValue, setCurrentValue] = useState("");
 
   return (
-    <div
-      className={cn(styles.row, { [styles.active]: visible })}
-      onMouseLeave={() => setVisibleSmile(false)}
-    >
+    <div className={cn(styles.row, { [styles.active]: visible })} onMouseLeave={() => setVisibleSmile(false)} >
       <div className={styles.col}>
         <Checkbox
           className={styles.checkbox}
@@ -31,18 +28,9 @@ const Row = ({ item, value, onChange }) => {
               <div className={styles.author}>{item.author}</div>
               <div className={styles.time}>{item.time}</div>
             </div>
-            <div
-              className={styles.comment}
-              dangerouslySetInnerHTML={{ __html: item.comment }}
-            ></div>
-            <Control
-              className={styles.control}
-              value={visible}
-              setValue={setVisible}
-              valueAnswer={currentValue}
-              setValueAnswer={setCurrentValue}
-              visibleSmile={visibleSmile}
-              setVisibleSmile={setVisibleSmile}
+            <div className={styles.comment} dangerouslySetInnerHTML={{ __html: item.comment }} ></div>
+            <Control className={styles.control} value={visible}  setValue={setVisible} valueAnswer={currentValue} setValueAnswer={setCurrentValue}
+              visibleSmile={visibleSmile} setVisibleSmile={setVisibleSmile}
             />
           </div>
         </div>

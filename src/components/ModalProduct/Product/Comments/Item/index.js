@@ -24,14 +24,8 @@ const Item = ({ className, item }) => {
             </div>
           </div>
           <div className={styles.login}>{item.login}</div>
-          <div
-            className={styles.comment}
-            dangerouslySetInnerHTML={{ __html: item.comment }}
-          ></div>
-          <Control
-            valueAnswer={currentValue}
-            setValueAnswer={setCurrentValue}
-          />
+          <div className={styles.comment}  dangerouslySetInnerHTML={{ __html: item.comment }}></div>
+          <Control valueAnswer={currentValue} setValueAnswer={setCurrentValue}/>
         </div>
       </div>
       {item.answer && (
@@ -50,14 +44,8 @@ const Item = ({ className, item }) => {
                     <Icon name="star-fill" size="24" />
                   </div>
                 </div>
-                <div
-                  className={styles.comment}
-                  dangerouslySetInnerHTML={{ __html: x.comment }}
-                ></div>
-                <Control
-                  valueAnswer={currentValueAnswer}
-                  setValueAnswer={setCurrentValueAnswer}
-                />
+                <div className={styles.comment}  dangerouslySetInnerHTML={{ __html: x.comment }}  ></div>
+                <Control valueAnswer={currentValueAnswer} setValueAnswer={setCurrentValueAnswer} />
               </div>
             </div>
           ))}

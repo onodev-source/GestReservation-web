@@ -3,6 +3,7 @@ import styles from "./Row.module.sass";
 import cn from "classnames";
 import Checkbox from "../../../../components/Checkbox";
 import Balance from "../../../../components/Balance";
+import Control from "../../../../components/Table/Row/Control";
 
 const Row = ({
   item,
@@ -12,7 +13,9 @@ const Row = ({
   setActiveTable,
   activeId,
   setActiveId,
+  up
 }) => {
+  const [visibleActions, setVisibleActions] = useState(false);
   const handleClick = (id) => {
     setActiveTable(true);
     setActiveId(id);
@@ -20,13 +23,7 @@ const Row = ({
 
   return (
     <>
-      <div
-        className={cn(
-          styles.row,
-          { [styles.selected]: activeId === item.id },
-          { [styles.active]: activeTable }
-        )}
-      >
+      <div className={cn( styles.row,  { [styles.selected]: activeId === item.id }, { [styles.active]: activeTable } )} onMouseLeave={() => setVisibleActions(false)}>
         <div className={styles.col}>
           <Checkbox
             className={styles.checkbox}
@@ -42,12 +39,17 @@ const Row = ({
             <div className={styles.details}>
               <div className={styles.user}>{item.user}</div>
               <div className={styles.login}>{item.login}</div>
-              <div className={styles.email}>{item.email}</div>
+              <div className={styles.email}>{item.email}
+              </div>
             </div>
+
+
           </div>
+          
         </div>
         <div className={styles.col}>
           <div className={styles.email}>{item.email}</div>
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} />
         </div>
         <div className={styles.col}>
           <div className={cn("status-green-dark", styles.purchase)}>

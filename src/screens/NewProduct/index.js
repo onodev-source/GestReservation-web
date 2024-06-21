@@ -12,7 +12,7 @@ import Discussion from "./Discussion";
 import Preview from "./Preview";
 import Panel from "./Panel";
 
-const NewProduct = () => {
+const NewProduct = ({product}) => {
   const [visiblePreview, setVisiblePreview] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -23,32 +23,26 @@ const NewProduct = () => {
     <>
       <div className={styles.row}>
         <div className={styles.col}>
-          <NameAndDescription className={styles.card} />
+          <NameAndDescription className={styles.card} product={product}/>
          {/* <ImagesAndCTA className={styles.card} />*/}
-          <Price className={styles.card} product={true} />
-          <CategoryAndAttibutes className={styles.card} />
-          <ProductFiles className={styles.card} />
-          <Discussion className={styles.card} />
+          <Price className={styles.card} product={product} />
+          <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product}/>
+          <CategoryAndAttibutes className={styles.card} product={product}/>
+          {/*<ProductFiles className={styles.card} />*/}
+          {/*<Discussion className={styles.card} />*/}
         </div>
         <div className={styles.col}>
-          <Preview
+          <ProductFiles className={styles.card} product={product}/>
+          {/*<Preview
             visible={visiblePreview}
             onClose={() => setVisiblePreview(false)}
-          />
+          />*/}
         </div>
       </div>
-      <Panel
-        setVisiblePreview={setVisiblePreview}
-        setVisibleSchedule={setVisibleModal}
-      />
+      <Panel  setVisiblePreview={setVisiblePreview} setVisibleSchedule={setVisibleModal} product={product}/>
       <TooltipGlodal />
       <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
-        <Schedule
-          startDate={startDate}
-          setStartDate={setStartDate}
-          startTime={startTime}
-          setStartTime={setStartTime}
-        />
+        <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>
       </Modal>
     </>
   );

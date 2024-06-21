@@ -7,13 +7,13 @@ import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
 import Editor from "../../../components/Editor";
 
-const NameAndDescription = ({ className }) => {
+const NameAndDescription = ({ className, product }) => {
   const [content, setContent] = useState();
 
   return (
     <Card className={cn(styles.card, className)} title="Name & description" classTitle="title-green"
       head={
-        <Link className={cn("button-stroke button-small", styles.button)}to="/products/dashboard">
+        <Link className={cn("button-stroke button-small", styles.button)} to= {product ? "/products/dashboard" : "/products/released"}>
           <Icon name="arrow-left" size="24" />
           <span>Back</span>
         </Link>

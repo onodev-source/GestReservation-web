@@ -36,17 +36,17 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
       </div>
       <div className={styles.btns}>
         <button className={cn("button-stroke", styles.button)}>
-          Save Draft
+          Cancel
         </button>
-        <button className={cn("button", styles.button)}>Publish now</button>
-        <Actions
+        <button className={cn("button", styles.button)}>Save change</button>
+        {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}
           classActionsBody={styles.actionsBody}
           classActionsOption={styles.actionsOption}
           items={actions}
           up
-        />
+        />*/}
       </div>
     </div>
   );

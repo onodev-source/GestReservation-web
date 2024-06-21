@@ -76,7 +76,7 @@ const Row = ({ item, value, onChange, up }) => {
           </div>
         </div>
       </div>
-      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)}/>
+      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
     </>
   );
 };

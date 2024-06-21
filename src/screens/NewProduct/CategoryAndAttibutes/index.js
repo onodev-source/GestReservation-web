@@ -7,67 +7,59 @@ import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/Checkbox";
 import { WithContext as ReactTags } from "react-tag-input";
 
-const compatibility = [
+const compatibility1 = [
   {
     id: 0,
-    title: "Sketch",
+    title: "OnoPremium",
   },
   {
     id: 1,
-    title: "WordPress",
+    title: "OnoPrestige",
   },
   {
     id: 2,
-    title: "Procreate",
+    title: "OnoFlash",
   },
   {
     id: 3,
-    title: "Figma",
+    title: "OnoLigth",
   },
   {
     id: 4,
-    title: "HTML",
+    title: "OnoStandart",
+  }
+];
+const compatibility2 = [
+  {
+    id: 0,
+    title: "Conference",
   },
   {
-    id: 5,
-    title: "Illustrator",
+    id: 1,
+    title: "Reunion",
   },
   {
-    id: 6,
-    title: "Adobe XD",
+    id: 2,
+    title: "Brunch",
+  },
+];
+const compatibility3 = [
+  {
+    id: 0,
+    title: "Jeu",
   },
   {
-    id: 7,
-    title: "Keynote",
+    id: 1,
+    title: "Equipement",
   },
   {
-    id: 8,
-    title: "Framer",
+    id: 2,
+    title: "Comodite",
   },
   {
-    id: 9,
-    title: "Photoshop",
-  },
-  {
-    id: 10,
-    title: "Maya",
-  },
-  {
-    id: 11,
-    title: "In Design",
-  },
-  {
-    id: 12,
-    title: "Cinema 4D",
-  },
-  {
-    id: 13,
-    title: "Blender",
-  },
-  {
-    id: 14,
-    title: "After Effect",
-  },
+    id: 4,
+    title: "Gadjet",
+  }
 ];
 
 const optionsCategory = ["Select category", "Category 1", "Category 2"];
@@ -78,10 +70,12 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className }) => {
+const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
   const [category, setCategory] = useState(optionsCategory[0]);
 
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  const compatibility = categoryAttribute ? (product ? compatibility3 : compatibility1) : compatibility2;
 
   const handleChange = (id) => {
     if (selectedFilters.includes(id)) {
@@ -125,28 +119,14 @@ const CategoryAndAttibutes = ({ className }) => {
   };
 
   return (
-    <Card
-      className={cn(styles.card, className)}
-      title="Category & attibutes"
-      classTitle="title-purple"
-    >
+    <Card className={cn(styles.card, className)}  title={categoryAttribute ? "Category & attibutes" : "Type of event"} classTitle="title-purple" >
       <div className={styles.images}>
-        <Dropdown
-          className={styles.field}
-          label="Category"
-          tooltip="Maximum 100 characters. No HTML or emoji allowed"
-          value={category}
-          setValue={setCategory}
+        <Dropdown  className={styles.field}  label={categoryAttribute ? "Category" : "Type"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
           options={optionsCategory}
         />
         <div className={styles.label}>
-          Compatibility{" "}
-          <Tooltip
-            className={styles.tooltip}
-            title="Maximum 100 characters. No HTML or emoji allowed"
-            icon="info"
-            place="right"
-          />
+          {categoryAttribute ? "Name" : "Event"}{" "}
+          <Tooltip  className={styles.tooltip}  title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />
         </div>
         <div className={styles.list}>
           {compatibility.map((x, index) => (
@@ -198,6 +178,7 @@ const CategoryAndAttibutes = ({ className }) => {
             editable={true}
             clearAll={true}
             tags={tags}
+            className={styles.tagsContent}
           />
         </div>
       </div>

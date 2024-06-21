@@ -5,7 +5,7 @@ import Icon from "../../../Icon";
 import Modal from "../../../Modal";
 import Share from "./Share";
 
-const Panel = ({ className }) => {
+const Panel = ({ className, product }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
   return (
@@ -23,7 +23,7 @@ const Panel = ({ className }) => {
         </button>
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Share />
+        <Share product={product}/>
       </Modal>
     </>
   );

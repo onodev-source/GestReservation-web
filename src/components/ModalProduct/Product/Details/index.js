@@ -5,13 +5,14 @@ import Icon from "../../../Icon";
 import Overview from "./Overview";
 import Products from "./Products";
 
-const navigation = ["Product details"];
 
-const Details = ({ className, setValue, activeIndex, setActiveIndex }) => {
+const Details = ({ className, setValue, activeIndex, setActiveIndex, product }) => {
+  const navigation = product ? ["Product details"] : ["Package details", "Comment"];
+
   const handleClick = (index) => {
     setActiveIndex(index);
     index === 0 && setValue(false);
-    //index === 1 && setValue(true);
+    index === 1 && setValue(true);
   };
 
   return (
@@ -38,8 +39,8 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex }) => {
           </button>
         </div>
       </div>
-      <Overview />
-      <Products />
+      <Overview product={product}/>
+      <Products product={product}/>
     </div>
   );
 };

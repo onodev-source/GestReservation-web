@@ -12,7 +12,7 @@ const Price = ({ className, product }) => {
   return (
     <Card className={cn(styles.card, className)}  title={product ? "Quantity" : "Price" } classTitle="title-green">
       <div className={styles.price}>
-        <TextInput  className={styles.field}  label={product ? "Number" : "Amount" } name={product ? "number" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
+        <TextInput  className={styles.field}  label={product ? "Number" : "Monthly subscription" } name={product ? "number" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
         {!product && (
           <>
             <div className={styles.line}>
@@ -23,8 +23,8 @@ const Price = ({ className, product }) => {
               <Switch className={styles.switch} value={resolution} onChange={() => setResolution(!resolution)}/>
             </div>
             <div className={styles.fieldset}>
-              <TextInput className={styles.field}  classLabel={styles.label} label="Minimum amount" name="minimum-amount" type="text" required currency="$"/>
-              <TextInput className={styles.field}  classLabel={styles.label} label="Suggested amount" name="suggested-amount" type="text" required currency="$"/>
+              <TextInput className={styles.field}  classLabel={styles.label} label="Weekly subscription" name="minimum-amount" type="text" required currency="$"/>
+              <TextInput className={styles.field}  classLabel={styles.label} label="Hourly subscription" name="suggested-amount" type="text" required currency="$"/>
             </div>
           </>
         )}

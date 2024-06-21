@@ -13,19 +13,11 @@ const Overview = ({ className }) => {
   const [sorting, setSorting] = useState(intervals[0]);
 
   return (
-    <Card
-      className={cn(styles.card, className)}
-      title="Total customers"
-      classTitle={cn("title-red", styles.cardTitle)}
+    <Card className={cn(styles.card, className)} title="Total customers" classTitle={cn("title-red", styles.cardTitle)}
       classCardHead={styles.cardHead}
       head={
-        <Dropdown
-          className={styles.dropdown}
-          classDropdownHead={styles.dropdownHead}
-          value={sorting}
-          setValue={setSorting}
-          options={intervals}
-          small
+        <Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead} value={sorting}
+          setValue={setSorting} options={intervals} small
         />
       }
     >
@@ -38,7 +30,7 @@ const Overview = ({ className }) => {
           </div>
         </div>
         <Chart />
-        <Users className={styles.users} />
+        <Users className={styles.users} customerList={true}/>
       </div>
     </Card>
   );

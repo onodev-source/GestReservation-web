@@ -18,7 +18,7 @@ const features = [
   "Dark + light more ready",
 ];
 
-const Overview = () => {
+const Overview = ({product}) => {
   const [visibleModalPreview, setVisibleModalPreview] = useState(false);
 
   return (
@@ -58,7 +58,7 @@ const Overview = () => {
         </div>
         <div className={styles.row}>
           <div className={styles.col}>
-            <div className={cn("title-red", styles.subtitle)}>Product description</div>
+            <div className={cn("title-red", styles.subtitle)}>{product ? "Product description" : "Package description"}</div>
             <div className={styles.content}>
               <p>
                 Meet Node - a crypto NFT marketplace iOS UI design kit for
