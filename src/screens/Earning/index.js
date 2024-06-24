@@ -17,7 +17,7 @@ const Earning = ({resertList}) => {
   const [sorting, setSorting] = React.useState(intervals[0]);
   return (
     <>
-      <div className={styles.section}>
+      <div className={styles.section}>ff
         <Overview className={styles.card} />
         <div className={styles.row}>
           {resertList ? (
