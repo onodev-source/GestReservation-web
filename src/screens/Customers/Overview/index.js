@@ -9,10 +9,60 @@ import Chart from "./Chart";
 
 const intervals = ["Last 28 days", "Last 14 days", "Last 7 days"];
 
+const customerDetails = {
+  product: "Filomena Fahey",
+  login: "@username",
+  status: true,
+  image: "/images/content/avatar-2.jpg",
+  avatar: "/images/content/avatar-2.jpg",
+  parameters: [
+    {
+      title: "Customer register",
+      content: "Aug 20, 2021",
+    },
+    {
+      title: "Email",
+      content: "fahey.designer@robot.com",
+    },
+    {
+      title: "Customer actif",
+      downloadedStatus: true,
+      downloadedValue: true,
+    },
+    {
+      title: "Purchase date",
+      content: "July 01, 2021",
+    },
+    {
+      title: "Purchase",
+      content: 12,
+    },
+    {
+      title: "Comments",
+      content: 14,
+    },
+    {
+      title: "Like",
+      price: 6,
+    },
+    {
+      title: "Balance",
+      tooltip: "Description balance",
+      price: 2.8,
+    },
+    {
+      title: "Price",
+      tooltip: "Description Price",
+      price: 72.88,
+    },
+  ],
+}
+
 const Overview = ({ className }) => {
   const [sorting, setSorting] = useState(intervals[0]);
 
   return (
+
     <Card className={cn(styles.card, className)} title="Total customers" classTitle={cn("title-red", styles.cardTitle)}
       classCardHead={styles.cardHead}
       head={
@@ -30,7 +80,7 @@ const Overview = ({ className }) => {
           </div>
         </div>
         <Chart />
-        <Users className={styles.users} customerList={true}/>
+        <Users className={styles.users} customerList={true} item={customerDetails}/>
       </div>
     </Card>
   );

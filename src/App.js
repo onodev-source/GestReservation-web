@@ -26,6 +26,7 @@ import Payouts from "./screens/Payouts";
 import Statements from "./screens/Statements";
 import Shop from "./screens/Shop";
 import PageList from "./screens/PageList";
+import NewCustomer from "./screens/NewCustomer";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,9 +37,10 @@ const router = createBrowserRouter(
       <Route path="/products/drafts" element={<Page title="Drafts"><Drafts /></Page>} />
       <Route path="/products/released" element={<Page title="Packages"><Released /></Page>} />
       <Route path="/packages/add" element={<Page title="New package"><NewProduct /></Page>} />
-      <Route path="/products/comments" element={<Page title="Comments"><Comments /></Page>} />
+      <Route path="/packages/comments" element={<Page title="Comments"><Comments /></Page>} />
       <Route path="/products/scheduled" element={<Page title="Agenda"><Scheduled /></Page>} />
       <Route path="/customers/overview" element={<Page title="Customers"><Customers /></Page>} />
+      <Route path="/customers/add" element={<Page title="New customer"><NewCustomer/></Page>} />
       <Route path="/customers/customer-list" element={<Page title="Customers"><CustomerList /></Page>} />
       <Route path="/shop" element={<Page wide><Shop /></Page>} />
       <Route path="/reservations/reservationList" element={<Page title="Reservations"><Earning resertList={true} /></Page>} />

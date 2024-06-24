@@ -30,7 +30,7 @@ const Table = ({ items }) => {
             />
           </div>
           <div className={styles.col}>Comments</div>
-          <div className={styles.col}>Products</div>
+          <div className={styles.col}>Packages</div>
         </div>
         {items.map((x, index) => (
           <Row

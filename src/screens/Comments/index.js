@@ -18,22 +18,9 @@ const Comments = () => {
 
   return (
     <>
-      <Card
-        className={styles.card}
-        classCardHead={styles.head}
-        title="Product comments"
-        classTitle={cn("title-purple", styles.title)}
+      <Card className={styles.card} classCardHead={styles.head} title="Package comments"classTitle={cn("title-purple", styles.title)}
         head={
-          <Form
-            className={styles.form}
-            value={search}
-            setValue={setSearch}
-            onSubmit={() => handleSubmit()}
-            placeholder="Search product"
-            type="text"
-            name="search"
-            icon="search"
-          />
+          <Form  className={styles.form}  value={search}  setValue={setSearch} onSubmit={() => handleSubmit()}  placeholder="Search comment" type="text"name="search" icon="search"/>
         }
       >
         <div className={styles.wrapper}>

@@ -1,0 +1,22 @@
+import React, { useState } from "react";
+import cn from "classnames";
+import { Link } from "react-router-dom";
+import styles from "./Discussion.module.sass";
+import Card from "../../../components/Card";
+import Icon from "../../../components/Icon";
+import TextInput from "../../../components/TextInput";
+import Editor from "../../../components/Editor";
+
+const Profile = ({ className, product }) => {
+
+  return (
+    <Card className={cn(styles.card, className)} title="Customer profile" classTitle="title-green" >
+      <div className={styles.description}>
+        <TextInput className={styles.field} style={{ marginBottom: '32px' }} label="Username"  name="username" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <TextInput className={styles.field} label="Password"  name="password" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+      </div>
+    </Card>
+  );
+};
+
+export default Profile;

@@ -64,7 +64,7 @@ const Comments = ({ className }) => {
                     <Icon name="message" size="20" />
                   </Link>
                   <Favorite className={cn(styles.favorite, styles.link)} />
-                  <Link className={styles.link} to="/products/comments">
+                  <Link className={styles.link} to="/packages/comments">
                     <Icon name="link" size="20" />
                   </Link>
                 </div>
@@ -72,7 +72,7 @@ const Comments = ({ className }) => {
             </div>
           ))}
         </div>
-        <Link className={cn("button-stroke", styles.button)} to="/products/comments" >
+        <Link className={cn("button-stroke", styles.button)} to="/packages/comments" >
           View all
         </Link>
       </div>

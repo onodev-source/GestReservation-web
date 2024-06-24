@@ -17,12 +17,12 @@ const Earning = ({resertList}) => {
   const [sorting, setSorting] = React.useState(intervals[0]);
   return (
     <>
-      <div className={styles.section}>ff
+      <div className={styles.section}>
         <Overview className={styles.card} />
         <div className={styles.row}>
           {resertList ? (
             <>
-              <Card className={cn(styles.card)} title="Total customers" classTitle={cn("title-red", styles.cardTitle)}
+              <Card className={cn(styles.card)} title="Performance by day" classTitle={cn("title-red", styles.cardTitle)}
                 classCardHead={styles.cardHead}
                 head={
                   <Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead} value={sorting}
@@ -31,13 +31,13 @@ const Earning = ({resertList}) => {
                 }
               >
                 <div className={styles.overview}>
-                  <div className={styles.details}>
+                  {/*<div className={styles.details}>
                     <div className={cn("h4", styles.title)}>1,509 customers</div>
                     <div className={styles.line}>
                       <Balance className={styles.balance} value="37.8" background /> vs.
                       Sep 8, 2021
                     </div>
-                  </div>
+                  </div>*/}
                   <Chart />
                 </div>
               </Card>

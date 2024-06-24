@@ -31,10 +31,7 @@ const Control = ({
       <div
         className={cn(styles.control, className, { [styles.hidden]: visible })}
       >
-        <button
-          className={cn(styles.button, { [styles.active]: visible })}
-          onClick={() => handleClick()}
-        >
+        <button  className={cn(styles.button, { [styles.active]: visible })} onClick={() => handleClick()} >
           <Icon name="repeat" size="24" />
         </button>
         <Favorite className={cn(styles.favorite, styles.button)} size="24" />
