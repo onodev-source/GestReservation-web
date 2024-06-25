@@ -27,6 +27,8 @@ import Statements from "./screens/Statements";
 import Shop from "./screens/Shop";
 import PageList from "./screens/PageList";
 import NewCustomer from "./screens/NewCustomer";
+import NewReservation from "./screens/NewReservation";
+import ProfileUser from "./screens/ProfileUser";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,12 +40,14 @@ const router = createBrowserRouter(
       <Route path="/products/released" element={<Page title="Packages"><Released /></Page>} />
       <Route path="/packages/add" element={<Page title="New package"><NewProduct /></Page>} />
       <Route path="/packages/comments" element={<Page title="Comments"><Comments /></Page>} />
-      <Route path="/products/scheduled" element={<Page title="Agenda"><Scheduled /></Page>} />
       <Route path="/customers/overview" element={<Page title="Customers"><Customers /></Page>} />
       <Route path="/customers/add" element={<Page title="New customer"><NewCustomer/></Page>} />
       <Route path="/customers/customer-list" element={<Page title="Customers"><CustomerList /></Page>} />
       <Route path="/shop" element={<Page wide><Shop /></Page>} />
+      <Route path="/profile" element={<Page wide><ProfileUser /></Page>} />
       <Route path="/reservations/reservationList" element={<Page title="Reservations"><Earning resertList={true} /></Page>} />
+      <Route path="/reservations/add" element={<Page title="New reservation"><NewReservation  /></Page>} />
+      <Route path="/reservations/agenda" element={<Page title="Agenda"><Scheduled /></Page>} />
       <Route path="/income/earning" element={<Page title="Income"><Earning /></Page>} />
       <Route path="/income/refunds" element={<Page title="Refunds"><Refunds /></Page>} />
       <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />

@@ -53,7 +53,7 @@ const items = [
 ];
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
-const Table = () => {
+const Table = ({activityUser}) => {
   const [activeTab, setActiveTab] = React.useState(navigation[0]);
   const [search, setSearch] = React.useState("");
   const [visible, setVisible] = React.useState(false);
@@ -64,8 +64,8 @@ const Table = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Card className={styles.card} title="Reservations list" classTitle={cn("title-red", styles.cardTitle)} classCardHead={styles.cardHead}
-      head={
+      <Card className={cn({[styles.card] : !activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", {[styles.cardTitle] : !activityUser })} classCardHead={cn({[styles.cardHead] : !activityUser })}
+      head={ !activityUser &&
         <>
           <Form className={styles.form} value={search}
             setValue={setSearch} onSubmit={() => handleSubmit()} placeholder="Search by name or email" type="text"
@@ -73,7 +73,7 @@ const Table = () => {
           />
           <div className={styles.nav}>
             <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navigation} small />
-            <Link className={cn("button", styles.button)} to="/reservation/add" >
+            <Link className={cn("button", styles.button)} to="/reservations/add" >
               Add Reservation
             </Link>
           </div>

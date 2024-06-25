@@ -10,15 +10,18 @@ const items = [
     menu: [
       {
         title: "Profile",
-        url: "/shop",
+        url: "/profile",
       },
       {
         title: "Edit profile",
         url: "/settings",
       },
+      {
+        title: "Delete profile"
+      },
     ],
   },
-  {
+  /*{
     menu: [
       {
         title: "Analytics",
@@ -46,7 +49,7 @@ const items = [
         url: "/upgrade-to-pro",
       },
     ],
-  },
+  },*/
   {
     menu: [
       {
@@ -74,22 +77,14 @@ const User = ({ className }) => {
             <div className={styles.menu} key={index}>
               {item.menu.map((x, index) =>
                 x.url ? (
-                  <NavLink
-                    className={cn(styles.item, { [styles.color]: x.color })}
-                    activeClassName={styles.active}
-                    to={x.url}
-                    onClick={() => setVisible(false)}
-                    key={index}
+                  <NavLink className={cn(styles.item, { [styles.color]: x.color })}  activeClassName={styles.active}
+                    to={x.url}  onClick={() => setVisible(false)} key={index}
                   >
                     {x.icon && <Icon name={x.icon} size="24" />}
                     {x.title}
                   </NavLink>
                 ) : (
-                  <button
-                    className={styles.item}
-                    onClick={() => setVisible(false)}
-                    key={index}
-                  >
+                  <button className={styles.item}  onClick={() => setVisible(false)} key={index} >
                     {x.title}
                   </button>
                 )

@@ -70,8 +70,8 @@ const navigation = [
                 url: "/income/refunds",
             },
             {
-                title: "Scheduled",
-                url: "/products/scheduled",
+                title: "Agenda",
+                url: "/reservations/agenda",
                 counter: "8",
                 colorCounter: "#F2D45F",
             },

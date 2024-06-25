@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./CategoryAndAttibutes.module.sass";
 import Card from "../../../components/Card";
-import Dropdown from "../../../components/Dropdown";
+//import Dropdown from "../../../components/Dropdown";
 import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/Checkbox";
 import { WithContext as ReactTags } from "react-tag-input";

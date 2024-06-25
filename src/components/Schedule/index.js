@@ -6,13 +6,27 @@ import Icon from "../Icon";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 
+const navigationDate = [
+  {
+    id: 0,
+    category: "Start date",
+    categoryHour: "Start time"
+  },
+  {
+    id: 0,
+    category: "End date",
+    categoryHour: "End time"
+  }
+]
+
 const Schedule = ({
   className,
   startDate,
   setStartDate,
   startTime,
   setStartTime,
-  addCustomer
+  addCustomer,
+  addResert
 }) => {
   const [visibleDate, setVisibleDate] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
@@ -25,7 +39,7 @@ const Schedule = ({
 
   return (
     <div className={cn(styles.schedule, className)}>
-      {!addCustomer && 
+      {(addCustomer=== false || addResert===false) && 
         <>
           <div className={cn("title-red", styles.title)}>Reschedule product</div>
           <div className={styles.note}>
@@ -34,72 +48,104 @@ const Schedule = ({
           </div>
         </>
       }
-      <div className={styles.list}>
-        <Item
-          className={styles.item}
-          category="Date"
-          icon="calendar"
-          value={startDate && format(startDate, "MMMM dd, yyyy")}
-          visible={visibleDate}
-          setVisible={setVisibleDate}
-        >
-          <div className={styles.date}>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              dateFormatCalendar={"MMMM yyyy"}
-              inline
-            />
-            <div className={styles.foot}>
-              <button
-                className={cn("button-stroke button-small", styles.button)}
-                onClick={() => handleClick()}
-              >
-                Clear
-              </button>
-              <button
-                className={cn("button-small", styles.button)}
-                onClick={() => setVisibleDate(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </Item>
-        {!addCustomer && <Item
-          className={styles.item}
-          category="Time"
-          icon="clock"
-          value={startTime && format(startTime, "h:mm aa")}
-          visible={visibleTime}
-          setVisible={setVisibleTime}
-        >
-          <div className={styles.time}>
-            <div className={styles.top}>
-              <div className={styles.subtitle}>
-                {startTime && format(startTime, "h:mm aa")}
+      <div className={cn(styles.list, {[styles.group] : addResert})}>
+        {addResert ? (
+          navigationDate.map((x, index) => (
+            <Item   className={cn(styles.item, styles.field)} key={index} category={x.category}  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+              <div className={styles.date}>
+                <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+                <div className={styles.foot}>
+                  <button
+                    className={cn("button-stroke button-small", styles.button)}
+                    onClick={() => handleClick()}
+                  >
+                    Clear
+                  </button>
+                  <button
+                    className={cn("button-small", styles.button)}
+                    onClick={() => setVisibleDate(false)}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
-              <button
-                className={styles.close}
-                onClick={() => setVisibleTime(false)}
-              >
-                <Icon name="close" size="20" />
-              </button>
+            </Item>
+          ))
+        ) : (
+          <Item   className={styles.item} category="Date"  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+            <div className={styles.date}>
+              <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+              <div className={styles.foot}>
+                <button className={cn("button-stroke button-small", styles.button)} onClick={() => handleClick()} >
+                  Clear
+                </button>
+                <button className={cn("button-small", styles.button)} onClick={() => setVisibleDate(false)}>
+                  Close
+                </button>
+              </div>
             </div>
-            <DatePicker
-              selected={startTime}
-              onChange={(date) => setStartTime(date)}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={30}
-              timeCaption={false}
-              dateFormat="h:mm aa"
-              inline
-            />
-          </div>
-        </Item>}
+          </Item>
+        )
+      }
+        {addResert ? (
+          navigationDate.map((x, index) => (
+            <Item className={cn(styles.item, styles.field)} category={x.categoryHour} icon="clock" value={startTime && format(startTime, "h:mm aa")} visible={visibleTime} setVisible={setVisibleTime} >
+              <div className={styles.time}>
+                <div className={styles.top}>
+                  <div className={styles.subtitle}>
+                    {startTime && format(startTime, "h:mm aa")}
+                  </div>
+                  <button
+                    className={styles.close}
+                    onClick={() => setVisibleTime(false)}
+                  >
+                    <Icon name="close" size="20" />
+                  </button>
+                </div>
+                <DatePicker
+                  selected={startTime}
+                  onChange={(date) => setStartTime(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={30}
+                  timeCaption={false}
+                  dateFormat="h:mm aa"
+                  inline
+                />
+              </div>
+            </Item>
+          ))
+        ) : (
+          !addCustomer && (
+            <Item className={styles.item} category="Time" icon="clock" value={startTime && format(startTime, "h:mm aa")} visible={visibleTime} setVisible={setVisibleTime} >
+              <div className={styles.time}>
+                <div className={styles.top}>
+                  <div className={styles.subtitle}>
+                    {startTime && format(startTime, "h:mm aa")}
+                  </div>
+                  <button
+                    className={styles.close}
+                    onClick={() => setVisibleTime(false)}
+                  >
+                    <Icon name="close" size="20" />
+                  </button>
+                </div>
+                <DatePicker
+                  selected={startTime}
+                  onChange={(date) => setStartTime(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={30}
+                  timeCaption={false}
+                  dateFormat="h:mm aa"
+                  inline
+                />
+              </div>
+            </Item>
+          )
+        )}
       </div>
-      {!addCustomer && <div className={styles.btns}>
+      {(addCustomer=== false || addResert===false) && <div className={styles.btns}>
         <button className={cn("button", styles.button)}>Reschedule</button>
       </div>}
     </div>
