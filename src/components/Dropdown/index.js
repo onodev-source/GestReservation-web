@@ -10,6 +10,7 @@ const Dropdown = ({
   classDropdownLabel,
   value,
   setValue,
+  setActiveIndex,
   options,
   label,
   tooltip,
@@ -18,9 +19,12 @@ const Dropdown = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
-  const handleClick = (value) => {
+  const handleClick = (value, index) => {
     setValue(value);
     setVisible(false);
+    if(setActiveIndex){
+      setActiveIndex(index);
+    }
   };
 
   return (
@@ -56,12 +60,8 @@ const Dropdown = ({
         </div>
         <div className={cn(styles.body, { [styles.bodyUp]: upBody })}>
           {options.map((x, index) => (
-            <div
-              className={cn(styles.option, {
-                [styles.selectioned]: x === value,
-              })}
-              onClick={() => handleClick(x, index)}
-              key={index}
+            <div  className={cn(styles.option, { [styles.selectioned]: x === value,  })}
+              onClick={() => handleClick(x, index)} key={index}
             >
               {x}
             </div>

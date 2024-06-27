@@ -160,7 +160,7 @@ const HistoryUser = ({ className }) => {
                 ${numberWithCommas(x.amount.toFixed(2))}
               </div>
               <div className={styles.col}>
-              <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption} items={actions}/>
+                <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption} items={actions}/>
               </div>
             </div>
           ))}

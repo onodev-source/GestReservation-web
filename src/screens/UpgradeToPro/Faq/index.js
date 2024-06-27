@@ -40,11 +40,9 @@ const Faq = () => {
           />
         </div>
         <div className={styles.list}>
-          {items
-            .find((x) => x.title === category)
-            .items.map((x, index) => (
+          {items.find((x) => x.title === category).items.map((x, index) => (
               <Item className={styles.item} item={x} key={index} />
-            ))}
+          ))}
         </div>
       </div>
     </div>

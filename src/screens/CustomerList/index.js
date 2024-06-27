@@ -46,7 +46,7 @@ const CustomerList = () => {
                 
                 <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navigation} small />
                 
-                <Link className={cn("button", styles.button)} to="/customers/add" >
+                <Link className={cn("button button-small", styles.button)} to="/customers/add" >
                   Add Customer
                 </Link>
               </div>

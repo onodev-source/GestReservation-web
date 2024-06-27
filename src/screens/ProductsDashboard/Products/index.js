@@ -74,7 +74,7 @@ const Products = () => {
           <div className={cn(styles.nav, "tablet-hide")}>
             <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
             
-            <Link className={cn("button", styles.button)} to="/products/add" >
+            <Link className={cn("button button-small", styles.button)} to="/products/add" >
               Add product
             </Link>
           </div>

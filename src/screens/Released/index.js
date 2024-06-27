@@ -50,7 +50,7 @@ const Released = () => {
               ))}*/}
               <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
             
-              <Link className={cn("button", styles.button)} to="/packages/add" >
+              <Link className={cn("button button-small", styles.button)} to="/packages/add" >
                 Add package
               </Link>
             </div>

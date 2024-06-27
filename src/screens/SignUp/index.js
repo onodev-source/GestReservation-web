@@ -35,11 +35,11 @@ const SignUp = () => {
       </div>
       <div className={styles.col} style={{ minHeight: heightWindow }}>
         <div className={styles.head}>
-          <Link className={styles.logo} to="/">
+          <Link className={styles.logo} >
             <Image
               className={styles.pic}
-              src="/images/logo-dark.png"
-              srcDark="/images/logo-light.png"
+              src="/images/logo_onograph.png"
+              srcDark="/images/logo_onograph.png"
               alt="Core"
             />
           </Link>

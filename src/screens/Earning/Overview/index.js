@@ -42,25 +42,17 @@ const Overview = ({ className }) => {
           <div className={styles.list}>
             {items.map((x, index) => (
               <div className={styles.item} key={index}>
-                <div
-                  className={styles.icon}
-                  style={{ backgroundColor: x.color }}
-                >
+                <div  className={styles.icon}  style={{ backgroundColor: x.color }} >
                   <Icon name={x.icon} size="24" />
                 </div>
                 <div className={styles.details}>
                   <div className={styles.label}>
                     {x.title}
-                    <Tooltip
-                      className={styles.tooltip}
-                      title={x.tooltip}
-                      icon="info"
-                      place="top"
-                    />
+                    <Tooltip className={styles.tooltip} title={x.tooltip} icon="info"  place="top"/>
                   </div>
                   <div className={styles.counter}>{x.counter}</div>
                   <div className={styles.indicator}>
-                    <Balance className={styles.balance} value={x.value} />
+                    <Balance className={cn(styles.balance, {[styles.balanceColor] : x.value < 0})} value={x.value} />
                     <span>this week</span>
                   </div>
                 </div>

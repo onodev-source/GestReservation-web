@@ -10,11 +10,7 @@ const ProfileInformation = ({ className }) => {
   const [content, setContent] = useState();
 
   return (
-    <Item
-      className={cn(styles.card, className)}
-      title="Profile information"
-      classTitle="title-green"
-    >
+    <Item className={cn(styles.card, className)}  title="Profile information" classTitle="title-green" >
       <div className={styles.profile}>
         <div className={styles.avatar}>
           <img src="/images/content/avatar.jpg" alt="Avatar" />

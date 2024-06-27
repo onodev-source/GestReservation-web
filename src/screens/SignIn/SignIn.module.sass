@@ -1,69 +1,83 @@
 @import ../../styles/helpers
 
-.login
+.row
+    position: relative
     display: flex
-    justify-content: center
-    align-items: center
-    padding: 48px
     background: $n1
-    +m
-        padding: 24px
     +dark
         background: $n7
 
-.wrapper
-    max-width: 296px
+.col
+    padding: 96px 24px
     +m
-        max-width: 100%
+        padding-bottom: 32px
+    &:first-child
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-shrink: 0
+        width: 400px
+        background: $n2
+        +t
+            display: none
+        +dark
+            background: $n8
+    &:nth-child(2)
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-grow: 1
 
-.logo
-    display: inline-block
-    width: 48px
-    margin-bottom: 32px
+.wrap
+    max-width: 212px
+
+.preview
+    max-width: 180px
+    margin: 0 auto 40px
     img
         width: 100%
 
-.title
-    margin-bottom: 32px
-
-.head
-    margin-bottom: 32px
-    padding-bottom: 32px
-    border-bottom: 2px solid $n3
-    +dark
-        border-color: $n6
-
 .subtitle
-    margin-bottom: 20px
-    +body2-s
+    margin-bottom: 48px
+    text-align: center
 
-.btns
-    display: flex
-    margin: 0 -4px
-    .button
-        flex: 0 0 calc(50% - 8px)
-        width: calc(50% - 8px)
-        margin: 0 4px
-        padding: 0 16px
-        img
-            margin-right: 10px
+.list
+    li
+        position: relative
+        padding-left: 36px
+        +base2
+        color: $n4
+        &:before
+            content: ""
+            position: absolute
+            top: 0
+            left: 0
+            width: 24px
+            height: 24px
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10zm-2 0a8 8 0 1 1-16 0 8 8 0 0 1 8-8 7.98 7.98 0 0 1 5.942 2.644L11 13.586l-2.793-2.793a1 1 0 0 0-1.414 1.414L9.586 15a2 2 0 0 0 2.828 0l6.687-6.687C19.676 9.416 20 10.67 20 12z' fill='%23F2D45F'/%3E%3C/svg%3E") no-repeat 50% 50% / 100% auto
+        &:not(:last-child)
+            margin-bottom: 20px
 
-.body
-    .button
+.logo
+    display: inline-block
+    position: absolute
+    top: 24px
+    left: 24px
+    z-index: 2
+    width: 48px
+    img
         width: 100%
 
-.field
-    margin-bottom: 12px
-
-.note
-    margin-top: 32px
-    +body2-s
-    color: $shades1
-
 .info
-    margin-top: 32px
+    position: absolute
+    top: 40px
+    right: 40px
     +caption1
-    color: $n4
+    color: $shades1
+    +t
+        padding-left: 80px
+    +m
+        right: 24px
     a
         font-weight: 700
         color: $n7
@@ -72,3 +86,13 @@
             color: $n1
         &:hover
             color: $p1
+            +dark
+                color: $p1
+
+.wrapper
+    max-width: 296px
+    +m
+        max-width: 100%
+
+.title
+    margin-bottom: 32px

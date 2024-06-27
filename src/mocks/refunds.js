@@ -8,6 +8,7 @@ export const refunds = [
     status: true,
     date: "13 Sep",
     man: "Kyler Kuphal",
+    amount: "2500000",
     avatar: "/images/content/avatar-1.jpg",
     parameters: [
       {
@@ -56,6 +57,7 @@ export const refunds = [
     status: false,
     date: "12 Sep",
     man: "Eldred Lockman",
+    amount: "3400000",
     avatar: "/images/content/avatar-2.jpg",
     parameters: [
       {
@@ -104,6 +106,7 @@ export const refunds = [
     status: true,
     date: "11 Sep",
     man: "Carlo Herman",
+    amount: "6600000",
     avatar: "/images/content/avatar-3.jpg",
     parameters: [
       {
@@ -152,6 +155,7 @@ export const refunds = [
     status: false,
     date: "10 Sep",
     man: "Camille Koss",
+    amount: "7700000",
     avatar: "/images/content/avatar-4.jpg",
     parameters: [
       {
@@ -200,6 +204,7 @@ export const refunds = [
     status: true,
     date: "9 Sep",
     man: "Reyna Nikolaus",
+    amount: "9800000",
     avatar: "/images/content/avatar-5.jpg",
     parameters: [
       {

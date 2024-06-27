@@ -63,8 +63,8 @@ const Table = ({activityUser}) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <Card className={cn({[styles.card] : !activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", {[styles.cardTitle] : !activityUser })} classCardHead={cn({[styles.cardHead] : !activityUser })}
+    <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
+      <Card className={cn(styles.card, {[styles.wrapperNone] : activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", styles.cardTitle)} classCardHead={cn(styles.cardHead)}
       head={ !activityUser &&
         <>
           <Form className={styles.form} value={search}
@@ -73,7 +73,7 @@ const Table = ({activityUser}) => {
           />
           <div className={styles.nav}>
             <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navigation} small />
-            <Link className={cn("button", styles.button)} to="/reservations/add" >
+            <Link className={cn("button button-small", styles.button)} to="/reservations/add" >
               Add Reservation
             </Link>
           </div>

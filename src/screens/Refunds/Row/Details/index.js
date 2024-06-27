@@ -17,7 +17,7 @@ const Details = ({ item, customersDetails, onClose }) => {
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Refunds request"}</div>
+        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Income detals"}</div>
         <div className={styles.row}>
           <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
             <Product className={styles.product} item={item} />

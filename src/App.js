@@ -29,6 +29,7 @@ import PageList from "./screens/PageList";
 import NewCustomer from "./screens/NewCustomer";
 import NewReservation from "./screens/NewReservation";
 import ProfileUser from "./screens/ProfileUser";
+import ForgotPassword from "./screens/ForgotPassword";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -49,7 +50,7 @@ const router = createBrowserRouter(
       <Route path="/reservations/add" element={<Page title="New reservation"><NewReservation  /></Page>} />
       <Route path="/reservations/agenda" element={<Page title="Agenda"><Scheduled /></Page>} />
       <Route path="/income/earning" element={<Page title="Income"><Earning /></Page>} />
-      <Route path="/income/refunds" element={<Page title="Refunds"><Refunds /></Page>} />
+      <Route path="/income/incomeList" element={<Page title="Income"><Refunds /></Page>} />
       <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />
       <Route path="/income/statements" element={<Page title="Statements"><Statements /></Page>} />
       <Route path="/promote" element={<Page title="Promote"><Promote /></Page>} />
@@ -61,6 +62,7 @@ const router = createBrowserRouter(
       <Route path="/affiliate-center" element={<Page title="Affiliate center"><AffiliateCenter /></Page>} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/pagelist" element={<PageList />} />
     </Route>
   )

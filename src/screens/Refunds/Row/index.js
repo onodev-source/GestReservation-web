@@ -2,14 +2,29 @@ import React, { useState } from "react";
 import styles from "./Row.module.sass";
 import Modal from "../../../components/Modal";
 import Details from "./Details";
+import Actions from "../../../components/Actions";
+
 
 const Row = ({ item }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
+  const actions = [
+    {
+      title: "Delete",
+      icon: "trash",
+      action: () => console.log("Delete"),
+    },
+    {
+      title: "Details",
+      icon: "arrow-right",
+      action: () => setVisibleModal(true),
+    }
+  ];
+
   return (
     <>
-      <div className={styles.row} onClick={() => setVisibleModal(true)}>
-        <div className={styles.col}>
+      <div className={styles.row} >
+        <div className={styles.col} onClick={() => setVisibleModal(true)}>
           <div className={styles.item}>
             <div className={styles.preview}>
               <img
@@ -45,12 +60,12 @@ const Row = ({ item }) => {
             {item.man}
           </div>
         </div>
+        <div className={styles.col}>${item.amount}</div>
+        <div className={styles.col}>
+          <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption} items={actions}/>
+        </div>
       </div>
-      <Modal
-        outerClassName={styles.outer}
-        visible={visibleModal}
-        onClose={() => setVisibleModal(false)}
-      >
+      <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)} >
         <Details item={item} />
       </Modal>
     </>

@@ -12,12 +12,12 @@ const Login = ({ className }) => {
       classTitle="title-purple"
     >
       <div className={styles.fieldset}>
-        <TextInput
-          className={styles.field}
+        <TextInput  className={styles.field}
           label="Old password"
           name="old-password"
           type="password"
           tooltip="Maximum 100 characters. No HTML or emoji allowed"
+          icon="lock"
           required
         />
         <div className={styles.row}>

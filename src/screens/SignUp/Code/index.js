@@ -30,18 +30,10 @@ const Code = () => {
             />
           </div>
           <div className={styles.field}>
-            <input
-              className={styles.input}
-              name="number3"
-              type="tel"
-              autocomplete="off"
-              required
-            />
+            <input  className={styles.input}   name="number3" type="tel"  autocomplete="off"  required/>
           </div>
           <div className={styles.field}>
-            <input
-              className={styles.input}
-              name="number4"
+            <input className={styles.input} name="number4"
               type="tel"
               autocomplete="off"
               required

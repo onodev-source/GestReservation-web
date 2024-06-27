@@ -20,9 +20,9 @@ const Control = ({ className, valueAnswer, setValueAnswer }) => {
         >
           Like<span>d</span>
         </button>
-        <button className={styles.button} onClick={() => setVisible(true)}>
+        {/*<button className={styles.button} onClick={() => setVisible(true)}>
           Reply
-        </button>
+        </button>*/}
       </div>
       <Answer
         className={cn(styles.answer, { [styles.show]: visible })}

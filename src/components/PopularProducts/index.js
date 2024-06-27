@@ -120,10 +120,7 @@ const PopularProducts = ({ className, views }) => {
           </Link>
         </div>
       </Card>
-      <ModalProduct
-        visible={visibleModalProduct}
-        onClose={() => setVisibleModalProduct(false)}
-      />
+      <ModalProduct visible={visibleModalProduct}  onClose={() => setVisibleModalProduct(false)} product={true}/>
     </>
   );
 };

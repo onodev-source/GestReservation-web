@@ -4,18 +4,8 @@ import styles from "./TextInput.module.sass";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
-const TextInput = ({
-  className,
-  classLabel,
-  classInput,
-  label,
-  icon,
-  copy,
-  currency,
-  tooltip,
-  place,
-  ...props
-}) => {
+const TextInput = ({ className, classLabel, classInput, label, icon,  copy, currency, tooltip, place, ...props}) => {
+  
   return (
     <div className={cn(styles.field, { [styles.fieldIcon]: icon }, { [styles.fieldCopy]: copy }, { [styles.fieldCurrency]: currency }, className )} >
       {label && (

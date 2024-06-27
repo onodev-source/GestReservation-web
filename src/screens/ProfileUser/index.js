@@ -14,6 +14,7 @@ import { products } from "../../mocks/products";
 import { followers } from "../../mocks/followers";
 import HistoryUser from "./HistoryUser";
 import Table from "../Earning/Table";
+import Comments from "../Comments";
 
 const navigation = ["Activity", "Reservations", "Comments"];
 const intervals = ["Most recent", "Most new", "Most popular"];
@@ -30,7 +31,7 @@ const ProfileUser = () => {
         </div>
         <Card className={styles.card}>
           <Profile />
-          <div className={styles.control}>
+          <div className={cn({[styles.control] : navigation[0]})}>
             <div className={styles.nav}>
               {navigation.map((x, index) => (
                 <button  className={cn(styles.link, { [styles.active]: index === activeIndex,})} onClick={() => setActiveIndex(index)} key={index} >
@@ -64,9 +65,7 @@ const ProfileUser = () => {
                   <Table activityUser={true}/>
                 </div>
                 <div className={styles.foot}>
-                  <button
-                    className={cn("button-stroke button-small", styles.button)}
-                  >
+                  <button className={cn("button-stroke button-small", styles.button)} >
                     Load more
                   </button>
                 </div>
@@ -75,15 +74,13 @@ const ProfileUser = () => {
             {activeIndex === 2 && (
               <>
                 <div className={styles.followers}>
-                  <Table />
+                  <Comments activityUser={true}/>
                 </div>
-                <div className={styles.foot}>
-                  <button
-                    className={cn("button-stroke button-small", styles.button)}
-                  >
+                {/*<div className={styles.foot}>
+                  <button  className={cn("button-stroke button-small", styles.button)} >
                     Load more
                   </button>
-                </div>
+                </div>*/}
               </>
             )}
           </div>

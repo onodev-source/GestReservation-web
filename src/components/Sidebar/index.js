@@ -7,6 +7,8 @@ import Theme from "../Theme";
 import Dropdown from "./Dropdown";
 import Help from "./Help";
 import Image from "../Image";
+import Modal from "../Modal";
+import Logout from "../../screens/Logout";
 
 const navigation = [
     {
@@ -66,10 +68,6 @@ const navigation = [
                 url: "/reservations/reservationList",
             },
             {
-                title: "Refunds",
-                url: "/income/refunds",
-            },
-            {
                 title: "Agenda",
                 url: "/reservations/agenda",
                 counter: "8",
@@ -80,7 +78,7 @@ const navigation = [
     {
         title: "Income",
         icon: "pie-chart",
-        url: "/income/earning",
+        url: "/income/incomeList",
     },
 ];
 
@@ -98,13 +96,13 @@ const navigationFoot = [
     {
         title: "Logout",
         icon: "lock",
-        url: "/shop",
     },
 ];
 
 const Sidebar = ({ className, onClose }) => {
     const [visibleHelp, setVisibleHelp] = useState(false);
     const [visible, setVisible] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(false);
 
     return (
         <>
@@ -148,10 +146,14 @@ const Sidebar = ({ className, onClose }) => {
                     <Icon name="close" size="24" />
                 </button>
                 <div className={styles.foot}>
-                    
                     {navigationFoot.map((x, index) =>
-                        x.url && (
+                        x.url ? (
                             <NavLink className={styles.item}  activeClassName={styles.active} to={x.url}  key={index}  exact  onClick={onClose}>
+                                <Icon name={x.icon} size="24" />
+                                {x.title}
+                            </NavLink>
+                        ) : (
+                            <NavLink className={styles.item}  activeClassName={styles.active}  key={index}  exact  onClick={() => setVisibleModal(true)}>
                                 <Icon name={x.icon} size="24" />
                                 {x.title}
                             </NavLink>
@@ -160,15 +162,11 @@ const Sidebar = ({ className, onClose }) => {
                     <Theme className={styles.theme} visibleSidebar={visible} />
                 </div>
             </div>
-            <Help
-                visible={visibleHelp}
-                setVisible={setVisibleHelp}
-                onClose={onClose}
-            />
-            <div
-                className={cn(styles.overlay, { [styles.active]: visible })}
-                onClick={() => setVisible(false)}
-            ></div>
+            <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
+                <Logout />
+            </Modal>
+            <Help  visible={visibleHelp}  setVisible={setVisibleHelp}  onClose={onClose}/>
+            <div  className={cn(styles.overlay, { [styles.active]: visible })} onClick={() => setVisible(false)}></div>
         </>
     );
 };

@@ -27,14 +27,10 @@ const Entry = ({ onConfirm }) => {
       </div>
       <div className={styles.body}>
         <div className={styles.info}>Or continue with email address</div>
-        <TextInput
-          className={styles.field}
-          name="email"
-          type="email"
-          placeholder="Your email"
-          required
-          icon="mail"
-        />
+        <TextInput className={styles.field} name="name"  type="text" placeholder="Your name" required />
+        <TextInput  className={styles.field}  name="tel"  type="tel" placeholder="Your phone number" required  icon="phone" />
+        <TextInput className={styles.field}  name="email" type="email" placeholder="Your email" required  icon="mail"/>
+        <TextInput className={styles.field} name="password" type="password"  placeholder="Password" required icon="lock" />
         <button className={cn("button", styles.button)} onClick={onConfirm}>
           Continue
         </button>
