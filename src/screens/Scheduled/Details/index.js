@@ -3,9 +3,9 @@ import styles from "./Details.module.sass";
 import cn from "classnames";
 import Product from "./Product";
 import Parameter from "./Parameter";
-import TooltipGlodal from "../../../../components/TooltipGlodal";
-import Editor from "../../../../components/Editor";
-import Icon from "../../../../components/Icon";
+import TooltipGlodal from "../../../components/TooltipGlodal"
+import Editor from "../../../components/Editor";
+import Icon from "../../../components/Icon";
 
 const suggestions = [
   "Talk to customer to see if you can help.",
@@ -19,7 +19,7 @@ const Details = ({ item, customersDetails, onClose }) => {
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Income details"}</div>
+        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Agenda details"}</div>
         <div className={styles.row}>
           <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
             <Product className={styles.product} item={item} />
@@ -78,10 +78,10 @@ const Details = ({ item, customersDetails, onClose }) => {
               </div>
               <div className={styles.btns}>
                 <button className={cn("button-stroke", styles.button)} onClick={onClose}>
-                  Cancel
+                  Delete
                 </button>
                 <button className={cn("button", styles.button)}>
-                  Delete
+                  Edit
                 </button>
               </div>
             </div>

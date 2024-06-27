@@ -6,7 +6,7 @@ import Overview from "./Overview";
 import ProductSales from "./ProductSales";
 import TopCountries from "./TopCountries";
 import Table from "./Table";
-import Balance from "../../components/Balance";
+//import Balance from "../../components/Balance";
 import Chart from "../Customers/Overview/Chart";
 import Dropdown from "../../components/Dropdown";
 import Card from "../../components/Card";

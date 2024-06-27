@@ -3,6 +3,7 @@ import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./Actions.module.sass";
 import Icon from "../Icon";
+import { Link } from "react-router-dom";
 
 const Actions = ({
   className,
@@ -50,14 +51,19 @@ const Actions = ({
         </button>
         <div className={cn(styles.body, classActionsBody)}>
           {items.map((x, index) => (
-            <button
-              className={cn(styles.option, classActionsOption)}
-              onClick={x.action}
-              key={index}
-            >
-              {x.icon && <Icon name={x.icon} size="24" />}
-              {x.title}
-            </button>
+            x.url ? (
+              <Link  className={cn(styles.option, classActionsOption)}
+                to={x.url}  key={index} >
+                {x.icon && <Icon name={x.icon} size="24" />}
+                {x.title}
+              </Link>
+            ) : (
+              <button className={cn(styles.option, classActionsOption)}
+                onClick={x.action} key={index} >
+                {x.icon && <Icon name={x.icon} size="24" />}
+                {x.title}
+              </button>
+            )
           ))}
         </div>
       </div>
