@@ -16,8 +16,7 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
 
   const Head = () => {
     return (
-      <button
-        className={cn(
+      <button  className={cn(
           styles.head,
           {
             [styles.active]: pathname.includes(item.slug),
@@ -34,14 +33,8 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
   };
 
   return (
-    <div
-      className={cn(
-        styles.dropdown,
-        className,
-        { [styles.active]: visible },
-        {
-          [styles.active]: pathname.includes(item.slug),
-        },
+    <div  className={cn(  styles.dropdown, className,  { [styles.active]: visible },
+        {[styles.active]: pathname.includes(item.slug), },
         { [styles.wide]: visibleSidebar }
       )}
     >

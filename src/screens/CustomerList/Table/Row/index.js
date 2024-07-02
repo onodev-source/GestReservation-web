@@ -4,8 +4,11 @@ import cn from "classnames";
 import Checkbox from "../../../../components/Checkbox";
 import Balance from "../../../../components/Balance";
 import Control from "../../../../components/Table/Row/Control"
+import Modal from "../../../../components/Modal";
+import Details from "../../../Refunds/Row/Details";
 
-
+import Refunds from "../../../Refunds";
+import { refunds } from "../../../../mocks/refunds";
 
 const customerDetails = {
   product: "Filomena Fahey",
@@ -68,14 +71,33 @@ const Row = ({
   customersDetails
 }) => {
   const [visibleActions, setVisibleActions] = useState(false);
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 1023);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  const handleRowClick = () => {
+    if (isMobile) {
+      setVisibleModal(true);
+    }
+  };
   const handleClick = (id) => {
-   // setActiveTable(true);
+    //setActiveTable(true);
     //setActiveId(id);
   };
 
   return (
     <>
-      <div className={cn( styles.row, { [styles.selected]: activeId === item.id }, { [styles.active]: visibleActions })} onMouseLeave={() => setVisibleActions(false)}>
+      <div className={cn( styles.row, { [styles.selected]: activeId === item.id }, { [styles.active]: visibleActions })} onMouseLeave={() => setVisibleActions(false)} onClick={handleRowClick}>
         <div className={styles.col}>
           <Checkbox
             className={styles.checkbox}
@@ -94,7 +116,6 @@ const Row = ({
               <div className={styles.email}>{item.email}
               </div>
             </div>
-
 
           </div>
           
@@ -117,6 +138,9 @@ const Row = ({
         <div className={styles.col}>{item.comments}</div>
         <div className={styles.col}>{item.likes}</div>
       </div>
+      <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
+        <Details item={refunds[0]} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>
+      </Modal>
     </>
   );
 };

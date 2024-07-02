@@ -2,9 +2,6 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Users.module.sass";
 import { Link } from "react-router-dom";
-import Icon from "../Icon";
-import Modal from "../Modal";
-import Details from "../../screens/Refunds/Row/Details";
 
 const users = [
   {
@@ -30,7 +27,7 @@ const users = [
 ];
 
 const Users = ({ className, customerList, item }) => {
-  const [visibleModal, setVisibleModal] = React.useState(false);
+  
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.head}>
@@ -46,7 +43,7 @@ const Users = ({ className, customerList, item }) => {
       </div>
       <div className={styles.list}>
         {users.map((x, index) => (
-          <Link className={styles.item} key={index} onClick={() => setVisibleModal(true)}>
+          <Link className={styles.item} key={index} to="/profile">
             <div className={styles.avatar}>
               <img src={x.avatar} alt="Avatar" />
             </div>
@@ -54,9 +51,6 @@ const Users = ({ className, customerList, item }) => {
           </Link>
         ))}
       </div>
-      <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={item} customersDetails={customerList} onClose={() => setVisibleModal(false)}/>
-      </Modal>
     </div>
   );
 };

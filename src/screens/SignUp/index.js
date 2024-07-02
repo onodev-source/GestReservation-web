@@ -39,7 +39,7 @@ const SignUp = () => {
             <Image
               className={styles.pic}
               src="/images/logo_onograph.png"
-              srcDark="/images/logo_onograph.png"
+              srcDark="/images/logo-onograph-blanc.png"
               alt="Core"
             />
           </Link>

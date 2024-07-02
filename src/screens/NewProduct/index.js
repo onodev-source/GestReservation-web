@@ -12,7 +12,7 @@ import Discussion from "./Discussion";
 import Preview from "./Preview";
 import Panel from "./Panel";
 
-const NewProduct = ({product}) => {
+const NewProduct = ({product, editPack, editProd}) => {
   const [visiblePreview, setVisiblePreview] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -39,7 +39,7 @@ const NewProduct = ({product}) => {
           />*/}
         </div>
       </div>
-      <Panel  setVisiblePreview={setVisiblePreview} setVisibleSchedule={setVisibleModal} product={product}/>
+      <Panel  setVisiblePreview={setVisiblePreview} setVisibleSchedule={setVisibleModal} product={product} editPack={editPack}/>
       <TooltipGlodal />
       <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
         <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>

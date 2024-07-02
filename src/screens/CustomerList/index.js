@@ -35,7 +35,7 @@ const CustomerList = () => {
                 setValue={setSearch} onSubmit={() => handleSubmit()} placeholder="Search by name or email" type="text"
                 name="search" icon="search"
               />
-              <div className={styles.nav}>
+              <div className={styles.sorting}>
                 {/*{navigation.map((x, index) => (
                   <button className={cn(styles.link, { [styles.active]: index === activeIndex, })}
                     onClick={() => setActiveIndex(index)} key={index}

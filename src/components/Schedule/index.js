@@ -13,7 +13,7 @@ const navigationDate = [
     categoryHour: "Start time"
   },
   {
-    id: 0,
+    id: 1,
     category: "End date",
     categoryHour: "End time"
   }
@@ -23,6 +23,8 @@ const Schedule = ({
   className,
   startDate,
   setStartDate,
+  endDate,
+  setEndDate,
   startTime,
   setStartTime,
   addCustomer,
@@ -37,6 +39,7 @@ const Schedule = ({
     setVisibleDate(false);
   };
 
+  
   return (
     <div className={cn(styles.schedule, className)}>
       {(addCustomer=== false || addResert===false) && 
@@ -51,9 +54,9 @@ const Schedule = ({
       <div className={cn(styles.list, {[styles.group] : addResert})}>
         {addResert ? (
           navigationDate.map((x, index) => (
-            <Item   className={cn(styles.item, styles.field)} key={index} category={x.category}  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+            <Item  className={cn(styles.item, styles.field)} key={index} category={x.category}  icon="calendar" value={(index === 0 ? startDate : endDate) && format((index === 0 ? startDate : endDate), "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
               <div className={styles.date}>
-                <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+                <DatePicker  selected={startDate} key={index} onChange={(date) => index === 0 ? setStartDate(date) : setEndDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
                 <div className={styles.foot}>
                   <button
                     className={cn("button-stroke button-small", styles.button)}

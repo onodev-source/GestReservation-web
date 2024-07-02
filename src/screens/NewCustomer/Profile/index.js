@@ -13,7 +13,7 @@ const Profile = ({ className, product }) => {
     <Card className={cn(styles.card, className)} title="Customer profile" classTitle="title-green" >
       <div className={styles.description}>
         <TextInput className={styles.field} style={{ marginBottom: '32px' }} label="Username"  name="username" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <TextInput className={styles.field} label="Password"  name="password" type="password" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <TextInput className={styles.field} label="Password"  name="password" type="password" tooltip="Maximum 100 characters. No HTML or emoji allowed" icon="lock"/>
       </div>
     </Card>
   );

@@ -3,6 +3,7 @@ import styles from "./Control.module.sass";
 import cn from "classnames";
 import Icon from "../../Icon";
 import ModalProduct from "../../ModalProduct";
+import { Link } from "react-router-dom";
 
 const Control = ({ className }) => {
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
@@ -10,7 +11,7 @@ const Control = ({ className }) => {
   const actions = [
     {
       icon: "edit",
-      action: () => console.log("edit"),
+      url: "/packages/edit",
     },
     {
       icon: "trash",
@@ -26,9 +27,15 @@ const Control = ({ className }) => {
     <>
       <div className={cn(styles.control, className)}>
         {actions.map((x, index) => (
-          <button className={styles.button} key={index} onClick={x.action}>
-            <Icon name={x.icon} size="20" />
-          </button>
+          x.url ? (
+            <Link className={cn(styles.button)} to={x.url} >
+              <Icon name={x.icon} size="20" />
+            </Link>
+          ) : (
+            <button className={styles.button} key={index} onClick={x.action}>
+              <Icon name={x.icon} size="20" />
+            </button>
+          )
         ))}
       </div>
       <ModalProduct

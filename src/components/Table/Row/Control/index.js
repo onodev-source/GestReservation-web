@@ -5,6 +5,7 @@ import Icon from "../../../Icon";
 import Modal from "../../../Modal";
 import Schedule from "../../../Schedule";
 import Details from "../../../../screens/Refunds/Row/Details";
+import { Link } from "react-router-dom";
 
 const Control = ({
   item,
@@ -25,6 +26,7 @@ const Control = ({
     {
       icon: "edit",
       action: () => console.log("edit"),
+      url: customersDetails && "/customers/edit"
     },
     {
       icon: "trash",
@@ -40,9 +42,15 @@ const Control = ({
     <>
       <div className={cn(styles.control, className)}>
         {actions.map((x, index) => (
-          <button className={styles.button} key={index} onClick={x.action}>
-            <Icon name={x.icon} size="20" />
-          </button>
+          x.url ? (
+            <Link className={cn(styles.button, styles.link)} to={x.url}>
+              <Icon name={x.icon} size="20" />
+            </Link>
+          ) : (
+            <button className={styles.button} key={index} onClick={x.action}>
+              <Icon name={x.icon} size="20" />
+            </button>
+          )
         ))}
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >

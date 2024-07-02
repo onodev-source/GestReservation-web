@@ -14,7 +14,7 @@ const Control = ({ className, visibleActions, setVisibleActions, up }) => {
     {
       title: "Edit product",
       icon: "edit",
-      url: "/products/add"
+      url: "/products/edit"
     },
     {
       title: "Delete product",

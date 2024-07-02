@@ -18,6 +18,8 @@ import Actions from "../../components/Actions";
 import Modal from "../../components/Modal";
 //import Details from "../Refunds/Row/Details";
 import Details from "./Details";
+import TextInput from "../../components/TextInput";
+import Schedule from "../../components/Schedule";
 
 
 const item = 
@@ -73,25 +75,53 @@ const item =
 
 const Scheduled = () => {
   const [events, setEvents] = useState([]);
+  const [title, setTitle] = useState('');
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleAddModal, setVisibleAddModal] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
+
+  const textInputChange = (input) => {
+    const target = input.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    switch (name) {
+        case 'nameEvent':
+          setTitle(value);
+            break;
+        default:
+            break;
+    }
+}
 
 
   const handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event');
+    setVisibleModal(true)
+    setVisibleAddModal(true)
+    //let title = prompt('Please enter a new title for your event');
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
 
     if (title) {
       setEvents((prevEvents) => [
-        ...prevEvents, {  id: createEventId(), title,  start: selectInfo.startStr, end: selectInfo.endStr, allDay: selectInfo.allDay,},
+        ...prevEvents, {  id: createEventId(), title: title,  start: startDate?.toISOString(), end: startDate?.toISOString(), allDay: selectInfo.allDay,},
       ]);
     }
   };
 
-  const createEventId = () => {
+  /*const createEventId = () => {
     return String(events.length + 1);
+  };*/
+  const createEventId = () => {
+    // Function to create a unique ID for each event
+    return String(Date.now());
   };
+  const handleCloseModal = () => { 
+    setVisibleModal(false)
+    setVisibleAddModal(false)
+  }
 
   return (
     <>
@@ -131,8 +161,29 @@ const Scheduled = () => {
         {/*<Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption}
         items={actions}/>*/}
       </Card>
-      <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={item} />
+      <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={handleCloseModal} >
+        {visibleAddModal ?
+          <div className={styles.details}>
+            <div className={cn("title-purple", styles.title)}>Add event to calendar</div>
+            <div className={styles.row}>
+              <div className={styles.col}>
+                <div className={styles.group}>
+                  <TextInput onChange={textInputChange} className={styles.field} label="Event name" placeHolder="Name of event" name="nameEvent" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+                  <Schedule  startDate={startDate}  setStartDate={setStartDate} endDate={endDate}  setEndDate={setEndDate} startTime={startTime} setStartTime={setStartTime} addResert={true}/>
+                </div>
+                <div className={styles.btns}>
+                  <button className={cn("button-stroke", styles.button)} onClick={handleCloseModal}>
+                    Cancel
+                  </button>
+                  <button className={cn("button", styles.button)}>
+                    Add event
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        : <Details item={item} />
+        }
       </Modal>
       {/*<Panel />*/}
     </>

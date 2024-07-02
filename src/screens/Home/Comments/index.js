@@ -60,8 +60,8 @@ const Comments = ({ className }) => {
                   dangerouslySetInnerHTML={{ __html: x.comment }}
                 ></div>
                 <div className={styles.control}>
-                  <Link className={styles.link} to="/message-center">
-                    <Icon name="message" size="20" />
+                  <Link className={styles.link} to="/profile">
+                    <Icon name="profile-circle" size="20" />
                   </Link>
                   <Favorite className={cn(styles.favorite, styles.link)} />
                   <Link className={styles.link} to="/packages/comments">

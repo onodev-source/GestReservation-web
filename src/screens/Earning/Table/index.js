@@ -137,14 +137,14 @@ const Table = ({activityUser}) => {
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
-      <Card className={cn(styles.card, {[styles.wrapperNone] : activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", styles.cardTitle)} classCardHead={cn(styles.cardHead)}
+      <Card className={cn(styles.card, {[styles.wrapperNone] : activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", styles.cardTitle)} classCardHead={cn(styles.head)}
       head={ !activityUser &&
         <>
           <Form className={styles.form} value={search}
             setValue={setSearch} onSubmit={() => handleSubmit()} placeholder="Search by name or email" type="text"
             name="search" icon="search"
           />
-          <div className={styles.nav}>
+          <div className={styles.sorting}>
             <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navigation} small />
             <Link className={cn("button button-small", styles.button)} to="/reservations/add" >
               Add Reservation

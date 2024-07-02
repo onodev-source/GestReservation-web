@@ -71,22 +71,18 @@ const Products = () => {
             </button>
             <div className={styles.counter}>3 selected</div>
           </div>
-          <div className={cn(styles.nav, "tablet-hide")}>
-            <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
+            <div className={styles.sorting}>
+              {/*{sorting.map((x, index) => (
+                <button className={cn(styles.link, {  [styles.active]: index === activeIndex, })}  onClick={() => setActiveIndex(index)} key={index}>
+                  <Icon name={x} size="24" />
+                </button>
+              ))}*/}
+              <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
             
-            <Link className={cn("button button-small", styles.button)} to="/products/add" >
-              Add product
-            </Link>
-          </div>
-          <div className={cn(styles.dropdown, "tablet-show")}>
-            <Dropdown
-              classDropdownHead={styles.dropdownHead}
-              value={activeTab}
-              setValue={setActiveTab}
-              options={navDropdown}
-              small
-            />
-          </div>
+              <Link className={cn("button button-small", styles.button)} to="/products/add" >
+                Add product
+              </Link>
+            </div>
         </>
       }
     >

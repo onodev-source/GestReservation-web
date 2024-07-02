@@ -37,15 +37,19 @@ const router = createBrowserRouter(
       <Route path="/" element={<Page title="Hi, Jaden hole"><Home /></Page>} />
       <Route path="/products/dashboard" element={<Page title="Products dashboard"><ProductsDashboard /></Page>} />
       <Route path="/products/add" element={<Page title="New product"><NewProduct product={true}/></Page>} />
+      <Route path="/products/edit" element={<Page title="Edit product"><NewProduct product={true} editProd={true}/></Page>} />
       <Route path="/products/drafts" element={<Page title="Drafts"><Drafts /></Page>} />
       <Route path="/products/released" element={<Page title="Packages"><Released /></Page>} />
       <Route path="/packages/add" element={<Page title="New package"><NewProduct /></Page>} />
+      <Route path="/packages/edit" element={<Page title="Edit package"><NewProduct  editPack={true}/></Page>} />
       <Route path="/packages/comments" element={<Page title="Comments"><Comments /></Page>} />
       <Route path="/customers/overview" element={<Page title="Customers"><Customers /></Page>} />
       <Route path="/customers/add" element={<Page title="New customer"><NewCustomer/></Page>} />
+      <Route path="/customers/edit" element={<Page title="Edit customer"><NewCustomer editCust={true}/></Page>} />
       <Route path="/customers/customer-list" element={<Page title="Customers"><CustomerList /></Page>} />
       <Route path="/shop" element={<Page wide><Shop /></Page>} />
       <Route path="/profile" element={<Page wide><ProfileUser /></Page>} />
+      <Route path="/profile:id" element={<Page wide><ProfileUser /></Page>} />
       <Route path="/reservations/reservationList" element={<Page title="Reservations"><Earning resertList={true} /></Page>} />
       <Route path="/reservations/add" element={<Page title="New reservation"><NewReservation  /></Page>} />
       <Route path="/reservations/agenda" element={<Page title="Agenda"><Scheduled /></Page>} />

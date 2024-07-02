@@ -4,7 +4,7 @@ import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
   const actions = [
     {
       title: "Preview",

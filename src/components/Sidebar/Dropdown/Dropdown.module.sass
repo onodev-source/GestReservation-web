@@ -186,8 +186,10 @@
             fill: $n1
     &:hover
         color: $n7
+        background: $p1
         +dark
-            color: $n1
+            color: $n7
+            background: $p1
     &.active
         background: $n3
         box-shadow: inset 0px -2px 1px rgba(0, 0, 0, 0.05), inset 0px 1px 1px #FFFFFF
@@ -207,3 +209,8 @@
     text-align: center
     line-height: 24px
     color: $n7
+
+.body
+    .linkActive
+        &:active
+            background: $p1
