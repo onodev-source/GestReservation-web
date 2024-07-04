@@ -4,8 +4,9 @@ import styles from "./Dropdown.module.sass";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Icon from "../../Icon";
 
-const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
+const Dropdown = ({ className, item, visibleSidebar, setValue, onClose, activeIndex, activeIndexNav, onClick }) => {
   const [visible, setVisible] = useState(false);
+  const [activeIndexDropdown, setActiveIndexDropdown] = useState(0);
 
   const { pathname } = useLocation();
 
@@ -14,15 +15,16 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
     setValue(true);
   };
 
+  //fonction permettant de mettre a jour le state de l'index actif su dropdown
+  const handleClickDropdown = (x, index) => {
+    onClose()
+    onClick()
+    setActiveIndexDropdown(x.id);
+  };
+
   const Head = () => {
     return (
-      <button  className={cn(
-          styles.head,
-          {
-            [styles.active]: pathname.includes(item.slug),
-          },
-          { [styles.wide]: visibleSidebar }
-        )}
+      <button  className={cn( styles.head, {  [styles.active]: pathname.includes(item.slug),}, { [styles.wide]: visibleSidebar } )}
         onClick={() => handleClick()}
       >
         <Icon name={item.icon} size="24" />
@@ -32,6 +34,7 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
     );
   };
 
+ 
   return (
     <div  className={cn(  styles.dropdown, className,  { [styles.active]: visible },
         {[styles.active]: pathname.includes(item.slug), },
@@ -52,14 +55,12 @@ const Dropdown = ({ className, item, visibleSidebar, setValue, onClose }) => {
       )}
       <div className={styles.body}>
         {item.dropdown.map((x, index) => (
-          <NavLink className={styles.link} activeClassName={styles.active} to={x.url} key={index} onClick={onClose} exact>
+          <NavLink className={cn(styles.link, {[styles.active] : (activeIndexDropdown === x.id && activeIndex===activeIndexNav)})} activeClassName={styles.active} to={x.url} key={index} onClick={() => handleClickDropdown(x, index)} exact>
             {x.title}
-            {x.counter ? (
-              <div className={styles.counter} style={{ backgroundColor: x.colorCounter }}>
+            {x.counter && (
+              <div className={styles.counter}>
                 {x.counter}
               </div>
-            ) : (
-              <Icon name="arrow-next" size="24" />
             )}
           </NavLink>
         ))}

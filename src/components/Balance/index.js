@@ -16,13 +16,7 @@ const Balance = ({ className, value, background }) => {
       {value}%
     </div>
   ) : (
-    <div
-      className={cn(
-        styles.negative,
-        { [styles.background]: background },
-        className
-      )}
-    >
+    <div className={cn(styles.negative, { [styles.background]: background }, className )} >
       <Icon name="arrow-bottom" />
       {String(value).slice(1)}%
     </div>

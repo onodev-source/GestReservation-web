@@ -88,7 +88,7 @@ const Overview = ({ className }) => {
                   </div>
                   <div className={styles.counter}>{x.counter}</div>
                   <div className={styles.indicator}>
-                    <Balance className={styles.balance} value={x.value} />
+                    <Balance className={cn(styles.balance)} value={x.value} />
                     <span>this week</span>
                   </div>
                 </div>

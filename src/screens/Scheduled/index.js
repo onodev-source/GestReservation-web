@@ -141,7 +141,7 @@ const Scheduled = () => {
               events={events}
               eventContent={(eventInfo) => (
                 <div onClick={() => setVisibleModal(true)} style={{ display: 'flex', alignItems: 'center', maxWidth: '200px', background: '#F0C830', overflow: 'hidden', 
-                  color: '#1A1D1F', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', boxShadow: '0 0 20px 5px #1A1D1F' }}>
+                  color: '#1A1D1F', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', boxShadow: '0 0 1px 2px #F0C830' }}>
                   <div style={{ flex: '1 1 auto', wordBreak: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal' }}>
                     {eventInfo.event.title}
                   </div>
