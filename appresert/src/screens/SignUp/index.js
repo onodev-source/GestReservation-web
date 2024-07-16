@@ -7,6 +7,7 @@ import Entry from "./Entry";
 import Code from "./Code";
 import Image from "../../components/Image";
 import { Routes } from "../../Constants";
+import Success from "./Success";
 
 const items = [
   "Unlimited product uploads",
@@ -17,6 +18,7 @@ const items = [
 
 const SignUp = () => {
   const [visible, setVisible] = useState(true);
+  const [success, setSuccess] = useState(false);
   const heightWindow = use100vh();
 
   return (
@@ -51,9 +53,15 @@ const SignUp = () => {
             </Link>
           </div>
         </div>
-        <div className={styles.wrapper}>
-          <div className={cn("h2", styles.title)}>Sign up</div>
-          {visible ? <Entry onConfirm={() => setVisible(false)} /> : <Code />}
+        <div className={cn(styles.wrapper, {[styles.success] : success})}>
+          <div className={cn("h2", styles.title)}>{success ? "Congratulation ! 🎉🎉" : "Sign up"}</div>
+          {visible ? 
+            <Entry onConfirm={() => setVisible(false)} />
+            : ( !visible && !success  ?
+                <Code onConfirm={() => setSuccess(true)}/>
+              :
+                <Success/>
+            )}
         </div>
       </div>
     </div>
