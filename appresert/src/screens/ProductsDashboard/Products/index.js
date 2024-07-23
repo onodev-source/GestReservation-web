@@ -13,6 +13,7 @@ import { viewers } from "../../../mocks/viewers";
 import { market } from "../../../mocks/market";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
+import RequestDashboard from "../../../Services/Api/ApiServices";
 
 const indicatorsTraffic = [
   {
@@ -53,11 +54,24 @@ const Products = () => {
 
   const [activeTab, setActiveTab] = useState(navDropdown[0]);
   const [search, setSearch] = useState("");
+  const [product, setProduct] = useState([]);
 
   const handleSubmit = (e) => {
     alert();
   };
 
+  React.useEffect(() => {
+
+    const getAllProduct =  async() => {
+        let res = await RequestDashboard('admin/gestreserv/product/', 'GET', '');
+        if (res.status === 200) {
+          setProduct(res.data);
+        }
+    };
+    getAllProduct()
+  }, [])
+
+  console.log('product---------', product);
   return (
     <Card className={styles.card}  title="Products" classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
       head={

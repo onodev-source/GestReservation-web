@@ -1,6 +1,6 @@
 
 
-const BASE_URL = "http://35.153.18.182:9105/api/v1/";
+const BASE_URL = "http://192.168.1.167:5000/";
 
 export default async function RequestDashboard(link, method, form, token) {
     let headers = {};
