@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./TextInput.module.sass";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
-const TextInput = ({ className, classLabel, classInput, label, icon,  copy, currency, tooltip, place, ...props}) => {
+const TextInput = ({ className, classLabel, classInput, label, icon, type, copy, currency, tooltip, place, ...props}) => {
+  const [visiblePass, setVisiblePass] = useState(false)
+
+  //fonction permettant de rendre visible ou pas le contenu  de l'input de type password
+  const handleChange = () => {
+    setVisiblePass(!visiblePass)
+  }
   
   return (
     <div className={cn(styles.field, { [styles.fieldIcon]: icon }, { [styles.fieldCopy]: copy }, { [styles.fieldCurrency]: currency }, className )} >
@@ -17,16 +23,26 @@ const TextInput = ({ className, classLabel, classInput, label, icon,  copy, curr
         </div>
       )}
       <div className={styles.wrap}>
-        <input className={cn(classInput, styles.input)} {...props} />
+        {type === "password" ?
+          <input className={cn(classInput, styles.input)} {...props} type={visiblePass ? "text" : "password"}/> 
+          :
+          <input className={cn(classInput, styles.input)} {...props} />
+        }
         {icon && (
           <div className={styles.icon}>
             <Icon name={icon} size="24" />{" "}
           </div>
         )}
-        {copy && (
+        {copy ? (
           <button className={styles.copy}>
             <Icon name="copy" size="24" />{" "}
           </button>
+        ) : (
+          type === "password" && (
+            <button className={styles.copy} onClick={handleChange}>
+              <Icon name={visiblePass ? "eye-closed" : "eye-open"} size="24" />{" "}
+            </button>
+          )
         )}
         {currency && <div className={styles.currency}>{currency}</div>}
       </div>

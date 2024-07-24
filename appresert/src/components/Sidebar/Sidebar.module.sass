@@ -69,6 +69,18 @@
     display: flex
     flex-direction: column
     margin-bottom: auto
+    .dropPack
+        svg
+            &:nth-child(1)
+                stroke: $n4
+        &:hover
+            svg
+                &:nth-child(1)
+                    +dark
+                        stroke: $n1
+                    stroke: $n7
+                    
+
 
 .item,
 .dropdown
@@ -152,6 +164,12 @@
     margin-top: 24px
     padding-top: 18px
     border-top: 2px solid $n2
+    .iconFoot
+        svg
+            stroke: $n4,
+        &:hover
+            svg
+                stroke: $n7
     +d
         margin-top: 12px
         padding-top: 12px

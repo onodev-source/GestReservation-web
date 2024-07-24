@@ -71,7 +71,7 @@ const Products = () => {
     getAllProduct()
   }, [])
 
-  console.log('product---------', product);
+
   return (
     <Card className={styles.card}  title="Products" classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
       head={

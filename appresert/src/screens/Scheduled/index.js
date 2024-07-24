@@ -140,12 +140,13 @@ const Scheduled = () => {
               select={handleDateSelect}
               events={events}
               eventContent={(eventInfo) => (
-                <div onClick={() => setVisibleModal(true)} style={{ display: 'flex', alignItems: 'center', maxWidth: '200px', background: '#F0C830', overflow: 'hidden', 
+                <div onClick={() => setVisibleModal(true)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '100%', background: '#F0C830', overflow: 'hidden', 
                   color: '#1A1D1F', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', boxShadow: '0 0 1px 2px #F0C830' }}>
-                  <div style={{ flex: '1 1 auto', wordBreak: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal' }}>
-                    {eventInfo.event.title}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', wordBreak: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal' }}>
+                    {/*eventInfo.event.title*/}
+                    <Icon name="reserved" size="18" style={{marginRight: '20px' }}/> Reserved
                   </div>
-                  <Icon name="more-horizontal" size="24" style={{ flex: '0 0 auto', marginLeft: '8px' }} />
+                  <Icon name="more-horizontal" size="24" style={{  marginLeft: '8px' }} />
                 </div>
               )}
               buttonClassNames={{

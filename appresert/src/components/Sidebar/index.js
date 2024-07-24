@@ -22,7 +22,7 @@ const navigation = [
         id: 2,
         title: "Packages",
         slug: "Packages",
-        icon: "diamond",
+        icon: "package",
         add: false,
         dropdown: [
             {
@@ -68,7 +68,7 @@ const navigation = [
         id: 4,
         title: "Reservations",
         slug: "reservations",
-        icon: "store",
+        icon: "reservation",
         dropdown: [
             {
                 id: 41,
@@ -108,7 +108,7 @@ const navigationFoot = [
     {
         id: 8,
         title: "Logout",
-        icon: "lock",
+        icon: "logout",
     },
 ];
 
@@ -136,7 +136,7 @@ const Sidebar = ({ className, onClose }) => {
                                 {x.title}
                             </NavLink>
                         ) : (
-                            <Dropdown   className={styles.dropdown} location={location} visibleSidebar={visible}  setValue={setVisible} key={index} 
+                            <Dropdown   className={cn(styles.dropdown, {[styles.dropPack] : x.id === 2})} location={location} visibleSidebar={visible}  setValue={setVisible} key={index} 
                              item={x} onClose={onClose}/>
                         )
                     )}
@@ -153,7 +153,7 @@ const Sidebar = ({ className, onClose }) => {
                                 {x.title}
                             </NavLink>
                         ) : (
-                            <NavLink className={cn(styles.item, {[styles.active] : location.pathname === x.url})}  activeClassName={styles.active}  key={index}  exact  onClick={() => setVisibleModal(true)}>
+                            <NavLink className={cn(styles.item, {[styles.active] : location.pathname === x.url}, styles.iconFoot)}  activeClassName={styles.active}  key={index}  exact  onClick={() => setVisibleModal(true)}>
                                 <Icon name={x.icon} size="24" />
                                 {x.title}
                             </NavLink>
