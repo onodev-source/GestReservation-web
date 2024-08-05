@@ -11,8 +11,11 @@ import Category from "./Category";
 import Help from "./Help";
 import Item from "./Item";
 import Language from "./Language";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
+  const {t} = useTranslation()
+  
   const navigation = [
     /*{
       title: "Basics",
@@ -20,22 +23,22 @@ const Settings = () => {
         scrollToProfile.current.scrollIntoView({ behavior: "smooth" }),
     },*/
     {
-      title: "Account",
+      title: t('views.settings.account'),
       //action: () => scrollToProfile.current.scrollIntoView({ behavior: "smooth" }),
     },
     {
-      title: "Category",
+      title: t('views.settings.category'),
       //action: () =>scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
     },
     {
-      title: "Notifications",
+      title: t('views.settings.notifications'),
     },
     {
-      title: "Language",
+      title: t('views.settings.language'),
       //action: () =>/scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
     },
     {
-      title: "Help",
+      title: t('views.settings.help'),
      // action: () => scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
     },
     /*{

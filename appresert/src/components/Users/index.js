@@ -3,6 +3,7 @@ import cn from "classnames";
 import styles from "./Users.module.sass";
 import { Link } from "react-router-dom";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 
 const users = [
   {
@@ -28,18 +29,19 @@ const users = [
 ];
 
 const Users = ({ className, customerList, item }) => {
-  
+  const {t} = useTranslation()
+
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.head}>
         <div className={styles.info}>
-          {!customerList ? <> Last <strong>04 users</strong> online </> : "Most active"}{" "}
+          {!customerList ? <> {t('words.last')} <strong>04 {t('words.users')}</strong> {t('words.online')} </> : "Most active"}{" "}
           <span role="img" aria-label="smile">
             😎
           </span>
         </div>
         {!customerList && <Link  className={cn("button-stroke", styles.button)}  to={Routes.CUSTOMERS_DASH}>
-          View<span> all</span>
+          {t('views.home.view_all')}
         </Link>}
       </div>
       <div className={styles.list}>

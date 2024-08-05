@@ -3,9 +3,11 @@ import cn from "classnames";
 import styles from "./Theme.module.sass";
 import useDarkMode from "@fisch0920/use-dark-mode";
 import Icon from "../Icon";
+import { useTranslation } from "react-i18next";
 
 const Theme = ({ className, visibleSidebar }) => {
   const darkMode = useDarkMode(false);
+  const {t} = useTranslation()
 
   return (
     <label
@@ -20,11 +22,11 @@ const Theme = ({ className, visibleSidebar }) => {
       <span className={styles.inner}>
         <span className={styles.box}>
           <Icon name="sun" size="24" />
-          Light
+          {t('navigation.light')}
         </span>
         <span className={styles.box}>
           <Icon name="moon" size="24" />
-          Dark
+          {t('navigation.dark')}
         </span>
       </span>
     </label>

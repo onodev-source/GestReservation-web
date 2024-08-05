@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "../Card";
 import ModalProduct from "../ModalProduct";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 
 const products = [
   {
@@ -66,18 +67,19 @@ const products = [
 ];
 
 const PopularProducts = ({ className, views }) => {
+  const {t} = useTranslation()
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
 
   return (
     <>
       <Card
         className={cn(styles.card, className)}
-        title="Popular products"
+        title={t("views.home.popular_products")}
         classTitle="title-blue"
       >
         <div className={styles.popular}>
           <div className={styles.head}>
-            <div className={styles.stage}>Products</div>
+            <div className={styles.stage}>{t('navigation.products')}</div>
             <div className={styles.stage}>Earning</div>
           </div>
           <div className={styles.list}>
@@ -117,7 +119,7 @@ const PopularProducts = ({ className, views }) => {
             className={cn("button-stroke", styles.button)}
             to={Routes.PRODUITS_DASH}
           >
-            All products
+            {t('views.home.all_products')}
           </Link>
         </div>
       </Card>

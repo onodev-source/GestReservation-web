@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import cn from "classnames";
-import styles from "./SignUp.module.sass";
+import { useTranslation } from "react-i18next";
 import { use100vh } from "react-div-100vh";
+import styles from "./SignUp.module.sass";
 import { Link } from "react-router-dom";
 import Entry from "./Entry";
 import Code from "./Code";
@@ -17,6 +18,7 @@ const items = [
 ];
 
 const SignUp = () => {
+  const {t} = useTranslation()
   const [visible, setVisible] = useState(true);
   const [success, setSuccess] = useState(false);
   const heightWindow = use100vh();
@@ -28,7 +30,7 @@ const SignUp = () => {
           <div className={styles.preview}>
             <img src="/images/content/login-pic.png" alt="Login" />
           </div>
-          <div className={cn("h4", styles.subtitle)}>Plan includes</div>
+          <div className={cn("h4", styles.subtitle)}>{t('sign.plan_include')}</div>
           <ul className={styles.list}>
             {items.map((x, index) => (
               <li key={index}>{x}</li>
@@ -47,14 +49,20 @@ const SignUp = () => {
             />
           </Link>
           <div className={styles.info}>
-            Already a member?{" "}
+            {t('sign.already_menber')}{" "}
             <Link className={styles.link} to={Routes.SIGN_IN}>
-              Sign in
+              {t('sign.sign_in')}
             </Link>
           </div>
         </div>
         <div className={cn(styles.wrapper, {[styles.success] : success})}>
-          <div className={cn("h2", styles.title)}>{success ? "Congratulation ! 🎉🎉" : "Sign up"}</div>
+          <div className={cn("h2", styles.title)}>
+            {success ? (
+              <> {t('sign.congratulation')} ! 🎉🎉 </>
+            ) : (
+              <> {t('sign.sign_up')}</>
+            )}
+          </div>
           {visible ? 
             <Entry onConfirm={() => setVisible(false)} />
             : ( !visible && !success  ?

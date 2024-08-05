@@ -16,6 +16,7 @@ const Dropdown = ({
   tooltip,
   small,
   upBody,
+  language
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -42,30 +43,28 @@ const Dropdown = ({
           )}
         </div>
       )}
-      <div
-        className={cn(
-          styles.dropdown,
-          className,
-          { [styles.small]: small },
-          {
-            [styles.active]: visible,
-          }
-        )}
-      >
-        <div
-          className={cn(styles.head, classDropdownHead)}
-          onClick={() => setVisible(!visible)}
-        >
-          <div className={styles.selection}>{value}</div>
+      <div  className={cn(  styles.dropdown,  className, { [styles.small]: small }, { [styles.active]: visible, } )} >
+        <div   className={cn(styles.head, classDropdownHead)} onClick={() => setVisible(!visible)}  >
+          <div className={styles.selection}>{language ? value.title : value}</div>
         </div>
         <div className={cn(styles.body, { [styles.bodyUp]: upBody })}>
-          {options.map((x, index) => (
-            <div  className={cn(styles.option, { [styles.selectioned]: x === value,  })}
-              onClick={() => handleClick(x, index)} key={index}
-            >
-              {x}
-            </div>
-          ))}
+          {language ? (
+            options?.map((x, index) => (
+              <div  className={cn(styles.option, { [styles.selectioned]: x.title === value,  })}
+                onClick={() => handleClick(x, index)} key={index}
+              >
+                {x.title}
+              </div>
+            ))
+          ) : (
+            options?.map((x, index) => (
+              <div  className={cn(styles.option, { [styles.selectioned]: x === value,  })}
+                onClick={() => handleClick(x, index)} key={index}
+              >
+                {x}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </OutsideClickHandler>

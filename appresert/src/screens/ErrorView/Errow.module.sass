@@ -1,0 +1,31 @@
+@import ../../styles/helpers
+
+.error
+    text-align: center
+    padding: 48px
+    max-height: 100vh
+    .errorImage
+        max-width: 821px
+        max-height: 821px
+        +t
+            width: 100%
+            height: auto
+
+    .errorContent
+        text-align: center
+        h2
+            font-weight: bold
+            color: $n7
+            +dark
+                color: $n
+        .text
+            margin-top: 10px
+        .link
+            padding: 13px 24px
+            margin-top: 24px
+            border-radius: 15px
+            color: $n7
+            background-color: $p1
+            &:hover,
+            &.active
+                font-weight: bold

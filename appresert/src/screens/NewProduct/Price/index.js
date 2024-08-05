@@ -5,14 +5,16 @@ import Card from "../../../components/Card";
 import Tooltip from "../../../components/Tooltip";
 import TextInput from "../../../components/TextInput";
 import Switch from "../../../components/Switch";
+import { useTranslation } from "react-i18next";
 
 const Price = ({ className, product }) => {
+  const {t} = useTranslation()
   const [resolution, setResolution] = useState(true);
 
   return (
-    <Card className={cn(styles.card, className)}  title={product ? "Quantity" : "Price" } classTitle="title-green">
+    <Card className={cn(styles.card, className)}  title={product ? t('views.products.add.quantity') : "Price" } classTitle="title-green">
       <div className={styles.price}>
-        <TextInput  className={styles.field}  label={product ? "Number" : "Monthly subscription" } name={product ? "number" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
+        <TextInput  className={styles.field}  label={product ? t('views.products.add.number') : "Monthly subscription" } name={product ? "number" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
         {!product && (
           <>
             <div className={styles.line}>

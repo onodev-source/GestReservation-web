@@ -2,13 +2,15 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Code.module.sass";
 import Loader from "../../../components/Loader";
+import { useTranslation } from "react-i18next";
 
 const Code = ({onConfirm}) => {
+  const {t} = useTranslation()
   return (
     <div className={styles.code}>
       <div className={styles.body}>
         <div className={styles.info}>
-          We just send you a verify code. Check your inbox to get them.
+          {t('sign.send_a_verify_code')}
         </div>
         <div className={styles.fieldset}>
           <div className={styles.field}>
@@ -41,14 +43,14 @@ const Code = ({onConfirm}) => {
           </div>
         </div>
         <div className={styles.errorNote}>
-          The code you entered is incorrect.
+        {t('sign.incorrect_code')}
         </div>
         <button className={cn("button", styles.button)} onClick={onConfirm}>
           <Loader className={styles.loader} white />
-          <span>Continue</span>
+          <span>{t('sign.continue')}</span>
         </button>
         <div className={styles.note}>
-          This site is protected by reCAPTCHA and the Google Privacy Policy.
+          {t('sign.protected_to_recaptcha')}
         </div>
       </div>
     </div>

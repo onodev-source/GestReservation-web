@@ -6,6 +6,7 @@ import Dropdown from "../../../components/Dropdown";
 import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/Checkbox";
 import { WithContext as ReactTags } from "react-tag-input";
+import { useTranslation } from "react-i18next";
 
 const compatibility1 = [
   {
@@ -62,7 +63,7 @@ const compatibility3 = [
   }
 ];
 
-const optionsCategory = ["Select category", "Category 1", "Category 2"];
+const optionsCategory = ["Category 1", "Category 2"];
 
 const KeyCodes = {
   comma: 188,
@@ -71,6 +72,7 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
+  const {t} = useTranslation()
   const [category, setCategory] = useState(optionsCategory[0]);
 
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -119,13 +121,13 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
   };
 
   return (
-    <Card className={cn(styles.card, className)}  title={categoryAttribute ? "Category & attibutes" : "Type of event"} classTitle="title-purple" >
+    <Card className={cn(styles.card, className)}  title={categoryAttribute ? t('views.products.add.category_attributes') : t('views.products.add.type_of_event')} classTitle="title-purple" >
       <div className={styles.images}>
-        <Dropdown  className={styles.field}  label={categoryAttribute ? "Category" : "Type"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
+        <Dropdown  className={styles.field}  label={categoryAttribute ? t('views.products.add.category') : t('views.products.add.type')}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
           options={optionsCategory}
         />
         <div className={styles.label}>
-          {categoryAttribute ? "Name" : "Event"}{" "}
+          {categoryAttribute ? t('views.products.add.name') : t('views.products.add.event')}{" "}
           <Tooltip  className={styles.tooltip}  title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />
         </div>
         <div className={styles.list}>

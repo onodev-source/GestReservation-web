@@ -7,9 +7,11 @@ import Icon from "../../Icon";
 import Modal from "../../Modal";
 import Logout from "../../../screens/Logout";
 import { Routes } from "../../../Constants";
+import { useTranslation } from "react-i18next";
 
 
 const User = ({ className }) => {
+  const {t} = useTranslation()
   const [visible, setVisible] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -17,15 +19,15 @@ const User = ({ className }) => {
     {
       menu: [
         {
-          title: "Profile",
+          title: t('navigation.my_profile'),
           url: Routes.MY_PROFILE,
         },
         {
-          title: "Edit profile",
+          title: t('navigation.edit_profile'),
           url: Routes.SETTINGS,
         },
         {
-          title: "Delete profile",
+          title: t("words.delete_account"),
           action: () => setVisible(false)
         },
       ],
@@ -62,11 +64,11 @@ const User = ({ className }) => {
     {
       menu: [
         {
-          title: "Account settings",
+          title: t('navigation.settings_account'),
           url: Routes.SETTINGS,
         },
         {
-          title: "Log out",
+          title: t('navigation.log_out'),
           action: () => setVisibleModal(true)
         },
       ],

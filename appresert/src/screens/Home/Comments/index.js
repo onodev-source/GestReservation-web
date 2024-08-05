@@ -6,6 +6,7 @@ import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import Favorite from "../../../components/Favorite";
 import { Routes } from "../../../Constants";
+import { useTranslation } from "react-i18next";
 
 const comments = [
   {
@@ -35,8 +36,9 @@ const comments = [
 ];
 
 const Comments = ({ className }) => {
+  const {t} = useTranslation()
   return (
-    <Card className={cn(styles.card, className)} title="Comments" classTitle="title-yellow">
+    <Card className={cn(styles.card, className)} title={t("views.home.comments")} classTitle="title-yellow">
       <div className={styles.comments}>
         <div className={styles.list}>
           {comments.map((x, index) => (
@@ -74,7 +76,7 @@ const Comments = ({ className }) => {
           ))}
         </div>
         <Link className={cn("button-stroke", styles.button)} to={Routes.COMMENTS} >
-          View all
+          {t('views.home.view_all')}
         </Link>
       </div>
     </Card>

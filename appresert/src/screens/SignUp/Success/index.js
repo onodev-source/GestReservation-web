@@ -4,13 +4,15 @@ import styles from "./Code.module.sass";
 import Loader from "../../../components/Loader";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
+import { useTranslation } from "react-i18next";
 
 const Success = () => {
+  const {t} = useTranslation()
+
   return (
     <div className={styles.code}>
       <div className={styles.body}>
-        <div className={styles.info}> 
-          Your account has been successfully created. Click on the button below to connect to your space
+        <div className={styles.info}> {t('sign.account_created_successfully')}
         </div>
         {/*<div className={styles.fieldset}>
           <div className={styles.field}>
@@ -47,11 +49,9 @@ const Success = () => {
         </div>*/}
         <Link className={cn("button", styles.button)} to={Routes.SIGN_IN}>
           <Loader className={styles.loader} white />
-          <span>Sign in</span>
+          <span>{t('sign.sign_in')}</span>
         </Link>
-        <div className={styles.note}>
-          This site is protected by reCAPTCHA and the Google Privacy Policy.
-        </div>
+        <div className={styles.note}>{t('sign.protected_to_recaptcha')}</div>
       </div>
     </div>
   );

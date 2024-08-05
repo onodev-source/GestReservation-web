@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ProductViews.module.sass";
 import Card from "../../../components/Card";
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useTranslation } from "react-i18next";
 
 const data = [
   {
@@ -35,8 +36,10 @@ const data = [
 ];
 
 const ProductViews = () => {
+  const {t} = useTranslation()
+
   return (
-    <Card className={styles.card} title="Product views" classTitle="title-blue">
+    <Card className={styles.card} title={t('views.products.product_view')} classTitle="title-blue">
       <div className={styles.chart}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart

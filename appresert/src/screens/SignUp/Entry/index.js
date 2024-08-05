@@ -3,12 +3,15 @@ import cn from "classnames";
 import styles from "./Entry.module.sass";
 import TextInput from "../../../components/TextInput";
 import Image from "../../../components/Image";
+import { useTranslation } from "react-i18next";
 
 const Entry = ({ onConfirm }) => {
+  const {t} = useTranslation()
+   
   return (
     <div className={styles.entry}>
       <div className={styles.head}>
-        <div className={styles.info}>Sign up with Open account</div>
+        <div className={styles.info}>{t('sign.signup_with_open_account')}</div>
         <div className={styles.btns}>
           <button className={cn("button-stroke", styles.button)}>
             <img src="/images/content/google.svg" alt="Google" />
@@ -26,16 +29,16 @@ const Entry = ({ onConfirm }) => {
         </div>
       </div>
       <div className={styles.body}>
-        <div className={styles.info}>Or continue with email address</div>
-        <TextInput className={styles.field} name="name"  type="text" placeholder="Your name" required />
-        <TextInput  className={styles.field}  name="tel"  type="tel" placeholder="Your phone number" required  icon="phone" />
-        <TextInput className={styles.field}  name="email" type="email" placeholder="Your email" required  icon="mail"/>
-        <TextInput className={styles.field} name="password" type="password"  placeholder="Password" required icon="lock" />
+        <div className={styles.info}>{t('sign.continue_with_email')}</div>
+        <TextInput className={styles.field} name="name"  type="text" placeholder={t('sign.name')} required />
+        <TextInput  className={styles.field}  name="tel"  type="tel" placeholder={t('sign.phone_number')} required  icon="phone" />
+        <TextInput className={styles.field}  name="email" type="email" placeholder={t('sign.email')} required  icon="mail"/>
+        <TextInput className={styles.field} name="password" type="password"  placeholder={t('sign.password')} required icon="lock" />
         <button className={cn("button", styles.button)} onClick={onConfirm}>
-          Continue
+          {t('sign.continue')}
         </button>
         <div className={styles.note}>
-          This site is protected by reCAPTCHA and the Google Privacy Policy.
+          {t('sign.protected_to_recaptcha')}
         </div>
       </div>
     </div>

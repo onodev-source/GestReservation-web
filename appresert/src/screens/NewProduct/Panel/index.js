@@ -3,8 +3,10 @@ import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
+import { useTranslation } from "react-i18next";
 
 const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
+  const {t} = useTranslation()
   const actions = [
     {
       title: "Preview",
@@ -32,13 +34,13 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
         <Icon name="check-all" size="24" />
-        Last saved <span>Oct 4, 2021 - 23:32</span>
+        {t('words.last_saved')} <span>Oct 4, 2021 - 23:32</span>
       </div>
       <div className={styles.btns}>
         <button className={cn("button-stroke", styles.button)}>
-          Cancel
+          {t('words.cancel')}
         </button>
-        <button className={cn("button", styles.button)}>Save change</button>
+        <button className={cn("button", styles.button)}>{t('words.save_change')}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

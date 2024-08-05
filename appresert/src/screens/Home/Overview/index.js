@@ -13,6 +13,7 @@ import Icon from "../../../components/Icon";
 // data
 import { products } from "../../../mocks/products";
 import { User } from "../../../Constants";
+import { useTranslation } from "react-i18next";
 
 const intervals = ["All time", "In a year", "Per month"];
 
@@ -50,19 +51,20 @@ const settings = {
 
 const Overview = ({ className }) => {
     const darkMode = useDarkMode(false);
+    const {t} = useTranslation()
     const [sorting, setSorting] = useState(intervals[0]);
     const [activeIndex, setActiveIndex] = useState(0);
-
+   
     const nav = [
         {
-            title: User.typeUser ===User.admin ? "Customers" : "Orders number",
+            title: User.typeUser ===User.admin ? t("navigation.customers") : t("views.home.order_number"),
             counter: "1024",
             icon: User.typeUser ===User.admin ? "profile-circle" : "basket",
             color: "#F2D45F",
             value: -37.8,
         },
         {
-            title: User.typeUser === User.admin ? "Income" : "Reservations number",
+            title: User.typeUser === User.admin ? t("navigation.income") : t("views.home.reservations_number"),
             counter: "256k",
             icon: User.typeUser ===User.admin ? "activity" : "store",
             color: darkMode.value ? "#33383F" : "#9A9FA5",
@@ -71,7 +73,7 @@ const Overview = ({ className }) => {
     ];
 
     return (
-        <Card className={cn(styles.card, className)} title="Overview"  classTitle="title-red"
+        <Card className={cn(styles.card, className)} title={t("views.home.overview")}  classTitle="title-red"
             head={
                 <Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead}  value={sorting} setValue={setSorting} options={intervals}  small/>
             }

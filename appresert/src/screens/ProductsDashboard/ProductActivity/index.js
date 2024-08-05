@@ -4,6 +4,7 @@ import cn from "classnames";
 import Card from "../../../components/Card";
 import Dropdown from "../../../components/Dropdown";
 import Item from "./Item";
+import { useTranslation } from "react-i18next";
 
 const items = [
   {
@@ -55,12 +56,14 @@ const items = [
 ];
 
 const ProductActivity = () => {
+  const {t} = useTranslation()
   const intervals = ["Last 2 weeks", "Last 7 days"];
 
   const [activeTab, setActiveTab] = useState(intervals[0]);
 
+
   return (
-    <Card className={styles.card} title="Most ordered products" classTitle="title-green"
+    <Card className={styles.card} title={t('views.products.most_order_product')} classTitle="title-green"
       head={
         <Dropdown  className={cn(styles.dropdown, "mobile-hide")} classDropdownHead={styles.dropdownHead} value={activeTab}  setValue={setActiveTab} options={intervals} small  />
       }

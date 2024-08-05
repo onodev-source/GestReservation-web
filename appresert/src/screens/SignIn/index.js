@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Image from "../../components/Image";
 import Entry from "./Entry";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 const items = [
   "Unlimited product uploads",
   "Pro tips",
@@ -13,6 +14,7 @@ const items = [
   "Full author options",
 ];
 const SignIn = () => {
+  const {t} = useTranslation()
   const heightWindow = use100vh();
 
   return (
@@ -22,7 +24,7 @@ const SignIn = () => {
           <div className={styles.preview}>
             <img src="/images/content/login-pic.png" alt="Login" />
           </div>
-          <div className={cn("h4", styles.subtitle)}>Plan includes</div>
+          <div className={cn("h4", styles.subtitle)}>{t('sign.plan_include')}</div>
           <ul className={styles.list}>
             {items.map((x, index) => (
               <li key={index}>{x}</li>
@@ -41,14 +43,14 @@ const SignIn = () => {
             />
           </Link>
           <div className={styles.info}>
-            Don't have an account?{" "}
+            {t('sign.not_have_account')}{" "}
             <Link className={styles.link} to={Routes.SIGN_UP}>
-              Sign up
+              {t('sign.sign_up')}
             </Link>
           </div>
         </div>
         <div className={styles.wrapper}>
-          <div className={cn("h2", styles.title)}>Sign in</div>
+          <div className={cn("h2", styles.title)}>{t('sign.sign_in')}</div>
           <Entry />
         </div>
       </div>

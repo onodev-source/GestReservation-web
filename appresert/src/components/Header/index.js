@@ -7,8 +7,10 @@ import Notification from "./Notification";
 import User from "./User";
 import { Link } from "react-router-dom";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 
 const Header = ({ onOpen }) => {
+  const {t} = useTranslation()
   const [visible, setVisible] = useState(false);
   const handleClick = () => {
     onOpen();
@@ -26,7 +28,7 @@ const Header = ({ onOpen }) => {
       </button>*/}
       <div className={styles.control} onClick={() => setVisible(false)}>
         {/*<Messages className={styles.messages} />*/}
-        <Link className={styles.link} to={Routes.PUBLICITY} title="Advertising"> 
+        <Link className={styles.link} to={Routes.PUBLICITY} title={t('navigation.publicity')}> 
           <Icon name={'promotion'} size="24" />
         </Link>
         <Notification className={styles.notification} />

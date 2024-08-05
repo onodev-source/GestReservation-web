@@ -14,6 +14,7 @@ import { market } from "../../../mocks/market";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
 import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useTranslation } from "react-i18next";
 
 const indicatorsTraffic = [
   {
@@ -50,6 +51,7 @@ const indicatorsViewers = [
 ];
 
 const Products = () => {
+  const {t} = useTranslation()
   const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
 
   const [activeTab, setActiveTab] = useState(navDropdown[0]);
@@ -60,7 +62,7 @@ const Products = () => {
     alert();
   };
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
 
     const getAllProduct =  async() => {
         let res = await RequestDashboard('admin/gestreserv/product/', 'GET', '');
@@ -69,14 +71,14 @@ const Products = () => {
         }
     };
     getAllProduct()
-  }, [])
+  }, [])*/
 
 
   return (
-    <Card className={styles.card}  title="Products" classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
+    <Card className={styles.card}  title={t('views.products.products')} classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
       head={
         <>
-          <Form className={styles.form}  value={search}  setValue={setSearch} onSubmit={() => handleSubmit()} placeholder="Search product" type="text"  name="search" icon="search"/>
+          <Form className={styles.form}  value={search}  setValue={setSearch} onSubmit={() => handleSubmit()} placeholder={t('views.products.search_product')} type="text"  name="search" icon="search"/>
           <div className={styles.control}>
             <button className={cn("button-stroke button-small", styles.button)}>
               Deleted
@@ -95,7 +97,7 @@ const Products = () => {
               <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
             
               <Link className={cn("button button-small", styles.button)} to={Routes.PRODUITS_ADD} >
-                Add product
+                {t('views.products.add_product')}
               </Link>
             </div>
         </>

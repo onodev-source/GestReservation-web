@@ -4,6 +4,7 @@ import styles from "./ProTips.module.sass";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import ModalPreview from "../../../components/ModalPreview";
+import { useTranslation } from "react-i18next";
 
 const tips = [
   {
@@ -53,11 +54,12 @@ const tips = [
 ];
 
 const ProTips = ({ className }) => {
+  const {t} = useTranslation()
   const [visibleModalPreview, setVisibleModalPreview] = useState(false);
 
   return (
     <>
-      <Card className={cn(styles.card, className)} title="Lasts reservations" classTitle="title-green">
+      <Card className={cn(styles.card, className)} title={t("views.home.last_reservations")} classTitle="title-green">
         <div className={styles.tips}>
           <div className={styles.info}>
             Need some ideas for the next product?

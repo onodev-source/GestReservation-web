@@ -13,48 +13,52 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import useDarkMode from "@fisch0920/use-dark-mode";
+import { useTranslation } from "react-i18next";
 
 const intervals = ["Last 7 days", "This month", "All time"];
 
-const data = [
-  {
-    name: "April 22",
-    order: 27,
-  },
-  {
-    name: "May 23",
-    order: 22,
-  },
-  {
-    name: "Jun 24",
-    order: 32,
-  },
-  {
-    name: "Jul 25",
-    order: 18,
-  },
-  {
-    name: "Aug 26",
-    order: 27,
-  },
-  {
-    name: " Sep 27",
-    order: 15,
-  },
-  {
-    name: "Oct 28",
-    order: 21,
-  },
-];
 
 const ProductViews = ({ className }) => {
   const darkMode = useDarkMode(false);
+  const {t} = useTranslation()
   const [sorting, setSorting] = useState(intervals[0]);
 
+  const orderKey = t("views.home.order");
+
+  const data = [
+    {
+      name: "April 22",
+      [orderKey]: 27,
+    },
+    {
+      name: "May 23",
+      [orderKey]: 22,
+    },
+    {
+      name: "Jun 24",
+      [orderKey]: 32,
+    },
+    {
+      name: "Jul 25",
+      [orderKey]: 18,
+    },
+    {
+      name: "Aug 26",
+      [orderKey]: 27,
+    },
+    {
+      name: "Sep 27",
+      [orderKey]: 15,
+    },
+    {
+      name: "Oct 28",
+      [orderKey]: 21,
+    },
+  ];
   return (
     <Card
       className={cn(styles.card, className)}
-      title="Orders"
+      title={t('views.home.orders')}
       classTitle="title-purple"
       head={
         <Dropdown
@@ -117,7 +121,7 @@ const ProductViews = ({ className }) => {
               }}
               cursor={{ fill: "#f3f2f3" }}
             />
-            <Bar dataKey="order" fill="#F0C830" />
+            <Bar dataKey={orderKey} fill="#F0C830" />
           </BarChart>
         </ResponsiveContainer>
       </div>
