@@ -55,7 +55,7 @@ const Products = ({product}) => {
       <div className={cn("slider-container", styles.wrapper)}>
         <Slider className={cn("products-slider", {"products-sliderSpacing" : !product})} {...settings}>
           {products.map((x, index) => (
-            <Product className={styles.product}  item={x}  key={index} withoutСheckbox />
+            <Product className={styles.product}  item={x}  key={index} withoutСheckbox product={product}/>
           ))}
         </Slider>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Overview.module.sass";
 import Icon from "../../../../Icon";
-import ModalPreview from "../../../../ModalPreview";
+//import ModalPreview from "../../../../ModalPreview";
 
 const gallery = [
   {
@@ -23,7 +23,7 @@ const features = [
 ];
 
 const Overview = ({product}) => {
-  const [visibleModalPreview, setVisibleModalPreview] = useState(false);
+  //const [visibleModalPreview, setVisibleModalPreview] = useState(false);
 
   return (
     <>
@@ -56,9 +56,9 @@ const Overview = ({product}) => {
                 </div>
               )
           )}
-          <button className={cn("button-white", styles.button)} onClick={() => setVisibleModalPreview(true)} >
-            Show all preview
-          </button>
+          {/*<button className={cn("button-white", styles.button)} onClick={() => setVisibleModalPreview(true)} >
+            Show 0    preview
+          </button>*/}
         </div>
         <div className={styles.row}>
           <div className={styles.col}>
@@ -93,7 +93,7 @@ const Overview = ({product}) => {
           </div>
         </div>
       </div>
-      <ModalPreview visible={visibleModalPreview} product={product} onClose={() => setVisibleModalPreview(false)} gallery={gallery}  title={product ? "Fleet - Travel shopping UI design kit" : "Products included in the offer "} figcaption="Elegant product mockup for your next project" download />
+      {/*<ModalPreview visible={visibleModalPreview} product={product} onClose={() => setVisibleModalPreview(false)} gallery={gallery}  title={product ? "Fleet - Travel shopping UI design kit" : "Products included in the offer "} figcaption="Elegant product mockup for your next project" download />*/}
     </>
   );
 };

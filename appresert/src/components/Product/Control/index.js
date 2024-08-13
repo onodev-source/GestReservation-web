@@ -25,7 +25,7 @@ const Control = ({ className }) => {
   ];
 
   return (
-    <>
+    <>   
       <div className={cn(styles.control, className)}>
         {actions.map((x, index) => (
           x.url ? (

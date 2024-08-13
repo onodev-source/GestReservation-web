@@ -64,7 +64,7 @@ const Released = () => {
             <>
               <div className={styles.list}>
                 {products.map((x, index) => (
-                  <Product  className={styles.product} value={selectedFilters.includes(x.id)}  onChange={() => handleChange(x.id)} item={x}  key={index}/>
+                  <Product  className={styles.product} value={selectedFilters.includes(x.id)}  onChange={() => handleChange(x.id)} item={x}  key={index} modalDetail={true} isPreviewHidden = {true}/>
                 ))}
               </div>
               <div className={styles.foot}>
