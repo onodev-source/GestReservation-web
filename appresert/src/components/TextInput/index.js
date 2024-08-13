@@ -4,7 +4,7 @@ import styles from "./TextInput.module.sass";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
-const TextInput = ({ className, classLabel, classInput, label, icon, type, copy, currency, tooltip, place, ...props}) => {
+const TextInput = ({ className, classLabel, classInput, label, icon, type, copy, currency, tooltip, place, onChange, ...props}) => {
   const [visiblePass, setVisiblePass] = useState(false)
 
   //fonction permettant de rendre visible ou pas le contenu  de l'input de type password
@@ -24,9 +24,9 @@ const TextInput = ({ className, classLabel, classInput, label, icon, type, copy,
       )}
       <div className={styles.wrap}>
         {type === "password" ?
-          <input className={cn(classInput, styles.input)} {...props} type={visiblePass ? "text" : "password"}/> 
+          <input onChange={onChange} className={cn(classInput, styles.input)} {...props} type={visiblePass ? "text" : "password"}/> 
           :
-          <input className={cn(classInput, styles.input)} {...props} />
+          <input onChange={onChange} className={cn(classInput, styles.input)} {...props} />
         }
         {icon && (
           <div className={styles.icon}>

@@ -12,9 +12,12 @@ import Help from "./Help";
 import Item from "./Item";
 import Language from "./Language";
 import { useTranslation } from "react-i18next";
+import RequestDashboard from "../../Services/Api/ApiServices";
+import { useSelector } from "react-redux";
 
 const Settings = () => {
   const {t} = useTranslation()
+  const users = useSelector((state) => state.users);
   
   const navigation = [
     /*{
@@ -53,12 +56,81 @@ const Settings = () => {
 
   const [activeTab, setActiveTab] = useState(options[0]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loader, setLoader] = useState(false)
+  const [errorSubmit, setErrorSubmit] = useState('')
+  const [form, setForm] = useState({
+    tel: '',
+    email: '',
+    password: '',
+    sexe: '',
+    location: ''
+  })
   //const scrollToProfile = useRef(null);
   //const scrollToLogin = useRef(null);
 
   const handleClick = (x, index) => {
     setActiveIndex(index);
     //x.action();
+  };
+  
+  const textInputChange = (input) => {
+    const target = input.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    switch (name) {
+        case 'display-name':
+          setForm({ ...form, name: value });
+            break;
+        case 'tel':
+          setForm({ ...form, tel: value });
+            break;
+        case 'location':
+          setForm({ ...form, location: value });
+            break;
+        case 'sexe':
+          setForm({ ...form, sexe: value });
+            break;
+        case 'email':
+          setForm({ ...form, email: value });
+            break;
+        case 'password':
+          setForm({ ...form, password: value });
+            break;
+        default:
+            break;
+    }
+  }
+  
+  const updateAccount =  async() => {
+    setLoader(true)
+    const data = {
+      //first_name: form.name,
+      phone_number: form.tel,
+      gender: form.sexe,
+      email: form.email,
+      password: form.password,
+      country: form.location,
+      city: form.location
+    }
+    let res = await RequestDashboard('accounts/auth/users/me/', 'POST', data, users.access_token);
+    
+    if (res.status === 201) {
+      //setProduct(res.data);
+      setLoader(false)
+    }
+    else if (res.status === 400) { 
+      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+      setErrorSubmit("Incorrect Email or Password"); 
+    }
+    else if (res.status === 401) { 
+      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+      setErrorSubmit( "Your email address has not been verified "); 
+    }
+    else { 
+      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+      setErrorSubmit("An error has occurred please try again"); 
+    }
   };
 
   return (
@@ -84,7 +156,7 @@ const Settings = () => {
               <>
                 <div  className={cn(styles.item, {  [styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
-                  <ProfileInformation />
+                  <ProfileInformation onChange={textInputChange}/>
                 </div>
                 <div  className={cn(styles.item, {[styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
@@ -121,7 +193,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {activeIndex !== 4 && <button className={cn("button", styles.button, styles.buttonStyle)}>Save change</button>}
+          {activeIndex !== 4 && <button onClick={updateAccount} className={cn("button", styles.button, styles.buttonStyle)}>Save change</button>}
         </div>
       </div>
       <TooltipGlodal />

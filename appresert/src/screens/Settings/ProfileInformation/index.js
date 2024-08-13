@@ -6,7 +6,7 @@ import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
 import Editor from "../../../components/Editor";
 
-const ProfileInformation = ({ className }) => {
+const ProfileInformation = ({ className, onChange }) => {
   const [content, setContent] = useState();
 
   return (
@@ -29,6 +29,7 @@ const ProfileInformation = ({ className }) => {
       </div>
       <div className={styles.fieldset}>
         <TextInput
+          onChange={onChange}
           className={styles.field}
           label="Display name"
           name="display-name"
@@ -37,6 +38,7 @@ const ProfileInformation = ({ className }) => {
           required
         />
         <TextInput
+          onChange={onChange}
           className={styles.field}
           label="Email"
           name="email"
@@ -45,6 +47,7 @@ const ProfileInformation = ({ className }) => {
           required
         />
         <TextInput
+          onChange={onChange}
           className={styles.field}
           label="Location"
           name="location"
