@@ -4,6 +4,7 @@ import styles from "./Users.module.sass";
 import { Link } from "react-router-dom";
 import { Routes } from "../../Constants";
 import { useTranslation } from "react-i18next";
+import Avatar from "../Avatar"
 
 const users = [
   {
@@ -47,9 +48,7 @@ const Users = ({ className, customerList, item }) => {
       <div className={styles.list}>
         {users.map((x, index) => (
           <Link className={styles.item} key={index} to={Routes.MY_PROFILE}>
-            <div className={styles.avatar}>
-              <img src={x.avatar} alt="Avatar" />
-            </div>
+            <Avatar user={{username: x.title, photo: x.avatar}} width='64px' height='64px' classname={styles.avatar}/>
             <div className={styles.title}>{x.title}</div>
           </Link>
         ))}

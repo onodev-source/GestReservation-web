@@ -5,6 +5,7 @@ import Item from "../Item";
 import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
 import Editor from "../../../components/Editor";
+import Avatar from "../../../components/Avatar";
 
 const ProfileInformation = ({ className, onChange }) => {
   const [content, setContent] = useState();
@@ -12,12 +13,11 @@ const ProfileInformation = ({ className, onChange }) => {
   return (
     <Item className={cn(styles.card, className)}  title="Profile information" classTitle="title-green" >
       <div className={styles.profile}>
-        <div className={styles.avatar}>
-          <img src="/images/content/avatar.jpg" alt="Avatar" />
+        <Avatar user={{username: 'pouako', photo: "/images/content/avatar.jpg"}} classname={styles.avatar}  width='96px'  height='96px'>
           <button className={styles.remove}>
             <Icon name="close" />
           </button>
-        </div>
+        </Avatar>
         <div className={styles.file}>
           <input type="file" />
           <button className={cn("button", styles.button)} type="button">

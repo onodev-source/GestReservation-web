@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Item.module.sass";
 import Control from "./Control";
+import Avatar from "../../../../components/Avatar";
 
 const Item = ({ className, item }) => {
   const [visible, setVisible] = useState(false);
@@ -9,12 +10,11 @@ const Item = ({ className, item }) => {
 
   return (
     <div className={cn(styles.item, { [styles.new]: item.new }, className)}>
-      <div className={styles.avatar}>
-        <img src={item.avatar} alt="Avatar" />
+      <Avatar user={{username: item.title, photo: item.avatar}} classname={styles.avatar}  width='64px'  height='64px'>
         <div className={styles.icon} style={{ backgroundColor: item.color }}>
           <img src={item.icon} alt="Status" />
         </div>
-      </div>
+      </Avatar>
       <div className={styles.details}>
         <div className={styles.line}>
           <div className={styles.subtitle}>{item.title}</div>

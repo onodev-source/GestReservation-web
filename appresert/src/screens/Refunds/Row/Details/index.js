@@ -5,6 +5,7 @@ import Product from "./Product";
 import Parameter from "./Parameter";
 import TooltipGlodal from "../../../../components/TooltipGlodal";
 import Editor from "../../../../components/Editor";
+import Avatar from "../../../../components/Avatar";
 import Icon from "../../../../components/Icon";
 
 const suggestions = [
@@ -22,7 +23,7 @@ const Details = ({ item, customersDetails, onClose }) => {
         <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Income details"}</div>
         <div className={styles.row}>
           <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
-            <Product className={styles.product} item={item} />
+            <Product className={styles.product} item={item} customersDetails={customersDetails}/>
             <div className={styles.parameters}>
               {item.parameters.map((x, index) => (
                 <Parameter item={x} key={index} />
@@ -59,9 +60,7 @@ const Details = ({ item, customersDetails, onClose }) => {
                 <div className={styles.box}>
                   <div className={styles.info}>Client</div>
                   <div className={styles.user}>
-                    <div className={styles.avatar}>
-                      <img src={item.avatar} alt="Avatar" />
-                    </div>
+                    <Avatar user={{username: item.man, photo: item.avatar}} classname={styles.avatar}  width='32px'  height='32px'/>
                     {item.man}
                   </div>
                   <div className={styles.text}>

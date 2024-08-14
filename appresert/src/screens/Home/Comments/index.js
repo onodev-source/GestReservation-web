@@ -5,6 +5,7 @@ import styles from "./Comments.module.sass";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import Favorite from "../../../components/Favorite";
+import Avatar from "../../../components/Avatar"
 import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 
@@ -43,9 +44,7 @@ const Comments = ({ className }) => {
         <div className={styles.list}>
           {comments.map((x, index) => (
             <div className={styles.item} key={index}>
-              <div className={styles.avatar}>
-                <img src={x.avatar} alt="Avatar" />
-              </div>
+              <Avatar user={{username: x.title, photo: x.avatar}} classname={styles.avatar}/>
               <div className={styles.details}>
                 <div className={styles.line}>
                   <div className={styles.user}>

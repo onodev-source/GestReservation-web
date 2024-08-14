@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import cn from "classnames";
+import InnerImageZoom from 'react-inner-image-zoom';
 import styles from "./Overview.module.sass";
 import Icon from "../../../../Icon";
+import Avatar from "../../../../Avatar";
 //import ModalPreview from "../../../../ModalPreview";
 
 const gallery = [
@@ -36,10 +38,8 @@ const Overview = ({product}) => {
         </div>
         <div className={styles.line}>
           <div className={styles.author}>
-            <div className={styles.avatar}>
-              <img src="/images/content/avatar.jpg" alt="Avatar" />
-            </div>
-            by <span>Chelsie Haley</span>
+            <Avatar user={{username: 'Chelsie Haley', photo: "/images/content/avatar.jpg"}} classname={styles.avatar} width='32px'  height='32px'/>
+            by <span className={styles.span}>Chelsie Haley</span>
           </div>
           <div className={styles.rating}>
             <Icon name="star-fill" size="24" />
@@ -52,7 +52,7 @@ const Overview = ({product}) => {
             (x, index) =>
               index < 1 && (
                 <div className={styles.preview} key={index}>
-                  <img src={x.img} alt="Product" />
+                  <InnerImageZoom className={styles.innerImage} src={x.img} zoomSrc={x.img2x} zoomType="hover" zoomScale={2}/>
                 </div>
               )
           )}

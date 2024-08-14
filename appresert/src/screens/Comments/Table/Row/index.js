@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Row.module.sass";
 import cn from "classnames";
 import Checkbox from "../../../../components/Checkbox";
+import Avatar from "../../../../components/Avatar";
 import Control from "./Control";
 
 const Row = ({ item, value, onChange }) => {
@@ -16,9 +17,7 @@ const Row = ({ item, value, onChange }) => {
       </div>
       <div className={styles.col}>
         <div className={styles.box}>
-          <div className={styles.avatar}>
-            <img src={item.avatar} alt="Avatar" />
-          </div>
+          <Avatar user={{username: item.author, photo: item.avatar}} classname={styles.avatar}/>
           <div className={styles.details}>
             <div className={styles.line}>
               <div className={styles.author}>{item.author}</div>

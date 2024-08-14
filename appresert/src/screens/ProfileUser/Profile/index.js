@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import styles from "./Profile.module.sass";
+import Avatar from "../../../components/Avatar";
 //import Icon from "../../../components/Icon";
 
 /*const socials = [
@@ -22,12 +23,11 @@ const Profile = () => {
   return (
     <div className={styles.profile}>
       <div className={styles.details}>
-        <div className={styles.avatar}>
-          <img src="/images/content/avatar.jpg" alt="Avatar" />
+        <Avatar user={{username: 'pouako', photo: "/images/content/avatar.jpg"}} width='80px' height='80px' classname={styles.avatar}>
           <button className={styles.add}>
             {/*<Icon name="add" />*/}
           </button>
-        </div>
+        </Avatar>
         <div className={styles.wrap}>
           <div className={cn("h4", styles.man)}>Chelsie Haley</div>
           <div className={styles.info}>

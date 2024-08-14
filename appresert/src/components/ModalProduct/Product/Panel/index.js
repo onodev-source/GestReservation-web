@@ -3,6 +3,7 @@ import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../Icon";
 import Modal from "../../../Modal";
+import Avatar from "../../../Avatar";
 import Share from "./Share";
 
 const Panel = ({ className, product }) => {
@@ -11,9 +12,7 @@ const Panel = ({ className, product }) => {
   return (
     <>
       <div className={cn(styles.panel, className)}>
-        <div className={styles.avatar}>
-          <img src="/images/content/avatar.jpg" alt="Avatar" />
-        </div>
+        <Avatar user={{username: 'pouako', photo: "/images/content/avatar.jpg"}} classname={styles.avatar} width='64px'  height='64px'/>
         {/*<div className={styles.brand}>
           <img src="/images/content/figma.png" alt="Figma" />
           <div className={styles.counter}>3</div>

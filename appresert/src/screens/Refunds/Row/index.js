@@ -3,6 +3,7 @@ import styles from "./Row.module.sass";
 import Modal from "../../../components/Modal";
 import Details from "./Details";
 import Actions from "../../../components/Actions";
+import Avatar from "../../../components/Avatar";
 
 
 const Row = ({ item }) => {
@@ -54,9 +55,7 @@ const Row = ({ item }) => {
         <div className={styles.col}>{item.date}</div>
         <div className={styles.col}>
           <div className={styles.user}>
-            <div className={styles.avatar}>
-              <img src={item.avatar} alt="Avatar" />
-            </div>
+            <Avatar user={{username: item.man, photo: item.avatar}} classname={styles.avatar}  width='32px'  height='32px'/>
             {item.man}
           </div>
         </div>

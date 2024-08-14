@@ -5,6 +5,7 @@ import Checkbox from "../../../../components/Checkbox";
 import Balance from "../../../../components/Balance";
 import Control from "../../../../components/Table/Row/Control"
 import Modal from "../../../../components/Modal";
+import Avatar from "../../../../components/Avatar";
 import Details from "../../../Refunds/Row/Details";
 
 import Refunds from "../../../Refunds";
@@ -107,9 +108,7 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.item} onClick={() => handleClick(item.id)}>
-            <div className={styles.avatar}>
-              <img src={item.avatar} alt="Avatar" />
-            </div>
+            <Avatar user={{username: item.user, photo: item.avatar}} classname={styles.avatar}/>
             <div className={styles.details}>
               <div className={styles.user}>{item.user}</div>
               <div className={styles.login}>{item.login}</div>

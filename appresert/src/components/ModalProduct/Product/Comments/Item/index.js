@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Item.module.sass";
 import Icon from "../../../../Icon";
+import Avatar from "../../../../Avatar";
 import Control from "./Control";
 
 const Item = ({ className, item }) => {
@@ -11,9 +12,7 @@ const Item = ({ className, item }) => {
   return (
     <>
       <div className={cn(styles.item, className)}>
-        <div className={styles.avatar}>
-          <img src={item.avatar} alt="Avatar" />
-        </div>
+        <Avatar user={{username: item.author, photo: item.avatar}} classname={styles.avatar} />
         <div className={styles.details}>
           <div className={styles.line}>
             <div className={styles.author}>{item.author}</div>
@@ -32,9 +31,7 @@ const Item = ({ className, item }) => {
         <div className={styles.list}>
           {item.answer.map((x, index) => (
             <div className={styles.answer} key={index}>
-              <div className={styles.avatar}>
-                <img src={x.avatar} alt="Avatar" />
-              </div>
+              <Avatar user={{username: x.author, photo: x.avatar}} classname={styles.avatar} width='32px'  height='32px'/>
               <div className={styles.details}>
                 <div className={styles.line}>
                   <div className={styles.author}>{x.author}</div>

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./NewPost.module.sass";
 import cn from "classnames";
 import Icon from "../../../../components/Icon";
+import Avatar from "../../../../components/Avatar";
 
 const items = [
   {
@@ -23,12 +24,11 @@ const NewPost = ({updatePost}) => {
       <div className={styles.list}>
         {items.map((x, index) => (
           <div className={styles.group} key={index}>
-            <div className={styles.avatar}>
-              <img src={x.avatar} alt="Avatar" />
+            <Avatar user={{username: 'pouako', photo: x.avatar}} classname={styles.avatar}>
               <div className={styles.social}>
                 {/*<Icon name={x.icon} size="12" />*/}
               </div>
-            </div>
+            </Avatar>
             <div className={styles.profile}>
               <span>Username</span>
               <span>@username</span>

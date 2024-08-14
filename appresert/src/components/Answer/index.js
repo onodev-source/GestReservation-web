@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import styles from "./Answer.module.sass";
+import Avatar from "../Avatar"
 
 const Answer = ({
   className,
@@ -20,9 +21,7 @@ const Answer = ({
 
   return (
     <div className={cn(styles.answer, className)}>
-      <div className={styles.avatar}>
-        <img src={avatar} alt="Avatar" />
-      </div>
+      <Avatar user={{username: 'pouako', photo: avatar}} classname={styles.avatar} width='40px'  height='40px'/>
       <div className={styles.details}>
         <div className={styles.message}>
           <textarea  ref={textareaRef}  {...etc} value={currentValue} placeholder="Leave something to reply" onChange={(e) => {  setCurrentValue(e.target.value); }} />

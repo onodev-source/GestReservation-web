@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import cn from "classnames";
 import styles from "./Item.module.sass";
+import Avatar from "../../../Avatar";
 
 const Item = ({ className, item, onClose }) => {
   return (
@@ -10,12 +11,11 @@ const Item = ({ className, item, onClose }) => {
       to={item.url}
       onClick={onClose}
     >
-      <div className={styles.avatar}>
-        <img src={item.avatar} alt="Avatar" />
+      <Avatar user={{username: item.title, photo: item.avatar}} classname={styles.avatar}>
         <div className={styles.icon} style={{ backgroundColor: item.color }}>
           <img src={item.icon} alt="Status" />
         </div>
-      </div>
+      </Avatar>
       <div className={styles.details}>
         <div className={styles.line}>
           <div className={styles.subtitle}>{item.title}</div>

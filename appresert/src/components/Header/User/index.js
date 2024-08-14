@@ -5,6 +5,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./User.module.sass";
 import Icon from "../../Icon";
 import Modal from "../../Modal";
+import Avatar from "../../Avatar"
 import Logout from "../../../screens/Logout";
 import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
@@ -78,9 +79,10 @@ const User = ({ className }) => {
     <>
       <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
         <div className={cn(styles.user, className, { [styles.active]: visible })}>
-          <button className={styles.head} onClick={() => setVisible(!visible)}>
+          {/*<button className={styles.head} onClick={() => setVisible(!visible)}>
             <img src="/images/content/avatar.jpg" alt="Avatar" />
-          </button>
+          </button>*/}
+          <Avatar onClick={() => setVisible(!visible)} user={{username: 'pouako', photo: "/images/content/avatar.jpg"}}/>
           <div className={styles.body}>
             {items.map((item, index) => (
               <div className={styles.menu} key={index}>
