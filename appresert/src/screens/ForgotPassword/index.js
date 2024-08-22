@@ -14,7 +14,7 @@ const items = [
   "Full author options",
 ];
 const ForgotPassword = () => {
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
   const heightWindow = use100vh();
 
   return (

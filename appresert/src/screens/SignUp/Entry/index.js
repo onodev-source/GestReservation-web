@@ -48,6 +48,8 @@ const Entry = ({ onConfirm }) => {
       re_password: form.password
     }
     let res = await RequestDashboard('accounts/auth/users/', 'POST', data);
+    console.log('------------res', res);
+    console.log('------------message', res.response.message);
     
     if (res.status === 201) {
       //setProduct(res.data);
@@ -55,14 +57,17 @@ const Entry = ({ onConfirm }) => {
       setLoader(false)
     }
     else if (res.status === 400) { 
+      setLoader(false)
       setForm({ ...form, email: '', password: '' });
       setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
+      setLoader(false)
       setForm({ ...form, tel: '', email: '', password: '' });
       setErrorSubmit( "Your email address has not been verified "); 
     }
     else { 
+      setLoader(false)
       setForm({ ...form, tel: '', email: '', password: '' });
       setErrorSubmit("An error has occurred please try again"); 
     }

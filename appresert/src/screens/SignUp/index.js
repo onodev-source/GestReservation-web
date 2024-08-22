@@ -23,6 +23,10 @@ const SignUp = () => {
   const [success, setSuccess] = useState(false);
   const heightWindow = use100vh();
 
+  const changeState = () => {
+    setVisible(false)
+    setSuccess(true)
+  }
   return (
     <div className={styles.row}>
       <div className={styles.col}>
@@ -63,11 +67,12 @@ const SignUp = () => {
               <> {t('sign.sign_up')}</>
             )}
           </div>
-          {visible ? 
-            <Entry onConfirm={() => setVisible(false)} />
-            : ( !visible && !success  ?
+          {/*!visible && !success  &&
                 <Code onConfirm={() => setSuccess(true)}/>
-              :
+              :*/}
+          {visible ? 
+            <Entry onConfirm={changeState} />
+            : ( success  &&
                 <Success/>
             )}
         </div>

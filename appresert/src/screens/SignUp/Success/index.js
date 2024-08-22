@@ -12,7 +12,7 @@ const Success = () => {
   return (
     <div className={styles.code}>
       <div className={styles.body}>
-        <div className={styles.info}> {t('sign.account_created_successfully')}
+        <div className={styles.info}> {t('sign.thank_creation')} <br/> {t('sign.send_a_verify_code')}
         </div>
         {/*<div className={styles.fieldset}>
           <div className={styles.field}>

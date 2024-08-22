@@ -14,6 +14,7 @@ import Language from "./Language";
 import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
+import Loader from "../../components/Loader";
 
 const Settings = () => {
   const {t} = useTranslation()
@@ -60,7 +61,7 @@ const Settings = () => {
   const [errorSubmit, setErrorSubmit] = useState('')
   const [form, setForm] = useState({
     tel: '',
-    email: '',
+    email: '',    
     password: '',
     sexe: '',
     location: ''
@@ -106,28 +107,31 @@ const Settings = () => {
     setLoader(true)
     const data = {
       //first_name: form.name,
-      phone_number: form.tel,
-      gender: form.sexe,
+      phone_number: form.tel==='' ? '655889977': form.tel,
+      gender: form.sexe==='' ? 'F': form.sexe,
       email: form.email,
-      password: form.password,
+      password: form.password==='' ? 'Audrey123': form.password,
       country: form.location,
       city: form.location
     }
-    let res = await RequestDashboard('accounts/auth/users/me/', 'POST', data, users.access_token);
+    let res = await RequestDashboard('accounts/auth/users/me/', 'PUT', data, users.access_token);
     
     if (res.status === 201) {
       //setProduct(res.data);
       setLoader(false)
     }
     else if (res.status === 400) { 
+      setLoader(false)
       setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
       setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
+      setLoader(false)
       setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
       setErrorSubmit( "Your email address has not been verified "); 
     }
     else { 
+      setLoader(false)
       setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
       setErrorSubmit("An error has occurred please try again"); 
     }
@@ -193,7 +197,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {activeIndex !== 4 && <button onClick={updateAccount} className={cn("button", styles.button, styles.buttonStyle)}>Save change</button>}
+          {activeIndex !== 4 && <button onClick={updateAccount} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
         </div>
       </div>
       <TooltipGlodal />
