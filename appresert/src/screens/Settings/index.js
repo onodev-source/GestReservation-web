@@ -106,6 +106,7 @@ const Settings = () => {
   const updateAccount =  async() => {
     setLoader(true)
     const data = {
+      //first_name: form.name,
       phone_number: form.tel==='' ? '655889977': form.tel,
       gender: form.sexe==='' ? 'F': form.sexe,
       email: form.email,
