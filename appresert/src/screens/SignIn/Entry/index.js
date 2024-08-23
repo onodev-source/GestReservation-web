@@ -8,7 +8,7 @@ import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/Loader";
 import RequestDashboard from "../../../Services/Api/ApiServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 const Entry = ({ onConfirm }) => {
@@ -16,6 +16,7 @@ const Entry = ({ onConfirm }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const users = useSelector((state) => state.users);
   const [loader, setLoader] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState('')
   const [form, setForm] = useState({
@@ -46,18 +47,25 @@ const Entry = ({ onConfirm }) => {
       password: form.password,
       email: form.email,
     }
-    let res = await RequestDashboard('accounts/auth/token/login/', 'POST', data);
-    console.log('resss',res);
+    let res = await RequestDashboard('accounts/auth/jwt/create/', 'POST', data);
+    //console.log('resss',res);
     
     if (res.status === 200) {
-      let action = {
-          type: "LOGIN",
-          value: {
-              users: res.response.user,
-              access_token: res.response.auth_token
-          },
-      };
-      dispatch(action);
+      //get users me
+      //let response = RequestDashboard('accounts/auth/users/me/', 'GET', '', res.response.access);
+      console.log('token', res.response.access);
+      //console.log('usrs response', response.response);
+      
+      //if (response.status === 200) {
+        let action = {
+            type: "LOGIN",
+            value: {
+                users: res.response.user,
+                access_token: res.response.auth_token
+            },
+        };
+        dispatch(action);
+      //}
       if(location.pathname === '/sign-in'){
         navigate(Routes.HOME);
       } else {
