@@ -47,31 +47,35 @@ const Entry = ({ onConfirm }) => {
       password: form.password,
       email: form.email,
     }
-    let res = await RequestDashboard('accounts/auth/jwt/create/', 'POST', data);
-    //console.log('resss',res);
+    let res = await RequestDashboard('accounts/auth/token/login/', 'POST', data);
     
     if (res.status === 200) {
       //get users me
-      //let response = RequestDashboard('accounts/auth/users/me/', 'GET', '', res.response.access);
-      console.log('token', res.response.access);
-      //console.log('usrs response', response.response);
+      RequestDashboard('accounts/auth/users/me/', 'GET', '', res.response.auth_token).then(response => {
+        
+        // Traitez les données selon vos besoins
+        if (response.status === 200) {
+          let action = {
+              type: "LOGIN",
+              value: {
+                  users: response.response,
+                  access_token: res.response.auth_token
+              },
+          };
+          if(location.pathname === '/sign-in'){
+            navigate(Routes.HOME);
+          } else {
+            navigate(location.pathname)
+          }
+          setLoader(false)
+          dispatch(action);
+        }
+        })
+        .catch(error => {
+          // Gérez les erreurs ici
+          console.error('Une erreur s\'est produite:', error);
+      });
       
-      //if (response.status === 200) {
-        let action = {
-            type: "LOGIN",
-            value: {
-                users: res.response.user,
-                access_token: res.response.auth_token
-            },
-        };
-        dispatch(action);
-      //}
-      if(location.pathname === '/sign-in'){
-        navigate(Routes.HOME);
-      } else {
-        navigate(location.pathname)
-      }
-      setLoader(false)
     }
     else if (res.status === 400) { 
       setLoader(false)
@@ -93,52 +97,52 @@ const Entry = ({ onConfirm }) => {
  
   return (
     <div className={styles.entry}>
-    <div className={styles.head}>
-      <div className={styles.subtitle}>{t('sign.signin_with_open_account')}</div>
-      <div className={styles.btns}>
-        <button className={cn("button-stroke", styles.button)}>
-          <img src="/images/content/google.svg" alt="Google" />
-          Google
-        </button>
-        <button className={cn("button-stroke", styles.button)}>
-          <Image
-            className={styles.pic}
-            src="/images/content/apple-dark.svg"
-            srcDark="/images/content/apple-light.svg"
-            alt="Apple"
-          />
-          Apple ID
-        </button>
+      <div className={styles.head}>
+        <div className={styles.subtitle}>{t('sign.signin_with_open_account')}</div>
+        <div className={styles.btns}>
+          <button className={cn("button-stroke", styles.button)}>
+            <img src="/images/content/google.svg" alt="Google" />
+            Google
+          </button>
+          <button className={cn("button-stroke", styles.button)}>
+            <Image
+              className={styles.pic}
+              src="/images/content/apple-dark.svg"
+              srcDark="/images/content/apple-light.svg"
+              alt="Apple"
+            />
+            Apple ID
+          </button>
+        </div>
       </div>
-    </div>
-    <div className={styles.body}>
-      {errorSubmit !== '' && (
-        <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
-      )}
-      <div className={styles.subtitle}>{t('sign.continue_with_email')}</div>
-      <TextInput onChange={textInputChange} className={styles.field}  name="email"  type="email"
-        placeholder={t('sign.email')}  required  icon="mail"
-      />
-      <TextInput onChange={textInputChange} className={styles.field}
-        name="password" type="password"  placeholder={t('sign.password')}
-        required icon="lock"
-      />
-      <Link className={cn(styles.link, styles.linkPwd)} to={Routes.FORGOT_PASS}>
-        {t('sign.forgot_pass')}
-      </Link>
-      <button className={cn("button", styles.button)} onClick={login}>
-        {!loader ? 'Sign in' : <Loader className={styles.loader} />}
-      </button>
-      <div className={styles.note}>
-        {t('sign.protected_to_recaptcha')}
-      </div>
-      <div className={styles.info}>
-        {t('sign.not_have_account')}{"  "}
-        <Link className={cn(styles.link, styles.linkPwd)} to={Routes.SIGN_UP}>
-          {t('sign.sign_up')}
+      <div className={styles.body}>
+        {errorSubmit !== '' && (
+          <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+        )}
+        <div className={styles.subtitle}>{t('sign.continue_with_email')}</div>
+        <TextInput onChange={textInputChange} className={styles.field}  name="email"  type="email"
+          placeholder={t('sign.email')}  required  icon="mail"
+        />
+        <TextInput onChange={textInputChange} className={styles.field}
+          name="password" type="password"  placeholder={t('sign.password')}
+          required icon="lock"
+        />
+        <Link className={cn(styles.link, styles.linkPwd)} to={Routes.FORGOT_PASS}>
+          {t('sign.forgot_pass')}
         </Link>
+        <button className={cn("button", styles.button)} onClick={login}>
+          {!loader ? 'Sign in' : <Loader className={styles.loader} />}
+        </button>
+        <div className={styles.note}>
+          {t('sign.protected_to_recaptcha')}
+        </div>
+        <div className={styles.info}>
+          {t('sign.not_have_account')}{"  "}
+          <Link className={cn(styles.link, styles.linkPwd)} to={Routes.SIGN_UP}>
+            {t('sign.sign_up')}
+          </Link>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

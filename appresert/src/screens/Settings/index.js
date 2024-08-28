@@ -13,12 +13,13 @@ import Item from "./Item";
 import Language from "./Language";
 import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../Services/Api/ApiServices";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 
 const Settings = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   
   const navigation = [
     /*{
@@ -118,6 +119,11 @@ const Settings = () => {
     
     if (res.status === 201) {
       //setProduct(res.data);
+      let action = {
+        type: "USERS",
+        value: { users: res.response, },
+      };
+      dispatch(action)
       setLoader(false)
     }
     else if (res.status === 400) { 

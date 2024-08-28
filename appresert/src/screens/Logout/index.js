@@ -4,7 +4,7 @@ import cn from "classnames";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-//import RequestDashboard from "../../Services/Api/ApiServices";
+import RequestDashboard from "../../Services/Api/ApiServices";
 import { Routes } from "../../Constants";
 import Loader from "../../components/Loader";
 
@@ -20,14 +20,16 @@ const Logout = () => {
   const logout =  async() => {
 
     setLoader(true)
-    /*let res = await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token);
-    console.log('resss',res);
+    let res = await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token).then(response => {
+
+      if (response.status === 204) {
+        dispatch({ type: 'LOGOUT' });
+        navigate(Routes.SIGN_IN);
+        setLoader(false)
+      }
+    })
+    console.log('resss logout',res);
     
-    if (res.status === 200) {*/
-      dispatch({ type: 'LOGOUT' });
-      navigate(Routes.SIGN_IN);
-      setLoader(false)
-    //}
   };
   return (
     <div className={styles.success}>
