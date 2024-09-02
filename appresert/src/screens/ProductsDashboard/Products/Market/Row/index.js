@@ -7,10 +7,27 @@ import ModalProduct from "../../../../../components/ModalProduct";
 import Control from "../../Control";
 
 import { numberWithCommas } from "../../../../../utils.js";
+import RequestDashboard from "../../../../../Services/Api/ApiServices.js";
+import { useSelector } from "react-redux";
 
-const Row = ({ item, value, onChange, up }) => {
+const Row = ({ item, value, onChange, up, onClick }) => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
+
+  const image2x = item.photo_products ? item.photo_products : "/images/content/product-pic-1@2x.jpg"
+
+  const formatDate = (dateString) => {
+    // Convertir la chaîne de date en objet Date
+    const date = new Date(dateString);
+  
+    // Options de formatage pour le jour et le mois
+    const options = { day: '2-digit', month: 'short' };
+  
+    // Formatter la date
+    const formattedDate = date.toLocaleDateString('fr-FR', options);
+  
+    return formattedDate;
+  };
 
   return (
     <>
@@ -21,46 +38,48 @@ const Row = ({ item, value, onChange, up }) => {
         <div className={styles.col}>
           <div className={styles.item} onClick={() => setVisibleModalProduct(true)} >
             <div className={styles.preview}>
-              <img srcSet={`${item.image2x} 2x`}  src={item.image}  alt="Product" />
+              {/*<img srcSet={`${item.image2x} 2x`}  src={item.image}  alt="Product" />*/}
+              <img srcSet={`${image2x} 2x`}  src={item.image}  alt="Product" />
             </div>
             <div className={styles.details}>
-              <div className={styles.product}>{item.product}</div>
+              <div className={styles.product}>{item.product_name}</div>
               <div className={styles.wrap}>
-                <div className={styles.price}>${item.price}</div>
-                <div className={styles.category}>{item.category}</div>
+                <div className={styles.price}>{item.product_quantity}</div>
+                <div className={styles.category}>{item.category?.category_name}</div>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.col}>
           <div className={styles.label}>Status</div>
-          {item.status ? (
+          {/*item.status ? (*/}
             <div className={cn("status-green", styles.status)}>Active</div>
-          ) : (
+          {/*}) : (
             <div className={cn("status-red", styles.statusRed)}>Deactive</div>
-          )}
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} />
+          )}*/}
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick}/>
         </div>
-        <div className={styles.col}>${item.price}</div>
+        <div className={styles.col}>{item.product_quantity}</div>
         <div className={styles.col}>
           <div className={styles.label}>Sales</div>
           <div className={styles.sales}>
-            <div className={styles.number}>${numberWithCommas(item.sales)}</div>
-            <Balance className={styles.balance} value={item.balance} />
+            {/*<div className={styles.number}>${numberWithCommas(item?.product_quantity)}</div>*/}
+            <div className={styles.number}>${numberWithCommas(200)}</div>
+            <Balance className={styles.balance} value={item.product_quantity} />
           </div>
         </div>
         <div className={styles.col}>
           <div className={styles.label}>Views</div>
           <div className={styles.box}>
             <div className={styles.number}>
-              {(item.views / 1000).toFixed(0)}k
+              {(item.product_quantity / 1000).toFixed(0)}k
             </div>
             <div className={styles.line}>
               <div
                 className={styles.progress}
                 style={{
                   backgroundColor: "#2A85FF",
-                  width: item.viewsPercent,
+                  width: item.product_quantity,
                 }}
               ></div>
             </div>
@@ -69,10 +88,17 @@ const Row = ({ item, value, onChange, up }) => {
         <div className={styles.col}>
           <div className={styles.label}>Likes</div>
           <div className={styles.box}>
-            <div className={styles.number}>{item.likes}</div>
+            <div className={styles.number}>{item.product_quantity}</div>
             <div className={styles.line}>
-              <div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.likesPercent, }}></div>
+              {/*<div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.likesPercent, }}></div>*/}
+              <div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.product_quantity, }}></div>
             </div>
+          </div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.label}>Create at</div>
+          <div className={styles.box}>
+            <div className={styles.number}>{formatDate(item.updated_at)}</div>
           </div>
         </div>
         <div className={cn(styles.col, styles.colHide)}>

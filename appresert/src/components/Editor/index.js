@@ -7,14 +7,22 @@ import Tooltip from "../Tooltip";
 
 const Editor = ({
   state,
+  name,
   onChange,
   classEditor,
   label,
   classLabel,
   tooltip,
   place,
+  value,
   button,
 }) => {
+
+  // Fonction pour gérer les changements et inclure le nom
+  const handleEditorChange = (editorState) => {
+    onChange(name, editorState);  // Passer le name au onChange
+  };
+
   return (
     <div className={cn( styles.editor, { [styles.editorButton]: button }, classEditor)} >
       {label && (

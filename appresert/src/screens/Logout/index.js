@@ -15,21 +15,26 @@ const Logout = () => {
   const users = useSelector((state) => state.users);
   const [loader, setLoader] = useState(false)
   
-  console.log('token',users.access_token);
-  
   const logout =  async() => {
 
-    setLoader(true)
-    let res = await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token).then(response => {
+    try {
+        setLoader(true); // Affiche le loader pendant la requête
+        
+        // Exécution de la requête de déconnexion
+        let res = await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token);
+        
+        console.log('Résultat de la déconnexion:', res);
 
-      if (response.status === 204) {
+        // Si la requête est réussie, effectue la déconnexion
         dispatch({ type: 'LOGOUT' });
-        navigate(Routes.SIGN_IN);
-        setLoader(false)
-      }
-    })
-    console.log('resss logout',res);
-    
+        navigate(Routes.SIGN_IN); // Redirige vers la page de connexion
+    } catch (error) {
+        // En cas d'erreur, affiche un message ou effectue une autre action
+        console.error('Erreur lors de la déconnexion:', error);
+    } finally {
+        // Quoi qu'il arrive (succès ou erreur), arrête le loader
+        setLoader(false);
+    }   
   };
   return (
     <div className={styles.success}>

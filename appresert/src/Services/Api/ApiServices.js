@@ -39,7 +39,17 @@ export default async function RequestDashboard(link, method, form, token) {
     }
 
     let resp = await fetch(request);
-    let data = await resp.json();
+    // Si aucune donnée n'est présente, on renvoie un message par défaut
+    let data;
+    try {
+        data = await resp?.json(); // Essaye de parser la réponse JSON
+    } catch (error) {
+        data = null; // Si la réponse n'est pas un JSON valide, considère qu'il n'y a pas de données
+    }
+
+    if (data === null || data === undefined) {
+        return ApiResponse(resp.status, { message: "No content available" });
+    }
 
     return ApiResponse(resp.status, data);
 }

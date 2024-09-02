@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./CategoryAndAttibutes.module.sass";
 import Card from "../../../components/Card";
@@ -7,63 +7,29 @@ import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/Checkbox";
 import { WithContext as ReactTags } from "react-tag-input";
 import { useTranslation } from "react-i18next";
+import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useSelector } from "react-redux";
 
 const compatibility1 = [
-  {
-    id: 0,
-    title: "OnoPremium",
-  },
-  {
-    id: 1,
-    title: "OnoPrestige",
-  },
-  {
-    id: 2,
-    title: "OnoFlash",
-  },
-  {
-    id: 3,
-    title: "OnoLigth",
-  },
-  {
-    id: 4,
-    title: "OnoStandart",
-  }
+  { id: 0, title: "OnoPremium" },
+  { id: 1, title: "OnoPrestige" },
+  { id: 2, title: "OnoFlash" },
+  { id: 3, title: "OnoLigth" },
+  { id: 4, title: "OnoStandart" },
 ];
 const compatibility2 = [
-  {
-    id: 0,
-    title: "Conference",
-  },
-  {
-    id: 1,
-    title: "Reunion",
-  },
-  {
-    id: 2,
-    title: "Brunch",
-  },
+  { id: 0, title: "Conference" },
+  { id: 1, title: "Reunion" },
+  { id: 2, title: "Brunch" },
 ];
 const compatibility3 = [
-  {
-    id: 0,
-    title: "Jeu",
-  },
-  {
-    id: 1,
-    title: "Equipement",
-  },
-  {
-    id: 2,
-    title: "Comodite",
-  },
-  {
-    id: 4,
-    title: "Gadjet",
-  }
+  { id: 0, title: "Jeu" },
+  { id: 1, title: "Equipement" },
+  { id: 2, title: "Comodite" },
+  { id: 4, title: "Gadjet" },
 ];
 
-const optionsCategory = ["Category 1", "Category 2"];
+const optionsCategory = ["Category product", "Category package"];
 
 const KeyCodes = {
   comma: 188,
@@ -71,38 +37,42 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
-  const {t} = useTranslation()
+const CategoryAndAttibutes = ({ className, categoryAttribute, product, onChange, setCategoryProduct }) => {
+  const { t } = useTranslation();
+  const users = useSelector((state) => state.users);
   const [category, setCategory] = useState(optionsCategory[0]);
+  const [categoryData, setCategoryData] = useState([]);
 
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [tags, setTags] = useState([]);
 
   const compatibility = categoryAttribute ? (product ? compatibility3 : compatibility1) : compatibility2;
 
-  const handleChange = (id) => {
-    if (selectedFilters.includes(id)) {
-      setSelectedFilters(selectedFilters.filter((x) => x !== id));
+  const handleChange = (id, title) => {
+    if (selectedFilter === id) {
+      setSelectedFilter(null);
+      setTags([]);
     } else {
-      setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
+      setSelectedFilter(id);
+      setTags([{ id: String(id), text: title }]);
+      setCategoryProduct(title)
     }
   };
 
-  const [tags, setTags] = useState([{ id: "Geometry", text: "Geometry" }]);
-
-  const handleDelete = (i) => {
-    setTags(tags.filter((tag, index) => index !== i));
+  const handleDelete = () => {
+    setTags([]);
+    setSelectedFilter(null);
   };
 
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    /*setTags([tag]);
+    setSelectedFilter(parseInt(tag.id));*/
   };
 
   const handleDrag = (tag, currPos, newPos) => {
-    const newTags = [...tags].slice();
-
+    const newTags = [...tags];
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
-
     setTags(newTags);
   };
 
@@ -112,31 +82,40 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
 
   const onClearAll = () => {
     setTags([]);
+    setSelectedFilter(null);
   };
 
   const onTagUpdate = (i, newTag) => {
-    const updatedTags = tags.slice();
-    updatedTags.splice(i, 1, newTag);
-    setTags(updatedTags);
+    setTags([newTag]);
+    setSelectedFilter(parseInt(newTag.id));
   };
 
+  useEffect(() => {
+    const getAllCategory = async () => {
+      let res = await RequestDashboard('gestreserv/categories/', 'GET', '', users.access_token);
+      if (res.status === 200) {
+        setCategoryData(res.response.results);
+      }
+    };
+    getAllCategory();
+    
+  }, [users.access_token]);
+
   return (
-    <Card className={cn(styles.card, className)}  title={categoryAttribute ? t('views.products.add.category_attributes') : t('views.products.add.type_of_event')} classTitle="title-purple" >
+    <Card className={cn(styles.card, className)} title={categoryAttribute ? t('views.products.add.category_attributes') : t('views.products.add.type_of_event')} classTitle="title-purple">
       <div className={styles.images}>
-        <Dropdown  className={styles.field}  label={categoryAttribute ? t('views.products.add.category') : t('views.products.add.type')}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
-          options={optionsCategory}
-        />
+        <Dropdown className={styles.field} label={categoryAttribute ? t('views.products.add.category') : t('views.products.add.type')} tooltip="Maximum 100 characters. No HTML or emoji allowed" value={category} setValue={setCategory} options={optionsCategory} />
         <div className={styles.label}>
           {categoryAttribute ? t('views.products.add.name') : t('views.products.add.event')}{" "}
-          <Tooltip  className={styles.tooltip}  title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />
+          <Tooltip className={styles.tooltip} title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />
         </div>
         <div className={styles.list}>
-          {compatibility.map((x, index) => (
+          {categoryData.map((x, index) => (
             <Checkbox
               className={styles.checkbox}
-              content={x.title}
-              value={selectedFilters.includes(x.id)}
-              onChange={() => handleChange(x.id)}
+              content={x.category_name}
+              value={selectedFilter === x.id}
+              onChange={() => handleChange(x.id, x.category_name)}
               key={index}
             />
           ))}
@@ -152,7 +131,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
             />
           </div>
           <div className={styles.counter}>
-            <span>1</span>/12 tags
+            <span>{tags.length}</span>/12 tags
           </div>
         </div>
         <div className={styles.tags}>
@@ -164,7 +143,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product }) => {
             handleTagClick={handleTagClick}
             onClearAll={onClearAll}
             onTagUpdate={onTagUpdate}
-            suggestions={[{ id: "1", text: "Geometry" }]}
+            suggestions={categoryData.map((x) => ({ id: String(x.id), text: x.category_name }))}
             placeholder="Enter tags to describe your item"
             minQueryLength={2}
             maxLength={20}

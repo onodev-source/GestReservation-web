@@ -30,14 +30,12 @@ const Code = () => {
             break;
     }
   }
-  console.log('state', form);
   
   const resetPasswordConfirm =  async() => {
     
     if(form.password !== form.passwordConfirm) {
       setErrorSubmit("Both passwords are different."); 
     } else {
-      console.log('fhjfhjfdvjhjj');
       setLoader(true)
       const data = {
         uid: "string",
@@ -73,6 +71,7 @@ const Code = () => {
       }
     }
   };
+  
   return (
     <div className={styles.code}>
       <div className={styles.body}>

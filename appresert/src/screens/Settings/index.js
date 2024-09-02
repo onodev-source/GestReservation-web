@@ -33,7 +33,7 @@ const Settings = () => {
     },
     {
       title: t('views.settings.category'),
-      //action: () =>scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
+      action: () => setIsCategory(true),
     },
     {
       title: t('views.settings.notifications'),
@@ -60,19 +60,32 @@ const Settings = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [loader, setLoader] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState('')
+  const [isCategory, setIsCategory] = useState(false)
   const [form, setForm] = useState({
-    tel: '',
-    email: '',    
-    password: '',
-    sexe: '',
-    location: ''
+    tel: users.users.phone_number,
+    email: users.users.email,    
+    password: users.users.password,
+    sexe: users.users.gender,
+    location: users.users.country,
+    date_of_birth: users.users.date_of_birth,
+    company_name: users.users.company_name,
+    bio: users.users.bio,
+    language: users.users.language,
+    mode_session: users.users.mode_session,
+    is_online: users.users.is_online,
+    is_customer: users.users.is_customer,
+    category: '',
   })
   //const scrollToProfile = useRef(null);
   //const scrollToLogin = useRef(null);
 
   const handleClick = (x, index) => {
     setActiveIndex(index);
-    //x.action();
+    if(x.action){
+      x.action();
+    } else {
+      setIsCategory(false)
+    }
   };
   
   const textInputChange = (input) => {
@@ -99,31 +112,50 @@ const Settings = () => {
         case 'password':
           setForm({ ...form, password: value });
             break;
+        case 'category':
+          setForm({ ...form, category: value });
+            break;
         default:
             break;
     }
   }
   
-  const updateAccount =  async() => {
+  const updateAccountAndCategory =  async() => {
     setLoader(true)
-    const data = {
-      //first_name: form.name,
-      phone_number: form.tel==='' ? '655889977': form.tel,
-      gender: form.sexe==='' ? 'F': form.sexe,
-      email: form.email,
-      password: form.password==='' ? 'Audrey123': form.password,
-      country: form.location,
-      city: form.location
+    let data = {}
+    if(!isCategory) {
+      data = {
+        //first_name: form.name,
+        phone_number: form.tel,
+        gender: form.sexe,
+        email: form.email,
+        password: form.password,
+        country: form.location,
+        city: form.location,
+        date_of_birth: form.date_of_birth,
+        //company_name: form.company_name,
+        bio: form.bio,
+        language: form.language,
+        /*mode_session: "LIGHT",
+        is_online: true,
+        is_customer: true,*/
+      }
+    } else {
+      data = {category_name: form.category}
     }
-    let res = await RequestDashboard('accounts/auth/users/me/', 'PUT', data, users.access_token);
+    let res =  await RequestDashboard(!isCategory ? 'accounts/auth/users/me/' : 'gestreserv/categories/', !isCategory ? 'PUT' : 'POST', data, users.access_token);
     
     if (res.status === 201) {
       //setProduct(res.data);
-      let action = {
-        type: "USERS",
-        value: { users: res.response, },
-      };
-      dispatch(action)
+      if (!isCategory) {
+        let action = {
+          type: "USERS",
+          value: { users: res.response},
+        };
+        dispatch(action)
+      } else {
+        setErrorSubmit('The category has been successfully created')
+      }
       setLoader(false)
     }
     else if (res.status === 400) { 
@@ -166,7 +198,7 @@ const Settings = () => {
               <>
                 <div  className={cn(styles.item, {  [styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
-                  <ProfileInformation onChange={textInputChange}/>
+                  <ProfileInformation onChange={textInputChange} formUpdate={form} setFormUpdate={setForm}/>
                 </div>
                 <div  className={cn(styles.item, {[styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
@@ -175,9 +207,9 @@ const Settings = () => {
               </>
             }
             {(activeIndex === 1 ) &&
-              <div  className={cn(styles.item, {  [styles.active]: activeTab === options[1], })} >
+              <div className={cn(styles.item, {  [styles.active]: activeTab === options[1], })} >
                 <div className={styles.anchor}></div>
-                <Category />
+                <Category onChange={textInputChange} errorSubmit={errorSubmit} setErrorSubmit={setErrorSubmit}/>
               </div>
             }
             {(activeIndex === 2) && 
@@ -189,7 +221,7 @@ const Settings = () => {
             {(activeIndex === 3) && 
               <div className={cn(styles.item, { [styles.active]: activeTab === options[3],  })} >
                 <div className={styles.anchor}></div>
-                <Language />
+                <Language onChange={textInputChange} formUpdate={form}/>
               </div>
             }
             {(activeIndex === 4) && 
@@ -203,7 +235,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {activeIndex !== 4 && <button onClick={updateAccount} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
+          {activeIndex !== 4 && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
         </div>
       </div>
       <TooltipGlodal />

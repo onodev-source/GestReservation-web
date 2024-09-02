@@ -9,10 +9,12 @@ import Avatar from "../../Avatar"
 import Logout from "../../../screens/Logout";
 import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 
 const User = ({ className }) => {
   const {t} = useTranslation()
+  const users = useSelector((state) => state.users);
   const [visible, setVisible] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -82,7 +84,7 @@ const User = ({ className }) => {
           {/*<button className={styles.head} onClick={() => setVisible(!visible)}>
             <img src="/images/content/avatar.jpg" alt="Avatar" />
           </button>*/}
-          <Avatar onClick={() => setVisible(!visible)} user={{username: 'pouako', photo: "/images/content/avatar.jpg"}}/>
+          <Avatar onClick={() => setVisible(!visible)} user={users.users}/>
           <div className={styles.body}>
             {items.map((item, index) => (
               <div className={styles.menu} key={index}>

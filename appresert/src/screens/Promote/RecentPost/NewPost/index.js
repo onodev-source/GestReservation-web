@@ -3,6 +3,7 @@ import styles from "./NewPost.module.sass";
 import cn from "classnames";
 import Icon from "../../../../components/Icon";
 import Avatar from "../../../../components/Avatar";
+import { useSelector } from "react-redux";
 
 const items = [
   {
@@ -18,13 +19,14 @@ const items = [
 const files = ["image-stroke", "video-stroke"];
 
 const NewPost = ({updatePost}) => {
+  const users = useSelector((state) => state.users);
   return (
     <div className={styles.post}>
       <div className={cn("title-purple", styles.title)}>{updatePost? 'Update post' : 'New post'}</div>
       <div className={styles.list}>
         {items.map((x, index) => (
           <div className={styles.group} key={index}>
-            <Avatar user={{username: 'pouako', photo: x.avatar}} classname={styles.avatar}>
+            <Avatar user={users.users} classname={styles.avatar}>
               <div className={styles.social}>
                 {/*<Icon name={x.icon} size="12" />*/}
               </div>

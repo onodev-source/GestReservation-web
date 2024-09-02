@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./Products.module.sass";
 import cn from "classnames";
 import Card from "../../../components/Card";
@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const indicatorsTraffic = [
   {
@@ -52,27 +53,30 @@ const indicatorsViewers = [
 
 const Products = () => {
   const {t} = useTranslation()
+  const users = useSelector((state) => state.users);
   const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
 
   const [activeTab, setActiveTab] = useState(navDropdown[0]);
   const [search, setSearch] = useState("");
+  const [loader, setLoader] = useState(false)
   const [product, setProduct] = useState([]);
 
   const handleSubmit = (e) => {
     alert();
   };
 
-  /*React.useEffect(() => {
-
-    const getAllProduct =  async() => {
-        let res = await RequestDashboard('admin/gestreserv/product/', 'GET', '');
-        if (res.status === 200) {
-          setProduct(res.data);
-        }
-    };
+  const getAllProduct = useCallback(async() => {
+    setLoader(true)
+    let res = await RequestDashboard('gestreserv/products/', 'GET', '', users.access_token);
+    if (res.status === 200) {
+      setProduct(res.response.results);
+      setLoader(false)
+    }
+  }, [users.access_token]);
+  
+  React.useEffect(() => {
     getAllProduct()
-  }, [])*/
-
+  }, [getAllProduct])
 
   return (
     <Card className={styles.card}  title={t('views.products.products')} classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
@@ -105,7 +109,7 @@ const Products = () => {
     >
       <div className={styles.products}>
         <div className={styles.wrapper}>
-          {activeTab === navDropdown[0] && <Market items={market} />}
+          {activeTab === navDropdown[0] && <Market items={product} loader={loader} getAllProduct={getAllProduct}/>}
           {activeTab === navDropdown[1] && (
             <Table
               title="Traffic source"

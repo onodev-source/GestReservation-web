@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import styles from "./Answer.module.sass";
 import Avatar from "../Avatar"
+import { useSelector } from "react-redux";
 
 const Answer = ({
   className,
@@ -11,6 +12,7 @@ const Answer = ({
   setCurrentValue,
   ...etc
 }) => {
+  const users = useSelector((state) => state.users);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const Answer = ({
 
   return (
     <div className={cn(styles.answer, className)}>
-      <Avatar user={{username: 'pouako', photo: avatar}} classname={styles.avatar} width='40px'  height='40px'/>
+      <Avatar user={users.users} classname={styles.avatar} width='40px'  height='40px'/>
       <div className={styles.details}>
         <div className={styles.message}>
           <textarea  ref={textareaRef}  {...etc} value={currentValue} placeholder="Leave something to reply" onChange={(e) => {  setCurrentValue(e.target.value); }} />

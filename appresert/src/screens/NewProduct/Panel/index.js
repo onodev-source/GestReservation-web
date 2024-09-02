@@ -4,9 +4,11 @@ import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 import { useTranslation } from "react-i18next";
+import Loader from "../../../components/Loader";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack, onClick, loader, isFormFilled }) => {
   const {t} = useTranslation()
+
   const actions = [
     {
       title: "Preview",
@@ -29,7 +31,6 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
       action: () => console.log("Clear data"),
     },
   ];
-
   return (
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
@@ -40,7 +41,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack }) => {
         <button className={cn("button-stroke", styles.button)}>
           {t('words.cancel')}
         </button>
-        <button className={cn("button", styles.button)}>{t('words.save_change')}</button>
+        <button onClick={onClick} disabled={!isFormFilled() ? true : false} className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})}>{loader ? <Loader/> :t('words.save_change')}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

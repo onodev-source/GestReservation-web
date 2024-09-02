@@ -6,13 +6,15 @@ import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
 import Editor from "../../../components/Editor";
 import Dropdown from "../../../components/Dropdown";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 const optionsCategory = ["Select category type","Product category", "Package category", "Type event"];
 
-const Category = ({ className }) => {
+const Category = ({ className, onChange, errorSubmit, setErrorSubmit }) => {
   const [content, setContent] = useState();
   const [category, setCategory] = useState(optionsCategory[0]);
 
+  
   return (
     <>
       <Item className={cn(styles.card, className)}  title="Add category" classTitle="title-green" >
@@ -36,7 +38,10 @@ const Category = ({ className }) => {
           <button className={cn("button-stroke", styles.button)}>Remove</button>*/}
         </div>
         <div className={styles.fieldset}>
-          <TextInput  className={styles.field}  label="Name"  name="display-name" type="text"
+          {errorSubmit !== '' && (
+            <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+          )}
+          <TextInput onChange={onChange} className={styles.field}  label="Name"  name="category" type="text"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"  required
           />
           {/*<TextInput className={styles.field} label="Email"  name="email" type="email"
