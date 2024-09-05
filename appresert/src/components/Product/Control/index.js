@@ -23,7 +23,7 @@ const Control = ({ className, selectedItem, getAllPackages, packageId }) => {
   const actions = [
     {
       icon: "edit",
-      url: Routes.PACKAGES_EDIT,
+      url: `${Routes.PACKAGES_EDIT}/${packageId}`,
     },
     {
       icon: "trash",

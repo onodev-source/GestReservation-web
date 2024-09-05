@@ -14,7 +14,7 @@ const Panel = ({ className, product }) => {
   return (
     <>
       <div className={cn(styles.panel, className)}>
-        <Avatar user={users.users} classname={styles.avatar} width='64px'  height='64px'/>
+        <Avatar user={{username: users.users?.email, photo: users.users?.photo_user}} classname={styles.avatar} width='64px'  height='64px'/>
         {/*<div className={styles.brand}>
           <img src="/images/content/figma.png" alt="Figma" />
           <div className={styles.counter}>3</div>

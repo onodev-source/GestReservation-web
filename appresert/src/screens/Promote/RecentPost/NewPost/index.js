@@ -1,9 +1,16 @@
-import React from "react";
+import React, {useState } from "react";
 import styles from "./NewPost.module.sass";
 import cn from "classnames";
 import Icon from "../../../../components/Icon";
 import Avatar from "../../../../components/Avatar";
 import { useSelector } from "react-redux";
+import RequestDashboard from "../../../../Services/Api/ApiServices";
+import TextInput from "../../../../components/TextInput";
+import DatePicker from "react-datepicker";
+import Item from "../../../../components/Schedule/Item";
+import { format } from "date-fns";
+import { formatDate } from "../../../../Utils/formatDate";
+import ErrorMessage from "../../../../components/ErrorMessage";
 
 const items = [
   {
@@ -18,42 +25,131 @@ const items = [
 
 const files = ["image-stroke", "video-stroke"];
 
-const NewPost = ({updatePost}) => {
+const NewPost = ({updatePost, postRef, postId}) => {
   const users = useSelector((state) => state.users);
+
+  const [loader, setLoader] = useState(false)
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [form, setForm] = useState({
+      title: "",
+      description: "",
+      start_date: "",
+      end_date: ""
+  })
+  const [visibleDate, setVisibleDate] = useState(false);
+  const [visibleDateEnd, setVisibleDateEnd] = useState(false);
+  const [errorSubmit, setErrorSubmit] = useState('')
+
+  const handleClick = () => {
+    setStartDate(null);
+    setTimeout(() => setStartDate(new Date()), 10);
+    setVisibleDate(false);
+  };
+
+  const textInputChange = (input) => {
+    const target = input.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    switch (name) {
+      case 'title':
+        setForm({ ...form, title: value });
+          break;
+      case 'description':
+        setForm({ ...form, description: value });
+          break;
+      default:
+          break;
+    }
+  }
+
+  const addOrEditPublicity = async() => {
+    setLoader(true)
+    let data= {
+      title: form.title,
+      description: form.description,
+      start_date: formatDate(startDate, 'SEND'),
+      end_date: formatDate(endDate, 'SEND')
+    }
+    let res = updatePost ? await RequestDashboard(`gestreserv/publicities/${postId}`, 'PUT', data, users.access_token) : await RequestDashboard('gestreserv/publicities/', 'POST', data, users.access_token)
+
+    if(res.status === 201) {
+      setForm({ ...form, title: '', description: '', start_date: '', end_date: '' });
+      setLoader(false)
+      if (postRef.current) {
+        postRef.current.click();
+      }
+    } else {
+      setLoader(false)
+      setErrorSubmit("An error has occurred please try again"); 
+    }
+  }
+
   return (
     <div className={styles.post}>
       <div className={cn("title-purple", styles.title)}>{updatePost? 'Update post' : 'New post'}</div>
       <div className={styles.list}>
         {items.map((x, index) => (
           <div className={styles.group} key={index}>
-            <Avatar user={users.users} classname={styles.avatar}>
+            <Avatar user={{username: users.users?.email, photo: users.users?.photo_user}} classname={styles.avatar}>
               <div className={styles.social}>
                 {/*<Icon name={x.icon} size="12" />*/}
               </div>
             </Avatar>
             <div className={styles.profile}>
-              <span>Username</span>
-              <span>@username</span>
+              <span>{users.users.email}</span>
+              <span>@{users.users.email.length > 12 ? `${users.users.email.slice(0, 12)}...` : users.users.email}</span>
             </div>
           </div>
         ))}
       </div>
       <div className={styles.field}>
-        <textarea
-          className={styles.textarea}
-          name="post"
-          placeholder="What you would like to share?"
-        />
+        <TextInput onChange={textInputChange}  className={styles.field} placeholder='Title'  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <textarea className={styles.textarea}  onChange={textInputChange}  name="description" placeholder="What you would like to share?" />
       </div>
-      <div className={styles.info}>
-        Fleet coded version has been released{" "}
-        <span role="img" aria-label="fire">
-          🔥
-        </span>
-      </div>
+      {form.title !== '' && (
+        <div className={styles.info}>
+          {form.title}{" "}
+          <span role="img" aria-label="fire">
+            🔥
+          </span>
+        </div>
+      )}
       <div className={styles.preview}>
         <img src="/images/content/bg-video.jpg" alt="Video" />
       </div>
+      <div className={styles.dateContent}>
+        <Item  className={styles.item} category="Start date"  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+          <div className={styles.date}>
+            <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+            <div className={styles.footDate}>
+              <button className={cn("button-stroke button-small", styles.button)} onClick={() => handleClick()} >
+                Clear
+              </button>
+              <button className={cn("button-small", styles.button)} onClick={() => setVisibleDate(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </Item>
+        <Item  className={styles.item} category="End date"  icon="calendar" value={endDate && format(endDate, "MMMM dd, yyyy")} visible={visibleDateEnd} setVisible={setVisibleDateEnd} >
+          <div className={styles.date}>
+            <DatePicker  selected={endDate}  onChange={(date) => setEndDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+            <div className={styles.footDate}>
+              <button className={cn("button-stroke button-small", styles.button)} onClick={() => handleClick()} >
+                Clear
+              </button>
+              <button className={cn("button-small", styles.button)} onClick={() => setVisibleDateEnd(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </Item>
+      </div>
+      {errorSubmit !== '' && (
+        <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+      )}
       <div className={styles.foot}>
         <div className={styles.files}>
           {files.map((x, index) => (
@@ -65,9 +161,15 @@ const NewPost = ({updatePost}) => {
             </div>
           ))}
         </div>
-        <button className={cn("button", styles.button)}>
-          <span>{updatePost? 'Edit' : 'Post'}</span>
-          <Icon name="arrow-right" size="24" />
+        <button onClick={addOrEditPublicity} className={cn("button", styles.button)}>
+          {loader ? (
+            <loader/>
+          ) : (
+            <>
+              <span>{updatePost? 'Edit' : 'Post'}</span>
+              <Icon name="arrow-right" size="24" />
+            </>
+          )}
         </button>
       </div>
     </div>

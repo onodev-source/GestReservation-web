@@ -14,7 +14,7 @@ const Price = ({ className, product, onChange, formAdd }) => {
   return (
     <Card className={cn(styles.card, className)}  title={product ? t('views.products.add.quantity') : "Price" } classTitle="title-green">
       <div className={styles.price}>
-        <TextInput onChange={onChange}  value={product ? formAdd.product_quantity : ''} className={styles.field}  label={product ? t('views.products.add.number') : "Monthly subscription" } name={product ? "quantity" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
+        <TextInput onChange={onChange}  value={formAdd.product_quantity} className={styles.field}  label={product ? t('views.products.add.number') : "Monthly subscription" } name={product ? "quantity" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
         {!product && (
           <>
             <div className={styles.line}>

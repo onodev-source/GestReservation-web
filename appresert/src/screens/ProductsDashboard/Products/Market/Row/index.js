@@ -14,9 +14,14 @@ import { formatDate } from "../../../../../Utils/formatDate.js";
 const Row = ({ item, value, onChange, up, onClick }) => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
 
   const image2x = item.photo_products ? item.photo_products : "/images/content/product-pic-1@2x.jpg"
 
+  const handleChangeVisiblePackage = (itemSelected) => {
+    setSelectedItem(itemSelected); 
+    setVisibleModalProduct(true)
+  };
 
   return (
     <>
@@ -25,7 +30,7 @@ const Row = ({ item, value, onChange, up, onClick }) => {
           <Checkbox className={styles.checkbox}  value={value} onChange={onChange}/>
         </div>
         <div className={styles.col}>
-          <div className={styles.item} onClick={() => setVisibleModalProduct(true)} >
+          <div className={styles.item} onClick={() => handleChangeVisiblePackage(item)} >
             <div className={styles.preview}>
               {/*<img srcSet={`${item.image2x} 2x`}  src={item.image}  alt="Product" />*/}
               <img srcSet={`${image2x} 2x`}  src={item.image}  alt="Product" />
@@ -46,7 +51,7 @@ const Row = ({ item, value, onChange, up, onClick }) => {
           {/*}) : (
             <div className={cn("status-red", styles.statusRed)}>Deactive</div>
           )}*/}
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id}/>
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} selectedItem={selectedItem}/>
         </div>
         <div className={styles.col}>{item.product_quantity}</div>
         <div className={styles.col}>
@@ -94,12 +99,14 @@ const Row = ({ item, value, onChange, up, onClick }) => {
           <div className={styles.colContaint}>
             <div className={styles.label}>Options</div>
             <div className={styles.box}>
-              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id}/>
+              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} selectedItem={selectedItem}/>
             </div>
           </div>
         </div>
       </div>
-      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
+      {/*<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>*/}
+        
+      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>)}
     </>
   );
 };

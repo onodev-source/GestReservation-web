@@ -25,7 +25,7 @@ const Profile = () => {
   return (
     <div className={styles.profile}>
       <div className={styles.details}>
-        <Avatar user={users.users} width='80px' height='80px' classname={styles.avatar}>
+        <Avatar user={{username: users.users?.email, photo: users.users?.photo_user}} width='80px' height='80px' classname={styles.avatar}>
           <button className={styles.add}>
             {/*<Icon name="add" />*/}
           </button>

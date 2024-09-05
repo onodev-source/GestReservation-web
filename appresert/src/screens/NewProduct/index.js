@@ -19,6 +19,7 @@ import Loader from "../../components/Loader";
 
 const NewProduct = ({product, editPack, editProd}) => {
   const { productId } = useParams();
+  const { packageId } = useParams();
   const users = useSelector((state) => state.users);
 
   const [visiblePreview, setVisiblePreview] = useState(false);
@@ -28,6 +29,7 @@ const NewProduct = ({product, editPack, editProd}) => {
   const [errorSubmit, setErrorSubmit] = useState('')
   const [allProduct, setAllProduct] = useState()
   const [productEdit, setProductEdit] = useState()
+  const [packageEdit, setPackageEdit] = useState()
   const [category, setCategory] = useState('')
   const [descripbe, setDescripbe] = useState('')
   const [form, setForm] = useState({
@@ -144,8 +146,9 @@ const NewProduct = ({product, editPack, editProd}) => {
         category_name: category
       },
     }
-    let res = editPack ? await RequestDashboard(`gestreserv/packages/${productId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
+    let res = editPack ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
     let status = editPack ? 200 : 201
+
     if (res.status === status) {
       setErrorSubmit(`The package has been successfully ${editPack ? 'updated' : 'created'}`)
       setLoader(false)
@@ -182,7 +185,18 @@ const NewProduct = ({product, editPack, editProd}) => {
       }
       getProductById(productId);
     }
-  }, [productId, editProd, users.access_token]);
+    if (editPack && packageId) {
+      const getPackageById = async(id) => {
+        setLoading(true)
+          let res = await RequestDashboard(`gestreserv/packages/${id}/`, 'GET', '', users.access_token);
+          if (res.status === 200) {
+            setPackageEdit(res.response);
+            setLoading(false)
+          }
+      }
+      getPackageById(packageId);
+    }
+  }, [productId, editProd, users.access_token, editPack, packageId]);
 
   useEffect(() => {
     if (productEdit) {
@@ -193,7 +207,17 @@ const NewProduct = ({product, editPack, editProd}) => {
       setCategory(productEdit?.category?.category_name || '');
       setDescripbe(productEdit?.product_description || '');
     }
-  }, [productEdit]);
+    if (packageEdit) {
+      setForm({
+        package_name: packageEdit.package_name,
+        package_price: packageEdit.package_price,
+        nb_persons: packageEdit.nb_persons,
+        nb_places: packageEdit.nb_places,
+      });
+      setCategory(packageEdit?.category?.category_name || '');
+      //setDescripbe(packageEdit?.product_description || '');
+    }
+  }, [productEdit, packageEdit]);
   
   React.useEffect(() => {
     getAllProduct()

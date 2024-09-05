@@ -31,10 +31,10 @@ const Overview = ({product, detailsData}) => {
     <>
       <div className={styles.overview}>
         <div className={cn("h4", styles.title)}>
-          {product ? 'Fleet - Travel shopping UI design kit' : detailsData?.package_name}
+          {product ? detailsData?.product_name : detailsData?.package_name}
         </div>
         <div className={styles.info}>
-          {product ? 'Elegant product mockup for your next project' : detailsData?.package_name}
+          {product ? detailsData?.product_name : detailsData?.package_name}
         </div>
         <div className={styles.line}>
           <div className={styles.author}>
@@ -65,12 +65,16 @@ const Overview = ({product, detailsData}) => {
             <div className={cn("title-red", styles.subtitle)}>{product ? "Product description" : "Package description"}</div>
             <div className={styles.content}>
               <p>
-                Meet Node - a crypto NFT marketplace iOS UI design kit for
-                Figma, Sketch, and Adobe XD. The kit includes 126 stylish mobile
-                screens in light and dark mode, a bunch of crypto 3D
-                illustrations, 1 SaaS landing page with full premade
-                breakpoints, and hundreds of components to help you ship your
-                next crypto, NFT product faster.
+                {product ? (
+                  detailsData?.product_description
+                ) : (
+                  `Meet Node - a crypto NFT marketplace iOS UI design kit for
+                  Figma, Sketch, and Adobe XD. The kit includes 126 stylish mobile
+                  screens in light and dark mode, a bunch of crypto 3D
+                  illustrations, 1 SaaS landing page with full premade
+                  breakpoints, and hundreds of components to help you ship your
+                  next crypto, NFT product faster.`
+                )}
               </p>
               <p>
                 Types of screens included: onboarding, connect wallet, home

@@ -10,14 +10,90 @@ import Panel from "./Panel";
 import Location from "./Location";
 import Contact from "./Contact";
 import Profile from "./Profile";
+import RequestDashboard from "../../Services/Api/ApiServices";
 
-const NewCustomer = ({product}) => {
+const NewCustomer = ({product, editCust}) => {
   const [visiblePreview, setVisiblePreview] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [errorSubmit, setErrorSubmit] = useState('');
+  const [form, setForm] = useState({
+
+  });
 
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
 
+ /* const textInputChange = (input) => {
+    const target = input.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    switch (name) {
+      case 'title':
+        setForm({ ...form, [product ? 'product_name' : 'package_name']: value });
+          break;
+      case 'quantity':
+        setForm({ ...form, product_quantity: parseInt(value) });
+          break;
+      case 'dayly-amount':
+        setForm({ ...form, package_price: value });
+          break;
+      case 'nb_persons':
+        setForm({ ...form, nb_persons: parseInt(value) });
+          break;
+      case 'nb_places':
+        setForm({ ...form, nb_places: parseInt(value) });
+          break;
+      default:
+          break;
+    }
+  }
+  
+  const isFormFilled = () => {
+    return (
+      category !== '' &&
+      form.package_name !== '' &&
+      form.package_price !== '' &&
+      form.nb_persons > 0 &&
+      form.nb_places > 0
+    )
+  };
+
+  const addorEditCustomer =  async() => {
+    setLoader(true)
+    let data = {
+      package_name: form.package_name,
+      package_price: form.package_price,
+      nb_persons: form.nb_persons,
+      nb_places: form.nb_places,
+    }
+    let res = editCust ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
+    let status = editCust ? 200 : 201
+
+    if (res.status === status) {
+      setErrorSubmit(`The customer has been successfully ${editCust ? 'updated' : 'created'}`)
+      setLoader(false)
+      //setDescripbe('')
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+    }
+    else if (res.status === 400) { 
+      setLoader(false)
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      setErrorSubmit("Incorrect Email or Password"); 
+    }
+    else if (res.status === 401) { 
+      setLoader(false)
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      setErrorSubmit( "Your email address has not been verified "); 
+    }
+    else { 
+      setLoader(false)
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      setErrorSubmit("An error has occurred please try again"); 
+    }
+  };*/
+  
   return (
     <>
       <div className={styles.row}>

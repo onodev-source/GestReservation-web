@@ -39,7 +39,6 @@ const Product = ({ className, item, value, isPackage, onChange, released, withou
   const handleChangeVisibleProduct = (itemSelected) => {
     if (modalDetail) {
       setSelectedItem(itemSelected); 
-      console.log('itemSelected', itemSelected);// Stocker l'élément sélectionné
       setVisibleModalProduct(true)
     }
   };

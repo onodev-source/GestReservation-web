@@ -84,7 +84,7 @@ const User = ({ className }) => {
           {/*<button className={styles.head} onClick={() => setVisible(!visible)}>
             <img src="/images/content/avatar.jpg" alt="Avatar" />
           </button>*/}
-          <Avatar onClick={() => setVisible(!visible)} user={users.users}/>
+          <Avatar onClick={() => setVisible(!visible)} user={{username: users.users?.email, photo: users.users?.photo_user}}/>
           <div className={styles.body}>
             {items.map((item, index) => (
               <div className={styles.menu} key={index}>

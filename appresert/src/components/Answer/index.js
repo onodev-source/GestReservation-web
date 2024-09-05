@@ -23,7 +23,7 @@ const Answer = ({
 
   return (
     <div className={cn(styles.answer, className)}>
-      <Avatar user={users.users} classname={styles.avatar} width='40px'  height='40px'/>
+      <Avatar user={{username: users.users?.email, photo: users.users?.photo_user}} classname={styles.avatar} width='40px'  height='40px'/>
       <div className={styles.details}>
         <div className={styles.message}>
           <textarea  ref={textareaRef}  {...etc} value={currentValue} placeholder="Leave something to reply" onChange={(e) => {  setCurrentValue(e.target.value); }} />

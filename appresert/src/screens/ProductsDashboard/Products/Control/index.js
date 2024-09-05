@@ -8,7 +8,7 @@ import ModalProduct from "../../../../components/ModalProduct";
 import { Routes } from "../../../../Constants";
 
 
-const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId }) => {
+const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId, selectedItem }) => {
   const [visibleModalProduct, setVisibleModalProduct] = React.useState(false);
 
   const actions = [
@@ -61,8 +61,11 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick, pr
         </button>
       )
     )}
-      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
-      {/*<Actions
+    
+    {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>)}
+      
+      {/*<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
+      <Actions
         className={styles.actions}
         classActionsHead={styles.actionsHead}
         classActionsBody={styles.actionsBody}

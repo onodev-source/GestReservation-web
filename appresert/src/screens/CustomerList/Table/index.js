@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
 import Checkbox from "../../../components/Checkbox";
@@ -7,9 +7,15 @@ import Row from "./Row";
 
 // data
 import { customers } from "../../../mocks/customers";
+import { useSelector } from "react-redux";
+import RequestDashboard from "../../../Services/Api/ApiServices";
 
 const Table = ({ className, activeTable, setActiveTable }) => {
+  const users = useSelector((state) => state.users);
+
+  const [loader, setLoader] = useState(false);
   const [chooseAll, setСhooseAll] = useState(false);
+  const [allCustomers, setAllCustomers] = useState([]);
   const [activeId, setActiveId] = useState(customers[0].id);
 
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -21,6 +27,19 @@ const Table = ({ className, activeTable, setActiveTable }) => {
       setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
     }
   };
+
+  const getAllCustomers = useCallback(async() => {
+    setLoader(true)
+    let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
+    if (res.status === 200) {
+      setAllCustomers(res.response?.results);
+      setLoader(false)
+    }
+  }, [users.access_token]);
+  
+  React.useEffect(() => {
+    getAllCustomers()
+  }, [getAllCustomers])
 
   return (
     <div className={cn(styles.wrapper, className)}>
