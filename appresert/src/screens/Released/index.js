@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./Released.module.sass";
 import Card from "../../components/Card";
@@ -14,14 +14,19 @@ import { products } from "../../mocks/products";
 import { Link } from "react-router-dom";
 import Dropdown from "../../components/Dropdown";
 import { Routes } from "../../Constants";
+import { useSelector } from "react-redux";
+import RequestDashboard from "../../Services/Api/ApiServices";
 
 //const sorting = ["list", "grid"];
 const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
 
 const Released = () => {
   //const [activeIndex, setActiveIndex] = useState(0);
+  const users = useSelector((state) => state.users);
   const [activeTab, setActiveTab] = useState(navDropdown[0]);
+  const [packages, setPackages] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     alert();
@@ -36,6 +41,19 @@ const Released = () => {
       setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
     }
   };
+
+  const getAllPackages = useCallback(async() => {
+    setLoading(true)
+      let res = await RequestDashboard(`gestreserv/packages/`, 'GET', '', users.access_token);
+      if (res.status === 200) {
+        setPackages(res.response?.results);
+        setLoading(false)
+      }
+  }, [users.access_token])
+
+  useEffect(() => {
+    getAllPackages();
+  }, [getAllPackages]);
 
   return (
     <>
@@ -61,19 +79,22 @@ const Released = () => {
         <div className={styles.wrapper}>
           {/*{activeIndex === 0 && <Market />}
           {activeIndex === 0 && (*/}
+          {loading ? 
+            <Loader/> :
             <>
               <div className={styles.list}>
-                {products.map((x, index) => (
-                  <Product  className={styles.product} value={selectedFilters.includes(x.id)}  onChange={() => handleChange(x.id)} item={x}  key={index} modalDetail={true} isPreviewHidden = {true}/>
+                {packages?.map((x, index) => (
+                  <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} modalDetail={true} isPreviewHidden = {true}/>
                 ))}
               </div>
-              <div className={styles.foot}>
+              {/*<div className={styles.foot}>
                 <button  className={cn("button-stroke button-small", styles.button)} >
                   <Loader className={styles.loader} />
                   <span>Load more</span>
                 </button>
-              </div>
+              </div>*/}
             </>
+            }
           {/*)}*/}
         </div>
       </Card>

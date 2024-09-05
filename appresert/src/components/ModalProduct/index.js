@@ -8,7 +8,7 @@ import Icon from "../Icon";
 import Product from "./Product";
 import { Routes } from "../../Constants";
 
-const ModalProduct = ({ visible, onClose, product }) => {
+const ModalProduct = ({ visible, onClose, product, detailsData }) => {
   
   // Définition de la fonction escFunction en utilisant useCallback pour éviter de recréer la fonction à chaque rendu.
   const escFunction = useCallback(
@@ -57,7 +57,7 @@ const ModalProduct = ({ visible, onClose, product }) => {
           </button>
         </div>
         <div className={styles.outer}>
-          <Product product={product}/>
+          <Product product={product} detailsData={detailsData}/>
         </div>
       </div>
     ),

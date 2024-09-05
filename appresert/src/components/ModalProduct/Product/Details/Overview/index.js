@@ -24,17 +24,17 @@ const features = [
   "Dark + light more ready",
 ];
 
-const Overview = ({product}) => {
+const Overview = ({product, detailsData}) => {
   //const [visibleModalPreview, setVisibleModalPreview] = useState(false);
 
   return (
     <>
       <div className={styles.overview}>
         <div className={cn("h4", styles.title)}>
-          Fleet - Travel shopping UI design kit
+          {product ? 'Fleet - Travel shopping UI design kit' : detailsData?.package_name}
         </div>
         <div className={styles.info}>
-          Elegant product mockup for your next project
+          {product ? 'Elegant product mockup for your next project' : detailsData?.package_name}
         </div>
         <div className={styles.line}>
           <div className={styles.author}>
@@ -86,9 +86,16 @@ const Overview = ({product}) => {
           <div className={styles.col}>
             <div className={cn("title-purple", styles.subtitle)}>Features</div>
             <ul className={styles.features}>
-              {features.map((x, index) => (
-                <li key={index}>{x}</li>
-              ))}
+              { product ? (
+                features.map((x, index) => (
+                  <li key={index}>{x}</li>
+                ))
+              ) : (
+                <>
+                  <li>Number of persons: {detailsData?.nb_persons}</li>
+                  <li>Number of place: {detailsData?.nb_places}</li>
+                </>
+              )}
             </ul>
           </div>
         </div>

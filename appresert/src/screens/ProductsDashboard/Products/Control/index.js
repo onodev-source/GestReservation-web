@@ -8,14 +8,14 @@ import ModalProduct from "../../../../components/ModalProduct";
 import { Routes } from "../../../../Constants";
 
 
-const Control = ({ className, visibleActions, setVisibleActions, up, onClick }) => {
+const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId }) => {
   const [visibleModalProduct, setVisibleModalProduct] = React.useState(false);
 
   const actions = [
     {
       title: "Edit product",
       icon: "edit",
-      url: Routes.PRODUITS_EDIT
+      url: `${Routes.PRODUITS_EDIT}/${productId}`
     },
     {
       title: "Delete product",
@@ -35,7 +35,6 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick }) 
     }
   ];
 
-  console.log('deletet actions', actions);
   return (
     <div className={cn(styles.control, className)}>
     {actions.map((act, index) =>    

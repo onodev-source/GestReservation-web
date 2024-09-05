@@ -46,11 +46,11 @@ const App = () => {
         <Route path="/" element={<AuthGuard props={<Page title={t('navigation.title.home', {name})}><Home /></Page>} />} />
         <Route path="/products/dashboard" element={<AuthGuard props={<Page title={t('')}><ProductsDashboard /></Page>} />} />
         <Route path="/products/add" element={<AuthGuard props={<Page title={t('navigation.title.products_add')}><NewProduct product={true}/></Page>} />} />
-        <Route path="/products/edit" element={<AuthGuard props={<Page title={t('navigation.title.products_edit')}><NewProduct product={true} editProd={true}/></Page>} />} />
+        <Route path="/products/edit/:productId" element={<AuthGuard props={<Page title={t('navigation.title.products_edit')}><NewProduct product={true} editProd={true}/></Page>} />} />
         <Route path="/products/drafts" element={<AuthGuard props={<Page title="Drafts"><Drafts /></Page>} />} />
         <Route path="/products/released" element={<AuthGuard props={<Page title={t('navigation.title.products_released')}><Released /></Page>} />} />
         <Route path="/packages/add" element={<AuthGuard props={<Page title={t('navigation.title.packages_add')}><NewProduct /></Page>} />} />
-        <Route path="/packages/edit" element={<AuthGuard props={<Page title={t('navigation.title.packages_edit')}><NewProduct  editPack={true}/></Page>} />} />
+        <Route path="/packages/edit/:productId" element={<AuthGuard props={<Page title={t('navigation.title.packages_edit')}><NewProduct  editPack={true}/></Page>} />} />
         <Route path="/packages/comments" element={<AuthGuard props={<Page title={t('navigation.title.packages_comments')}><Comments /></Page>} />} />
         <Route path="/customers/overview" element={<Page title={t('navigation.title.customers_overview')}><Customers /></Page>} />
         <Route path="/customers/add" element={<AuthGuard props={<Page title={t('navigation.title.customers_add')}><NewCustomer/></Page>} />} />

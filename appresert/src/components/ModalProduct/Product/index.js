@@ -6,7 +6,7 @@ import Comments from "./Comments";
 import Panel from "./Panel";
 //import Icon from "../../Icon";
 
-const Product = ({product}) => {
+const Product = ({product, detailsData}) => {
   const [visible, setVisible] = useState(false);//state permettant de gerer les tab 
   //state permettant de  gerer les index des tab du modal 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,7 +19,7 @@ const Product = ({product}) => {
 
   return (
     <div className={cn(styles.product, { [styles.active]: visible })}>
-      <Details  className={styles.details} setValue={setVisible} activeIndex={activeIndex} setActiveIndex={setActiveIndex} product={product}/>
+      <Details  className={styles.details} setValue={setVisible} activeIndex={activeIndex} setActiveIndex={setActiveIndex} product={product} detailsData={detailsData}/>
       {!product && <Comments className={styles.comments} onClose={() => handleClose()} />}
       <Panel className={styles.panel} product={product}/>
       {/*<button className={styles.next}>

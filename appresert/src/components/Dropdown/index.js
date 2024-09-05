@@ -8,22 +8,36 @@ const Dropdown = ({
   className,
   classDropdownHead,
   classDropdownLabel,
-  value,
-  setValue,
+  value, // value sera un tableau si multiple est vrai
+  setValue, // fonction pour mettre à jour les valeurs sélectionnées
   setActiveIndex,
   options,
   label,
   tooltip,
   small,
   upBody,
-  language
+  language,
+  multiple // ajout du paramètre multiple
 }) => {
   const [visible, setVisible] = useState(false);
 
-  const handleClick = (value, index) => {
-    setValue(value);
-    setVisible(false);
-    if(setActiveIndex){
+  const handleClick = (selectedValue, index) => {
+    if (multiple) {
+      // Gestion des sélections multiples
+      if (value.includes(selectedValue)) {
+        // Si l'élément est déjà sélectionné, on le retire
+        setValue(value.filter(item => item !== selectedValue));
+      } else {
+        // Sinon, on l'ajoute
+        setValue([...value, selectedValue]);
+      }
+    } else {
+      // Gestion de la sélection unique
+      setValue(selectedValue);
+      setVisible(false);
+    }
+
+    if (setActiveIndex) {
       setActiveIndex(index);
     }
   };
@@ -43,28 +57,42 @@ const Dropdown = ({
           )}
         </div>
       )}
-      <div  className={cn(  styles.dropdown,  className, { [styles.small]: small }, { [styles.active]: visible, } )} >
-        <div   className={cn(styles.head, classDropdownHead)} onClick={() => setVisible(!visible)}  >
-          <div className={styles.selection}>{language ? value.title : value}</div>
+      <div
+        className={cn(
+          styles.dropdown,
+          className,
+          { [styles.small]: small },
+          { [styles.active]: visible }
+        )}
+      >
+        <div
+          className={cn(styles.head, classDropdownHead)}
+          onClick={() => setVisible(!visible)}
+        >
+          <div className={styles.selection}>
+            {/* Affichage des sélections multiples ou unique */}
+            {multiple
+              ? value.join(", ") // Affiche les éléments sélectionnés séparés par des virgules
+              : value}
+          </div>
         </div>
         <div className={cn(styles.body, { [styles.bodyUp]: upBody })}>
-          {language ? (
-            options?.map((x, index) => (
-              <div  className={cn(styles.option, { [styles.selectioned]: x.title === value,  })}
-                onClick={() => handleClick(x, index)} key={index}
-              >
-                {x.title}
-              </div>
-            ))
-          ) : (
-            options?.map((x, index) => (
-              <div  className={cn(styles.option, { [styles.selectioned]: x === value,  })}
-                onClick={() => handleClick(x, index)} key={index}
-              >
-                {x}
-              </div>
-            ))
-          )}
+          {options?.map((x, index) => (
+            <div
+              className={cn(
+                styles.option,
+                {
+                  [styles.selectioned]: multiple
+                    ? value.includes(x) // Si multiple est activé, vérifie si l'option est sélectionnée
+                    : x === value // Sinon, vérifie si c'est l'option unique sélectionnée
+                }
+              )}
+              onClick={() => handleClick(x, index)}
+              key={index}
+            >
+              {x}
+            </div>
+          ))}
         </div>
       </div>
     </OutsideClickHandler>

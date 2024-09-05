@@ -9,6 +9,7 @@ import Control from "../../Control";
 import { numberWithCommas } from "../../../../../utils.js";
 import RequestDashboard from "../../../../../Services/Api/ApiServices.js";
 import { useSelector } from "react-redux";
+import { formatDate } from "../../../../../Utils/formatDate.js";
 
 const Row = ({ item, value, onChange, up, onClick }) => {
   const [visibleActions, setVisibleActions] = useState(false);
@@ -16,18 +17,6 @@ const Row = ({ item, value, onChange, up, onClick }) => {
 
   const image2x = item.photo_products ? item.photo_products : "/images/content/product-pic-1@2x.jpg"
 
-  const formatDate = (dateString) => {
-    // Convertir la chaîne de date en objet Date
-    const date = new Date(dateString);
-  
-    // Options de formatage pour le jour et le mois
-    const options = { day: '2-digit', month: 'short' };
-  
-    // Formatter la date
-    const formattedDate = date.toLocaleDateString('fr-FR', options);
-  
-    return formattedDate;
-  };
 
   return (
     <>
@@ -57,7 +46,7 @@ const Row = ({ item, value, onChange, up, onClick }) => {
           {/*}) : (
             <div className={cn("status-red", styles.statusRed)}>Deactive</div>
           )}*/}
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick}/>
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id}/>
         </div>
         <div className={styles.col}>{item.product_quantity}</div>
         <div className={styles.col}>
@@ -105,7 +94,7 @@ const Row = ({ item, value, onChange, up, onClick }) => {
           <div className={styles.colContaint}>
             <div className={styles.label}>Options</div>
             <div className={styles.box}>
-              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} />
+              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id}/>
             </div>
           </div>
         </div>

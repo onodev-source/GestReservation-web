@@ -6,6 +6,7 @@ import Icon from "../Icon";
 import Checkbox from "../Checkbox";
 import ModalProduct from "../ModalProduct";
 import ModalPreview from "../ModalPreview";
+import { formatDate } from "../../Utils/formatDate";
 
 const gallery = [
   {
@@ -18,22 +19,30 @@ const gallery = [
   }
 ];
 
-const Product = ({ className, item, value,  onChange, released, withoutСheckbox, modalDetail, isPreviewHidden, product}) => {
+const Product = ({ className, item, value, isPackage, onChange, released, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages}) => {
+
   const [visible, setVisible] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
   const [visibleModalPreview, setVisibleModalPreview] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
+
+
+  const price = isPackage ? item?.package_price : item.price
+  const ratingValue = isPackage ? 4.9 : item.ratingValue
+  const ratingCounter = isPackage ? 123 : item.ratingCounter
 
   const handleClick = () => {
     onChange();
     setVisible(!visible);
   };
 
-  const handleChangeVisibleProduct = () => {
+  const handleChangeVisibleProduct = (itemSelected) => {
     if (modalDetail) {
+      setSelectedItem(itemSelected); 
+      console.log('itemSelected', itemSelected);// Stocker l'élément sélectionné
       setVisibleModalProduct(true)
     }
   };
-
 
   return (
     <>
@@ -42,32 +51,32 @@ const Product = ({ className, item, value,  onChange, released, withoutСheckbox
           {!withoutСheckbox && (
             <Checkbox className={styles.checkbox} classCheckboxTick={styles.checkboxTick} value={value}  onChange={() => handleClick()}/>
           )}
-          <Control className={styles.control} />
-          <img srcSet={`${item.image2x} 2x`} src={item.image} alt="Product" />
+          <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id}/>
+          <img srcSet={`${isPackage ? '/images/content/product-pic-2@2x.jpg' : item.image2x} 2x`} src={isPackage ? '/images/content/product-pic-2.jpg' : item.image} alt="Product" />
           {!isPreviewHidden &&
             <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => setVisibleModalPreview(true)} >
               Show preview
             </button>
           }
         </div>
-        <div onClick={handleChangeVisibleProduct} style={{cursor: modalDetail ? 'pointer' : ''}}>
+        <div onClick={() => handleChangeVisibleProduct(item)} style={{cursor: modalDetail ? 'pointer' : ''}}>
           <div className={styles.line}>
-            <div className={styles.title}>{item.product}</div>
-            {item.price > 0 ? (
-              <div className={styles.price}>${item.price}</div>
+            <div className={styles.title}>{isPackage ? item?.package_name : item.product}</div>
+            {price > 0 ? (
+              <div className={styles.price}>{price}XAF</div>
             ) : (
-              <div className={styles.empty}>${item.price}</div>
+              <div className={styles.empty}>{price}XAF</div>
             )}
           </div>
           {released ? (
             <div className={styles.date}>
-              <Icon name="clock" size="24" /> {item.date}
+              <Icon name="clock" size="24" /> {isPackage ? formatDate(item?.created_at) : item.date}
             </div>
-          ) : item.ratingValue ? (
+          ) : ratingValue ? (
             <div className={styles.rating}>
               <Icon name="star-fill" size="24" />
-              {item.ratingValue}{" "}
-              <span className={styles.counter}>({item.ratingCounter})</span>
+              {ratingValue}{" "}
+              <span className={styles.counter}>({ratingCounter})</span>
             </div>
           ) : (
             <div className={cn(styles.rating, styles.ratingEmpty)}>
@@ -78,8 +87,8 @@ const Product = ({ className, item, value,  onChange, released, withoutСheckbox
         </div>
       </div>
       
-      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} />
-      <ModalPreview product={product} visible={visibleModalPreview} onClose={() => setVisibleModalPreview(false)} gallery={gallery}  title={product ? "Fleet - Travel shopping UI design kit" : "Products included in the offer "} figcaption="Elegant product mockup for your next project" />
+      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} detailsData={selectedItem} key={selectedItem?.id}/>)}
+      <ModalPreview key={selectedItem?.id} detailsData={selectedItem}  product={product} visible={visibleModalPreview} onClose={() => setVisibleModalPreview(false)} gallery={gallery}  title={product ? "Fleet - Travel shopping UI design kit" : "Products included in the offer "} figcaption="Elegant product mockup for your next project" />
     </>
   );
 };

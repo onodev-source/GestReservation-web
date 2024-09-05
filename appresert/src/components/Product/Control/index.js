@@ -5,10 +5,21 @@ import Icon from "../../Icon";
 import ModalProduct from "../../ModalProduct";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
+import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useSelector } from "react-redux";
 
-const Control = ({ className }) => {
+const Control = ({ className, selectedItem, getAllPackages, packageId }) => {
+  const users = useSelector((state) => state.users);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
 
+  
+  const deletePackagesById = async(id) => {
+    let res = await RequestDashboard(`gestreserv/packages/${id}`, 'DELETE', '', users.access_token);
+    if (res.status === 204) {
+      getAllPackages()
+    }
+  }
+  
   const actions = [
     {
       icon: "edit",
@@ -16,7 +27,7 @@ const Control = ({ className }) => {
     },
     {
       icon: "trash",
-      action: () => console.log("remove"),
+      action: () => deletePackagesById(packageId),
     },
     {
       icon: "arrow-right",
@@ -39,10 +50,7 @@ const Control = ({ className }) => {
           )
         ))}
       </div>
-      <ModalProduct
-        visible={visibleModalProduct}
-        onClose={() => setVisibleModalProduct(false)}
-      />
+      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} detailsData={selectedItem} key={selectedItem?.id}/>)}
     </>
   );
 };

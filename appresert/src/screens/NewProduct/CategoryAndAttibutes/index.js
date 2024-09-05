@@ -37,7 +37,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className, categoryAttribute, product, onChange, setCategoryProduct }) => {
+const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, setCategoryProduct, formAdd }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
   const [category, setCategory] = useState(optionsCategory[0]);
@@ -94,13 +94,28 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, onChange,
     const getAllCategory = async () => {
       let res = await RequestDashboard('gestreserv/categories/', 'GET', '', users.access_token);
       if (res.status === 200) {
-        setCategoryData(res.response.results);
+        const categories = res.response.results;
+        setCategoryData(categories);
+  
+        if (editProd && formAdd) {
+          // Vérifiez si formAdd a un champ category_name ou similaire
+          const defaultCategory = formAdd.category_name || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
+          setCategory(defaultCategory);
+  
+          if (formAdd.id) {
+            const selectedCategory = categories.find(category => category.id === formAdd.id);
+            if (selectedCategory) {
+              setSelectedFilter(selectedCategory.id);
+              setTags([{ id: String(selectedCategory.id), text: selectedCategory.category_name }]);
+            }
+          }
+        }
       }
     };
     getAllCategory();
-    
-  }, [users.access_token]);
-
+  }, [editProd, formAdd, users.access_token]);
+  
+  
   return (
     <Card className={cn(styles.card, className)} title={categoryAttribute ? t('views.products.add.category_attributes') : t('views.products.add.type_of_event')} classTitle="title-purple">
       <div className={styles.images}>
@@ -110,7 +125,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, onChange,
           <Tooltip className={styles.tooltip} title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />
         </div>
         <div className={styles.list}>
-          {categoryData.map((x, index) => (
+          {categoryData?.map((x, index) => (
             <Checkbox
               className={styles.checkbox}
               content={x.category_name}
@@ -143,7 +158,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, onChange,
             handleTagClick={handleTagClick}
             onClearAll={onClearAll}
             onTagUpdate={onTagUpdate}
-            suggestions={categoryData.map((x) => ({ id: String(x.id), text: x.category_name }))}
+            suggestions={categoryData?.map((x) => ({ id: String(x.id), text: x.category_name }))}
             placeholder="Enter tags to describe your item"
             minQueryLength={2}
             maxLength={20}

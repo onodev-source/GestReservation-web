@@ -6,9 +6,10 @@ import Overview from "./Overview";
 import Products from "./Products";
 
 
-const Details = ({ className, setValue, activeIndex, setActiveIndex, product }) => {
+const Details = ({ className, setValue, activeIndex, setActiveIndex, product, detailsData }) => {
   const navigation = product ? ["Product details"] : ["Package details", "Comment"];
 
+  const price = product ? '89' : detailsData?.package_price
   //mise a jours de l'index actif
   const handleClick = (index) => {
     setActiveIndex(index);
@@ -32,7 +33,7 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product }) 
             <span>32</span>
           </button>
           <button className={cn("button", styles.buy)}>
-            <span className={styles.price}>$89</span>
+            <span className={styles.price}>{price}XAF</span>
             {/*<span className={styles.inner}>
               Download<span> now</span>
               <Icon name="download" size="24" />
@@ -40,8 +41,8 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product }) 
           </button>
         </div>
       </div>
-      <Overview product={product}/>
-      <Products product={product}/>
+      <Overview product={product} detailsData={detailsData}/>
+      <Products product={product} detailsData={detailsData}/>
     </div>
   );
 };
