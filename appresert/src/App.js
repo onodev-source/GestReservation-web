@@ -33,12 +33,14 @@ import ForgotPassword from "./screens/ForgotPassword";
 import Error404View from "./screens/ErrorView";
 import { useTranslation } from "react-i18next";
 import { AuthGuard } from "./Utils/AuthGuard";
+import { useSelector } from "react-redux";
 
 
 const App = () => {
   const {t} = useTranslation()
+  const users = useSelector((state) => state.users)
 
-  const name = "Jaden hole"; 
+  const name = users.users.email; 
 
   const router = createBrowserRouter(
     createRoutesFromElements(

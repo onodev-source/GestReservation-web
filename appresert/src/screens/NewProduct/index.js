@@ -137,14 +137,18 @@ const NewProduct = ({product, editPack, editProd}) => {
 
   const addorEditPackage =  async() => {
     setLoader(true)
+ 
     let data = {
       package_name: form.package_name,
       package_price: form.package_price,
+      package_price_amount: form.package_price,
+      package_price_currency: 'XAF',
       nb_persons: form.nb_persons,
       nb_places: form.nb_places,
       category: {
         category_name: category
       },
+      category_id: ''
     }
     let res = editPack ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
     let status = editPack ? 200 : 201

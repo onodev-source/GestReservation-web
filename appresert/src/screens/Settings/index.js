@@ -61,7 +61,10 @@ const Settings = () => {
   const [loader, setLoader] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState('')
   const [isCategory, setIsCategory] = useState(false)
+  const [media, setMedia] = useState()
   const [form, setForm] = useState({
+    first_name: users.users.first_name,
+    last_name: users.users.last_name,
     tel: users.users.phone_number,
     email: users.users.email,    
     password: users.users.password,
@@ -75,6 +78,7 @@ const Settings = () => {
     is_online: users.users.is_online,
     is_customer: users.users.is_customer,
     category: '',
+    media: users.users?.photo_user
   })
   //const scrollToProfile = useRef(null);
   //const scrollToLogin = useRef(null);
@@ -94,8 +98,11 @@ const Settings = () => {
     const name = target.name;
 
     switch (name) {
-        case 'display-name':
-          setForm({ ...form, name: value });
+        case 'first-name':
+          setForm({ ...form, first_name: value });
+            break;
+        case 'last-name':
+          setForm({ ...form, last_name: value });
             break;
         case 'tel':
           setForm({ ...form, tel: value });
@@ -119,61 +126,76 @@ const Settings = () => {
             break;
     }
   }
+ 
+
+  //start_date: formatDate(startDate, 'SEND'),
+  const updateAccountAndCategory = async () => {
+    setLoader(true);
   
-  const updateAccountAndCategory =  async() => {
-    setLoader(true)
-    let data = {}
-    if(!isCategory) {
-      data = {
-        //first_name: form.name,
-        phone_number: form.tel,
-        gender: form.sexe,
-        email: form.email,
-        password: form.password,
-        country: form.location,
-        city: form.location,
-        date_of_birth: form.date_of_birth,
-        //company_name: form.company_name,
-        bio: form.bio,
-        language: form.language,
-        /*mode_session: "LIGHT",
-        is_online: true,
-        is_customer: true,*/
+    let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+  
+    if (!isCategory) {
+      // Ajout des données utilisateur au FormData
+      formData.append("first_name", form.first_name);
+      formData.append("last_name", form.last_name);
+      formData.append("phone_number", form.tel);
+      formData.append("gender", form.sexe);
+      formData.append("email", form.email);
+      formData.append("password", form.password);
+      formData.append("country", form.location);
+      formData.append("city", form.location);
+      formData.append("date_of_birth", form.date_of_birth);
+      formData.append("bio", form.bio);
+      formData.append("language", form.language);
+      formData.append("password", users.users.password);
+  
+      // Ajout du fichier photo_user
+      if (media?.file) {
+        formData.append("photo_user", media.file);
       }
     } else {
-      data = {category_name: form.category}
+      // Si c'est une catégorie, on ajoute seulement le nom de la catégorie
+      formData.append("category_name", form.category);
     }
-    let res =  await RequestDashboard(!isCategory ? 'accounts/auth/users/me/' : 'gestreserv/categories/', !isCategory ? 'PUT' : 'POST', data, users.access_token);
-    
-    if (res.status === 201) {
-      //setProduct(res.data);
-      if (!isCategory) {
-        let action = {
-          type: "USERS",
-          value: { users: res.response},
-        };
-        dispatch(action)
+  
+    try {
+      // Appel API avec FormData
+      let res = await RequestDashboard( !isCategory ? 'accounts/auth/users/me/' : 'gestreserv/categories/', !isCategory ? 'PUT' : 'POST', formData,   users.access_token );
+      let status = !isCategory ? 200 : 201
+      
+      if (res.status === status) {
+        // Traitement si succès
+        if (!isCategory) {
+          let action = {
+            type: "USERS",
+            value:  res.response ,
+          };
+          dispatch(action);
+          setErrorSubmit('The users has been successfully updated');
+        } else {
+          setErrorSubmit('The category has been successfully created');
+        }
+        setLoader(false);
+      } else if (res.status === 400) {
+        setLoader(false);
+        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        setErrorSubmit("Incorrect Email or Password");
+      } else if (res.status === 401) {
+        setLoader(false);
+        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        setErrorSubmit("Your email address has not been verified");
       } else {
-        setErrorSubmit('The category has been successfully created')
+        setLoader(false);
+        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        setErrorSubmit("An error has occurred, please try again");
       }
-      setLoader(false)
-    }
-    else if (res.status === 400) { 
-      setLoader(false)
-      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
-      setErrorSubmit("Incorrect Email or Password"); 
-    }
-    else if (res.status === 401) { 
-      setLoader(false)
-      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
-      setErrorSubmit( "Your email address has not been verified "); 
-    }
-    else { 
-      setLoader(false)
-      setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
-      setErrorSubmit("An error has occurred please try again"); 
+    } catch (error) {
+      console.error("Error during API call", error);
+      setLoader(false);
+      setErrorSubmit("An unexpected error occurred. Please try again.");
     }
   };
+  
 
   return (
     <>
@@ -198,7 +220,7 @@ const Settings = () => {
               <>
                 <div  className={cn(styles.item, {  [styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
-                  <ProfileInformation onChange={textInputChange} formUpdate={form} setFormUpdate={setForm}/>
+                  <ProfileInformation onChange={textInputChange} formUpdate={form} setFormUpdate={setForm} setMediaUpdate={setMedia}/>
                 </div>
                 <div  className={cn(styles.item, {[styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>

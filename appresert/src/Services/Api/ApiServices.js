@@ -21,7 +21,7 @@ export default async function RequestDashboard(link, method, form, token) {
     }
     if (token) {
         document.cookie = `access_token=${token};path=/`;
-        headers = { ...headers, Authorization: `Bearer ${token}` };
+        headers = { ...headers, Authorization: `Token ${token}` };
     }
 
     request = new Request(url, {
