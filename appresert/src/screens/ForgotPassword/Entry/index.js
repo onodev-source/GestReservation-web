@@ -8,8 +8,11 @@ import { Routes } from "../../../Constants";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
+import ErrorMessage from "../../../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const Entry = ({ onConfirm }) => {
+  const {t} = useTranslation()
   const [loader, setLoader] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState('')
   const [form, setForm] = useState({
@@ -41,13 +44,14 @@ const Entry = ({ onConfirm }) => {
       //setProduct(res.data);
       setForm({ ...form, email: ''});
       setLoader(false)
-      onConfirm()
+      setErrorSubmit(t('sign.send_a_verify_code')); 
+      //onConfirm()
     }
     else if (res.status === 204) { 
       setForm({ ...form, email: ''});
       setLoader(false)
-      //setErrorSubmit("Incorrect Email or Password"); 
-      onConfirm()
+      setErrorSubmit(t('sign.send_a_verify_code'));  
+      //onConfirm()
     }
     else if (res.status === 400) { 
       setLoader(false)
@@ -87,8 +91,11 @@ const Entry = ({ onConfirm }) => {
       </div>*/}
     </div>
     <div className={styles.body}>
+      {errorSubmit !== '' && (
+        <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+      )}
       <div className={styles.subtitle}>Enter your email address to reset</div>
-      <TextInput className={styles.field}  name="email"  type="email"
+      <TextInput className={styles.field}  name="email"  type="email" value={form.email}
         placeholder="Your email"  required  icon="mail" onChange={textInputChange}
       />
       <button className={cn("button", styles.button)} onClick={sendEmailResetPassword}>{loader ? <Loader/> : "Send"}</button>

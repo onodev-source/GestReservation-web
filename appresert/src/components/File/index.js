@@ -4,7 +4,8 @@ import styles from "./File.module.sass";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
-const File = ({ className, label, tooltip, title }) => {
+const File = ({ className, label, tooltip, title, onChange, mediaUrl }) => {
+  
   return (
     <div className={cn(styles.file, className)}>
       {label && (
@@ -20,8 +21,8 @@ const File = ({ className, label, tooltip, title }) => {
           )}
         </div>
       )}
-      <div className={styles.wrap}>
-        <input className={styles.input} type="file" />
+      <div className={styles.wrap} style={{backgroundImage: `url(${mediaUrl})`, backgroundSize: 'cover'}}>
+        <input className={styles.input} type="file" accept=".jpg,.jpeg,.png" onChange={onChange}/>
         <div className={styles.box}>
           <Icon name="upload" size="24" />
           {title}

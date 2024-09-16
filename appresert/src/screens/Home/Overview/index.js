@@ -14,6 +14,7 @@ import Icon from "../../../components/Icon";
 import { products } from "../../../mocks/products";
 import { User } from "../../../Constants";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const intervals = ["All time", "In a year", "Per month"];
 
@@ -52,21 +53,22 @@ const settings = {
 const Overview = ({ className }) => {
     const darkMode = useDarkMode(false);
     const {t} = useTranslation()
+    const users =useSelector((state)=> state.users)
     const [sorting, setSorting] = useState(intervals[0]);
     const [activeIndex, setActiveIndex] = useState(0);
    
     const nav = [
         {
-            title: User.typeUser ===User.admin ? t("navigation.customers") : t("views.home.order_number"),
+            title: !users.users.is_customer ? t("navigation.customers") : t("views.home.order_number"),
             counter: "1024",
-            icon: User.typeUser ===User.admin ? "profile-circle" : "basket",
+            icon: !users.users.is_customer ? "profile-circle" : "basket",
             color: "#F2D45F",
             value: -37.8,
         },
         {
-            title: User.typeUser === User.admin ? t("navigation.income") : t("views.home.reservations_number"),
+            title: !users.users.is_customer ? t("navigation.income") : t("views.home.reservations_number"),
             counter: "256k",
-            icon: User.typeUser ===User.admin ? "activity" : "store",
+            icon: !users.users.is_customer ? "activity" : "store",
             color: darkMode.value ? "#33383F" : "#9A9FA5",
             value: 37.8,
         },
@@ -93,7 +95,7 @@ const Overview = ({ className }) => {
                     ))}
                 </div>
                 <div className={styles.body}>
-                    {User.typeUser === User.admin ? (
+                    {!users.users.is_customer  ? (
                         <>
                             {activeIndex === 0 && <Users />}
                             {activeIndex === 1 && <Chart />}

@@ -99,10 +99,11 @@ const Products = () => {
                 </button>
               ))}*/}
               <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
-            
-              <Link className={cn("button button-small", styles.button)} to={Routes.PRODUITS_ADD} >
-                {t('views.products.add_product')}
-              </Link>
+              {!users.users.is_customer &&
+                <Link className={cn("button button-small", styles.button)} to={Routes.PRODUITS_ADD} >
+                  {t('views.products.add_product')}
+                </Link>
+              }
             </div>
         </>
       }

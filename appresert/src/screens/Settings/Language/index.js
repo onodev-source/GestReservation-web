@@ -24,17 +24,18 @@ const Language = ({ className }) => {
   const [category, setCategory] = useState(optionsCategory[0]);
 
 
-  const handleLanguageChange = (selectedLanguage) => {
-    if(selectedLanguage?.code){
+  const handleLanguageChange = (selectedTitle) => {
+    const selectedLanguage = optionsCategory.find(option => option.title === selectedTitle);
+    if (selectedLanguage?.code) {
       setCategory(selectedLanguage);
       i18n.changeLanguage(selectedLanguage.code);
-  
+
       let action = {
-          type: "LANGUAGE",
-          value: {
-              language: selectedLanguage.code,
-              languageName: selectedLanguage.code === 'fr' ? t('words.french') : t('words.english')
-          }
+        type: "LANGUAGE",
+        value: {
+          language: selectedLanguage.code,
+          languageName: selectedLanguage.code === 'fr' ? t('words.french') : t('words.english')
+        }
       };
       dispatch(action);
     }
@@ -51,8 +52,8 @@ const Language = ({ className }) => {
             tooltip="Maximum 100 characters. No HTML or emoji allowed" required />*/}
           {/*<TextInput  className={styles.field}  label="Location" name="location"
             type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required />*/}
-          <Dropdown language={true}  className={styles.field}  label={"Choose language"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={handleLanguageChange}
-            options={optionsCategory}
+          <Dropdown language={true}  className={styles.field}  label={"Choose language"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category.title} setValue={handleLanguageChange}
+            options={optionsCategory.map(option => option.title)}
           />
         </div>
       </Item>

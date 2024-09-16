@@ -4,7 +4,7 @@ import styles from "./Login.module.sass";
 import Item from "../Item";
 import TextInput from "../../../components/TextInput";
 
-const Login = ({ className }) => {
+const Login = ({ className, onChange, formUpdate }) => {
   return (
     <Item
       className={cn(styles.card, className)}
@@ -17,6 +17,7 @@ const Login = ({ className }) => {
           name="old-password"
           type="password"
           tooltip="Maximum 100 characters. No HTML or emoji allowed"
+          onChange={onChange}
           icon="lock"
           required
         />
@@ -27,6 +28,8 @@ const Login = ({ className }) => {
             name="new-password"
             type="password"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"
+            onChange={onChange}
+            value={formUpdate.password}
             required
           />
           <TextInput
@@ -35,6 +38,8 @@ const Login = ({ className }) => {
             name="confirm-password"
             type="password"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"
+            onChange={onChange}
+            value={formUpdate.password}
             required
           />
         </div>

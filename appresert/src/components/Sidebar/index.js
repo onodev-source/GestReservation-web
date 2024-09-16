@@ -20,6 +20,7 @@ const Sidebar = ({ className, onClose }) => {
     const { t } = useTranslation();
     const location = useLocation();
     const language = useSelector(state => state.language.language)
+    const users = useSelector((state) => state.users)
     //const [visibleHelp, setVisibleHelp] = useState(false);
     const [visible, setVisible] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
@@ -86,6 +87,9 @@ const Sidebar = ({ className, onClose }) => {
             url: Routes.INCOME_DASH,
         },
     ];
+
+    const filteredNavigation = users.users.is_customer ? navigation.filter(item => item.id !== 3 && item.id !== 5)  : navigation;
+
     const navigationFoot = [
         {
             id: 6,
@@ -121,7 +125,7 @@ const Sidebar = ({ className, onClose }) => {
                     <Image className={styles.pic} src="/images/logo_onograph.png" srcDark="/images/logo-onograph-blanc.png" alt="Core" />
                 </Link>
                 <div className={styles.menu}>
-                    {navigation.map((x, index) =>
+                    {filteredNavigation.map((x, index) =>
                         x.url ? (
                             <NavLink className={cn(styles.item, {[styles.active] : location.pathname === x.url})}  activeClassName={styles.active} to={x.url}  key={index}  exact  onClick={onClose}>
                                 <Icon name={x.icon} size="24" />

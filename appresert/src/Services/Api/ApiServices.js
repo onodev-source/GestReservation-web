@@ -1,11 +1,12 @@
 
 
 const BASE_URL = "http://192.168.1.103:8000/api/v1/";
+const BASE_URL_ACCOUNTS = "http://192.168.1.103:8000/";
 
 export default async function RequestDashboard(link, method, form, token) {
     let headers = {};
     let request = {};
-    let url = BASE_URL + link;
+    let url = link.includes("accounts/") ? BASE_URL_ACCOUNTS + link : BASE_URL + link;
     let body = JSON.stringify(form);
 
     headers = {

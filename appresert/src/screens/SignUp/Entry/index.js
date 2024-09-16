@@ -48,8 +48,7 @@ const Entry = ({ onConfirm }) => {
       re_password: form.password
     }
     let res = await RequestDashboard('accounts/auth/users/', 'POST', data);
-    console.log('------------res', res);
-    console.log('------------message', res.response.message);
+    
     
     if (res.status === 201) {
       //setProduct(res.data);
@@ -99,9 +98,9 @@ const Entry = ({ onConfirm }) => {
         )}
         <div className={styles.info}>{t('sign.continue_with_email')}</div>
         {/*<TextInput onChange={textInputChange} className={styles.field} name="name"  type="text" placeholder={t('sign.name')} required />*/}
-        <TextInput onChange={textInputChange}  className={styles.field}  name="tel"  type="tel" placeholder={t('sign.phone_number')} required  icon="phone" />
-        <TextInput onChange={textInputChange} className={styles.field}  name="email" type="email" placeholder={t('sign.email')} required  icon="mail"/>
-        <TextInput onChange={textInputChange} className={styles.field} name="password" type="password"  placeholder={t('sign.password')} required icon="lock" />
+        <TextInput onChange={textInputChange} value={form.tel}  className={styles.field}  name="tel"  type="tel" placeholder={t('sign.phone_number')} required  icon="phone" />
+        <TextInput onChange={textInputChange} value={form.email} className={styles.field}  name="email" type="email" placeholder={t('sign.email')} required  icon="mail"/>
+        <TextInput onChange={textInputChange} value={form.password} className={styles.field} name="password" type="password"  placeholder={t('sign.password')} required icon="lock" />
         <button className={cn("button", styles.button)} onClick={register}>
           {!loader ? t('sign.continue') : <Loader className={styles.loader} />}
         </button>

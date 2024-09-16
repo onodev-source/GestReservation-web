@@ -51,7 +51,8 @@ const ForgotPassword = () => {
         </div>
         <div className={styles.wrapper}>
           <div className={cn("h2", styles.title)}>Forgot password</div>
-          {visible ? <Entry onConfirm={() => setVisible(false)} /> : <Code />}
+          {/*visible ? <Entry onConfirm={() => setVisible(false)} /> : <Code />*/}
+          <Entry onConfirm={() => setVisible(false)} />
         </div>
       </div>
     </div>

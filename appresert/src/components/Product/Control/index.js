@@ -22,23 +22,27 @@ const Control = ({ className, selectedItem, getAllPackages, packageId }) => {
   
   const actions = [
     {
+      id: 1,
       icon: "edit",
       url: `${Routes.PACKAGES_EDIT}/${packageId}`,
     },
     {
+      id: 2,
       icon: "trash",
       action: () => deletePackagesById(packageId),
     },
     {
+      id: 3,
       icon: "arrow-right",
       action: () => setVisibleModalProduct(true),
     },
   ];
+  const filteredActions = users.users.is_customer ? actions.filter(item => item.id !== 1 && item.id !== 2)  : actions;
 
   return (
     <>   
       <div className={cn(styles.control, className)}>
-        {actions.map((x, index) => (
+        {filteredActions.map((x, index) => (
           x.url ? (
             <Link className={cn(styles.button)} to={x.url} >
               <Icon name={x.icon} size="20" />

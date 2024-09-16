@@ -54,9 +54,11 @@ const RecentPost = ({ className }) => {
               options={intervals}
               small
             />
-            <button className={cn("button-small", styles.button)}  onClick={() => setVisibleModal(true)} >
-              New post
-            </button>
+            {!users.users.is_customer &&
+              <button className={cn("button-small", styles.button)}  onClick={() => setVisibleModal(true)} >
+                New post
+              </button>
+            }
           </>
         }
       >

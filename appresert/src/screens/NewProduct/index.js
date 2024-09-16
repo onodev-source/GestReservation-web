@@ -32,6 +32,7 @@ const NewProduct = ({product, editPack, editProd}) => {
   const [packageEdit, setPackageEdit] = useState()
   const [category, setCategory] = useState('')
   const [descripbe, setDescripbe] = useState('')
+  const [media, setMedia] = useState()
   const [form, setForm] = useState({
     product_name: '',
     //product_description: '',    
@@ -101,15 +102,22 @@ const NewProduct = ({product, editPack, editProd}) => {
 
   const addorEditProduct =  async() => {
     setLoader(true)
-    let data = {
-      product_name: form.product_name,
-      product_description: descripbe,
-      product_quantity: form.product_quantity,
-      category: {
-        category_name: category
-      },
+    let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+    
+      // Ajout des données utilisateur au FormData
+    formData.append("product_name", form.product_name);
+    formData.append("product_description", descripbe);
+    formData.append("product_quantity", form.product_quantity);
+    // Ajouter l'objet "category" en tant que chaîne JSON
+    formData.append('category', JSON.stringify({
+      category_name: category
+    }));
+    // Ajout du fichier photo_user
+    if (media?.file) {
+      formData.append("photo_products", media.file);
     }
-    let res = editProd ? await RequestDashboard(`gestreserv/products/${productId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/products/', 'POST', data, users.access_token);
+
+    let res = editProd ? await RequestDashboard(`gestreserv/products/${productId}/`, 'PUT', formData, users.access_token) : await RequestDashboard( 'gestreserv/products/', 'POST', formData, users.access_token);
     let status = editProd ? 200 : 201
     if (res.status === status) {
       setErrorSubmit(`The product has been successfully ${editProd ? 'updated' : 'created'}`)
@@ -137,6 +145,11 @@ const NewProduct = ({product, editPack, editProd}) => {
 
   const addorEditPackage =  async() => {
     setLoader(true)
+    let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+    // Ajout du fichier photo_user
+    if (media?.file) {
+      formData.append("photos_packages", media.file);
+    }
  
     let data = {
       package_name: form.package_name,
@@ -148,7 +161,8 @@ const NewProduct = ({product, editPack, editProd}) => {
       category: {
         category_name: category
       },
-      category_id: ''
+      category_id: '',
+      photos_packages: formData
     }
     let res = editPack ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
     let status = editPack ? 200 : 201
@@ -248,7 +262,7 @@ const NewProduct = ({product, editPack, editProd}) => {
               )}
             </div>
             <div className={styles.col}>
-              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct}/>
+              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct} setMediaUpdate={setMedia}/>
               {/*<Preview
                 visible={visiblePreview}
                 onClose={() => setVisiblePreview(false)}

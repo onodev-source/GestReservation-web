@@ -120,10 +120,10 @@ const Entry = ({ onConfirm }) => {
           <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
         )}
         <div className={styles.subtitle}>{t('sign.continue_with_email')}</div>
-        <TextInput onChange={textInputChange} className={styles.field}  name="email"  type="email"
+        <TextInput onChange={textInputChange} className={styles.field}  name="email"  type="email" value={form.email}
           placeholder={t('sign.email')}  required  icon="mail"
         />
-        <TextInput onChange={textInputChange} className={styles.field}
+        <TextInput onChange={textInputChange} className={styles.field} value={form.password}
           name="password" type="password"  placeholder={t('sign.password')}
           required icon="lock"
         />

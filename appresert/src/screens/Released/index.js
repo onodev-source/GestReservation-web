@@ -68,10 +68,11 @@ const Released = () => {
                 </button>
               ))}*/}
               <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
-            
-              <Link className={cn("button button-small", styles.button)} to={Routes.PACKAGES_ADD} >
-                Add package
-              </Link>
+              {!users.users.is_customer &&
+                <Link className={cn("button button-small", styles.button)} to={Routes.PACKAGES_ADD} >
+                  Add package
+                </Link>
+              }
             </div>
           </>
         }

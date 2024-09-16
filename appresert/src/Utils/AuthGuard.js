@@ -6,6 +6,8 @@ import { Routes } from "../Constants";
 import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
 import ForgotPassword from "../screens/ForgotPassword";
+import VerifyAccount from "../screens/VerifyAccount";
+import VerifyEmailResetPass from "../screens/VerifyEmailResetPass";
 
 const AuthGuard = ({ props }) => {
     const access_token = useSelector((state) => state.users.access_token);
@@ -13,7 +15,7 @@ const AuthGuard = ({ props }) => {
     //const id = useParams()
 
     if (authenticated && access_token !== "") {
-        if (props.type.name === "SignIn" || props.type.name === "SignUp" || props.type.name === "ForgotPassword") {
+        if (props.type.name === "SignIn" || props.type.name === "SignUp" || props.type.name === "ForgotPassword" || props.type.name === "VerifyAccount" || props.type.name === "VerifyEmailResetPass") {
             return <Navigate to="/" replace={false} />;
         } else {
             return props;
@@ -23,6 +25,10 @@ const AuthGuard = ({ props }) => {
             return <SignUp />;
         } else if(props.type.name === "ForgotPassword"){
             return <ForgotPassword/>
+        } else if(props.type.name === "VerifyAccount"){
+            return <VerifyAccount />
+        }else if(props.type.name === "VerifyEmailResetPass"){
+            return <VerifyEmailResetPass />
         }
         else {
             return <SignIn/>;

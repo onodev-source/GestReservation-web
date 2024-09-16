@@ -2,8 +2,11 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
+import { useSelector } from "react-redux";
 
 const Panel = () => {
+  const users = useSelector((state) => state.users);
+
   return (
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
@@ -23,9 +26,11 @@ const Panel = () => {
         <button className={cn("button-stroke-red", styles.button)}>
           <span>Cancel</span>
         </button>
-        <button className={cn("button", styles.button)}>Deleted
-          <Icon name="trash" size="24" />
-        </button>
+        {!users.users.is_customer &&
+          <button className={cn("button", styles.button)}>Deleted
+            <Icon name="trash" size="24" />
+          </button>
+        }
       </div>
     </div>
   );

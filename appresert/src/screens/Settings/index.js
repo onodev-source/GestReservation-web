@@ -21,28 +21,33 @@ const Settings = () => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   
-  const navigation = [
+  const navigations = [
     /*{
       title: "Basics",
       action: () =>
         scrollToProfile.current.scrollIntoView({ behavior: "smooth" }),
     },*/
     {
+      id: 1,
       title: t('views.settings.account'),
       //action: () => scrollToProfile.current.scrollIntoView({ behavior: "smooth" }),
     },
     {
+      id: 2,
       title: t('views.settings.category'),
       action: () => setIsCategory(true),
     },
     {
+      id: 3,
       title: t('views.settings.notifications'),
     },
     {
+      id: 4,
       title: t('views.settings.language'),
       //action: () =>/scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
     },
     {
+      id: 5,
       title: t('views.settings.help'),
      // action: () => scrollToLogin.current.scrollIntoView({ behavior: "smooth" }),
     },
@@ -52,6 +57,7 @@ const Settings = () => {
         scrollToPayment.current.scrollIntoView({ behavior: "smooth" }),
     },*/
   ];
+  const navigation = users.users.is_customer ? navigations.filter(item => item.id !== 2)  : navigations;
 
   const options = [];
   navigation.map((x) => options.push(x.title));
@@ -116,7 +122,7 @@ const Settings = () => {
         case 'email':
           setForm({ ...form, email: value });
             break;
-        case 'password':
+        case 'new-password':
           setForm({ ...form, password: value });
             break;
         case 'category':
@@ -147,7 +153,7 @@ const Settings = () => {
       formData.append("date_of_birth", form.date_of_birth);
       formData.append("bio", form.bio);
       formData.append("language", form.language);
-      formData.append("password", users.users.password);
+      formData.append("password", form.password);
   
       // Ajout du fichier photo_user
       if (media?.file) {
@@ -224,29 +230,30 @@ const Settings = () => {
                 </div>
                 <div  className={cn(styles.item, {[styles.active]: activeTab === options[0], })} >
                   <div className={styles.anchor} ></div>
-                  <Login />
+                  <Login onChange={textInputChange} formUpdate={form}/>
                 </div>
               </>
             }
-            {(activeIndex === 1 ) &&
-              <div className={cn(styles.item, {  [styles.active]: activeTab === options[1], })} >
-                <div className={styles.anchor}></div>
-                <Category onChange={textInputChange} errorSubmit={errorSubmit} setErrorSubmit={setErrorSubmit}/>
-              </div>
+            {!users.users.is_customer &&
+              (activeIndex === 1 ) &&
+                <div className={cn(styles.item, {  [styles.active]: activeTab === options[1], })} >
+                  <div className={styles.anchor}></div>
+                  <Category onChange={textInputChange} errorSubmit={errorSubmit} setErrorSubmit={setErrorSubmit}/>
+                </div>
             }
-            {(activeIndex === 2) && 
+            {((users.users.is_customer && activeIndex === 1) || (!users.users.is_customer && activeIndex === 2)) && 
               <div  className={cn(styles.item, {[styles.active]: activeTab === options[2],})} >
                 <div className={styles.anchor} ></div>
                 <Notifications />
               </div>
             }
-            {(activeIndex === 3) && 
+            {((users.users.is_customer && activeIndex === 2) || (!users.users.is_customer && activeIndex === 3)) && 
               <div className={cn(styles.item, { [styles.active]: activeTab === options[3],  })} >
                 <div className={styles.anchor}></div>
                 <Language onChange={textInputChange} formUpdate={form}/>
               </div>
             }
-            {(activeIndex === 4) && 
+            {((users.users.is_customer && activeIndex === 3) || (!users.users.is_customer && activeIndex === 4)) && 
               <div  className={cn(styles.item, {[styles.active]: activeTab === options[4],})} >
                 <div className={styles.anchor} ></div>
                 <Help />
@@ -257,7 +264,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {activeIndex !== 4 && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
+          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
         </div>
       </div>
       <TooltipGlodal />

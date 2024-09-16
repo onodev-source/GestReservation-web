@@ -13,11 +13,12 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const ProductFiles = ({ className, product, allProduct }) => {
+const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
   const { t } = useTranslation();
 
   // State to manage the selected products
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [productOrPackageImg, setProductOrPackageImg] = useState([])
   const [tags, setTags] = useState([]);
 
   const productNamesAndId = allProduct?.map(product => ({ id: product.id, product_name: product.product_name }));
@@ -62,43 +63,77 @@ const ProductFiles = ({ className, product, allProduct }) => {
     setSelectedProducts(newTags.map(tag => tag.text));
   };
 
+  const handleFileChange = ({ target }) => {
+    const file = target.files[0];
+
+    // Vérifiez si un fichier a été sélectionné
+    if (!file) {
+        return; // Sortir si aucun fichier n'est sélectionné
+    }
+
+    const mediaType = file.type.split('/')[0];
+
+    // Vérifiez que le fichier est une image
+    if (mediaType === 'image') {
+        // Créez une URL pour l'image
+        const url = URL.createObjectURL(file);
+
+        // Libérez l'ancienne URL si elle existe
+        if (productOrPackageImg.length > 0) {
+            URL.revokeObjectURL(productOrPackageImg[0].url);  // Suppression de l'ancienne image
+        }
+
+        // Remplacez l'ancienne image par la nouvelle (toujours une seule image)
+        setProductOrPackageImg([{ url, file }]);
+        setMediaUpdate({ url, file });
+        
+        target.value = '';  // Réinitialiser l'input file
+    } else {
+        console.error("Le fichier sélectionné n'est pas une image.");
+    }
+  };
+
   return (
     <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : "Upload image package"} classTitle="title-blue">
       <div className={styles.files}>
-        <File className={styles.field} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
-        <Dropdown
-          className={styles.field} label='Products' tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts} setValue={handleChange} options={productNames}
-          multiple
-        />
-        {selectedProducts.length > 0 && (
-          <div className={styles.tags}>
-            <ReactTags
-              handleDelete={handleDelete}
-              handleDrag={handleDrag}
-              delimiters={delimiters}
-              handleTagClick={handleTagClick}
-              onClearAll={onClearAll}
-              onTagUpdate={onTagUpdate}
-              suggestions={productNamesAndId?.map((x) => ({ id: String(x.id), text: x.product_name }))}
-              placeholder="Enter products name"
-              minQueryLength={2}
-              maxLength={20}
-              autofocus={false}
-              allowDeleteFromEmptyInput={true}
-              autocomplete={true}
-              readOnly={false}
-              allowUnique={true}
-              allowDragDrop={true}
-              inline={true}
-              inputFieldPosition="inline"
-              allowAdditionFromPaste={true}
-              editable={true}
-              clearAll={true}
-              tags={tags}
-              className={styles.tagsContent}
+        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? productOrPackageImg[0].url : ''} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        {!product &&
+          <>
+            <Dropdown
+              className={styles.field} label='Products' tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts} setValue={handleChange} options={productNames}
+              multiple
             />
-          </div>
-        )}
+            {selectedProducts.length > 0 && (
+              <div className={styles.tags}>
+                <ReactTags
+                  handleDelete={handleDelete}
+                  handleDrag={handleDrag}
+                  delimiters={delimiters}
+                  handleTagClick={handleTagClick}
+                  onClearAll={onClearAll}
+                  onTagUpdate={onTagUpdate}
+                  suggestions={productNamesAndId?.map((x) => ({ id: String(x.id), text: x.product_name }))}
+                  placeholder="Enter products name"
+                  minQueryLength={2}
+                  maxLength={20}
+                  autofocus={false}
+                  allowDeleteFromEmptyInput={true}
+                  autocomplete={true}
+                  readOnly={false}
+                  allowUnique={true}
+                  allowDragDrop={true}
+                  inline={true}
+                  inputFieldPosition="inline"
+                  allowAdditionFromPaste={true}
+                  editable={true}
+                  clearAll={true}
+                  tags={tags}
+                  className={styles.tagsContent}
+                />
+              </div>
+            )}
+          </>
+        }
       </div>
     </Card>
   );

@@ -5,10 +5,12 @@ import Icon from "../../../../components/Icon";
 import Cell from "./Cell";
 import Modal from "../../../../components/Modal";
 import NewPost from "../NewPost";
+import { useSelector } from "react-redux";
 
 
 const Row = ({ item }) => {
   const [visibleModal, setVisibleModal] = React.useState(false);
+  const users = useSelector((state) => state.users)
 
   const actions=[
     {
@@ -40,11 +42,13 @@ const Row = ({ item }) => {
                 dangerouslySetInnerHTML={{ __html: item.title }}
               ></div>
               <div className={styles.socials}>
-                {actions.map((x, index) => (
-                  <button className={styles.social}  href={'/'} target="_blank" rel="noopener noreferrer" key={index} onClick={x.action}>
-                    <Icon name={x.title} size="20" />
-                  </button>
-                ))}
+                {!users.users.is_customer &&
+                  actions.map((x, index) => (
+                    <button className={styles.social}  href={'/'} target="_blank" rel="noopener noreferrer" key={index} onClick={x.action}>
+                      <Icon name={x.title} size="20" />
+                    </button>
+                  ))
+                }
                 {item.socials.map((x, index) => (
                   <a className={styles.social}  href={x.url} target="_blank" rel="noopener noreferrer" key={index} >
                     <Icon name={x.title} size="20" />

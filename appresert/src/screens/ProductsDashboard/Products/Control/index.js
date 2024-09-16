@@ -6,18 +6,22 @@ import Icon from "../../../../components/Icon";
 import { NavLink } from "react-router-dom";
 import ModalProduct from "../../../../components/ModalProduct";
 import { Routes } from "../../../../Constants";
+import { useSelector } from "react-redux";
 
 
 const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId, selectedItem }) => {
   const [visibleModalProduct, setVisibleModalProduct] = React.useState(false);
+  const users = useSelector((state) => state.users)
 
   const actions = [
     {
+      id: 1,
       title: "Edit product",
       icon: "edit",
       url: `${Routes.PRODUITS_EDIT}/${productId}`
     },
     {
+      id: 2,
       title: "Delete product",
       icon: "trash",
       action: () => {
@@ -26,6 +30,7 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick, pr
       },
     },
     {
+      id: 3,
       title: "Details product",
       icon: "arrow-right",
       action: () => {
@@ -34,10 +39,11 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick, pr
       },
     }
   ];
+  const filteredActions = users.users.is_customer ? actions.filter(item => item.id !== 1 && item.id !== 2)  : actions;
 
   return (
     <div className={cn(styles.control, className)}>
-    {actions.map((act, index) =>    
+    {filteredActions.map((act, index) =>    
       act.url ? (
         <NavLink
           className={styles.button}
