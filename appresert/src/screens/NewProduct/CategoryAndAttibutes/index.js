@@ -37,7 +37,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, setCategoryProduct, formAdd }) => {
+const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, setCategoryProduct, formAdd, setForm }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
   const [category, setCategory] = useState(optionsCategory[0]);
@@ -46,7 +46,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [tags, setTags] = useState([]);
 
-  const compatibility = categoryAttribute ? (product ? compatibility3 : compatibility1) : compatibility2;
+  //const compatibility = categoryAttribute ? (product ? compatibility3 : compatibility1) : compatibility2;
 
   const handleChange = (id, title) => {
     if (selectedFilter === id) {
@@ -56,6 +56,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
       setSelectedFilter(id);
       setTags([{ id: String(id), text: title }]);
       setCategoryProduct(title)
+      setForm(prevForm => ({...prevForm, category_id: id }));
     }
   };
 

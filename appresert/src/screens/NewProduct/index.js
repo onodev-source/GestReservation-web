@@ -33,14 +33,16 @@ const NewProduct = ({product, editPack, editProd}) => {
   const [category, setCategory] = useState('')
   const [descripbe, setDescripbe] = useState('')
   const [media, setMedia] = useState()
+  const [productIds, setProductIds] = useState([])
   const [form, setForm] = useState({
     product_name: '',
     //product_description: '',    
     product_quantity: 0,
     package_name: '',
     package_price: '',
-    nb_persons: 0,
-    nb_places: 0,
+    nb_persons: '',
+    nb_places: '',
+    category_id: 0
   });
 
   const [startDate, setStartDate] = useState(new Date());
@@ -104,7 +106,7 @@ const NewProduct = ({product, editPack, editProd}) => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
     
-      // Ajout des données utilisateur au FormData
+      // Ajout des données du produit au FormData
     formData.append("product_name", form.product_name);
     formData.append("product_description", descripbe);
     formData.append("product_quantity", form.product_quantity);
@@ -146,25 +148,24 @@ const NewProduct = ({product, editPack, editProd}) => {
   const addorEditPackage =  async() => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+
+    //ajout des donnees du package au fichier
+    formData.append("package_name", form.package_name);
+    formData.append("package_price", form.package_price);
+    formData.append("nb_persons", form.nb_persons);
+    formData.append("nb_places", form.nb_places);
+    // Ajouter l'objet "category" en tant que chaîne JSON
+    formData.append('category', JSON.stringify({
+      category_name: category
+    }));
+    formData.append("category_id", form.category_id);
+    formData.append("product_ids", JSON.stringify(productIds.map(id => parseInt(id))));
     // Ajout du fichier photo_user
     if (media?.file) {
-      formData.append("photos_packages", media.file);
+      formData.append("photos_packages", media?.file);
     }
- 
-    let data = {
-      package_name: form.package_name,
-      package_price: form.package_price,
-      package_price_amount: form.package_price,
-      package_price_currency: 'XAF',
-      nb_persons: form.nb_persons,
-      nb_places: form.nb_places,
-      category: {
-        category_name: category
-      },
-      category_id: '',
-      photos_packages: formData
-    }
-    let res = editPack ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', data, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', data, users.access_token);
+    
+    let res = editPack ? await RequestDashboard(`gestreserv/packages/${packageId}/`, 'PUT', formData, users.access_token) : await RequestDashboard( 'gestreserv/packages/', 'POST', formData, users.access_token);
     let status = editPack ? 200 : 201
 
     if (res.status === status) {
@@ -224,6 +225,7 @@ const NewProduct = ({product, editPack, editProd}) => {
       });
       setCategory(productEdit?.category?.category_name || '');
       setDescripbe(productEdit?.product_description || '');
+      setMedia(productEdit?.photo_products || '');
     }
     if (packageEdit) {
       setForm({
@@ -233,6 +235,7 @@ const NewProduct = ({product, editPack, editProd}) => {
         nb_places: packageEdit.nb_places,
       });
       setCategory(packageEdit?.category?.category_name || '');
+      setMedia(packageEdit?.photos_packages || '');
       //setDescripbe(packageEdit?.product_description || '');
     }
   }, [productEdit, packageEdit]);
@@ -240,6 +243,7 @@ const NewProduct = ({product, editPack, editProd}) => {
   React.useEffect(() => {
     getAllProduct()
   }, [getAllProduct])
+  
   
   return (
     <>
@@ -252,8 +256,8 @@ const NewProduct = ({product, editPack, editProd}) => {
               <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
             {/* <ImagesAndCTA className={styles.card} />*/}
               <Price className={styles.card} product={product} onChange={textInputChange} formAdd={form}/>
-              <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd formAdd={productEdit?.category}/>
-              <CategoryAndAttibutes className={styles.card} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd formAdd={productEdit?.category}/>
+              <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
+              <CategoryAndAttibutes className={styles.card} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
               {/*<ProductFiles className={styles.card} />*/}
               {/*<Discussion className={styles.card} />*/}
 
@@ -262,7 +266,7 @@ const NewProduct = ({product, editPack, editProd}) => {
               )}
             </div>
             <div className={styles.col}>
-              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct} setMediaUpdate={setMedia}/>
+              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct} editProd={editProd} mediaUpdate={media} setMediaUpdate={setMedia} setProductIds={setProductIds} editPack={editPack}/>
               {/*<Preview
                 visible={visiblePreview}
                 onClose={() => setVisiblePreview(false)}

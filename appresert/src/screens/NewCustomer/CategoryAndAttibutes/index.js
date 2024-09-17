@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./CategoryAndAttibutes.module.sass";
 import Card from "../../../components/Card";
@@ -20,19 +20,36 @@ const compatibility = [
   },
 ];
 
-const CategoryAndAttibutes = ({ className}) => {
-  const [selectedFilters, setSelectedFilters] = useState([]);
+const CategoryAndAttibutes = ({ className, setForm}) => {
+  const [selectedFilters, setSelectedFilters] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
 
-  const handleChange = (id) => {
-    if (selectedFilters.includes(id)) {
-      setSelectedFilters(selectedFilters.filter((x) => x !== id));
+  const handleChange = (id, title) => {
+    if (selectedFilters === id) {
+      setSelectedFilters(null);
     } else {
-      setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
+      setSelectedFilters(id);
+      setForm(prevForm => ({...prevForm, sexe: title }));
     }
   };
 
+  /*const handleChange = (id, title) => {
+    if (selectedFilter === id) {
+      setSelectedFilter(null);
+      setTags([]);
+    } else {
+      setSelectedFilter(id);
+      setTags([{ id: String(id), text: title }]);
+      setCategoryProduct(title)
+      setForm(prevForm => ({...prevForm, category_id: id }));
+    }
+  };*/
+
+  useEffect(()=> {
+    setForm(prevForm => ({...prevForm, date_of_birth: startDate }));  
+  },[startDate])
+  
   return (
     <Card className={cn(styles.card, className)}  title={"Personal information"} classTitle="title-purple" >
       <div className={styles.images}>
@@ -45,8 +62,8 @@ const CategoryAndAttibutes = ({ className}) => {
             <Checkbox
               className={styles.checkbox}
               content={x.title}
-              value={selectedFilters.includes(x.id)}
-              onChange={() => handleChange(x.id)}
+              value={selectedFilters === x.id}
+              onChange={() => handleChange(x.id, x.title)}
               key={index}
             />
           ))}

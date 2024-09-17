@@ -3,8 +3,9 @@ import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
+import Loader from "../../../components/Loader";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader }) => {
   const actions = [
     {
       title: "Preview",
@@ -38,7 +39,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
         <button className={cn("button-stroke", styles.button)}>
           Cancel
         </button>
-        <button className={cn("button", styles.button)}>Save change</button>
+        <button className={cn("button", styles.button)} onClick={onClick}>{loader ? <Loader/> : 'Save change'}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

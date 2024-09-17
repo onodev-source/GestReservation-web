@@ -30,9 +30,9 @@ const Table = ({ className, activeTable, setActiveTable }) => {
 
   const getAllCustomers = useCallback(async() => {
     setLoader(true)
-    let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
+    let res = await RequestDashboard('accounts/auth/users/', 'GET', '', users.access_token);
     if (res.status === 200) {
-      setAllCustomers(res.response?.results);
+      setAllCustomers(res.response?.results?.filter((customer) => customer.is_customer === true));
       setLoader(false)
     }
   }, [users.access_token]);
@@ -59,7 +59,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
           <div className={styles.col}>Comments</div>
           <div className={styles.col}>Likes</div>
         </div>
-        {customers.map((x, index) => (
+        {allCustomers?.map((x, index) => (
           <Row
             item={x}
             key={index}
@@ -67,19 +67,19 @@ const Table = ({ className, activeTable, setActiveTable }) => {
             setActiveTable={setActiveTable}
             activeId={activeId}
             setActiveId={setActiveId}
-            up={customers.length - index <= 2}
+            up={allCustomers?.length - index <= 2}
             value={selectedFilters.includes(x.id)}
             onChange={() => handleChange(x.id)}
             customersDetails={true}
           />
         ))}
       </div>
-      <div className={styles.foot}>
+      {/*<div className={styles.foot}>
         <button className={cn("button-stroke button-small", styles.button)}>
           <Loader className={styles.loader} />
           <span>Load more</span>
         </button>
-      </div>
+      </div>*/}
     </div>
   );
 };

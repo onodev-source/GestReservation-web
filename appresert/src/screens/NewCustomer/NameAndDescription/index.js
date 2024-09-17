@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./NameAndDescription.module.sass";
@@ -7,9 +7,31 @@ import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
 import Editor from "../../../components/Editor";
 import { Routes } from "../../../Constants";
+import { ContentState, EditorState } from "draft-js";
 
-const NameAndDescription = ({ className, product }) => {
-  const [content, setContent] = useState();
+const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd }) => {
+  const [content, setContent] = useState(EditorState.createEmpty());
+
+  // Fonction qui se déclenche à chaque changement de contenu sur l'editor
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
+    
+    setDescripbe(newContent.getCurrentContent().getPlainText())
+  };
+
+  // Utilisez un effet pour synchroniser le contenu de l'éditeur avec formAdd.descripbe
+  useEffect(() => {
+    if (formAdd.descripbe !== undefined) {
+      const currentContent = content?.getCurrentContent();
+      const newContent = ContentState.createFromText(formAdd.descripbe);
+
+      // Si le contenu a changé, mettez à jour l'état de l'éditeur sans réinitialiser le curseur
+      if (currentContent?.getPlainText() !== formAdd.descripbe) {
+        const newEditorState = EditorState.createWithContent(newContent);
+        setContent(newEditorState);
+      }
+    }
+  }, [formAdd.descripbe, content]);
 
   return (
     <Card className={cn(styles.card, className)} title="Name & description" classTitle="title-green"
@@ -21,9 +43,9 @@ const NameAndDescription = ({ className, product }) => {
       }
     >
       <div className={styles.description}>
-        <TextInput className={styles.field} label="Customer name"  name="name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <TextInput className={styles.field} label="Customer last name"  name="lastName" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
-        <Editor state={content}onChange={setContent} classEditor={styles.editor} label="Description" tooltip="Description"/>
+        <TextInput className={styles.field} value={formAdd.form.first_name} onChange={onChange} label="Customer name"  name="first-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <TextInput className={styles.field} value={formAdd.form.last_name} onChange={onChange} label="Customer last name"  name="last-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <Editor state={content}onChange={handleEditorChange} classEditor={styles.editor} label="Description" tooltip="Description"/>
         {/*<div className={styles.group}>
           <TextInput className={styles.field}  label="Key features" name="value1"type="text" placeholder="Value" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
           <TextInput  className={styles.field} name="value2" type="text" placeholder="Value"  required/>

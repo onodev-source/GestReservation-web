@@ -17,6 +17,20 @@ const suggestions = [
 const Details = ({ item, customersDetails, onClose }) => {
   const [content, setContent] = useState();
 
+  const customerArray = [
+    { title: 'Full name', content: item.full_name },
+    { title: 'Email', content: item.email },
+    { title: 'Date of birth', content: item.date_of_birth },
+    { title: 'Gender', content: item.gender },
+    { title: 'Phone', content: item.phone_number },
+    { title: 'City', content: item.city },
+    { title: 'Country', content: item.country },
+    { title: 'Language', content: item.language },
+    { title: 'Mode session', content: item.mode_session },
+  ];
+
+  const parameters = customersDetails ? customerArray : item?.parameters
+
   return (
     <>
       <div className={styles.details}>
@@ -25,7 +39,7 @@ const Details = ({ item, customersDetails, onClose }) => {
           <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
             <Product className={styles.product} item={item} customersDetails={customersDetails}/>
             <div className={styles.parameters}>
-              {item.parameters.map((x, index) => (
+              {parameters?.map((x, index) => (
                 <Parameter item={x} key={index} />
               ))}
             </div>

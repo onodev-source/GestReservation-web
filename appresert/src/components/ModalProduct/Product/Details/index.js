@@ -42,7 +42,7 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product, de
         </div>
       </div>
       <Overview product={product} detailsData={detailsData}/>
-      <Products product={product} detailsData={detailsData}/>
+      <Products product={product} productData={detailsData?.products}/>
     </div>
   );
 };

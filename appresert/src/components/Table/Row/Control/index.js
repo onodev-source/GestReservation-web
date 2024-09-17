@@ -15,9 +15,16 @@ const Control = ({
   setStartDate,
   startTime,
   setStartTime,
-  customersDetails
+  customersDetails, 
+  selectedItem,
+  setSelectedItem
 }) => {
   const [visibleModal, setVisibleModal] = useState(false);
+
+  const handleChangeVisibleProduct = (itemSelected) => {
+    setSelectedItem(itemSelected); 
+    setVisibleModal(true)
+  };
 
   const actions = [
     //{
@@ -35,7 +42,7 @@ const Control = ({
     },
     {
       icon: "arrow-right",
-      action: () => setVisibleModal(true),
+      action: () => handleChangeVisibleProduct(item),
     },
   ];
 
@@ -55,7 +62,7 @@ const Control = ({
         ))}
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={item} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>
+        <Details item={selectedItem} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>
       </Modal>
       {/*<Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
         <Schedule

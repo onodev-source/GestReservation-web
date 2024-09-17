@@ -74,6 +74,7 @@ const Row = ({
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
 
   React.useEffect(() => {
     const checkIfMobile = () => {
@@ -96,6 +97,7 @@ const Row = ({
     //setActiveId(id);
   };
 
+  
   return (
     <>
       <div className={cn( styles.row, { [styles.selected]: activeId === item.id }, { [styles.active]: visibleActions })} onMouseLeave={() => setVisibleActions(false)} onClick={handleRowClick}>
@@ -108,10 +110,10 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.item} onClick={() => handleClick(item.id)}>
-            <Avatar user={{username: item.user, photo: item.avatar}} classname={styles.avatar}/>
+            <Avatar user={{username: item.email, photo: item.photo_user}} classname={styles.avatar}/>
             <div className={styles.details}>
-              <div className={styles.user}>{item.user}</div>
-              <div className={styles.login}>{item.login}</div>
+              <div className={styles.user}>{item.full_name}</div>
+              <div className={styles.login}>@{item.email}</div>
               <div className={styles.email}>{item.email}
               </div>
             </div>
@@ -121,21 +123,21 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.email}>{item.email}</div>
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? customerDetails : item} customersDetails={customersDetails}/>
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? item : item} customersDetails={customersDetails} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
         </div>
         <div className={styles.col}>
           <div className={cn("status-green-dark", styles.purchase)}>
-            {item.purchase}
+            {item.purchase || '12'}
           </div>
         </div>
         <div className={styles.col}>
           <div className={styles.lifetime}>
-            <div className={styles.price}>${item.price}</div>
-            <Balance className={styles.balance} value={item.balance} />
+            <div className={styles.price}>{item.price || '1500'}XAF</div>
+            <Balance className={styles.balance} value={item.balance || '2.8'} />
           </div>
         </div>
-        <div className={styles.col}>{item.comments}</div>
-        <div className={styles.col}>{item.likes}</div>
+        <div className={styles.col}>{item.comments || '14'}</div>
+        <div className={styles.col}>{item.likes || '20'}</div>
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
         <Details item={refunds[0]} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>

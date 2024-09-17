@@ -13,7 +13,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
+const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpdate, editProd, setProductIds, editPack }) => {
   const { t } = useTranslation();
 
   // State to manage the selected products
@@ -27,17 +27,20 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
   const handleChange = (selectedItems) => {
     const itemsArray = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
     setSelectedProducts(itemsArray);
+    
     const newTags = itemsArray.map(item => {
       const foundProduct = allProduct.find(product => product.product_name === item);
       return { id: String(foundProduct.id), text: foundProduct.product_name };
     });
     setTags(newTags);
+    setProductIds(newTags.map(tag => tag.id));
   };
 
   const handleDelete = (i) => {
     const newTags = tags.filter((tag, index) => index !== i);
     setTags(newTags);
     setSelectedProducts(newTags.map(tag => tag.text));
+    setProductIds(newTags.map(tag => tag.id));
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -54,6 +57,7 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
   const onClearAll = () => {
     setTags([]);
     setSelectedProducts([]);
+    setProductIds([]);
   };
 
   const onTagUpdate = (i, newTag) => {
@@ -61,6 +65,7 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
     newTags[i] = newTag;
     setTags(newTags);
     setSelectedProducts(newTags.map(tag => tag.text));
+    setProductIds(newTags.map(tag => tag.id));
   };
 
   const handleFileChange = ({ target }) => {
@@ -93,10 +98,11 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate }) => {
     }
   };
 
+  
   return (
     <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : "Upload image package"} classTitle="title-blue">
       <div className={styles.files}>
-        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? productOrPackageImg[0].url : ''} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? productOrPackageImg[0].url : ((editProd || editPack)? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
         {!product &&
           <>
             <Dropdown
