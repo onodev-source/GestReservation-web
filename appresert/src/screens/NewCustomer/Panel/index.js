@@ -5,7 +5,7 @@ import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 import Loader from "../../../components/Loader";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormFilled }) => {
   const actions = [
     {
       title: "Preview",
@@ -39,7 +39,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader }) => {
         <button className={cn("button-stroke", styles.button)}>
           Cancel
         </button>
-        <button className={cn("button", styles.button)} onClick={onClick}>{loader ? <Loader/> : 'Save change'}</button>
+        <button className={cn("button", styles.button)}  onClick={onClick} >{loader ? <Loader/> : 'Save change'}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

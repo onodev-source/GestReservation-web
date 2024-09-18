@@ -58,7 +58,7 @@ const App = () => {
         <Route path="/packages/comments" element={<AuthGuard props={<Page title={t('navigation.title.packages_comments')}><Comments /></Page>} />} />
         <Route path="/customers/overview" element={<Page title={t('navigation.title.customers_overview')}><Customers /></Page>} />
         <Route path="/customers/add" element={<AuthGuard props={<Page title={t('navigation.title.customers_add')}><NewCustomer/></Page>} />} />
-        <Route path="/customers/edit" element={<AuthGuard props={<Page title={t('navigation.title.customers_edit')}><NewCustomer editCust={true}/></Page>} />} />
+        <Route path="/customers/edit/:customerId" element={<AuthGuard props={<Page title={t('navigation.title.customers_edit')}><NewCustomer editCust={true}/></Page>} />} />
         <Route path="/customers/customer-list" element={<AuthGuard props={<Page title={t('navigation.title.customers_list')}><CustomerList /></Page>} />} />
         <Route path="/shop" element={<Page wide><Shop /></Page>} />
         <Route path="/profile" element={<AuthGuard props={<Page wide><ProfileUser /></Page>} />} />

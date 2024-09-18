@@ -14,8 +14,7 @@ const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
 );
 
-const Products = ({product, productData}) => {
-  const productsList = product ? products : productData
+const Products = ({product, productData, onClick}) => {
 
   const settings = {
     infinite: true,
@@ -56,8 +55,8 @@ const Products = ({product, productData}) => {
       </div>
       <div className={cn("slider-container", styles.wrapper)}>
         <Slider className={cn("products-slider", {"products-sliderSpacing" : !product})} {...settings}>
-          {productsList?.map((x, index) => (
-            <Product className={styles.product}  item={x}  key={index} withoutСheckbox product={product} isDetailsPack={product ? false : true}/>
+          {productData?.map((x, index) => (
+            <Product className={styles.product}  item={x}  key={index} withoutСheckbox product={product} isDetailsPack={product ? false : true} onClickDelete={onClick}/>
           ))}
         </Slider>
       </div>

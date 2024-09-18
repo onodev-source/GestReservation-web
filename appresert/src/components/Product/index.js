@@ -19,7 +19,7 @@ const gallery = [
   }
 ];
 
-const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages}) => {
+const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete}) => {
 
   const [visible, setVisible] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
@@ -50,8 +50,8 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
           {!withoutСheckbox && (
             <Checkbox className={styles.checkbox} classCheckboxTick={styles.checkboxTick} value={value}  onChange={() => handleClick()}/>
           )}
-          <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id}/>
-          <img srcSet={`${isPackage ? '/images/content/product-pic-2@2x.jpg' : (isDetailsPack ? item.photo_products : item.image2x)} 2x`} src={isPackage ? '/images/content/product-pic-2.jpg' : (isDetailsPack ? item.photo_products : item.image)} alt="Product" />
+          <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>
+          <img srcSet={`${isPackage ? '/images/content/product-pic-2@2x.jpg' : item.photo_products} 2x`} src={isPackage ? '/images/content/product-pic-2.jpg' :  item.photo_products } alt="Product" />
           {!isPreviewHidden &&
             <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => setVisibleModalPreview(true)} >
               Show preview
@@ -60,8 +60,8 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
         </div>
         <div onClick={() => handleChangeVisibleProduct(item)} style={{cursor: modalDetail ? 'pointer' : ''}}>
           <div className={styles.line}>
-            <div className={styles.title}>{isPackage ? item?.package_name : (isDetailsPack ? item?.product_name : item.product)}</div>
-            {!isDetailsPack && (
+            <div className={styles.title}>{isPackage ? item?.package_name : item?.product_name}</div>
+            {(!isDetailsPack && isPackage) && (
               price > 0 ? (
                 <div className={styles.price}>{price}XAF</div>
               ) : (

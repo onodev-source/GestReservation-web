@@ -10,31 +10,35 @@ import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 import { ContentState, EditorState } from "draft-js";
 
-const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd }) => {
+const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd, setCaracteristics }) => {
   const {t} = useTranslation()
   // Initialisation de l'état content avec un EditorState vide
   const [content, setContent] = useState(EditorState.createEmpty());
+  const [contentcaract, setContentCaract] = useState(EditorState.createEmpty());
 
-   // Fonction qui se déclenche à chaque changement de contenu sur l'editor
-  const handleEditorChange = (newContent) => {
-    setContent(newContent);
-    
-    setDescripbe(newContent.getCurrentContent().getPlainText())
+  const handleEditorChange = (newContent, setter, setValue) => {
+    setter(newContent);
+    setValue(newContent.getCurrentContent().getPlainText());
   };
 
-  // Utilisez un effet pour synchroniser le contenu de l'éditeur avec formAdd.descripbe
-  useEffect(() => {
-    if (formAdd.descripbe !== undefined) {
-      const currentContent = content.getCurrentContent();
-      const newContent = ContentState.createFromText(formAdd.descripbe);
+  // Fonction pour synchroniser l'éditeur avec formAdd
+  const useSyncEditorState  = (editorState, formValue, setter) => {
+    useEffect(() => {
+      if (formValue !== undefined) {
+        const currentContent = editorState.getCurrentContent();
+        const newContent = ContentState.createFromText(formValue);
 
-      // Si le contenu a changé, mettez à jour l'état de l'éditeur sans réinitialiser le curseur
-      if (currentContent.getPlainText() !== formAdd.descripbe) {
-        const newEditorState = EditorState.createWithContent(newContent);
-        setContent(newEditorState);
+        if (currentContent.getPlainText() !== formValue) {
+          const newEditorState = EditorState.createWithContent(newContent);
+          setter(newEditorState);
+        }
       }
-    }
-  }, [formAdd.descripbe, content]);
+    }, [formValue, editorState]);
+  };
+
+  // Synchroniser l'état des éditeurs
+  useSyncEditorState(content, formAdd.descripbe, setContent);
+  useSyncEditorState(contentcaract, formAdd.caracteristics, setContentCaract);
 
   return (
     <Card className={cn(styles.card, className)} title={t('views.products.add.name_and_description')} classTitle="title-green"
@@ -47,13 +51,21 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
     >
       <div className={styles.description}>
         <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.package_name} className={styles.field} label={t('views.products.add.product_title')}  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <Editor state={content} onChange={handleEditorChange} classEditor={styles.editor} label={t('views.products.add.description')}  tooltip="Description"/>
-        <div className={styles.group}>
+        <Editor state={content} onChange={(newContent) => handleEditorChange(newContent, setContent, setDescripbe)} classEditor={styles.editor} label={t('views.products.add.description')}  tooltip="Description"/>
+        {product ? (
+          <Editor state={contentcaract} onChange={(newContent) => handleEditorChange(newContent, setContentCaract, setCaracteristics)} classEditor={styles.editor} label={t('views.products.add.key_features')}  tooltip="Key features "/>
+        ) : (
+          <div className={styles.group}>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('views.products.add.key_features')} name="nb_persons" type="text" placeholder={product ? t('views.products.add.value') : 'Number of persons'} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} name="nb_places" type="text" placeholder={product ? t('views.products.add.value') : 'Number of places'}  required/>
+          </div>
+        )}
+        {/*<div className={styles.group}>
           <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('views.products.add.key_features')} name="nb_persons" type="text" placeholder={product ? t('views.products.add.value') : 'Number of persons'} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
           <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} name="nb_places" type="text" placeholder={product ? t('views.products.add.value') : 'Number of places'}  required/>
           <TextInput onChange={onChange} value={formAdd.form?.product_name}  className={styles.field}  name="value3" type="text"  placeholder={t('views.products.add.value')} required />
           <TextInput onChange={onChange} value={formAdd.form?.product_name}  className={styles.field}  name="value4"  type="text"  placeholder={t('views.products.add.value')} required  />
-        </div>
+        </div>*/}
       </div>
     </Card>
   );

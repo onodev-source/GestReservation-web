@@ -96,15 +96,15 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
       let res = await RequestDashboard('gestreserv/categories/', 'GET', '', users.access_token);
       if (res.status === 200) {
         const categories = res.response.results;
-        setCategoryData(categories);
+        setCategoryData(product ? categories?.filter((cat) => cat.type_category === "Product") : categories?.filter((cat) => cat.type_category === "Package"));
   
         if (editProd && formAdd) {
           // Vérifiez si formAdd a un champ category_name ou similaire
-          const defaultCategory = formAdd.category_name || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
+          const defaultCategory = formAdd || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
           setCategory(defaultCategory);
   
-          if (formAdd.id) {
-            const selectedCategory = categories.find(category => category.id === formAdd.id);
+          if (formAdd) {
+            const selectedCategory = categories.find(category => category.category_name === formAdd);
             if (selectedCategory) {
               setSelectedFilter(selectedCategory.id);
               setTags([{ id: String(selectedCategory.id), text: selectedCategory.category_name }]);
@@ -114,7 +114,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
       }
     };
     getAllCategory();
-  }, [editProd, formAdd, users.access_token]);
+  }, [editProd, formAdd, users.access_token, product]);
   
   
   return (

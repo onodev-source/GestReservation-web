@@ -65,8 +65,9 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState(options[0]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loader, setLoader] = useState(false)
-  const [errorSubmit, setErrorSubmit] = useState('')
   const [isCategory, setIsCategory] = useState(false)
+  const [errorSubmit, setErrorSubmit] = useState('')
+  const [typeCategory, setTypeCategory] = useState('')
   const [media, setMedia] = useState()
   const [form, setForm] = useState({
     first_name: users.users.first_name,
@@ -160,8 +161,13 @@ const Settings = () => {
         formData.append("photo_user", media.file);
       }
     } else {
-      // Si c'est une catégorie, on ajoute seulement le nom de la catégorie
-      formData.append("category_name", form.category);
+      if(typeCategory !== 'Select category type'){
+        // Si c'est une catégorie, on ajoute seulement le nom de la catégorie
+        formData.append("category_name", form.category);
+        formData.append("type_category", typeCategory);
+      } else {
+        setErrorSubmit("Please select category type.");
+      }
     }
   
     try {
@@ -202,7 +208,7 @@ const Settings = () => {
     }
   };
   
-
+  
   return (
     <>
       <div className={styles.settings}>
@@ -238,7 +244,7 @@ const Settings = () => {
               (activeIndex === 1 ) &&
                 <div className={cn(styles.item, {  [styles.active]: activeTab === options[1], })} >
                   <div className={styles.anchor}></div>
-                  <Category onChange={textInputChange} errorSubmit={errorSubmit} setErrorSubmit={setErrorSubmit}/>
+                  <Category onChange={textInputChange} errorSubmit={errorSubmit} setErrorSubmit={setErrorSubmit} setTypeCategory={setTypeCategory}/>
                 </div>
             }
             {((users.users.is_customer && activeIndex === 1) || (!users.users.is_customer && activeIndex === 2)) && 

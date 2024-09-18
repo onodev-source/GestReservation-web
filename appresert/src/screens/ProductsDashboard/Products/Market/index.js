@@ -61,6 +61,7 @@ const Market = ({ items, loader, getAllProduct }) => {
                 value={selectedFilters.includes(x.id)}
                 onChange={() => handleChange(x.id)}
                 onClick={() => deleteProductById(x.id)}
+                items={items}
               />
             ))}
         </div>

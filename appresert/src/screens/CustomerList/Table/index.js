@@ -37,6 +37,14 @@ const Table = ({ className, activeTable, setActiveTable }) => {
     }
   }, [users.access_token]);
   
+  const deleteCustomerById =  async(id) => {
+    
+    let res = await RequestDashboard(`account/auth/users/${id}`, 'DELETE', '', users.access_token);
+    if (res.status === 204) {
+      getAllCustomers();
+    }
+  };
+
   React.useEffect(() => {
     getAllCustomers()
   }, [getAllCustomers])
@@ -70,6 +78,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
             up={allCustomers?.length - index <= 2}
             value={selectedFilters.includes(x.id)}
             onChange={() => handleChange(x.id)}
+            onClick={() => deleteCustomerById(x.id)}
             customersDetails={true}
           />
         ))}

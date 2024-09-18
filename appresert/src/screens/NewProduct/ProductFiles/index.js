@@ -33,14 +33,14 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
       return { id: String(foundProduct.id), text: foundProduct.product_name };
     });
     setTags(newTags);
-    setProductIds(newTags.map(tag => tag.id));
+    setProductIds(newTags.map(tag => tag.text));
   };
 
   const handleDelete = (i) => {
     const newTags = tags.filter((tag, index) => index !== i);
     setTags(newTags);
     setSelectedProducts(newTags.map(tag => tag.text));
-    setProductIds(newTags.map(tag => tag.id));
+    setProductIds(newTags.map(tag => tag.text));
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -65,7 +65,7 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
     newTags[i] = newTag;
     setTags(newTags);
     setSelectedProducts(newTags.map(tag => tag.text));
-    setProductIds(newTags.map(tag => tag.id));
+    setProductIds(newTags.map(tag => tag.text));
   };
 
   const handleFileChange = ({ target }) => {

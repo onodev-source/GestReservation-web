@@ -6,10 +6,9 @@ import Overview from "./Overview";
 import Products from "./Products";
 
 
-const Details = ({ className, setValue, activeIndex, setActiveIndex, product, detailsData }) => {
+const Details = ({ className, setValue, activeIndex, setActiveIndex, product, detailsData, items, onClick }) => {
   const navigation = product ? ["Product details"] : ["Package details", "Comment"];
 
-  const price = product ? '89' : detailsData?.package_price
   //mise a jours de l'index actif
   const handleClick = (index) => {
     setActiveIndex(index);
@@ -33,7 +32,7 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product, de
             <span>32</span>
           </button>
           <button className={cn("button", styles.buy)}>
-            <span className={styles.price}>{price}XAF</span>
+            <span className={styles.price}>{!product ? `${detailsData?.package_price}XAF` : `Qty: ${detailsData.product_quantity}`}</span>
             {/*<span className={styles.inner}>
               Download<span> now</span>
               <Icon name="download" size="24" />
@@ -42,7 +41,7 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product, de
         </div>
       </div>
       <Overview product={product} detailsData={detailsData}/>
-      <Products product={product} productData={detailsData?.products}/>
+      <Products product={product} productData={!product ? detailsData?.products : items} onClick={onClick}/>
     </div>
   );
 };

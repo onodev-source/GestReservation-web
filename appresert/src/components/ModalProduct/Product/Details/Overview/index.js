@@ -38,8 +38,8 @@ const Overview = ({product, detailsData}) => {
         </div>
         <div className={styles.line}>
           <div className={styles.author}>
-            <Avatar user={{username: 'Chelsie Haley', photo: "/images/content/avatar.jpg"}} classname={styles.avatar} width='32px'  height='32px'/>
-            by <span className={styles.span}>Chelsie Haley</span>
+            <Avatar user={{username: product ? detailsData?.manager?.get_manager_name : 'pouako', photo: ""}} classname={styles.avatar} width='32px'  height='32px'/>
+            by <span className={styles.span}>{product ? detailsData?.manager?.get_manager_name : 'Pouako'}</span>
           </div>
           <div className={styles.rating}>
             <Icon name="star-fill" size="24" />
@@ -48,14 +48,9 @@ const Overview = ({product, detailsData}) => {
           </div>
         </div>
         <div className={styles.gallery}>
-          {gallery.map(
-            (x, index) =>
-              index < 1 && (
-                <div className={styles.preview} key={index}>
-                  <InnerImageZoom className={styles.innerImage} src={x.img} zoomSrc={x.img2x} zoomType="hover" zoomScale={2}/>
-                </div>
-              )
-          )}
+          <div className={styles.preview}>
+            <InnerImageZoom className={styles.innerImage} width={972} src={product ? detailsData.photo_products : detailsData?.photos_packages} zoomSrc={product ? detailsData.photo_products : detailsData?.photos_packages} zoomType="hover" zoomScale={2}/>
+          </div>
           {/*<button className={cn("button-white", styles.button)} onClick={() => setVisibleModalPreview(true)} >
             Show 0    preview
           </button>*/}
@@ -76,24 +71,13 @@ const Overview = ({product, detailsData}) => {
                   next crypto, NFT product faster.`
                 )}
               </p>
-              <p>
-                Types of screens included: onboarding, connect wallet, home
-                feed, profile, upload, menu, search, product detail,
-                notification...
-              </p>
-              <p>
-                If you have any questions or requests, please feel free to leave
-                them all in the comments section.
-              </p>
             </div>
           </div>
           <div className={styles.col}>
             <div className={cn("title-purple", styles.subtitle)}>Features</div>
             <ul className={styles.features}>
               { product ? (
-                features.map((x, index) => (
-                  <li key={index}>{x}</li>
-                ))
+                <li>{detailsData?.caracteristics_products}</li>
               ) : (
                 <>
                   <li>Number of persons: {detailsData?.nb_persons}</li>

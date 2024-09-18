@@ -8,7 +8,7 @@ import Icon from "../Icon";
 import Product from "./Product";
 import { Routes } from "../../Constants";
 
-const ModalProduct = ({ visible, onClose, product, detailsData }) => {
+const ModalProduct = ({ visible, onClose, product, detailsData, items }) => {
   
   // Définition de la fonction escFunction en utilisant useCallback pour éviter de recréer la fonction à chaque rendu.
   const escFunction = useCallback(
@@ -49,7 +49,7 @@ const ModalProduct = ({ visible, onClose, product, detailsData }) => {
     visible && (
       <div id="modal-product" className={styles.modal}>
         <div className={styles.control}>
-          <Link className={cn("button-white", styles.button)} to={product ? Routes.PRODUITS_EDIT : Routes.PACKAGES_EDIT} >
+          <Link className={cn("button-white", styles.button)} to={product ? Routes.PRODUITS_EDIT : `${Routes.PACKAGES_EDIT}/${detailsData?.id}`} >
           {product ? "Edit product" : "Edit package"}
           </Link>
           <button className={styles.close} onClick={onClose}>
@@ -57,7 +57,7 @@ const ModalProduct = ({ visible, onClose, product, detailsData }) => {
           </button>
         </div>
         <div className={styles.outer}>
-          <Product product={product} detailsData={detailsData}/>
+          <Product product={product} detailsData={detailsData} items={product && items }/>
         </div>
       </div>
     ),

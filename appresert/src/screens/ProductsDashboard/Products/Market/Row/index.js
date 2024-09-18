@@ -11,7 +11,7 @@ import RequestDashboard from "../../../../../Services/Api/ApiServices.js";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../../../../Utils/formatDate.js";
 
-const Row = ({ item, value, onChange, up, onClick }) => {
+const Row = ({ item, value, onChange, up, onClick, items }) => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
@@ -39,18 +39,18 @@ const Row = ({ item, value, onChange, up, onClick }) => {
               <div className={styles.product}>{item.product_name}</div>
               <div className={styles.wrap}>
                 <div className={styles.price}>{item.product_quantity}</div>
-                <div className={styles.category}>{item.category?.category_name}</div>
+                <div className={styles.category}>{item.category}</div>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.col}>
           <div className={styles.label}>Status</div>
-          {/*item.status ? (*/}
+          {item.is_active ? (
             <div className={cn("status-green", styles.status)}>Active</div>
-          {/*}) : (
+          ) : (
             <div className={cn("status-red", styles.statusRed)}>Deactive</div>
-          )}*/}
+          )}
           <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} selectedItem={selectedItem}/>
         </div>
         <div className={styles.col}>{item.product_quantity}</div>
@@ -106,7 +106,7 @@ const Row = ({ item, value, onChange, up, onClick }) => {
       </div>
       {/*<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>*/}
         
-      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>)}
+      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClick={onClick} onClose={() => setVisibleModalProduct(false)} product={true} items={items} detailsData={selectedItem} key={selectedItem?.id}/>)}
     </>
   );
 };

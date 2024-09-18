@@ -69,6 +69,7 @@ const Row = ({
   activeId,
   setActiveId,
   up,
+  onClick,
   customersDetails
 }) => {
   const [visibleActions, setVisibleActions] = useState(false);
@@ -123,7 +124,7 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.email}>{item.email}</div>
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? item : item} customersDetails={customersDetails} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+          <Control className={styles.control} onclick={onClick} visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? item : item} customerId={item.id} customersDetails={customersDetails} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
         </div>
         <div className={styles.col}>
           <div className={cn("status-green-dark", styles.purchase)}>

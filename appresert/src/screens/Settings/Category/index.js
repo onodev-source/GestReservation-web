@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./Category.module.sass";
 import Item from "../Item";
-import Icon from "../../../components/Icon";
+//import Icon from "../../../components/Icon";
 import TextInput from "../../../components/TextInput";
-import Editor from "../../../components/Editor";
+//import Editor from "../../../components/Editor";
 import Dropdown from "../../../components/Dropdown";
 import ErrorMessage from "../../../components/ErrorMessage";
 
-const optionsCategory = ["Select category type","Product category", "Package category", "Type event"];
+const optionsCategory = ["Select category type","Product", "Package", "Type event"];
 
-const Category = ({ className, onChange, errorSubmit, setErrorSubmit }) => {
-  const [content, setContent] = useState();
+const Category = ({ className, onChange, errorSubmit, setErrorSubmit, setTypeCategory }) => {
+  //const [content, setContent] = useState();
   const [category, setCategory] = useState(optionsCategory[0]);
 
+  useEffect(()=> {
+    setTypeCategory(category)
+  }, [category])
   
   return (
     <>
       <Item className={cn(styles.card, className)}  title="Add category" classTitle="title-green" >
         <div className={styles.profile}>
+          {errorSubmit !== '' && (
+            <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+          )}
           <Dropdown  className={styles.field}  label={"Category type"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
-            options={optionsCategory}
+            options={optionsCategory.filter(category => category !== "Select category type")} 
           />
           {/*<div className={styles.avatar}>
             <img src="/images/content/avatar.jpg" alt="Avatar" />
@@ -38,20 +44,17 @@ const Category = ({ className, onChange, errorSubmit, setErrorSubmit }) => {
           <button className={cn("button-stroke", styles.button)}>Remove</button>*/}
         </div>
         <div className={styles.fieldset}>
-          {errorSubmit !== '' && (
-            <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
-          )}
           <TextInput onChange={onChange} className={styles.field}  label="Name"  name="category" type="text"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"  required
           />
           {/*<TextInput className={styles.field} label="Email"  name="email" type="email"
             tooltip="Maximum 100 characters. No HTML or emoji allowed" required />*/}
           {/*<TextInput  className={styles.field}  label="Location" name="location"
-            type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required />*/}
+            type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required />
 
           <Editor state={content}  onChange={setContent} classEditor={styles.editor}
             label="Wording" tooltip="Description"
-          />
+          />*/}
         </div>
       </Item>
     </>

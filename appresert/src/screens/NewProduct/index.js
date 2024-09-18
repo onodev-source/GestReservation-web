@@ -32,12 +32,13 @@ const NewProduct = ({product, editPack, editProd}) => {
   const [packageEdit, setPackageEdit] = useState()
   const [category, setCategory] = useState('')
   const [descripbe, setDescripbe] = useState('')
+  const [caracteristics, setCaracteristics] = useState('')
   const [media, setMedia] = useState()
   const [productIds, setProductIds] = useState([])
   const [form, setForm] = useState({
     product_name: '',
     //product_description: '',    
-    product_quantity: 0,
+    product_quantity: '',
     package_name: '',
     package_price: '',
     nb_persons: '',
@@ -105,15 +106,13 @@ const NewProduct = ({product, editPack, editProd}) => {
   const addorEditProduct =  async() => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
-    
       // Ajout des données du produit au FormData
     formData.append("product_name", form.product_name);
     formData.append("product_description", descripbe);
     formData.append("product_quantity", form.product_quantity);
-    // Ajouter l'objet "category" en tant que chaîne JSON
-    formData.append('category', JSON.stringify({
-      category_name: category
-    }));
+    formData.append("caracteristics_products", caracteristics);
+    formData.append('category',  category);
+    formData.append('is_active',  true);
     // Ajout du fichier photo_user
     if (media?.file) {
       formData.append("photo_products", media.file);
@@ -126,7 +125,8 @@ const NewProduct = ({product, editPack, editProd}) => {
       setLoader(false)
       setCategory('')
       setDescripbe('')
-      setForm({ ...form, product_name: '', product_quantity: 0,});
+      setCaracteristics('')
+      setForm({ ...form, product_name: '', product_quantity: ''});
     }
     else if (res.status === 400) { 
       setLoader(false)
@@ -148,18 +148,17 @@ const NewProduct = ({product, editPack, editProd}) => {
   const addorEditPackage =  async() => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
-
+    
     //ajout des donnees du package au fichier
     formData.append("package_name", form.package_name);
     formData.append("package_price", form.package_price);
+    formData.append("package_description", descripbe);
     formData.append("nb_persons", form.nb_persons);
     formData.append("nb_places", form.nb_places);
     // Ajouter l'objet "category" en tant que chaîne JSON
-    formData.append('category', JSON.stringify({
-      category_name: category
-    }));
-    formData.append("category_id", form.category_id);
-    formData.append("product_ids", JSON.stringify(productIds.map(id => parseInt(id))));
+    formData.append('category_name',  category)
+    //formData.append("category_id", form.category_id);
+    formData.append("product_names", JSON.stringify(productIds));
     // Ajout du fichier photo_user
     if (media?.file) {
       formData.append("photos_packages", media?.file);
@@ -172,22 +171,22 @@ const NewProduct = ({product, editPack, editProd}) => {
       setErrorSubmit(`The package has been successfully ${editPack ? 'updated' : 'created'}`)
       setLoader(false)
       setCategory('')
-      //setDescripbe('')
-      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      setDescripbe('')
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: '', nb_places: '',});
     }
     else if (res.status === 400) { 
       setLoader(false)
-      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      //setForm({ ...form, package_name: '', package_price: '', nb_persons: '', nb_places: '',});
       setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
       setLoader(false)
-      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+      //setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
       setErrorSubmit( "Your email address has not been verified "); 
     }
     else { 
       setLoader(false)
-      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
+     // setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0,});
       setErrorSubmit("An error has occurred please try again"); 
     }
   };
@@ -223,8 +222,9 @@ const NewProduct = ({product, editPack, editProd}) => {
         product_name: productEdit.product_name,
         product_quantity: productEdit.product_quantity,
       });
-      setCategory(productEdit?.category?.category_name || '');
+      setCategory(productEdit?.category|| '');
       setDescripbe(productEdit?.product_description || '');
+      setCaracteristics(productEdit?.caracteristics_products || '');
       setMedia(productEdit?.photo_products || '');
     }
     if (packageEdit) {
@@ -234,7 +234,7 @@ const NewProduct = ({product, editPack, editProd}) => {
         nb_persons: packageEdit.nb_persons,
         nb_places: packageEdit.nb_places,
       });
-      setCategory(packageEdit?.category?.category_name || '');
+      setCategory(packageEdit?.category || '');
       setMedia(packageEdit?.photos_packages || '');
       //setDescripbe(packageEdit?.product_description || '');
     }
@@ -253,7 +253,7 @@ const NewProduct = ({product, editPack, editProd}) => {
         <>
           <div className={styles.row}>
             <div className={styles.col}>
-              <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
+              <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe} setCaracteristics={setCaracteristics}  formAdd={{form, descripbe, caracteristics}}/>
             {/* <ImagesAndCTA className={styles.card} />*/}
               <Price className={styles.card} product={product} onChange={textInputChange} formAdd={form}/>
               <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>

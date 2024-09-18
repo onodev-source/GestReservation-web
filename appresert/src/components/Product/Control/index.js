@@ -8,7 +8,7 @@ import { Routes } from "../../../Constants";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 
-const Control = ({ className, selectedItem, getAllPackages, packageId }) => {
+const Control = ({ className, selectedItem, getAllPackages, packageId, product, productId, onClickDelete }) => {
   const users = useSelector((state) => state.users);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
 
@@ -24,12 +24,12 @@ const Control = ({ className, selectedItem, getAllPackages, packageId }) => {
     {
       id: 1,
       icon: "edit",
-      url: `${Routes.PACKAGES_EDIT}/${packageId}`,
+      url: product ? `${Routes.PACKAGES_EDIT}/${packageId}` : `${Routes.PRODUITS_EDIT}/${productId}`,
     },
     {
       id: 2,
       icon: "trash",
-      action: () => deletePackagesById(packageId),
+      action: () => product ? deletePackagesById(packageId) : onClickDelete(productId),
     },
     {
       id: 3,

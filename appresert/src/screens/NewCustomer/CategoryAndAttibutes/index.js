@@ -7,6 +7,7 @@ import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/Checkbox";
 import { WithContext as ReactTags } from "react-tag-input";
 import Schedule from "../../../components/Schedule";
+import {formatDate} from '../../../Utils/formatDate'
 
 
 const compatibility = [
@@ -47,7 +48,7 @@ const CategoryAndAttibutes = ({ className, setForm}) => {
   };*/
 
   useEffect(()=> {
-    setForm(prevForm => ({...prevForm, date_of_birth: startDate }));  
+    setForm(prevForm => ({...prevForm, date_of_birth: formatDate(startDate, 'SEND') }));  
   },[startDate])
   
   return (

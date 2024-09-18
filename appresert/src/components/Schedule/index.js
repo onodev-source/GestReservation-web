@@ -27,6 +27,8 @@ const Schedule = ({
   setEndDate,
   startTime,
   setStartTime,
+  endTime,
+  setEndTime,
   addCustomer,
   addResert
 }) => {
@@ -56,7 +58,7 @@ const Schedule = ({
           navigationDate.map((x, index) => (
             <Item  className={cn(styles.item, styles.field)} key={index} category={x.category}  icon="calendar" value={(index === 0 ? startDate : endDate) && format((index === 0 ? startDate : endDate), "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
               <div className={styles.date}>
-                <DatePicker  selected={startDate} key={index} onChange={(date) => index === 0 ? setStartDate(date) : setEndDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
+                <DatePicker  selected={index === 0 ? startDate : endDate} key={index} onChange={(date) => index === 0 ? setStartDate(date) : setEndDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
                 <div className={styles.foot}>
                   <button
                     className={cn("button-stroke button-small", styles.button)}
@@ -92,11 +94,11 @@ const Schedule = ({
       }
         {addResert ? (
           navigationDate.map((x, index) => (
-            <Item className={cn(styles.item, styles.field)} category={x.categoryHour} icon="clock" value={startTime && format(startTime, "h:mm aa")} visible={visibleTime} setVisible={setVisibleTime} >
+            <Item className={cn(styles.item, styles.field)} category={x.categoryHour} icon="clock" value={(index === 0 ? startTime : endTime) && format((index === 0 ? startTime : endTime), "h:mm aa")} visible={visibleTime} setVisible={setVisibleTime} key={index}>
               <div className={styles.time}>
                 <div className={styles.top}>
                   <div className={styles.subtitle}>
-                    {startTime && format(startTime, "h:mm aa")}
+                    {(index === 0 ? startTime : endTime) && format(startTime, "h:mm aa")}
                   </div>
                   <button
                     className={styles.close}
@@ -106,8 +108,8 @@ const Schedule = ({
                   </button>
                 </div>
                 <DatePicker
-                  selected={startTime}
-                  onChange={(date) => setStartTime(date)}
+                  selected={(index === 0 ? startTime : endTime)}
+                  onChange={(date) => (index === 0 ? setStartTime(date) : setEndTime(date))}
                   showTimeSelect
                   showTimeSelectOnly
                   timeIntervals={30}

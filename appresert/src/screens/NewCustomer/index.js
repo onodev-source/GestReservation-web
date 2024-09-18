@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./NewProduct.module.sass";
 import TooltipGlodal from "../../components/TooltipGlodal";
 import Modal from "../../components/Modal";
@@ -13,13 +13,18 @@ import Profile from "./Profile";
 import RequestDashboard from "../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useParams } from "react-router";
+import Loader from "../../components/Loader";
 
 const NewCustomer = ({product, editCust}) => {
   const users = useSelector((state) => state.users);
+  const { customerId } = useParams();
 
   const [visiblePreview, setVisiblePreview] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [customerEdit, setCustomerEdit] = useState()
   const [descripbe, setDescripbe] = useState('')
   const [errorSubmit, setErrorSubmit] = useState('');
   const [media, setMedia] = useState();
@@ -99,30 +104,38 @@ const NewCustomer = ({product, editCust}) => {
     setLoader(true);
   
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
-  
-      // Ajout des données utilisateur au FormData
-      formData.append("first_name", form.first_name);
-      formData.append("last_name", form.last_name);
-      formData.append("phone_number", form.tel);
-      formData.append("gender", form.sexe);
-      formData.append("email", form.email);
-      formData.append("password", form.password);
-      formData.append("country", form.country);
-      formData.append("city", form.city);
-      formData.append("date_of_birth", form.date_of_birth);
-      formData.append("bio", descripbe);
-      formData.append("password", form.password);
-      formData.append("re_password", form.password);
-  
-      // Ajout du fichier photo_user
-      if (media?.file) {
-        formData.append("photo_user", media.file);
-      }
+
+
+    // Ajout des données utilisateur au FormData en tant que JSON
+    const userData = {
+      email: form.email,
+      first_name: form.first_name,
+      last_name: form.last_name,
+      password: form.password,
+      date_of_birth: form.date_of_birth,
+      bio: descripbe,
+      is_online: true,
+      phone_number: form.tel,
+      gender: form.sexe,
+      country: form.country,
+      city: form.city
+    };
     
-      
+    formData.append('user', JSON.stringify(userData));
+    
+    // Si vous avez une photo
+    if (media?.file) {
+      formData.append('user[photo_user]', media.file);
+    }
+    
+    // Pour vérifier le contenu de formData dans la console
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
     try {
       // Appel API avec FormData
-      let res = await RequestDashboard( editCust ? 'accounts/auth/users/me/' : 'accounts/auth/users/', editCust ? 'PUT' : 'POST', formData,   users.access_token );
+      let res = await RequestDashboard( editCust ? `gestreserv/customers/${customerId}` : 'gestreserv/customers/', editCust ? 'PUT' : 'POST', formData,   users.access_token );
       let status = editCust ? 200 : 201
       
       if (res.status === status) {
@@ -149,37 +162,57 @@ const NewCustomer = ({product, editCust}) => {
       setErrorSubmit("An unexpected error occurred. Please try again.");
     }
   };
-  
+
+  useEffect(() => {
+    if (editCust && customerId) {
+      const getCustomerById = async(id) => {
+        setLoading(true)
+        let res = await RequestDashboard(`gestreserv/customers/${id}/`, 'GET', '', users.access_token);
+        if (res.status === 200) {
+          setCustomerEdit(res.response);
+          setLoading(false)
+        }
+      }
+      getCustomerById(customerId);
+    }
+  }, [ users.access_token, customerId, editCust]);
+
   return (
     <>
-      <div className={styles.row}>
-        <div className={styles.col}>
-          <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
-         {/* <ImagesAndCTA className={styles.card} />*/}
-          <CategoryAndAttibutes className={styles.card} setForm={setForm}/>
-          <Contact className={styles.card} profil={true} onChange={textInputChange} form={form}/>
-          <Location className={styles.card} product={product} onChange={textInputChange} form={form}/>
-          {/*<ProductFiles className={styles.card} />*/}
-          <Profile className={styles.card} onChange={textInputChange} form={form}/>
+      {loading ? (
+        <Loader/>
+      ) : (
+        <>
+          <div className={styles.row}>
+            <div className={styles.col}>
+              <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
+            {/* <ImagesAndCTA className={styles.card} />*/}
+              <CategoryAndAttibutes className={styles.card} setForm={setForm}/>
+              <Contact className={styles.card} profil={true} onChange={textInputChange} form={form}/>
+              <Location className={styles.card} product={product} onChange={textInputChange} form={form}/>
+              {/*<ProductFiles className={styles.card} />*/}
+              <Profile className={styles.card} onChange={textInputChange} form={form}/>
 
-          {errorSubmit !== '' && (
-            <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
-          )}
-        </div>
-        <div className={styles.col}>
-          <ImagesAndCTA className={styles.card} mediaUpdate={media} setMediaUpdate={setMedia}/>
-          {/*<ProductFile className={styles.card} product={product}/>*/}
-          {/*<Preview
-            visible={visiblePreview}
-            onClose={() => setVisiblePreview(false)}
-          />*/}
-        </div>
-      </div>
-      <Panel onClick={addOrUpdateCustomer} setVisiblePreview={setVisiblePreview} loader={loader} setVisibleSchedule={setVisibleModal} product={product}/>
-      <TooltipGlodal />
-      <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
-        <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>
-      </Modal>
+              {errorSubmit !== '' && (
+                <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+              )}
+            </div>
+            <div className={styles.col}>
+              <ImagesAndCTA className={styles.card} mediaUpdate={media} setMediaUpdate={setMedia}/>
+              {/*<ProductFile className={styles.card} product={product}/>*/}
+              {/*<Preview
+                visible={visiblePreview}
+                onClose={() => setVisiblePreview(false)}
+              />*/}
+            </div>
+          </div>
+          <Panel onClick={addOrUpdateCustomer} isFormFilled={isFormFilled} setVisiblePreview={setVisiblePreview} loader={loader} setVisibleSchedule={setVisibleModal} product={product}/>
+          <TooltipGlodal />
+          <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
+            <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>
+          </Modal>
+        </>
+      )}
     </>
   );
 };

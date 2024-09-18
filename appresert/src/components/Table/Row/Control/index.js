@@ -17,7 +17,9 @@ const Control = ({
   setStartTime,
   customersDetails, 
   selectedItem,
-  setSelectedItem
+  setSelectedItem,
+  customerId,
+  onClick
 }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -34,11 +36,11 @@ const Control = ({
     {
       icon: "edit",
       action: () => console.log("edit"),
-      url: customersDetails && Routes.CUSTOMERS_EDIT
+      url: customersDetails && `${Routes.CUSTOMERS_EDIT}/${customerId}`
     },
     {
       icon: "trash",
-      action: () => console.log("delete"),
+      action: () => onClick,
     },
     {
       icon: "arrow-right",
