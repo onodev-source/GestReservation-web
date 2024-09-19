@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   const users = useSelector((state) => state.users);
+
   return (
     <div className={styles.profile}>
       <div className={styles.details}>
@@ -31,10 +32,12 @@ const Profile = () => {
           </button>
         </Avatar>
         <div className={styles.wrap}>
-          <div className={cn("h4", styles.man)}>Chelsie Haley</div>
-          <div className={styles.info}>
-            Dream big. Think different. Do great!
-          </div>
+          <div className={cn("h4", styles.man)}>{users.users.full_name ? users.users.full_name : users.users.email}</div>
+          {users.users.bio &&
+            <div className={styles.info}>
+              {users.users.bio}
+            </div>
+          }
         </div>
       </div>
       <div className={styles.contacts}>

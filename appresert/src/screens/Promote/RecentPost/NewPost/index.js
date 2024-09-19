@@ -23,7 +23,16 @@ const items = [
   },*/
 ];
 
-const files = ["image-stroke", "video-stroke"];
+const files = [
+  {
+    icon: 'image-stroke',
+    accept: '.jpg,.jpeg,.png'
+  },
+  {
+    icon: 'video-stroke',
+    accept: '.mp4'
+  }
+];
 
 const NewPost = ({updatePost, postRef, postId}) => {
   const users = useSelector((state) => state.users);
@@ -31,6 +40,9 @@ const NewPost = ({updatePost, postRef, postId}) => {
   const [loader, setLoader] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  //const [publicityImg, setPublicityImg] = useState([])
+  const [media, setMedia] = useState([])
+  const [mediaType, setMediaType] = useState('')
   const [form, setForm] = useState({
       title: "",
       description: "",
@@ -64,18 +76,48 @@ const NewPost = ({updatePost, postRef, postId}) => {
     }
   }
 
+  const handleFileChange = ({ target }) => {
+    const file = target.files[0];
+    if (!file) return;
+  
+    const mediaType = file.type.split('/')[0];
+    if (mediaType !== 'image' && mediaType !== 'video') {
+      console.error("Le fichier sélectionné n'est ni une image ni une vidéo.");
+      return;
+    }
+  
+    const url = URL.createObjectURL(file);
+    if (media?.length > 0) URL.revokeObjectURL(media[0].url);
+
+    setMediaType(mediaType)
+    setMedia([{ url, file }]);
+    target.value = '';  // Réinitialiser l'input file
+  };
+
   const addOrEditPublicity = async() => {
     setLoader(true)
-    let data= {
+    let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+    
+    //ajout des donnees du package au fichier
+    formData.append("title", form.title);
+    formData.append("description", form.description);
+    formData.append("start_date", formatDate(startDate, 'SEND'),);
+    formData.append("start_date", formatDate(endDate, 'SEND'));
+    // Ajout du fichier photo_user
+    if (media[0]?.file) {
+      formData.append("photo_publicity", media[0]?.file);
+    }
+    /*let data= {
       title: form.title,
       description: form.description,
       start_date: formatDate(startDate, 'SEND'),
       end_date: formatDate(endDate, 'SEND')
-    }
-    let res = updatePost ? await RequestDashboard(`gestreserv/publicities/${postId}`, 'PUT', data, users.access_token) : await RequestDashboard('gestreserv/publicities/', 'POST', data, users.access_token)
+    }*/
+    let res = updatePost ? await RequestDashboard(`gestreserv/publicities/${postId}`, 'PUT', formData, users.access_token) : await RequestDashboard('gestreserv/publicities/', 'POST', formData, users.access_token)
 
     if(res.status === 201) {
       setForm({ ...form, title: '', description: '', start_date: '', end_date: '' });
+      setMedia([])
       setLoader(false)
       if (postRef.current) {
         postRef.current.click();
@@ -98,7 +140,7 @@ const NewPost = ({updatePost, postRef, postId}) => {
               </div>
             </Avatar>
             <div className={styles.profile}>
-              <span>{users.users.email}</span>
+              <span>{users.users.full_name ? users.users.full_name : users.users.email}</span>
               <span>@{users.users.email.length > 12 ? `${users.users.email.slice(0, 12)}...` : users.users.email}</span>
             </div>
           </div>
@@ -116,9 +158,17 @@ const NewPost = ({updatePost, postRef, postId}) => {
           </span>
         </div>
       )}
-      <div className={styles.preview}>
-        <img src="/images/content/bg-video.jpg" alt="Video" />
-      </div>
+      {media?.length > 0 &&
+        <div className={styles.preview}>
+          {mediaType === 'image' ? 
+            <img src={media[0].url} alt="Video" />
+          :
+            <video controls>
+              <source src={media[0].url} type={media[0].file.type} />
+            </video>
+          }
+        </div>
+      }
       <div className={styles.dateContent}>
         <Item  className={styles.item} category="Start date"  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
           <div className={styles.date}>
@@ -154,9 +204,9 @@ const NewPost = ({updatePost, postRef, postId}) => {
         <div className={styles.files}>
           {files.map((x, index) => (
             <div className={styles.file} key={index}>
-              <input type="file" />
+              <input type="file" onChange={handleFileChange} accept={x.accept}/>
               <div className={styles.icon}>
-                <Icon name={x} size="20" />
+                <Icon name={x.icon} size="20" />
               </div>
             </div>
           ))}

@@ -161,18 +161,19 @@ const Settings = () => {
         formData.append("photo_user", media.file);
       }
     } else {
-      if(typeCategory !== 'Select category type'){
+      if(typeCategory === 'Type event'){
+        // Si c'est un type d'evenement on envoit ca
+        formData.append("type_event", form.category);
+      } else {
         // Si c'est une catégorie, on ajoute seulement le nom de la catégorie
         formData.append("category_name", form.category);
         formData.append("type_category", typeCategory);
-      } else {
-        setErrorSubmit("Please select category type.");
       }
     }
   
     try {
       // Appel API avec FormData
-      let res = await RequestDashboard( !isCategory ? 'accounts/auth/users/me/' : 'gestreserv/categories/', !isCategory ? 'PUT' : 'POST', formData,   users.access_token );
+      let res = await RequestDashboard( !isCategory ? 'accounts/auth/users/me/' : (typeCategory === 'Type event' ? 'gestreserv/eventype/' : 'gestreserv/categories/'), !isCategory ? 'PUT' : 'POST', formData,   users.access_token );
       let status = !isCategory ? 200 : 201
       
       if (res.status === status) {
@@ -185,20 +186,21 @@ const Settings = () => {
           dispatch(action);
           setErrorSubmit('The users has been successfully updated');
         } else {
-          setErrorSubmit('The category has been successfully created');
+          setForm({ ...form, category: '' });
+          setErrorSubmit(`The ${typeCategory==='Type event' ? 'event type' : 'category'} has been successfully created`);
         }
         setLoader(false);
       } else if (res.status === 400) {
         setLoader(false);
-        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        //setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
         setErrorSubmit("Incorrect Email or Password");
       } else if (res.status === 401) {
         setLoader(false);
-        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        //setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
         setErrorSubmit("Your email address has not been verified");
       } else {
         setLoader(false);
-        setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
+        //setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
         setErrorSubmit("An error has occurred, please try again");
       }
     } catch (error) {

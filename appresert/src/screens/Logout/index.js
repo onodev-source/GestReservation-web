@@ -21,9 +21,7 @@ const Logout = () => {
         setLoader(true); // Affiche le loader pendant la requête
         
         // Exécution de la requête de déconnexion
-        let res = await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token);
-        
-        console.log('Résultat de la déconnexion:', res);
+        await RequestDashboard('accounts/auth/token/logout/', 'POST', '', users.access_token);      
 
         // Si la requête est réussie, effectue la déconnexion
         dispatch({ type: 'LOGOUT' });
@@ -46,7 +44,7 @@ const Logout = () => {
       <div className={styles.info}>Quit ?</div>
       <div className={cn("h2", styles.price)}>Logout Account</div>
       <div className={styles.text}>
-        Are you sure wan’t logout from <span>tam@ui8.net </span>account ? 
+        Are you sure you want to log out of the <span>{users.users.email}</span> account? 
       </div>
       <button onClick={logout} className={cn("button", styles.button)}>{!loader ? 'Logout' : <Loader className={styles.loader} />}</button>
     </div>

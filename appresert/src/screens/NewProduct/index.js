@@ -257,8 +257,8 @@ const NewProduct = ({product, editPack, editProd}) => {
             {/* <ImagesAndCTA className={styles.card} />*/}
               <Price className={styles.card} product={product} onChange={textInputChange} formAdd={form}/>
               <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
-              <CategoryAndAttibutes className={styles.card} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
-              {/*<ProductFiles className={styles.card} />*/}
+              {/*<CategoryAndAttibutes className={styles.card} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
+              <ProductFiles className={styles.card} />*/}
               {/*<Discussion className={styles.card} />*/}
 
               {errorSubmit !== '' && (

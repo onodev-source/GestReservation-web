@@ -85,7 +85,7 @@ const Released = () => {
             <>
               <div className={styles.list}>
                 {packages?.map((x, index) => (
-                  <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} modalDetail={true} isPreviewHidden = {true}/>
+                  <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters?.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} modalDetail={true} isPreviewHidden = {true}/>
                 ))}
               </div>
               {/*<div className={styles.foot}>

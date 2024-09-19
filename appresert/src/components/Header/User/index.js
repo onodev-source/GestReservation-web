@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./User.module.sass";
@@ -9,14 +9,19 @@ import Avatar from "../../Avatar"
 import Logout from "../../../screens/Logout";
 import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import RequestDashboard from "../../../Services/Api/ApiServices";
+import DeleteAccountConfirm from "../../../screens/DeleteAccountConfirm";
 
 
 const User = ({ className }) => {
   const {t} = useTranslation()
+
   const users = useSelector((state) => state.users);
   const [visible, setVisible] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
+
 
   const items = [
     {
@@ -31,7 +36,7 @@ const User = ({ className }) => {
         },
         {
           title: t("words.delete_account"),
-          action: () => setVisible(false)
+          action: () => setVisibleDeleteModal(true)
         },
       ],
     },
@@ -107,6 +112,9 @@ const User = ({ className }) => {
           </div>
         </div>
       </OutsideClickHandler>
+      <Modal outerClassName={styles.outer} visible={visibleDeleteModal} onClose={() => setVisibleDeleteModal(false)} >
+          <DeleteAccountConfirm />
+      </Modal>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
           <Logout />
       </Modal>

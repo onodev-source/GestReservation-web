@@ -19,7 +19,7 @@ const gallery = [
   }
 ];
 
-const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete}) => {
+const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, isReserved, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete}) => {
 
   const [visible, setVisible] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
@@ -50,7 +50,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
           {!withoutСheckbox && (
             <Checkbox className={styles.checkbox} classCheckboxTick={styles.checkboxTick} value={value}  onChange={() => handleClick()}/>
           )}
-          <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>
+          {!isReserved && <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>}
           <img srcSet={`${isPackage ? '/images/content/product-pic-2@2x.jpg' : item.photo_products} 2x`} src={isPackage ? '/images/content/product-pic-2.jpg' :  item.photo_products } alt="Product" />
           {!isPreviewHidden &&
             <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => setVisibleModalPreview(true)} >
@@ -69,21 +69,25 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
               )
             )}
           </div>
-          {released ? (
-            <div className={styles.date}>
-              <Icon name="clock" size="24" /> {isPackage ? formatDate(item?.created_at) : item.date}
-            </div>
-          ) : ratingValue ? (
-            <div className={styles.rating}>
-              <Icon name="star-fill" size="24" />
-              {ratingValue}{" "}
-              <span className={styles.counter}>({ratingCounter})</span>
-            </div>
-          ) : (
-            <div className={cn(styles.rating, styles.ratingEmpty)}>
-              <Icon name="star-stroke" size="24" />
-              No ratings
-            </div>
+          {!isReserved && (
+            <>
+              {released ? (
+                <div className={styles.date}>
+                  <Icon name="clock" size="24" /> {isPackage ? formatDate(item?.created_at) : item.date}
+                </div>
+              ) : ratingValue ? (
+                <div className={styles.rating}>
+                  <Icon name="star-fill" size="24" />
+                  {ratingValue}{" "}
+                  <span className={styles.counter}>({ratingCounter})</span>
+                </div>
+              ) : (
+                <div className={cn(styles.rating, styles.ratingEmpty)}>
+                  <Icon name="star-stroke" size="24" />
+                  No ratings
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

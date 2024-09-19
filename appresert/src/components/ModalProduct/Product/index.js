@@ -19,7 +19,7 @@ const Product = ({product, detailsData, items, onClick}) => {
 
   return (
     <div className={cn(styles.product, { [styles.active]: visible })}>
-      <Details  className={styles.details} setValue={setVisible} activeIndex={activeIndex} setActiveIndex={setActiveIndex} product={product} detailsData={detailsData} items={items.filter((item) => item.id !== detailsData.id)} onClick={onClick}/>
+      <Details  className={styles.details} setValue={setVisible} activeIndex={activeIndex} setActiveIndex={setActiveIndex} product={product} detailsData={detailsData} items={items?.filter((item) => item.id !== detailsData.id)} onClick={onClick}/>
       {!product && <Comments className={styles.comments} onClose={() => handleClose()} />}
       <Panel className={styles.panel} product={product}/>
       {/*<button className={styles.next}>

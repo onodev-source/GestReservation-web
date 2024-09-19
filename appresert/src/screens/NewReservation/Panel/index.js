@@ -4,7 +4,7 @@ import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick }) => {
   const actions = [
     {
       title: "Preview",
@@ -38,7 +38,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule }) => {
         <button className={cn("button-stroke", styles.button)}>
           Cancel
         </button>
-        <button className={cn("button", styles.button)}>Save change</button>
+        <button className={cn("button", styles.button)} onClick={onClick}>Save change</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

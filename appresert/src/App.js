@@ -42,7 +42,7 @@ const App = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users)
 
-  const name = users.users.email; 
+  const name = users.users.full_name ? users.users.full_name : users.users.email; 
 
   const router = createBrowserRouter(
     createRoutesFromElements(

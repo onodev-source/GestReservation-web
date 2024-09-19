@@ -103,39 +103,41 @@ const NewCustomer = ({product, editCust}) => {
   const addOrUpdateCustomer = async () => {
     setLoader(true);
   
-    let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
+    //let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
 
 
     // Ajout des données utilisateur au FormData en tant que JSON
     const userData = {
-      email: form.email,
-      first_name: form.first_name,
-      last_name: form.last_name,
-      password: form.password,
-      date_of_birth: form.date_of_birth,
-      bio: descripbe,
-      is_online: true,
-      phone_number: form.tel,
-      gender: form.sexe,
-      country: form.country,
-      city: form.city
+      user: {
+        email: form.email,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        password: form.password,
+        date_of_birth: form.date_of_birth,
+        bio: descripbe,
+        is_online: true,
+        phone_number: form.tel,
+        gender: form.sexe,
+        country: form.country,
+        city: form.city
+      }
     };
     
-    formData.append('user', JSON.stringify(userData));
+    //formData.append('user', JSON.stringify(userData));
     
     // Si vous avez une photo
-    if (media?.file) {
+    /*if (media?.file) {
       formData.append('user[photo_user]', media.file);
     }
     
     // Pour vérifier le contenu de formData dans la console
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
-    }
+    }*/
 
     try {
       // Appel API avec FormData
-      let res = await RequestDashboard( editCust ? `gestreserv/customers/${customerId}` : 'gestreserv/customers/', editCust ? 'PUT' : 'POST', formData,   users.access_token );
+      let res = await RequestDashboard( editCust ? `gestreserv/customers/${customerId}` : 'gestreserv/customers/', editCust ? 'PUT' : 'POST', userData,   users.access_token );
       let status = editCust ? 200 : 201
       
       if (res.status === status) {
