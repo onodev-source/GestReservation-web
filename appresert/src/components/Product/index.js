@@ -51,7 +51,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
             <Checkbox className={styles.checkbox} classCheckboxTick={styles.checkboxTick} value={value}  onChange={() => handleClick()}/>
           )}
           {!isReserved && <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>}
-          <img srcSet={`${isPackage ? '/images/content/product-pic-2@2x.jpg' : item.photo_products} 2x`} src={isPackage ? '/images/content/product-pic-2.jpg' :  item.photo_products } alt="Product" />
+          <img srcSet={`${isPackage ? item.photos_packages : item.photo_products} 2x`} src={isPackage ? item.photos_packages :  item.photo_products } alt="Product" />
           {!isPreviewHidden &&
             <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => setVisibleModalPreview(true)} >
               Show preview

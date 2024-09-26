@@ -169,8 +169,18 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
           onChange={onChange}
           className={styles.field}
           value={formUpdate.location}
-          label="Location"
+          label="Country"
           name="location"
+          type="text"
+          tooltip="Maximum 100 characters. No HTML or emoji allowed"
+          required
+        />
+        <TextInput
+          onChange={onChange}
+          className={styles.field}
+          value={formUpdate.city}
+          label="City"
+          name="city"
           type="text"
           tooltip="Maximum 100 characters. No HTML or emoji allowed"
           required

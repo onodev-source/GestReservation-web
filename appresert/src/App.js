@@ -36,13 +36,20 @@ import { AuthGuard } from "./Utils/AuthGuard";
 import { useSelector } from "react-redux";
 import VerifyAccount from "./screens/VerifyAccount";
 import VerifyEmailResetPass from "./screens/VerifyEmailResetPass";
+import React from "react";
+import i18n from "./Services/I18n/i18n";
 
 
 const App = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users)
+  const language = useSelector(state => state.language);
 
   const name = users.users.full_name ? users.users.full_name : users.users.email; 
+
+  React.useEffect(() => {
+    i18n.changeLanguage(users.authenticated ? language.language : navigator?.language);
+  }, [language.language, users.authenticated]);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -65,6 +72,7 @@ const App = () => {
         <Route path="/profile:id" element={<AuthGuard props={<Page wide><ProfileUser /></Page>} />} />
         <Route path="/reservations/reservationList" element={<AuthGuard props={<Page title={t('navigation.title.reservations_list')}><Earning resertList={true} /></Page>} />} />
         <Route path="/reservations/add" element={<AuthGuard props={<Page title={t('navigation.title.reservations_add')}><NewReservation  /></Page>} />} />
+        <Route path="/reservations/edit/:orderId" element={<AuthGuard props={<Page title={t('navigation.title.reservations_edit')}><NewReservation   editOrder={true}/></Page>} />} />
         <Route path="/reservations/agenda" element={<AuthGuard props={<Page title={t('navigation.title.reservations_agenda')}><Scheduled /></Page>} />} />
         <Route path="/income/earning" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Earning /></Page>} />} />
         <Route path="/income/incomeList" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Refunds /></Page>} />} />

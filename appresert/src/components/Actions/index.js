@@ -14,6 +14,8 @@ const Actions = ({
   visible,
   setVisible,
   small,
+  order,
+  orderId,
   up,
 }) => {
   const [innerVisible, setInnerVisible] = useState(false);
@@ -53,7 +55,7 @@ const Actions = ({
           {items.map((x, index) => (
             x.url ? (
               <Link  className={cn(styles.option, classActionsOption)}
-                to={x.url}  key={index} >
+                to={order ? `${x.url}/${orderId}` : x.url}  key={index} >
                 {x.icon && <Icon name={x.icon} size="24" />}
                 {x.title}
               </Link>

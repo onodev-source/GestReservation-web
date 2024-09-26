@@ -27,6 +27,8 @@ const SignUp = () => {
     setVisible(false)
     setSuccess(true)
   }
+
+
   return (
     <div className={styles.row}>
       <div className={styles.col}>

@@ -29,7 +29,7 @@ const Login = ({ className, onChange, formUpdate }) => {
             type="password"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"
             onChange={onChange}
-            value={formUpdate.password}
+            //value={formUpdate.password}
             required
           />
           <TextInput
@@ -39,7 +39,7 @@ const Login = ({ className, onChange, formUpdate }) => {
             type="password"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"
             onChange={onChange}
-            value={formUpdate.password}
+            //value={formUpdate.password}
             required
           />
         </div>

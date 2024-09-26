@@ -7,12 +7,9 @@ import TooltipGlodal from "../../../../components/TooltipGlodal";
 import Editor from "../../../../components/Editor";
 import Avatar from "../../../../components/Avatar";
 import Icon from "../../../../components/Icon";
+import { formatDate } from "../../../../Utils/formatDate";
+import { formatTime } from "../../../../Utils/formatTime";
 
-const suggestions = [
-  "Talk to customer to see if you can help.",
-  "If not, approve or decline the request.",
-  "Will Yess, approve or decline the request.",
-];
 
 const Details = ({ item, customersDetails, onClose }) => {
   const [content, setContent] = useState();
@@ -28,13 +25,29 @@ const Details = ({ item, customersDetails, onClose }) => {
     { title: 'Language', content: item.language },
     { title: 'Mode session', content: item.mode_session },
   ];
+  const orderArray = [
+    { title: 'Date begin', content: `From ${formatDate(item.begin_date)} to ${formatTime(item.begin_hour)}`},
+    { title: 'Date end', content:`From ${formatDate(item.end_date)} to ${formatTime(item.end_hour)}` },
+    { title: 'Status', content: item.statut},
+    //{ title: 'Package price', content: `${Math.floor(item?.package_price)}XAF ` },
+    { title: 'Type event', content: item.type_event?.type_event },
+    { title: 'Price month', content: `${Math.floor(item?.price_month)}XAF ` },
+    { title: 'Price Day', content: `${Math.floor(item?.price_day)}XAF` },
+    { title: 'Price hour', content: `${Math.floor(item?.price_hour)}XAF`  },
+    { title: 'Date created', content: `${formatDate(item.created_at)}`  },
+  ];
 
-  const parameters = customersDetails ? customerArray : item?.parameters
+  const suggestions = [
+    { title: 'Package name:', content: item.package?.package_name},
+    //{ title: 'Package Des:', content: item.package?.package_name},
+    { title: 'Package price:', content: ` ${Math.floor(item.package?.package_price)}XAF`},
+  ];
+  const parameters = customersDetails ? customerArray : orderArray
 
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Income details"}</div>
+        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Order details"}</div>
         <div className={styles.row}>
           <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
             <Product className={styles.product} item={item} customersDetails={customersDetails}/>
@@ -60,14 +73,14 @@ const Details = ({ item, customersDetails, onClose }) => {
                 <div className={styles.box}>
                   <div className={styles.info}>Package category</div>
                   <ul className={styles.list}>
-                      <li >OnoPremium</li>
+                      <li >{item.package?.category_name}</li>
                   </ul>
                 </div>
                 <div className={styles.box}>
-                  <div className={styles.info}>Products</div>
+                  <div className={styles.info}>Package details</div>
                   <ul className={styles.list}>
                     {suggestions.map((x, index) => (
-                      <li key={index}>{x}</li>
+                      <li key={index}>{x.title}  {x.content}</li>
                     ))}
                   </ul>
                 </div>

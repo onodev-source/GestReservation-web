@@ -7,6 +7,7 @@ import Image from "../../components/Image";
 import Entry from "./Entry";
 import Code from "./Code";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 const items = [
   "Unlimited product uploads",
   "Pro tips",
@@ -14,9 +15,10 @@ const items = [
   "Full author options",
 ];
 const ForgotPassword = () => {
+  const {t} = useTranslation()
   const [visible, setVisible] = React.useState(true);
   const heightWindow = use100vh();
-
+  
   return (
     <div className={styles.row}>
       <div className={styles.col}>
@@ -24,7 +26,7 @@ const ForgotPassword = () => {
           <div className={styles.preview}>
             <img src="/images/content/login-pic.png" alt="Login" />
           </div>
-          <div className={cn("h4", styles.subtitle)}>Plan includes</div>
+          <div className={cn("h4", styles.subtitle)}>{t('sign.plan_include')}</div>
           <ul className={styles.list}>
             {items.map((x, index) => (
               <li key={index}>{x}</li>
@@ -43,14 +45,14 @@ const ForgotPassword = () => {
             />
           </Link>
           <div className={styles.info}>
-          Already a member?{" "}
+            {t('sign.already_menber')}{" "}
             <Link className={styles.link} to={Routes.SIGN_IN}>
-              Sign in
+              {t('sign.sign_in')}
             </Link>
           </div>
         </div>
         <div className={styles.wrapper}>
-          <div className={cn("h2", styles.title)}>Forgot password</div>
+          <div className={cn("h2", styles.title)}>{t('sign.forgot_password')}</div>
           {/*visible ? <Entry onConfirm={() => setVisible(false)} /> : <Code />*/}
           <Entry onConfirm={() => setVisible(false)} />
         </div>

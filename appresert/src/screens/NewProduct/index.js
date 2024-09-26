@@ -145,6 +145,7 @@ const NewProduct = ({product, editPack, editProd}) => {
     }
   };
 
+
   const addorEditPackage =  async() => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
@@ -156,9 +157,13 @@ const NewProduct = ({product, editPack, editProd}) => {
     formData.append("nb_persons", form.nb_persons);
     formData.append("nb_places", form.nb_places);
     // Ajouter l'objet "category" en tant que chaîne JSON
+    //formData.append("categories", JSON.stringify({ category_name: category }));
     formData.append('category_name',  category)
     //formData.append("category_id", form.category_id);
-    formData.append("product_names", JSON.stringify(productIds));
+    //formData.append("product_names", JSON.stringify(productIds));
+    productIds.forEach(product => {
+      formData.append('product_names', product);
+    });
     // Ajout du fichier photo_user
     if (media?.file) {
       formData.append("photos_packages", media?.file);
@@ -172,6 +177,7 @@ const NewProduct = ({product, editPack, editProd}) => {
       setLoader(false)
       setCategory('')
       setDescripbe('')
+      //setProductIds([])
       setForm({ ...form, package_name: '', package_price: '', nb_persons: '', nb_places: '',});
     }
     else if (res.status === 400) { 

@@ -30,16 +30,17 @@ const Table = ({ className, activeTable, setActiveTable }) => {
 
   const getAllCustomers = useCallback(async() => {
     setLoader(true)
-    let res = await RequestDashboard('accounts/auth/users/', 'GET', '', users.access_token);
+    let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
     if (res.status === 200) {
-      setAllCustomers(res.response?.results?.filter((customer) => customer.is_customer === true));
+      setAllCustomers(res.response?.results);
       setLoader(false)
     }
   }, [users.access_token]);
-  
+
+
   const deleteCustomerById =  async(id) => {
     
-    let res = await RequestDashboard(`account/auth/users/${id}`, 'DELETE', '', users.access_token);
+    let res = await RequestDashboard(`gestreserv/customers/${id}`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
       getAllCustomers();
     }
@@ -51,38 +52,42 @@ const Table = ({ className, activeTable, setActiveTable }) => {
 
   return (
     <div className={cn(styles.wrapper, className)}>
-      <div className={cn(styles.table)}>
-        <div className={cn(styles.row, { [styles.active]: activeTable })}>
-          <div className={styles.col}>
-            <Checkbox
-              className={styles.checkbox}
-              value={chooseAll}
-              onChange={() => setСhooseAll(!chooseAll)}
-            />
+      {loader ? 
+        <Loader/> : 
+        <div className={cn(styles.table)}>
+          <div className={cn(styles.row, { [styles.active]: activeTable })}>
+            <div className={styles.col}>
+              <Checkbox
+                className={styles.checkbox}
+                value={chooseAll}
+                onChange={() => setСhooseAll(!chooseAll)}
+              />
+            </div>
+            <div className={styles.col}>Name</div>
+            <div className={styles.col}>Email</div>
+            <div className={styles.col}>Purchase</div>
+            <div className={styles.col}>Lifetime</div>
+            <div className={styles.col}>Comments</div>
+            <div className={styles.col}>Likes</div>
           </div>
-          <div className={styles.col}>Name</div>
-          <div className={styles.col}>Email</div>
-          <div className={styles.col}>Purchase</div>
-          <div className={styles.col}>Lifetime</div>
-          <div className={styles.col}>Comments</div>
-          <div className={styles.col}>Likes</div>
+          {allCustomers?.map((x, index) => (
+            <Row
+              item={x.user}
+              allItem={x}
+              key={index}
+              activeTable={activeTable}
+              setActiveTable={setActiveTable}
+              activeId={activeId}
+              setActiveId={setActiveId}
+              up={allCustomers?.length - index <= 2}
+              value={selectedFilters.includes(x.user.id)}
+              onChange={() => handleChange(x.user.id)}
+              onClick={() => deleteCustomerById(x.customer_id)}
+              customersDetails={true}
+            />
+          ))}
         </div>
-        {allCustomers?.map((x, index) => (
-          <Row
-            item={x}
-            key={index}
-            activeTable={activeTable}
-            setActiveTable={setActiveTable}
-            activeId={activeId}
-            setActiveId={setActiveId}
-            up={allCustomers?.length - index <= 2}
-            value={selectedFilters.includes(x.id)}
-            onChange={() => handleChange(x.id)}
-            onClick={() => deleteCustomerById(x.id)}
-            customersDetails={true}
-          />
-        ))}
-      </div>
+      }
       {/*<div className={styles.foot}>
         <button className={cn("button-stroke button-small", styles.button)}>
           <Loader className={styles.loader} />

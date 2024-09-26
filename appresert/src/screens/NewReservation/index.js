@@ -21,6 +21,8 @@ import cn from "classnames";
 import Product from "../../components/Product";
 import Slider from "react-slick";
 import Icon from "../../components/Icon";
+import { useParams } from "react-router";
+import { formatTime } from "../../Utils/formatTime";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
@@ -54,14 +56,16 @@ const settings = {
   ],
 };
 
-const NewReservation = ({product}) => {
+const NewReservation = ({product, editOrder}) => {
   const users = useSelector((state) => state.users)
+  const { orderId } = useParams();
   
   const [visiblePreview, setVisiblePreview] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [loader, setLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [packages, setPackages] = useState([]);
+  const [orderEdit, setOrderEdit] = useState();
   const [errorSubmit, setErrorSubmit] = useState('');
   const [selectedFilters, setSelectedFilters] = useState();
   const [form, setForm] = useState({
@@ -113,20 +117,12 @@ const NewReservation = ({product}) => {
     }
   }
 
+  
   const addOrEditReservation = async() => {
     setLoader(true)
     
     let data = {
-      customer: {
-        user: {
-          first_name: users.users.first_name,
-          last_name: users.users.last_name,
-          phone_number: users.users.phone_number,
-          email: users.users.email,    
-          password: users.users.password,
-        }
-      },
-      //order_number: form.order_number,
+      user_id: users.users.id,
       price_hour: form.price_hour,
       price_day: form.price_day,
       price_month: form.price_month,
@@ -135,15 +131,16 @@ const NewReservation = ({product}) => {
       end_date: formatDate(endDate, 'SEND'),
       begin_hour: formatDate(startTime, 'HOUR'),
       end_hour: formatDate(endTime, 'HOUR'),
-      package: selectedFilters,
+      package_id: selectedFilters,
       type_event: parseInt(form.type_event)
     };
 
     let res = await RequestDashboard('gestreserv/orders/', 'POST', data, users.access_token)
 
     if(res.status === 201) {
-      setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
       setLoader(false)
+      setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
+      setErrorSubmit("The reservation has been successfully created"); 
     } else {
       setLoader(false)
       setErrorSubmit("An error has occurred please try again"); 
@@ -158,6 +155,32 @@ const NewReservation = ({product}) => {
         setLoading(false)
       }
   }, [users.access_token])
+  
+  useEffect(() => {
+    if (editOrder && orderId) {
+      const getOrderById = async(id) => {
+        setLoading(true)
+          let res = await RequestDashboard(`gestreserv/orders/${id}/`, 'GET', '', users.access_token);
+          if (res.status === 200) {
+            setOrderEdit(res.response);
+            setLoading(false)
+          }
+      }
+      getOrderById(orderId);
+    }
+  }, [users.access_token, editOrder, orderId]);
+
+  useEffect(() => {
+    if (orderEdit) {
+      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons });   
+      //setStartDate(orderEdit.begin_date) 
+      //setEndDate(orderEdit.end_date) 
+      //setStartTime(formatTime(orderEdit.begin_hour, 'GET')) 
+      //console.log('tine convert', formatTime(orderEdit.begin_hour, 'GET'));
+      
+      //setEndTime(formatTime(orderEdit.end_hour, 'GET')) 
+    }
+  }, [orderEdit]);
 
   useEffect(() => {
     getAllPackages();

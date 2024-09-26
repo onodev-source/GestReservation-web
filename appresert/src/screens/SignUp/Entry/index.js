@@ -52,22 +52,23 @@ const Entry = ({ onConfirm }) => {
     
     if (res.status === 201) {
       //setProduct(res.data);
+      setForm({ ...form, tel: '', email: '', password: '' });
       onConfirm()
       setLoader(false)
     }
     else if (res.status === 400) { 
       setLoader(false)
-      setForm({ ...form, email: '', password: '' });
+      //setForm({ ...form, email: '', password: '' });
       setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
       setLoader(false)
-      setForm({ ...form, tel: '', email: '', password: '' });
+      //setForm({ ...form, tel: '', email: '', password: '' });
       setErrorSubmit( "Your email address has not been verified "); 
     }
     else { 
       setLoader(false)
-      setForm({ ...form, tel: '', email: '', password: '' });
+      //setForm({ ...form, tel: '', email: '', password: '' });
       setErrorSubmit("An error has occurred please try again"); 
     }
   };

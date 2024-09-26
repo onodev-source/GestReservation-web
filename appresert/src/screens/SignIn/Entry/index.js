@@ -79,17 +79,17 @@ const Entry = ({ onConfirm }) => {
     }
     else if (res.status === 400) { 
       setLoader(false)
-      setForm({ ...form, email: '', password: '' });
+      //setForm({ ...form, email: '', password: '' });
       setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
       setLoader(false)
-      setForm({ ...form, email: '', password: '' });
+      //setForm({ ...form, email: '', password: '' });
       setErrorSubmit( "Your email address has not been verified "); 
     }
     else { 
       setLoader(false)
-      setForm({ ...form, email: '', password: '' });
+      //setForm({ ...form, email: '', password: '' });
       setErrorSubmit("An error has occurred please try again"); 
     }
   };
@@ -148,3 +148,4 @@ const Entry = ({ onConfirm }) => {
 };
 
 export default Entry;
+//codephrase: bunkbed catapult dolphin acclimate recent cabdriver tubby cognitive

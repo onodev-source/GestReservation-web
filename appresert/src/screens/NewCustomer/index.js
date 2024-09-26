@@ -34,13 +34,13 @@ const NewCustomer = ({product, editCust}) => {
     tel: '',
     email: '',    
     password: '',
-    sexe: '',
-    city: '',
-    country: '',
-    date_of_birth: '',
-    bio: '',
-    category: '',
-    media: ''
+    //sexe: '',
+    //city: '',
+    //country: '',
+    //date_of_birth: '',
+   // bio: '',
+    //category: '',
+    //media: ''
   });
 
   const [startDate, setStartDate] = useState(new Date());
@@ -51,14 +51,10 @@ const NewCustomer = ({product, editCust}) => {
       
     return (
       form.first_name !== '' &&
+      form.last_name !== '' &&
       form.tel !== '' &&
-      form.city !== '' &&
-      form.country !== '' &&
-      form.sexe !== '' &&
       form.email !== '' &&
-      form.password !== '' &&
-      form.nb_persons > 0 &&
-      form.nb_places > 0
+      form.password !== ''
     )
   };
 
@@ -78,7 +74,7 @@ const NewCustomer = ({product, editCust}) => {
         case 'tel':
           setForm({ ...form, tel: value });
             break;
-        case 'city':
+       /* case 'city':
           setForm({ ...form, city: value });
             break;
         case 'country':
@@ -86,7 +82,7 @@ const NewCustomer = ({product, editCust}) => {
             break;
         case 'sexe':
           setForm({ ...form, sexe: value });
-            break;
+            break;*/
         case 'email':
           setForm({ ...form, email: value });
             break;
@@ -99,41 +95,23 @@ const NewCustomer = ({product, editCust}) => {
   }
  
 
-  //start_date: formatDate(startDate, 'SEND'),
   const addOrUpdateCustomer = async () => {
     setLoader(true);
-  
-    //let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
 
-
-    // Ajout des données utilisateur au FormData en tant que JSON
+    // Ajout des données utilisateur 
     const userData = {
-      user: {
-        email: form.email,
-        first_name: form.first_name,
-        last_name: form.last_name,
-        password: form.password,
-        date_of_birth: form.date_of_birth,
-        bio: descripbe,
-        is_online: true,
-        phone_number: form.tel,
-        gender: form.sexe,
-        country: form.country,
-        city: form.city
-      }
+      email: form.email,
+      first_name: form.first_name,
+      last_name: form.last_name,
+      password: form.password,
+      /*date_of_birth: form.date_of_birth,
+      bio: descripbe,
+      is_online: true,*/
+      phone_number: form.tel,
+      /*gender: form.sexe,
+      country: form.country,
+      city: form.city*/
     };
-    
-    //formData.append('user', JSON.stringify(userData));
-    
-    // Si vous avez une photo
-    /*if (media?.file) {
-      formData.append('user[photo_user]', media.file);
-    }
-    
-    // Pour vérifier le contenu de formData dans la console
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }*/
 
     try {
       // Appel API avec FormData
@@ -141,9 +119,9 @@ const NewCustomer = ({product, editCust}) => {
       let status = editCust ? 200 : 201
       
       if (res.status === status) {
-        setErrorSubmit('The customer has been successfully created');
-        setForm({ ...form, email: '', first_name: '', last_name: '', tel: '', sexe: '', country: '', city: '', password: '' });
-        setDescripbe('')
+        setErrorSubmit(`The customer has been successfully ${editCust ? 'updated' : 'created'}`);
+        setForm({ ...form, email: '', first_name: '', last_name: '', tel: '',  password: '' });
+        //setDescripbe('')
         setLoader(false);
       } else if (res.status === 400) {
         setLoader(false);
@@ -179,6 +157,12 @@ const NewCustomer = ({product, editCust}) => {
     }
   }, [ users.access_token, customerId, editCust]);
 
+  useEffect(() => {
+    if (customerEdit) {
+      setForm({ ...form, email: customerEdit.user.email, first_name: customerEdit.user.first_name, last_name: customerEdit.user.last_name, tel: customerEdit.user.phone_number,  password: customerEdit.user.password });
+    }
+  },[customerEdit])
+
   return (
     <>
       {loading ? (
@@ -188,11 +172,14 @@ const NewCustomer = ({product, editCust}) => {
           <div className={styles.row}>
             <div className={styles.col}>
               <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
-            {/* <ImagesAndCTA className={styles.card} />*/}
-              <CategoryAndAttibutes className={styles.card} setForm={setForm}/>
+            {/* <ImagesAndCTA className={styles.card} />
+              <CategoryAndAttibutes className={styles.card} setForm={setForm}/>*/}
+
               <Contact className={styles.card} profil={true} onChange={textInputChange} form={form}/>
-              <Location className={styles.card} product={product} onChange={textInputChange} form={form}/>
-              {/*<ProductFiles className={styles.card} />*/}
+
+              {/*<Location className={styles.card} product={product} onChange={textInputChange} form={form}/>
+              <ProductFiles className={styles.card} />*/}
+
               <Profile className={styles.card} onChange={textInputChange} form={form}/>
 
               {errorSubmit !== '' && (
@@ -200,15 +187,15 @@ const NewCustomer = ({product, editCust}) => {
               )}
             </div>
             <div className={styles.col}>
-              <ImagesAndCTA className={styles.card} mediaUpdate={media} setMediaUpdate={setMedia}/>
-              {/*<ProductFile className={styles.card} product={product}/>*/}
+              {/*<ImagesAndCTA className={styles.card} mediaUpdate={media} setMediaUpdate={setMedia}/>
+              <ProductFile className={styles.card} product={product}/>*/}
               {/*<Preview
                 visible={visiblePreview}
                 onClose={() => setVisiblePreview(false)}
               />*/}
             </div>
           </div>
-          <Panel onClick={addOrUpdateCustomer} isFormFilled={isFormFilled} setVisiblePreview={setVisiblePreview} loader={loader} setVisibleSchedule={setVisibleModal} product={product}/>
+          <Panel onClick={addOrUpdateCustomer} isFormFilled={isFormFilled} setVisiblePreview={setVisiblePreview} setForm={setForm} loader={loader} setVisibleSchedule={setVisibleModal} product={product}/>
           <TooltipGlodal />
           <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
             <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>

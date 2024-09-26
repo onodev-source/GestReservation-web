@@ -77,6 +77,7 @@ const Settings = () => {
     password: users.users.password,
     sexe: users.users.gender,
     location: users.users.country,
+    city: users.users.city,
     date_of_birth: users.users.date_of_birth,
     company_name: users.users.company_name,
     bio: users.users.bio,
@@ -117,6 +118,9 @@ const Settings = () => {
         case 'location':
           setForm({ ...form, location: value });
             break;
+        case 'city':
+          setForm({ ...form, city: value });
+            break;
         case 'sexe':
           setForm({ ...form, sexe: value });
             break;
@@ -136,7 +140,7 @@ const Settings = () => {
  
 
   //start_date: formatDate(startDate, 'SEND'),
-  const updateAccountAndCategory = async () => {
+  const updateAccountAndCategory = async (language) => {
     setLoader(true);
   
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
@@ -150,10 +154,10 @@ const Settings = () => {
       formData.append("email", form.email);
       formData.append("password", form.password);
       formData.append("country", form.location);
-      formData.append("city", form.location);
+      formData.append("city", form.city);
       formData.append("date_of_birth", form.date_of_birth);
       formData.append("bio", form.bio);
-      formData.append("language", form.language);
+      formData.append("language", language ? language : form.language);
       formData.append("password", form.password);
   
       // Ajout du fichier photo_user
@@ -258,7 +262,7 @@ const Settings = () => {
             {((users.users.is_customer && activeIndex === 2) || (!users.users.is_customer && activeIndex === 3)) && 
               <div className={cn(styles.item, { [styles.active]: activeTab === options[3],  })} >
                 <div className={styles.anchor}></div>
-                <Language onChange={textInputChange} formUpdate={form}/>
+                <Language onChange={textInputChange} formUpdate={form} onClick={updateAccountAndCategory}/>
               </div>
             }
             {((users.users.is_customer && activeIndex === 3) || (!users.users.is_customer && activeIndex === 4)) && 

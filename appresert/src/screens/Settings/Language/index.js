@@ -17,7 +17,7 @@ const optionsCategory = [
 ];
 
 
-const Language = ({ className }) => {
+const Language = ({ className, onClick }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   //const [content, setContent] = useState();
@@ -38,6 +38,7 @@ const Language = ({ className }) => {
         }
       };
       dispatch(action);
+      onClick(selectedLanguage?.code)
     }
   };
 

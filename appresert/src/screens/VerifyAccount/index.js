@@ -8,7 +8,6 @@ import Image from "../../components/Image";
 import { Routes } from "../../Constants";
 import Loader from "../../components/Loader";
 import RequestDashboard from "../../Services/Api/ApiServices";
-
 const items = [
   "Unlimited product uploads",
   "Pro tips",
@@ -39,7 +38,7 @@ const VerifyAccount = () => {
       VerifyAccount();
     }
   },[uid, token, navigate])
-  
+
   return (
     <div className={styles.row}>
       <div className={styles.col}>

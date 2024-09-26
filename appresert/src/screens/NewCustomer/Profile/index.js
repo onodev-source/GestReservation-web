@@ -12,7 +12,7 @@ const Profile = ({ className, product, onChange, form }) => {
   return (
     <Card className={cn(styles.card, className)} title="Customer profile" classTitle="title-green" >
       <div className={styles.description}>
-        <TextInput className={styles.field} onChange={onChange} style={{ marginBottom: '32px' }} label="Username"  name="username" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        {/*<TextInput className={styles.field} onChange={onChange} style={{ marginBottom: '32px' }} label="Username"  name="username" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>*/}
         <TextInput className={styles.field} value={form.password} onChange={onChange} label="Password"  name="password" type="password" tooltip="Maximum 100 characters. No HTML or emoji allowed" icon="lock"/>
       </div>
     </Card>

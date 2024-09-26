@@ -7,6 +7,7 @@ import Schedule from "../../../Schedule";
 import Details from "../../../../screens/Refunds/Row/Details";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../../Constants";
+import { useSelector } from "react-redux";
 
 const Control = ({
   item,
@@ -21,6 +22,7 @@ const Control = ({
   customerId,
   onClick
 }) => {
+  const users =useSelector((state)=> state.users)
   const [visibleModal, setVisibleModal] = useState(false);
 
   const handleChangeVisibleProduct = (itemSelected) => {
@@ -29,24 +31,24 @@ const Control = ({
   };
 
   const actions = [
-    //{
-      //icon: "calendar",
-      //action: () => console.log("delete"),
-    //},
-    {
+    // {
+    //   icon: "calendar",
+    //   action: () => console.log("delete"),
+    // },
+    users?.users?.iscustomer && {
       icon: "edit",
       action: () => console.log("edit"),
       url: customersDetails && `${Routes.CUSTOMERS_EDIT}/${customerId}`
     },
     {
       icon: "trash",
-      action: () => onClick,
+      action: () => onClick(selectedItem?.customer_id),
     },
     {
       icon: "arrow-right",
       action: () => handleChangeVisibleProduct(item),
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <>

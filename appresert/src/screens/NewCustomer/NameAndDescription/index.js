@@ -13,11 +13,11 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
   const [content, setContent] = useState(EditorState.createEmpty());
 
   // Fonction qui se déclenche à chaque changement de contenu sur l'editor
-  const handleEditorChange = (newContent) => {
+  /*const handleEditorChange = (newContent) => {
     setContent(newContent);
     
     setDescripbe(newContent.getCurrentContent().getPlainText())
-  };
+  };*/
 
   // Utilisez un effet pour synchroniser le contenu de l'éditeur avec formAdd.descripbe
   useEffect(() => {
@@ -45,8 +45,8 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
       <div className={styles.description}>
         <TextInput className={styles.field} value={formAdd.form.first_name} onChange={onChange} label="Customer name"  name="first-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
         <TextInput className={styles.field} value={formAdd.form.last_name} onChange={onChange} label="Customer last name"  name="last-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
-        <Editor state={content}onChange={handleEditorChange} classEditor={styles.editor} label="Description" tooltip="Description"/>
-        {/*<div className={styles.group}>
+        {/*<Editor state={content}onChange={handleEditorChange} classEditor={styles.editor} label="Description" tooltip="Description"/>
+        <div className={styles.group}>
           <TextInput className={styles.field}  label="Key features" name="value1"type="text" placeholder="Value" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
           <TextInput  className={styles.field} name="value2" type="text" placeholder="Value"  required/>
           <TextInput  className={styles.field}  name="value3" type="text"  placeholder="Value" required />

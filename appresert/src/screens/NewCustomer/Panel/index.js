@@ -5,7 +5,7 @@ import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 import Loader from "../../../components/Loader";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormFilled }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormFilled, setForm }) => {
   const actions = [
     {
       title: "Preview",
@@ -29,6 +29,10 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormF
     },
   ];
 
+  const handleResetInput = () => {  
+    setForm(prev => ({ ...prev, email: '', first_name: '', last_name: '', tel: '', password: '' }));
+  }
+
   return (
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
@@ -36,10 +40,10 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormF
         Last saved <span>Oct 4, 2021 - 23:32</span>
       </div>
       <div className={styles.btns}>
-        <button className={cn("button-stroke", styles.button)}>
+        <button className={cn("button-stroke", styles.button)} onClick={handleResetInput}>
           Cancel
         </button>
-        <button className={cn("button", styles.button)}  onClick={onClick} >{loader ? <Loader/> : 'Save change'}</button>
+        <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} disabled={!isFormFilled() ? true : false} onClick={onClick} >{loader ? <Loader/> : 'Save change'}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

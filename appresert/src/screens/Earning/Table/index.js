@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
 import { numberWithCommas } from "../../../utils.js";
@@ -10,6 +10,11 @@ import Modal from "../../../components/Modal/index.js";
 import Details from "../../Refunds/Row/Details/index.js";
 import Actions from "../../../components/Actions/index.js";
 import Routes from "../../../Constants/Routes.js";
+import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useSelector } from "react-redux";
+import Loader from "../../../components/Loader/index.js";
+import { formatDate } from "../../../Utils/formatDate.js";
+import { formatTime } from "../../../Utils/formatTime.js";
 
 const items = [
   {
@@ -109,10 +114,14 @@ const item =
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
 const Table = ({activityUser}) => {
+  const users = useSelector((state) => state.users);
+
   const [activeTab, setActiveTab] = React.useState(navigation[0]);
   const [search, setSearch] = React.useState("");
   //const [visible, setVisible] = React.useState(false);
   const [visibleModal, setVisibleModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [orders, setOrders] = React.useState([]);
 
   const actions = [
     {
@@ -135,6 +144,18 @@ const Table = ({activityUser}) => {
   const handleSubmit = (e) => {
     alert();
   };
+  
+  useEffect(() => {
+    const getAllReservations = async() => {
+      setLoading(true)
+      let res = await RequestDashboard(`gestreserv/orders/`, 'GET', '', users.access_token);
+      if (res.status === 200) {
+        setOrders(res?.response?.results);
+        setLoading(false)
+      }
+    }
+    getAllReservations();
+  }, [ users.access_token]);
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
@@ -156,49 +177,65 @@ const Table = ({activityUser}) => {
       </Card>
       <div className={styles.table}>
         <div className={styles.row}>
-          <div className={styles.col}>Date</div>
+          <div className={styles.col}>Date begin</div>
+          <div className={styles.col}>Date end</div>
           <div className={styles.col}>Status</div>
-          <div className={styles.col}>Product sales count</div>
-          <div className={styles.col}>Earnings</div>
+          <div className={styles.col}>Package</div>
+          <div className={styles.col}>Number of people</div>
+          <div className={styles.col}>Pricing</div>
           <div className={styles.col}>Actions</div>
         </div>
-        {items.map((x, index) => (
-          <div className={styles.row} key={index}>
-            <div className={styles.col}>{x.date}</div>
-            <div className={styles.col}>
-              {x.status ? (
-                <div
-                  className={cn(
-                    { "status-green-dark": x.status === true },
-                    styles.status
-                  )}
-                >
-                  Paid
-                </div>
-              ) : (
-                <div
-                  className={cn(
-                    { "status-yellow": x.status === false },
-                    styles.status
-                  )}
-                >
-                  Pending
-                </div>
-              )}
-            </div>
-            <div className={styles.col}>{x.sales}</div>
-            <div className={styles.col}>
-              ${numberWithCommas(x.earnings.toFixed(2))}
-            </div>
-            <div className={styles.col}>
-              <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody }classActionsOption={styles.actionsOption} items={actions}/>
-            </div>
-          </div>
-        ))}
+        {loading ?
+          <Loader/> : (
+            orders.length > 0 ? (
+              orders?.map((x, index) => (
+                <>
+                  <div className={styles.row} key={x.order_number}>
+                    <div className={styles.col}>From {formatDate(x.begin_date)} <br/> to {formatTime(x.begin_hour)} </div>
+                    <div className={styles.col}>To {formatDate(x.end_date)} <br/> at {formatTime(x.end_hour)}</div>
+                    <div className={styles.col}>
+                      {!x.statut==="PENDING" ? (
+                        <div
+                          className={cn(
+                            { "status-green-dark": x.statut !== "PENDING" },
+                            styles.status
+                          )}
+                        >
+                          {x.statut}
+                        </div>
+                      ) : (
+                        <div
+                          className={cn(
+                            { "status-yellow": x.statut === "PENDING" },
+                            styles.status
+                          )}
+                        >
+                          Pending
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.col}>{x.package?.package_name}</div>
+                    <div className={styles.col}>{x.nb_persons}</div>
+                    <div className={styles.col}>{Math?.floor(x?.package?.package_price)}XAF 
+                      {/*${numberWithCommas(x?.price_month?.toFixed(2))*/}
+                    </div>
+                    <div className={styles.col}>
+                      <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody } classActionsOption={styles.actionsOption} items={actions} orderId={x.id} order={true}/>
+                    </div>
+                  </div>
+                  <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)}  key={x.order_number}>
+                    <Details item={x} />
+                  </Modal>
+                </>
+              ))
+            ) : (
+              <div className={styles.row} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <h5>No content</h5>
+              </div>
+            )
+          )
+        }
       </div>
-      <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={item} />
-      </Modal>
     </div>
   );
 };

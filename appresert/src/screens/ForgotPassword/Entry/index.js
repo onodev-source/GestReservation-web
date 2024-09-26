@@ -94,18 +94,18 @@ const Entry = ({ onConfirm }) => {
       {errorSubmit !== '' && (
         <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
       )}
-      <div className={styles.subtitle}>Enter your email address to reset</div>
+      <div className={styles.subtitle}>{t('sign.enter_email_to_reset')}</div>
       <TextInput className={styles.field}  name="email"  type="email" value={form.email}
-        placeholder="Your email"  required  icon="mail" onChange={textInputChange}
+        placeholder={t('sign.email')}  required  icon="mail" onChange={textInputChange}
       />
-      <button className={cn("button", styles.button)} onClick={sendEmailResetPassword}>{loader ? <Loader/> : "Send"}</button>
+      <button className={cn("button", styles.button)} onClick={sendEmailResetPassword}>{loader ? <Loader/> : t('words.send')}</button>
       <div className={styles.note}>
-        This site is protected by reCAPTCHA and the Google Privacy Policy.
+      {t('sign.protected_to_recaptcha')}
       </div>
       <div className={styles.info}>
-        Already a member?{"  "}
+        {t('sign.already_menber')}{"  "}
         <Link className={cn(styles.link, styles.linkPwd)} to={Routes.SIGN_IN}>
-          Sign in
+          {t('sign.sign_in')}
         </Link>
       </div>
     </div>
