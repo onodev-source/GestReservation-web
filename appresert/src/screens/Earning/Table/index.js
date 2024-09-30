@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
 import { numberWithCommas } from "../../../utils.js";
@@ -16,100 +16,6 @@ import Loader from "../../../components/Loader/index.js";
 import { formatDate } from "../../../Utils/formatDate.js";
 import { formatTime } from "../../../Utils/formatTime.js";
 
-const items = [
-  {
-    date: "Fri, Apr 9",
-    status: false,
-    sales: 28,
-    earnings: 3140,
-  },
-  {
-    date: "Sat, Apr 10",
-    status: true,
-    sales: 24,
-    earnings: 2568,
-  },
-  {
-    date: "Sun, Apr 11",
-    status: false,
-    sales: 16,
-    earnings: 1375.88,
-  },
-  {
-    date: "Mon, Apr 12",
-    status: true,
-    sales: 48,
-    earnings: 4955.86,
-  },
-  {
-    date: "Tue, Apr 13",
-    status: true,
-    sales: 32,
-    earnings: 2233.44,
-  },
-  {
-    date: "Wed, Apr 14",
-    status: false,
-    sales: 64,
-    earnings: 6140,
-  },
-  {
-    date: "Thu, Apr 15",
-    status: true,
-    sales: 8,
-    earnings: 789.32,
-  },
-];
-const item = 
-{
-  id: 4,
-  product: "Academe 3D Education Icons",
-  category: "UI design kit",
-  image: "/images/content/product-pic-5.jpg",
-  image2x: "/images/content/product-pic-5@2x.jpg",
-  status: true,
-  date: "9 Sep",
-  man: "Reyna Nikolaus",
-  amount: "9800000",
-  avatar: "/images/content/avatar-5.jpg",
-  parameters: [
-    {
-      title: "Request send",
-      content: "Aug 20, 2021",
-    },
-    {
-      title: "Reason",
-      content: "Download link is broken",
-    },
-    {
-      title: "Product downloaded",
-      downloadedStatus: true,
-      downloadedValue: true,
-    },
-    {
-      title: "Purchase date",
-      content: "July 01, 2021",
-    },
-    {
-      title: "Purchase code",
-      content: "6373ads-hd73h-8373DS",
-    },
-    {
-      title: "Request ID",
-      content: "8975ads-hd73h-8974DS",
-    },
-    {
-      title: "Market fee",
-      tooltip: "Description Market fee",
-      price: 7.28,
-    },
-    {
-      title: "Price",
-      tooltip: "Description Price",
-      price: 72.88,
-    },
-  ],
-}
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
@@ -121,41 +27,88 @@ const Table = ({activityUser}) => {
   //const [visible, setVisible] = React.useState(false);
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [selectedOrder, setSelectedOrder] = React.useState(null);  // État pour l'élément sélectionné
   const [orders, setOrders] = React.useState([]);
 
   const actions = [
     {
+      id: 1,
       title: "Edit",
       icon: "edit",
       url: Routes.RESERVATION_EDIT,
     },
     {
-      title: "Delete",
-      icon: "trash",
-      action: () => console.log("delete"),
+      id: 4,
+      title: "Pay",
+      icon: "payment",
+      action: {},
     },
     {
+      id: 2,
+      title: "Delete",
+      icon: "trash",
+      action: {},
+    },
+    {
+      id: 3,
       title: "Details",
       icon: "arrow-right",
-      action: () => setVisibleModal(true),
+      action: {},
     }
   ];
 
   const handleSubmit = (e) => {
     alert();
   };
+
+  // Fonction pour ouvrir le modal avec l'élément sélectionné
+  const handleShowDetails = (order) => {
+    setSelectedOrder(order);  // On met à jour l'élément sélectionné
+    setVisibleModal(true);    // On rend le modal visible
+  };
   
-  useEffect(() => {
-    const getAllReservations = async() => {
-      setLoading(true)
-      let res = await RequestDashboard(`gestreserv/orders/`, 'GET', '', users.access_token);
-      if (res.status === 200) {
-        setOrders(res?.response?.results);
-        setLoading(false)
-      }
+
+  const getAllReservations = useCallback(async() => {
+    setLoading(true)
+    let res = await RequestDashboard(`gestreserv/orders/`, 'GET', '', users.access_token);
+    if (res.status === 200) {
+      setOrders(res?.response?.results);
+      setLoading(false)
     }
+  },[users.access_token])
+
+  const deleteReservationById = async(id) => {
+    let res = await RequestDashboard(`gestreserv/orders/${id}/`, 'DELETE', '', users.access_token);
+    if (res.status === 204) {
+      getAllReservations();
+    }
+  }
+
+  const PayReservation = async(order) => {
+    
+    let data = {
+      order: order.id,
+      invoice_amount: order.package?.package_price,
+      payment_method: 'CASH',
+      payment_type: 'FULL',
+    };
+
+    let res = await RequestDashboard('gestreserv/invoices/', 'POST', data, users.access_token)
+
+    if(res.status === 201) {
+      getAllReservations()
+      /*setLoader(false)
+      setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
+      setErrorSubmit(`The reservation has been successfully ${editOrder ? 'updated' : 'created'}`); */
+    } else {
+     /* setLoader(false)
+      setErrorSubmit("An error has occurred please try again"); */
+    }
+  }
+
+  useEffect(() => {
     getAllReservations();
-  }, [ users.access_token]);
+  }, [getAllReservations]);
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
@@ -189,12 +142,12 @@ const Table = ({activityUser}) => {
           <Loader/> : (
             orders.length > 0 ? (
               orders?.map((x, index) => (
-                <>
+                <React.Fragment key={x.order_number}>
                   <div className={styles.row} key={x.order_number}>
                     <div className={styles.col}>From {formatDate(x.begin_date)} <br/> to {formatTime(x.begin_hour)} </div>
                     <div className={styles.col}>To {formatDate(x.end_date)} <br/> at {formatTime(x.end_hour)}</div>
                     <div className={styles.col}>
-                      {!x.statut==="PENDING" ? (
+                      {x.statut !=="PENDING" ? (
                         <div
                           className={cn(
                             { "status-green-dark": x.statut !== "PENDING" },
@@ -216,17 +169,17 @@ const Table = ({activityUser}) => {
                     </div>
                     <div className={styles.col}>{x.package?.package_name}</div>
                     <div className={styles.col}>{x.nb_persons}</div>
-                    <div className={styles.col}>{Math?.floor(x?.package?.package_price)}XAF 
+                    <div className={styles.col}>{Math?.floor(x.package?.package_price)}XAF 
                       {/*${numberWithCommas(x?.price_month?.toFixed(2))*/}
                     </div>
                     <div className={styles.col}>
-                      <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody } classActionsOption={styles.actionsOption} items={actions} orderId={x.id} order={true}/>
+                      <Actions onDetailsClick={() => handleShowDetails(x)} onPaidClick={() => PayReservation(x)} onDeleteClick={() => deleteReservationById(x.id)} className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody } classActionsOption={styles.actionsOption} items={actions} orderIdSelect={x.id} order={true} key={x.order_number}/>
                     </div>
                   </div>
                   <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)}  key={x.order_number}>
-                    <Details item={x} />
+                    {selectedOrder && <Details item={selectedOrder} onClose={() =>  setVisibleModal(false)}/>} {/* Afficher les détails de l'élément sélectionné */}
                   </Modal>
-                </>
+                </React.Fragment>
               ))
             ) : (
               <div className={styles.row} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

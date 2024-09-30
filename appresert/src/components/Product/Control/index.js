@@ -14,7 +14,7 @@ const Control = ({ className, selectedItem, getAllPackages, packageId, product, 
 
   
   const deletePackagesById = async(id) => {
-    let res = await RequestDashboard(`gestreserv/packages/${id}`, 'DELETE', '', users.access_token);
+    let res = await RequestDashboard(`gestreserv/packages/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
       getAllPackages()
     }

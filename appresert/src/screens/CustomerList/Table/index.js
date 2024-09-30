@@ -40,7 +40,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
 
   const deleteCustomerById =  async(id) => {
     
-    let res = await RequestDashboard(`gestreserv/customers/${id}`, 'DELETE', '', users.access_token);
+    let res = await RequestDashboard(`gestreserv/customers/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
       getAllCustomers();
     }

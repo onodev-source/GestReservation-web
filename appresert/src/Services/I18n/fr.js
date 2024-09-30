@@ -45,6 +45,7 @@ const fr = {
             reservations_edit: "Modifier la Réservation",
             reservations_agenda: "Agenda",
             income_earning: "Revenu",
+            income_add: "Ajouter un revenu",
             income_list: "Liste des Revenus",
             income_payouts: "Paiements",
             income_statements: "Déclarations",
@@ -122,6 +123,9 @@ const fr = {
                 upload_image_package: "Upload image package",
                 allow_customers_to_pay: "Allow customers to pay they want ",
             }
+        },
+        income: {
+            add_income: "Ajouter un revenu",
         },
         settings: {
             account: "Mon compte",

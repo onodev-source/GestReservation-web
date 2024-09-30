@@ -16,7 +16,7 @@ import { formatDate } from "../../../Utils/formatDate";
 
 const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, setMediaUpdate }) => {
   const users = useSelector((state) => state.users);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date(users.users?.date_of_birth));
   const [visibleDate, setVisibleDate] = useState(false);
   //const [content, setContent] = useState();
   const [content, setContent] = useState(EditorState.createEmpty());

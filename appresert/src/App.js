@@ -76,6 +76,7 @@ const App = () => {
         <Route path="/reservations/agenda" element={<AuthGuard props={<Page title={t('navigation.title.reservations_agenda')}><Scheduled /></Page>} />} />
         <Route path="/income/earning" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Earning /></Page>} />} />
         <Route path="/income/incomeList" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Refunds /></Page>} />} />
+        {/*<Route path="/income/add/:idOrder" element={<AuthGuard props={<Page title={t('navigation.title.income_add')}><NewIncome /></Page>} />} />*/}
         <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />
         <Route path="/income/statements" element={<Page title="Statements"><Statements /></Page>} />
         <Route path="/promote" element={<AuthGuard props={<Page title={t('navigation.title.promote')}><Promote /></Page>} />} />

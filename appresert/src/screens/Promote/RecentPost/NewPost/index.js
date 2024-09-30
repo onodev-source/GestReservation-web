@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
 import styles from "./NewPost.module.sass";
 import cn from "classnames";
 import Icon from "../../../../components/Icon";
@@ -34,7 +34,7 @@ const files = [
   }
 ];
 
-const NewPost = ({updatePost, postRef, postId}) => {
+const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
   const users = useSelector((state) => state.users);
 
   const [loader, setLoader] = useState(false)
@@ -102,31 +102,38 @@ const NewPost = ({updatePost, postRef, postId}) => {
     formData.append("title", form.title);
     formData.append("description", form.description);
     formData.append("start_date", formatDate(startDate, 'SEND'),);
-    formData.append("start_date", formatDate(endDate, 'SEND'));
+    formData.append("end_date", formatDate(endDate, 'SEND'));
     // Ajout du fichier photo_user
-    if (media[0]?.file) {
+    if ( media[0]?.file) {
       formData.append("photo_publicity", media[0]?.file);
     }
-    /*let data= {
-      title: form.title,
-      description: form.description,
-      start_date: formatDate(startDate, 'SEND'),
-      end_date: formatDate(endDate, 'SEND')
-    }*/
-    let res = updatePost ? await RequestDashboard(`gestreserv/publicities/${postId}`, 'PUT', formData, users.access_token) : await RequestDashboard('gestreserv/publicities/', 'POST', formData, users.access_token)
+    let res = updatePost ? await RequestDashboard(`gestreserv/publicities/${postId}/`, 'PUT', formData, users.access_token) : await RequestDashboard('gestreserv/publicities/', 'POST', formData, users.access_token)
+    let status = updatePost ? 200 : 201
 
-    if(res.status === 201) {
+    if(res.status === status) {
       setForm({ ...form, title: '', description: '', start_date: '', end_date: '' });
       setMedia([])
       setLoader(false)
       if (postRef.current) {
         postRef.current.click();
+        onRefresh()
       }
     } else {
       setLoader(false)
       setErrorSubmit("An error has occurred please try again"); 
     }
   }
+
+  useEffect(()=> {
+    if(updatePost && item){
+      setForm({...form, title: item.title, description: item.description, })
+      setMedia(item.photo_publicity);
+      setStartDate(new Date(item.start_date));
+      setEndDate(new Date(item.end_date));
+      
+    }
+  }, [updatePost, item])
+  
 
   return (
     <div className={styles.post}>
@@ -147,8 +154,8 @@ const NewPost = ({updatePost, postRef, postId}) => {
         ))}
       </div>
       <div className={styles.field}>
-        <TextInput onChange={textInputChange}  className={styles.field} placeholder='Title'  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <textarea className={styles.textarea}  onChange={textInputChange}  name="description" placeholder="What you would like to share?" />
+        <TextInput onChange={textInputChange}  className={styles.field} placeholder='Title' value={form.title} name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <textarea className={styles.textarea}  onChange={textInputChange} value={form.description} name="description" placeholder="What you would like to share?" />
       </div>
       {form.title !== '' && (
         <div className={styles.info}>
@@ -160,12 +167,18 @@ const NewPost = ({updatePost, postRef, postId}) => {
       )}
       {media?.length > 0 &&
         <div className={styles.preview}>
-          {mediaType === 'image' ? 
-            <img src={media[0].url} alt="Video" />
-          :
-            <video controls>
-              <source src={media[0].url} type={media[0].file.type} />
-            </video>
+          {!updatePost ? (
+            mediaType === 'image' ? 
+              <img src={media[0].url} alt="Video" />
+            :
+              <video controls>
+                <source src={media[0].url} type={media[0].file.type} />
+              </video>
+          ) :
+            media[0].url ? (
+              <img src={media[0].url} alt="Video" />
+            ) :
+              <img src={media} alt="Video" />
           }
         </div>
       }

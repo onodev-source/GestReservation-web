@@ -3,7 +3,12 @@ export const formatDate = (dateString, formatPost) => {
     if (formatPost === 'SEND') {
         const formattedDate = new Date(dateString).toISOString().slice(0, 10);
         return formattedDate;
-    } else if (formatPost === 'HOUR') {
+    } else if (formatPost === 'GET') {
+        
+        const options = { year: 'numeric', month: 'long', day: '2-digit' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+        
+    }else if (formatPost === 'HOUR') {
         const date = new Date(dateString);
         
         // Obtenir les heures, minutes et secondes

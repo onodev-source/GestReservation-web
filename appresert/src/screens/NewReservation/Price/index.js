@@ -27,9 +27,9 @@ const Price = ({ className, form, onChange }) => {
               <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label="Dayly subscription" value={form.price_day} name="price_day" type="text" required currency="$"/>
               <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label="Hourly subscription" value={form.price_hour} name="price_hour" type="text" required currency="$"/>
             </div>
-            <div className={styles.line}>
+            {/*<div className={styles.line}>
               <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label="Total subscription price" name="total-amount" type="text" required currency="$"/>
-            </div>
+            </div>*/}
           </>
       </div>
     </Card>

@@ -7,7 +7,7 @@ const Cell = ({ item, redIndicator, greenIndicator, blueIndicator }) => {
   return (
     <div className={styles.cell}>
       <div className={styles.box}>
-        <div className={styles.number}>{item.counter}</div>
+        <div className={styles.number}> 0</div>{/*counter*/}
         <div className={styles.line}>
           <div
             className={cn(
@@ -17,12 +17,12 @@ const Cell = ({ item, redIndicator, greenIndicator, blueIndicator }) => {
               { [styles.blue]: blueIndicator }
             )}
             style={{
-              width: item.progress,
+              width:  0,
             }}
-          ></div>
+          ></div>{/*item.progress*/}
         </div>
       </div>
-      <Balance className={styles.balance} value={item.balance} />
+      <Balance className={styles.balance} value={0} />{/*item.balance*/}
     </div>
   );
 };

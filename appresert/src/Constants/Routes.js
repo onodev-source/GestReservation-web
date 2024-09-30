@@ -24,6 +24,8 @@ const Routes = {
     RESERVATION_ADD: '/reservations/add',
     RESERVATION_EDIT: '/reservations/edit',
     AGENDA_DASH: '/reservations/agenda',
+    INCOME_ADD: '/income/add',
+    INCOME_EDIT: '/income/edit',
     INCOME_DASH: '/income/incomeList',
     SETTINGS: '/settings',
 };

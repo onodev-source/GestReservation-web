@@ -82,7 +82,6 @@ const NewReservation = ({product, editOrder}) => {
   const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  
 
   const handleChange = (id) => {
     // Si le produit est déjà sélectionné, désélectionnez-le
@@ -132,15 +131,16 @@ const NewReservation = ({product, editOrder}) => {
       begin_hour: formatDate(startTime, 'HOUR'),
       end_hour: formatDate(endTime, 'HOUR'),
       package_id: selectedFilters,
-      type_event: parseInt(form.type_event)
+      type_event_id: parseInt(form.type_event)
     };
 
-    let res = await RequestDashboard('gestreserv/orders/', 'POST', data, users.access_token)
+    let res = await RequestDashboard(editOrder ? `gestreserv/orders/${orderId}/` : 'gestreserv/orders/', editOrder ? 'PUT' : 'POST', data, users.access_token)
+    let status = editOrder ? 200 : 201
 
-    if(res.status === 201) {
+    if(res.status === status) {
       setLoader(false)
       setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
-      setErrorSubmit("The reservation has been successfully created"); 
+      setErrorSubmit(`The reservation has been successfully ${editOrder ? 'updated' : 'created'}`); 
     } else {
       setLoader(false)
       setErrorSubmit("An error has occurred please try again"); 
@@ -157,7 +157,7 @@ const NewReservation = ({product, editOrder}) => {
   }, [users.access_token])
   
   useEffect(() => {
-    if (editOrder && orderId) {
+    if (editOrder && orderId !==undefined) {
       const getOrderById = async(id) => {
         setLoading(true)
           let res = await RequestDashboard(`gestreserv/orders/${id}/`, 'GET', '', users.access_token);
@@ -172,13 +172,20 @@ const NewReservation = ({product, editOrder}) => {
 
   useEffect(() => {
     if (orderEdit) {
-      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons });   
-      //setStartDate(orderEdit.begin_date) 
-      //setEndDate(orderEdit.end_date) 
-      //setStartTime(formatTime(orderEdit.begin_hour, 'GET')) 
-      //console.log('tine convert', formatTime(orderEdit.begin_hour, 'GET'));
-      
-      //setEndTime(formatTime(orderEdit.end_hour, 'GET')) 
+      const dateStart = new Date(orderEdit?.begin_date);
+      const dateEnd = new Date(orderEdit.end_date);
+      const [hours, minutes, seconds] = orderEdit.begin_hour.split(":");
+      const [hoursEnd, minutesEnd, secondsEnd] = orderEdit.end_hour.split(":");
+      dateStart.setHours(hours, minutes, seconds);
+      dateEnd.setHours(hoursEnd, minutesEnd, secondsEnd);
+
+      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons });  
+      setSelectedFilters(orderEdit?.package?.id) 
+      //setStartDate(new Date(item.start_date));
+      setStartDate(new Date(orderEdit?.begin_date)) 
+      setEndDate(new Date(orderEdit.end_date)) 
+      setStartTime(dateStart) 
+      setEndTime(dateEnd) 
     }
   }, [orderEdit]);
 
@@ -215,7 +222,7 @@ const NewReservation = ({product, editOrder}) => {
           {/*<CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product}/>
           <ProductFiles className={styles.card} />*/}
 
-          <CategoryAndAttibutes className={styles.card} setForm={setForm}/>
+          <CategoryAndAttibutes className={styles.card} setForm={setForm} editOrder={editOrder} formEdit={orderEdit?.type_event?.type_event}/>
 
           {/*<Discussion className={styles.card} />*/}
         

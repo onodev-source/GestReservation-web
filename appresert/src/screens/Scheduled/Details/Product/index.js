@@ -6,11 +6,11 @@ const Product = ({ item, className }) => {
   return (
     <div className={cn(styles.item, className)}>
       <div className={styles.preview}>
-        <img srcSet={`${item.image2x} 2x`} src={item.image} alt="Product" />
+        {/*<img srcSet={`${item.image2x} 2x`} src={item.image} alt="Product" />*/}RE
       </div>
       <div className={styles.details}>
-        <div className={styles.product}>{item.product}</div>
-        {item.status ? (
+        <div className={styles.product}>{`Reservation No: ${item.order_number}`}</div>
+        {item.statut !=="PENDING" ? (
           <div className={styles.new}>New request</div>
         ) : (
           <div className={styles.progress}>In progress</div>

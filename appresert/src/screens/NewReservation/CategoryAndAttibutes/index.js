@@ -37,7 +37,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className, setForm }) => {
+const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
   const [category, setCategory] = useState(optionsCategory[0]);
@@ -97,23 +97,24 @@ const CategoryAndAttibutes = ({ className, setForm }) => {
         const categories = res.response.results;
         setCategoryData(categories);
   
-        /*if (editProd && formAdd) {
+        if (editOrder && formEdit) {
           // Vérifiez si formAdd a un champ category_name ou similaire
-          const defaultCategory = formAdd || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
+          const defaultCategory = formEdit || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
           setCategory(defaultCategory);
   
-          if (formAdd) {
-            const selectedCategory = categories.find(category => category.category_name === formAdd);
+          if (formEdit) {
+            const selectedCategory = categories.find(type => type.type_event === formEdit);
+            
             if (selectedCategory) {
               setSelectedFilter(selectedCategory.id);
-              setTags([{ id: String(selectedCategory.id), text: selectedCategory.category_name }]);
+              setTags([{ id: String(selectedCategory.id), text: selectedCategory.type_event }]);
             }
           }
-        }*/
+        }
       }
     };
     getAllCategory();
-  }, [ users.access_token, ]);
+  }, [ users.access_token, formEdit, editOrder]);
   
   
   return (

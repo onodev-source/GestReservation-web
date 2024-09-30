@@ -11,7 +11,7 @@ import { formatDate } from "../../../../Utils/formatDate";
 import { formatTime } from "../../../../Utils/formatTime";
 
 
-const Details = ({ item, customersDetails, onClose }) => {
+const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
   const [content, setContent] = useState();
 
   const customerArray = [
@@ -36,27 +36,37 @@ const Details = ({ item, customersDetails, onClose }) => {
     { title: 'Price hour', content: `${Math.floor(item?.price_hour)}XAF`  },
     { title: 'Date created', content: `${formatDate(item.created_at)}`  },
   ];
-
   const suggestions = [
     { title: 'Package name:', content: item.package?.package_name},
     //{ title: 'Package Des:', content: item.package?.package_name},
     { title: 'Package price:', content: ` ${Math.floor(item.package?.package_price)}XAF`},
   ];
-  const parameters = customersDetails ? customerArray : orderArray
+  const incomeArray = [
+    { title: 'Order number:', content: item.order_number},
+    { title: 'Invoice Number:', content: item.invoice_number},
+    { title: 'Invoice amount:', content: `${Math.floor(item.invoice_amount)}XAF `},
+    { title: 'Invoice date:', content: ` ${formatDate(item.invoice_date, 'GET')}`},
+    { title: 'Invoice method:', content: item.payment_method},
+    { title: 'Invoice type:', content: item.payment_type},
+    { title: 'Payment statut:', content: item.payment_statut},
+  ];
+ 
+  const parameters = customersDetails ? customerArray : (incomeDetail ? incomeArray : orderArray)
+
 
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Order details"}</div>
+        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : (incomeDetail ? "Income detail" : "Order details")}</div>
         <div className={styles.row}>
-          <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
-            <Product className={styles.product} item={item} customersDetails={customersDetails}/>
+          <div className={cn(styles.col, { [styles.colMax]: customersDetails || incomeDetail })}>
+            {!incomeDetail && <Product className={styles.product} item={item} customersDetails={customersDetails}/>}
             <div className={styles.parameters}>
               {parameters?.map((x, index) => (
                 <Parameter item={x} key={index} />
               ))}
             </div>
-            {customersDetails &&
+            {(customersDetails || incomeDetail) &&
               <div className={styles.btns}>
                 <button className={cn("button-stroke", styles.button)} onClick={onClose}>
                   Cancel
@@ -67,7 +77,7 @@ const Details = ({ item, customersDetails, onClose }) => {
               </div>
             }
           </div>
-          {!customersDetails &&
+          {(customersDetails===false || incomeDetail === false) &&
             <div className={styles.col}>
               <div className={styles.group}>
                 <div className={styles.box}>

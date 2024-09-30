@@ -6,62 +6,69 @@ import Parameter from "./Parameter";
 import TooltipGlodal from "../../../components/TooltipGlodal"
 import Editor from "../../../components/Editor";
 import Icon from "../../../components/Icon";
+import { formatDate } from "../../../Utils/formatDate";
+import { formatTime } from "../../../Utils/formatTime";
+import Avatar from "../../../components/Avatar";
+import { useSelector } from "react-redux";
 
-const suggestions = [
-  "Talk to customer to see if you can help.",
-  "If not, approve or decline the request.",
-  "Will Yess, approve or decline the request.",
-];
 
-const Details = ({ item, customersDetails, onClose }) => {
-  const [content, setContent] = useState();
+const Details = ({ item, onClose }) => {
+  const users = useSelector((state) => state.users);
+  //const [content, setContent] = useState();
+
+  const parameters = [
+    { title: 'Date begin', content: `From ${formatDate(item.begin_date)} to ${formatTime(item.begin_hour)}`},
+    { title: 'Date end', content:`From ${formatDate(item.end_date)} to ${formatTime(item.end_hour)}` },
+    { title: 'Status', content: item.statut},
+    //{ title: 'Package price', content: `${Math.floor(item?.package_price)}XAF ` },
+    { title: 'Type event', content: item.type_event?.type_event },
+    { title: 'Price month', content: `${Math.floor(item?.price_month)}XAF ` },
+    { title: 'Price Day', content: `${Math.floor(item?.price_day)}XAF` },
+    { title: 'Price hour', content: `${Math.floor(item?.price_hour)}XAF`  },
+    { title: 'Date created', content: `${formatDate(item.created_at)}`  },
+  ];
+
+  const suggestions = [
+    { title: 'Package name:', content: item.package?.package_name},
+    //{ title: 'Package Des:', content: item.package?.package_name},
+    { title: 'Package price:', content: ` ${Math.floor(item.package?.package_price)}XAF`},
+  ];
+  //const parameters = customersDetails ? customerArray : orderArray
 
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : " Agenda details"}</div>
+        <div className={cn("title-purple", styles.title)}>{"Agenda details"}</div>
         <div className={styles.row}>
-          <div className={cn(styles.col, { [styles.colMax]: customersDetails })}>
+          <div className={cn(styles.col)}>
             <Product className={styles.product} item={item} />
             <div className={styles.parameters}>
-              {item.parameters.map((x, index) => (
+              {parameters?.map((x, index) => (
                 <Parameter item={x} key={index} />
               ))}
             </div>
-            {customersDetails &&
-              <div className={styles.btns}>
-                <button className={cn("button-stroke", styles.button)} onClick={onClose}>
-                  Cancel
-                </button>
-                <button className={cn("button", styles.button)}>
-                  Delete
-                </button>
-              </div>
-            }
           </div>
-          {!customersDetails &&
-            <div className={styles.col}>
-              <div className={styles.group}>
-                <div className={styles.box}>
-                  <div className={styles.info}>Package category</div>
-                  <ul className={styles.list}>
-                      <li >OnoPremium</li>
-                  </ul>
-                </div>
-                <div className={styles.box}>
-                  <div className={styles.info}>Products</div>
-                  <ul className={styles.list}>
-                    {suggestions.map((x, index) => (
-                      <li key={index}>{x}</li>
-                    ))}
-                  </ul>
-                </div>
+          <div className={styles.col}>
+            <div className={styles.group}>
+              <div className={styles.box}>
+                <div className={styles.info}>Package category</div>
+                <ul className={styles.list}>
+                    <li >{item.package?.category_name}</li>
+                </ul>
+              </div>
+              <div className={styles.box}>
+                <div className={styles.info}>Package details</div>
+                <ul className={styles.list}>
+                  {suggestions.map((x, index) => (
+                    <li key={index}>{x.title}  {x.content}</li>
+                  ))}
+                </ul>
+              </div>
+              {!users.users.is_customer && 
                 <div className={styles.box}>
                   <div className={styles.info}>Client</div>
                   <div className={styles.user}>
-                    <div className={styles.avatar}>
-                      <img src={item.avatar} alt="Avatar" />
-                    </div>
+                    <Avatar user={{username: item.man, photo: item.avatar}} classname={styles.avatar}  width='32px'  height='32px'/>
                     {item.man}
                   </div>
                   <div className={styles.text}>
@@ -75,17 +82,17 @@ const Details = ({ item, customersDetails, onClose }) => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.btns}>
-                <button className={cn("button-stroke", styles.button)} onClick={onClose}>
-                  Delete
-                </button>
-                <button className={cn("button", styles.button)}>
-                  Edit
-                </button>
-              </div>
+              }
             </div>
-          }
+            <div className={styles.btns}>
+              <button className={cn("button-stroke", styles.button)} onClick={onClose}>
+                Cancel
+              </button>
+              {/*<button className={cn("button", styles.button)}>
+                Delete
+              </button>*/}
+            </div>
+          </div>
         </div>
       </div>
       <TooltipGlodal />

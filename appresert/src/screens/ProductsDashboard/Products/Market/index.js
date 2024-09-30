@@ -25,7 +25,7 @@ const Market = ({ items, loader, getAllProduct }) => {
   
   const deleteProductById =  async(id) => {
     
-    let res = await RequestDashboard(`gestreserv/products/${id}`, 'DELETE', '', users.access_token);
+    let res = await RequestDashboard(`gestreserv/products/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
       getAllProduct();
     }

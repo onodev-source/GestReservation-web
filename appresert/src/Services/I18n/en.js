@@ -42,6 +42,7 @@ const en = {
             reservations_edit: "Edit Reservation",
             reservations_agenda: "Agenda",
             income_earning: "Income",
+            income_add: "Add income",
             income_list: "Income List",
             income_payouts: "Payouts",
             promote: "Publicity",
@@ -132,6 +133,9 @@ const en = {
                 upload_image_package: "Upload image package",
                 allow_customers_to_pay: "Allow customers to pay they want ",
             }
+        },
+        income: {
+            add_income: "Add income",
         },
         post: {
             add_to_bookmarks: "Add to bookmarks",

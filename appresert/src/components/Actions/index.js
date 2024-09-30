@@ -15,7 +15,10 @@ const Actions = ({
   setVisible,
   small,
   order,
-  orderId,
+  orderIdSelect,
+  onDetailsClick,
+  onPaidClick,
+  onDeleteClick,
   up,
 }) => {
   const [innerVisible, setInnerVisible] = useState(false);
@@ -55,13 +58,13 @@ const Actions = ({
           {items.map((x, index) => (
             x.url ? (
               <Link  className={cn(styles.option, classActionsOption)}
-                to={order ? `${x.url}/${orderId}` : x.url}  key={index} >
+                to={order ? `${x.url}/${orderIdSelect}` : x.url}  key={x.id} >
                 {x.icon && <Icon name={x.icon} size="24" />}
                 {x.title}
               </Link>
             ) : (
               <button className={cn(styles.option, classActionsOption)}
-                onClick={x.action} key={index} >
+                onClick={x.id === 3 ? onDetailsClick : (x.id === 2 ? onDeleteClick : (x.id === 4 ? onPaidClick : x.action))} key={x.id} >
                 {x.icon && <Icon name={x.icon} size="24" />}
                 {x.title}
               </button>

@@ -23,19 +23,27 @@ const RecentPost = ({ className }) => {
   const [sorting, setSorting] = useState(intervals[0]);
   const [loader, setLoader] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   
   const getAllPublicity = useCallback(async() => {
     setLoader(true)
-    let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
+    let res = await RequestDashboard('gestreserv/publicities/', 'GET', '', users.access_token);
     if (res.status === 200) {
       setAllPosts(res.response?.results);
       setLoader(false)
     }
   }, [users.access_token]);
+
+  const deletePublicityById = async(id) => {
+    let res = await RequestDashboard(`gestreserv/publicities/${id}`, 'DELETE', '', users.access_token);
+    if (res.status === 204) {
+      getAllPublicity();
+    }
+  };
   
   React.useEffect(() => {
     getAllPublicity()
-  }, [getAllPublicity])
+  }, [getAllPublicity, refresh])
 
   return (
     <>
@@ -65,24 +73,30 @@ const RecentPost = ({ className }) => {
         <div className={styles.table}>
           <div className={styles.row}>
             <div className={styles.col}>Post</div>
-            <div className={styles.col}>Distribution</div>
-            <div className={styles.col}>Link clicks</div>
+            <div className={styles.col}>Start date</div>
+            <div className={styles.col}>End Date</div>
             <div className={styles.col}>Views</div>
             <div className={styles.col}>Engagement</div>
           </div>
-          {posts.map((x, index) => (
-            <Row item={x} key={index} />
-          ))}
+          {loader ?
+            <Loader/> :
+            allPosts.length > 0 ?
+              allPosts.map((x, index) => (
+                <Row item={x} key={index} postRef={postRef} setRefresh={setRefresh} refresh={refresh} onDeletePub={() => deletePublicityById(x.id)}/>
+              ))
+            :
+            <div><h5>no content</h5></div>
+          }
         </div>
-        <div className={styles.foot}>
+        {/*<div className={styles.foot}>
           <button className={cn("button-stroke button-small", styles.button)}>
             <Loader className={styles.loader} />
             <span>Load more</span>
           </button>
-        </div>
+        </div>*/}
       </Card>
       <Modal outerClassName={styles.outer} visible={visibleModal}  onClose={() => setVisibleModal(false)} modalRef={postRef}>
-        <NewPost postRef={postRef}/>
+        <NewPost postRef={postRef} onRefresh={() => setRefresh(!refresh)}/>
       </Modal>
     </>
   );
