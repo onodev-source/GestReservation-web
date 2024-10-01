@@ -7,8 +7,10 @@ import Row from "./Row";
 import Loader from "../../../../components/Loader";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../../Services/Api/ApiServices";
+import { useTranslation } from "react-i18next";
 
 const Market = ({ items, loader, getAllProduct }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
   const [chooseAll, setСhooseAll] = useState(false);
 
@@ -21,7 +23,6 @@ const Market = ({ items, loader, getAllProduct }) => {
       setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
     }
   };
-
   
   const deleteProductById =  async(id) => {
     
@@ -45,9 +46,9 @@ const Market = ({ items, loader, getAllProduct }) => {
                 onChange={() => setСhooseAll(!chooseAll)}
               />
             </div>
-            <div className={styles.col}>Product</div>
+            <div className={styles.col}>{t('views.products.products')}</div>
             <div className={styles.col}>Status</div>
-            <div className={styles.col}>Quantity</div>
+            <div className={styles.col}>{t('views.products.add.quantity')}</div>
             <div className={styles.col}>Sales</div>
             <div className={styles.col}>Views</div>
             <div className={styles.col}>Likes</div>

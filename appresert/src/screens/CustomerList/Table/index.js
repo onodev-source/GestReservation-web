@@ -82,7 +82,7 @@ const Table = ({ className, activeTable, setActiveTable }) => {
               up={allCustomers?.length - index <= 2}
               value={selectedFilters.includes(x.user.id)}
               onChange={() => handleChange(x.user.id)}
-              onClick={() => deleteCustomerById(x.customer_id)}
+              onDeleteCust={() => deleteCustomerById(x.customer_id)}
               customersDetails={true}
             />
           ))}

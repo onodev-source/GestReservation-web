@@ -10,6 +10,8 @@ import Details from "../../../Refunds/Row/Details";
 
 import Refunds from "../../../Refunds";
 import { refunds } from "../../../../mocks/refunds";
+import { Link } from "react-router-dom";
+import { Routes } from "../../../../Constants";
 
 const customerDetails = {
   product: "Filomena Fahey",
@@ -70,7 +72,7 @@ const Row = ({
   activeId,
   setActiveId,
   up,
-  onClick,
+  onDeleteCust,
   customersDetails
 }) => {
   const [visibleActions, setVisibleActions] = useState(false);
@@ -115,7 +117,7 @@ const Row = ({
           <div className={styles.item} onClick={() => handleClick(item.id)}>
             <Avatar user={{username: item.email, photo: item.photo_user}} classname={styles.avatar}/>
             <div className={styles.details}>
-              <div className={styles.user} style={{ textTransform: "capitalize",}}>{item.full_name}</div>
+              <Link className={styles.user} style={{ textTransform: "capitalize",}} to={`${Routes.MY_PROFILE}/${item?.id}`}>{item.full_name}</Link>
               <div className={styles.login}>@{item.email}</div>
               <div className={styles.email}>{item.email}
               </div>
@@ -126,7 +128,7 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.email}>{item.email}</div>
-          <Control className={styles.control} onClick={onClick} visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? item : item} customerId={allItem.customer_id} customersDetails={customersDetails} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+          <Control className={styles.control} onClick={onDeleteCust} visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} item={customersDetails ? item : item} customerId={allItem.customer_id} customersDetails={customersDetails} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
         </div>
         <div className={styles.col}>
           <div className={cn("status-green-dark", styles.purchase)}>
@@ -143,7 +145,7 @@ const Row = ({
         <div className={styles.col}>{item.likes || '0'}</div>
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={customersDetails ? selectedItem : refunds[0]} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>
+        <Details item={customersDetails ? selectedItem : refunds[0]} onDeleteCust={onDeleteCust} customersDetails={customersDetails} onClose={() => setVisibleModal(false)}/>
       </Modal>
     </>
   );

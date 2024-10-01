@@ -49,7 +49,7 @@ const ModalProduct = ({ visible, onClose, product, detailsData, items }) => {
     visible && (
       <div id="modal-product" className={styles.modal}>
         <div className={styles.control}>
-          <Link className={cn("button-white", styles.button)} to={product ? Routes.PRODUITS_EDIT : `${Routes.PACKAGES_EDIT}/${detailsData?.id}`} >
+          <Link className={cn("button-white", styles.button)} to={product ? `${Routes.PRODUITS_EDIT}/${detailsData?.id}` : `${Routes.PACKAGES_EDIT}/${detailsData?.id}`} >
           {product ? "Edit product" : "Edit package"}
           </Link>
           <button className={styles.close} onClick={onClose}>

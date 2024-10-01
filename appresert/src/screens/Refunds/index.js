@@ -34,6 +34,13 @@ const Refunds = () => {
       setLoader(false)
     }
   }, [users.access_token]);
+
+  const deleteInvoiceById = async(id) => {
+    let res = await RequestDashboard(`gestreserv/invoices/${id}`, 'DELETE', '', users.access_token);
+    if (res.status === 204) {
+      getAllInvoices()
+    }
+  };
   
   React.useEffect(() => {
     getAllInvoices()
@@ -62,7 +69,7 @@ const Refunds = () => {
             </div>
             {incomes?.length > 0 ?
               incomes.map((x, index) => (
-                <Row item={x} key={index} />
+                <Row item={x} key={index} onDeleteInvoice={() => deleteInvoiceById(x.id)}/>
               ))
               :
               <h4>No content</h4>

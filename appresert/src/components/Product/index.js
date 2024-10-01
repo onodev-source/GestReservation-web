@@ -19,7 +19,7 @@ const gallery = [
   }
 ];
 
-const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, isReserved, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete}) => {
+const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, isReserved, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete, showPreview}) => {
 
   const [visible, setVisible] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
@@ -40,6 +40,9 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
     if (modalDetail) {
       setSelectedItem(itemSelected); 
       setVisibleModalProduct(true)
+    } else if(showPreview){
+      setSelectedItem(itemSelected);
+      setVisibleModalPreview(true)
     }
   };
 
@@ -53,7 +56,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
           {!isReserved && <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>}
           <img srcSet={`${isPackage ? item.photos_packages : item.photo_products} 2x`} src={isPackage ? item.photos_packages :  item.photo_products } alt="Product" />
           {!isPreviewHidden &&
-            <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => setVisibleModalPreview(true)} >
+            <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => handleChangeVisibleProduct(item)} >
               Show preview
             </button>
           }
@@ -93,7 +96,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
       </div>
       
       {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} detailsData={selectedItem} key={selectedItem?.id}/>)}
-      <ModalPreview key={selectedItem?.id} detailsData={selectedItem}  product={product} visible={visibleModalPreview} onClose={() => setVisibleModalPreview(false)} gallery={gallery}  title={product ? "Fleet - Travel shopping UI design kit" : "Products included in the offer "} figcaption="Elegant product mockup for your next project" />
+      <ModalPreview key={selectedItem?.id} detailsData={selectedItem} product={product} visible={visibleModalPreview} onClose={() => setVisibleModalPreview(false)} />
     </>
   );
 };

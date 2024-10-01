@@ -44,18 +44,20 @@ const Table = ({activityUser}) => {
       action: {},
     },
     {
-      id: 2,
-      title: "Delete",
-      icon: "trash",
-      action: {},
-    },
-    {
       id: 3,
       title: "Details",
       icon: "arrow-right",
       action: {},
+    },
+    {
+      id: 2,
+      title: "Delete",
+      icon: "trash",
+      action: {},
     }
   ];
+
+  const filteredActions = users.users.is_customer ? actions.filter(item => item.id !== 4)  : actions;
 
   const handleSubmit = (e) => {
     alert();
@@ -173,11 +175,11 @@ const Table = ({activityUser}) => {
                       {/*${numberWithCommas(x?.price_month?.toFixed(2))*/}
                     </div>
                     <div className={styles.col}>
-                      <Actions onDetailsClick={() => handleShowDetails(x)} onPaidClick={() => PayReservation(x)} onDeleteClick={() => deleteReservationById(x.id)} className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody } classActionsOption={styles.actionsOption} items={actions} orderIdSelect={x.id} order={true} key={x.order_number}/>
+                      <Actions onDetailsClick={() => handleShowDetails(x)} onPaidClick={() => PayReservation(x)} onDeleteClick={() => deleteReservationById(x.id)} className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody } classActionsOption={styles.actionsOption} items={filteredActions} orderIdSelect={x.id} order={true} key={x.order_number}/>
                     </div>
                   </div>
                   <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={() => setVisibleModal(false)}  key={x.order_number}>
-                    {selectedOrder && <Details item={selectedOrder} onClose={() =>  setVisibleModal(false)}/>} {/* Afficher les détails de l'élément sélectionné */}
+                    {selectedOrder && <Details item={selectedOrder} onDeleteOrder={() => deleteReservationById(x.id)} onClose={() =>  setVisibleModal(false)}/>} {/* Afficher les détails de l'élément sélectionné */}
                   </Modal>
                 </React.Fragment>
               ))

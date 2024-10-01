@@ -4,6 +4,7 @@ import cn from "classnames";
 import { Editor as ReactEditor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Tooltip from "../Tooltip";
+import Loader from "../Loader";
 
 const Editor = ({
   state,
@@ -15,13 +16,9 @@ const Editor = ({
   tooltip,
   place,
   value,
-  button,
+  button, onComment, loader
 }) => {
 
-  // Fonction pour gérer les changements et inclure le nom
-  const handleEditorChange = (editorState) => {
-    onChange(name, editorState);  // Passer le name au onChange
-  };
 
   return (
     <div className={cn( styles.editor, { [styles.editorButton]: button }, classEditor)} >
@@ -54,7 +51,7 @@ const Editor = ({
         }}
       />
       {button && (
-        <button className={cn("button-small", styles.button)}>{button}</button>
+        <button className={cn("button-small", styles.button)} onClick={onComment}>{loader ? <Loader/> : button}</button>
       )}
     </div>
   );

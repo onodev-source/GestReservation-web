@@ -56,7 +56,7 @@ const Products = ({product, productData, onClick}) => {
       <div className={cn("slider-container", styles.wrapper)}>
         <Slider className={cn("products-slider", {"products-sliderSpacing" : !product})} {...settings}>
           {productData?.map((x, index) => (
-            <Product className={styles.product}  item={x}  key={index} withoutСheckbox product={product} isDetailsPack={product ? false : true} onClickDelete={onClick}/>
+            <Product className={styles.product}  item={x}  key={index} withoutСheckbox product={product} isDetailsPack={product ? false : true} onClickDelete={onClick} showPreview={true}/>
           ))}
         </Slider>
       </div>

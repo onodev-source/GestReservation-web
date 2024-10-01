@@ -99,6 +99,8 @@ const en = {
             products: "Products",
             search_product: "Search product",
             add_product: "Add product",
+            detail_product: "Product details",
+            description_product: "Product description",
             add: {
                 name_and_description: "Name & description",
                 product_title: "Product title",
@@ -124,6 +126,9 @@ const en = {
             packages: "Packages",
             search_package: "Search package",
             add_package: "Add package",
+            detail_package: "Package details",
+            description_package: "Package description",
+            comment: "Comment",
             add: {
                 price: "Price",
                 monthly_subscription: "Monthly subscription ",
@@ -169,6 +174,7 @@ const en = {
         last_saved: 'Last saved',
         cancel: 'Cancel',
         back: 'Back',
+        features: 'Features',
         save_change: 'Save change',
         users: 'users',
         online: 'online',

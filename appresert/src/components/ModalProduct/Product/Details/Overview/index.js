@@ -4,9 +4,10 @@ import InnerImageZoom from 'react-inner-image-zoom';
 import styles from "./Overview.module.sass";
 import Icon from "../../../../Icon";
 import Avatar from "../../../../Avatar";
+import { useTranslation } from "react-i18next";
 //import ModalPreview from "../../../../ModalPreview";
 
-const gallery = [
+/*const gallery = [
   {
     img: "/images/content/photo-1.jpg",
     img2x: "/images/content/photo2xx-1.jpg"
@@ -22,9 +23,10 @@ const features = [
   "SaaS landing page ready",
   "Global styleguide",
   "Dark + light more ready",
-];
+];*/
 
 const Overview = ({product, detailsData}) => {
+  const {t} = useTranslation()
   //const [visibleModalPreview, setVisibleModalPreview] = useState(false);
 
   return (
@@ -57,24 +59,19 @@ const Overview = ({product, detailsData}) => {
         </div>
         <div className={styles.row}>
           <div className={styles.col}>
-            <div className={cn("title-red", styles.subtitle)}>{product ? "Product description" : "Package description"}</div>
+            <div className={cn("title-red", styles.subtitle)}>{product ? t('views.products.description_product') : t('views.packages.description_package')}</div>
             <div className={styles.content}>
               <p>
                 {product ? (
                   detailsData?.product_description
                 ) : (
-                  `Meet Node - a crypto NFT marketplace iOS UI design kit for
-                  Figma, Sketch, and Adobe XD. The kit includes 126 stylish mobile
-                  screens in light and dark mode, a bunch of crypto 3D
-                  illustrations, 1 SaaS landing page with full premade
-                  breakpoints, and hundreds of components to help you ship your
-                  next crypto, NFT product faster.`
+                  detailsData?.package_description
                 )}
               </p>
             </div>
           </div>
           <div className={styles.col}>
-            <div className={cn("title-purple", styles.subtitle)}>Features</div>
+            <div className={cn("title-purple", styles.subtitle)}>{t('words.features')}</div>
             <ul className={styles.features}>
               { product ? (
                 <li>{detailsData?.caracteristics_products}</li>

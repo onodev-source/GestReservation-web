@@ -89,6 +89,8 @@ const fr = {
             products: "Produits",
             search_product: "Rechercher un produit",
             add_product: "Ajouter un produit",
+            detail_product: "Détails du produit",
+            description_product: "Description du produit",
             add: {
                 name_and_description: "Nom et description",
                 product_title: "Titre du produit",
@@ -114,6 +116,9 @@ const fr = {
             packages: "Forfaits",
             search_package: "Rechercher un lots",
             add_package: "Ajouter un Forfait",
+            detail_package: "Détails du forfait",
+            description_package: "Description du forfait",
+            comment: "Commentaires",
             add: {
                 price: "Prix",
                 monthly_subscription: "Monthly subscription ",
@@ -139,6 +144,7 @@ const fr = {
         last: 'Derniers',
         last_saved: 'Dernière sauvegarde',
         cancel: 'Annuler',
+        features: 'Caractéristiques',
         back: 'Retour',
         save_change: 'Enregistrer',
         users: 'utilisateurs',

@@ -7,14 +7,14 @@ import Avatar from "../../../components/Avatar";
 import { formatDate } from "../../../Utils/formatDate";
 
 
-const Row = ({ item }) => {
+const Row = ({ item, onDeleteInvoice }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
   const actions = [
     {
       title: "Delete",
       icon: "trash",
-      action: () => console.log("Delete"),
+      action: onDeleteInvoice,
     },
     {
       title: "Details",
@@ -66,7 +66,7 @@ const Row = ({ item }) => {
         </div>
       </div>
       <Modal  outerClassName={styles.outer} key={item.id} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Details item={item} incomeDetail={true}/>
+        <Details item={item} incomeDetail={true} onDeleteInvoice={onDeleteInvoice} onClose={() => setVisibleModal(false)}/>
       </Modal>
     </>
   );

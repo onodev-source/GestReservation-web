@@ -14,10 +14,13 @@ const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
 );
 
-const ModalProduct = ({ visible, onClose, video, gallery, download, title, figcaption, product}) => {
-  const [selectedImage, setSelectedImage] = React.useState(gallery?.length > 0 && gallery[0]);
+const ModalProduct = ({ visible, onClose, video, gallery, download, title, figcaption, product, detailsData}) => {
+  //const [selectedImage, setSelectedImage] = React.useState(gallery?.length > 0 && gallery[0]);
 
    // Définition de la fonction escFunction en utilisant useCallback pour éviter de recréer la fonction à chaque rendu.
+   const titlePreview =  detailsData?.product_name 
+   const figcaptionPreview = detailsData?.product_description 
+
   const escFunction = useCallback(
     (e) => {
       if (e.keyCode === 27) {
@@ -69,8 +72,8 @@ const ModalProduct = ({ visible, onClose, video, gallery, download, title, figca
       <div id="modal-product" className={styles.modal}>
         <div className={styles.outer}>
           <OutsideClickHandler onOutsideClick={onClose}>
-            <Panel  title={title} onClose={onClose}  galleryPanel={gallery}/>
-            {product ? (
+            <Panel  title={!title ? titlePreview : title} onClose={onClose}  galleryPanel={gallery}/>
+            {/*product ? (*/}
               <>
                 {video && (
                   <div className={styles.video}>
@@ -79,20 +82,20 @@ const ModalProduct = ({ visible, onClose, video, gallery, download, title, figca
                     </video>
                   </div>
                 )}
-                {gallery && (
+                {/*gallery && (*/}                                   
                   <div className={styles.wrapper}>
-                    <Slider className="photo-slider" {...settings}>
-                      {gallery.map((x, index) => (
-                        <InnerImageZoom src={x.img} zoomSrc={x.img2x} zoomType="hover" zoomPreload={true}  key={index}/>
-                      ))}
+                    <Slider className={cn("photo-slider", styles.spacing)} {...settings}>
+                      {/*gallery.map((x, index) => (*/}
+                        <InnerImageZoom src={detailsData?.photo_products} zoomSrc={detailsData?.photo_products} zoomType="hover" zoomScale={2} zoomPreload={true} width={980} className={styles.fullImage}/>
+                      {/*))*/}
                     </Slider>
-                    {figcaption && (
-                      <div className={styles.figcaption}>{figcaption}</div>
-                    )}
+                    {/*figcaption && (*/}
+                      <div className={styles.figcaption}>{figcaption ? figcaption : figcaptionPreview}</div>
+                    {/*})*/}
                   </div>
-                )}
+                {/*)*/}
               </>
-            ) : (
+            {/*) : (
               <>
                 {video && (
                   <div className={styles.video}>
@@ -101,7 +104,6 @@ const ModalProduct = ({ visible, onClose, video, gallery, download, title, figca
                     </video>
                   </div>
                 )}
-                {gallery &&
                   <div className={cn(styles.imageGallery)}>
                     <div className={cn(styles.imageList)}>
                       {gallery.map((image, index) => (
@@ -111,15 +113,12 @@ const ModalProduct = ({ visible, onClose, video, gallery, download, title, figca
                       ))}
                     </div>
                     <div className={cn(styles.imagePreview)}>
-                      <InnerImageZoom className={styles.innerImage} src={selectedImage.img} zoomSrc={selectedImage.img2x} zoomType="hover" zoomScale={2}/>
-                      {figcaption && (
-                        <div className={styles.figcaption}>{figcaption}</div>
-                      )}
+                      <InnerImageZoom className={styles.innerImage} {detailsData?.photo_products} zoomSrc={selectedImage.img2x} zoomType="hover" zoomScale={2}/>
+                      <div className={styles.figcaption}>{figcaption ? figcaption : figcaptionPreview}</div>
                     </div>
                   </div>
-                }
               </>
-            )}
+            )*/}
           </OutsideClickHandler>
         </div>
       </div>

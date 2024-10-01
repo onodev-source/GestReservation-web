@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Details.module.sass";
 import cn from "classnames";
 import Product from "./Product";
@@ -11,8 +11,9 @@ import { formatDate } from "../../../../Utils/formatDate";
 import { formatTime } from "../../../../Utils/formatTime";
 
 
-const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
-  const [content, setContent] = useState();
+const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoice, onDeleteOrder, onDeleteCust }) => {
+  //const [content, setContent] = useState();
+  const detailRef = useRef(null)
 
   const customerArray = [
     { title: 'Full name', content: item.full_name },
@@ -26,8 +27,8 @@ const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
     { title: 'Mode session', content: item.mode_session },
   ];
   const orderArray = [
-    { title: 'Date begin', content: `From ${formatDate(item.begin_date)} to ${formatTime(item.begin_hour)}`},
-    { title: 'Date end', content:`From ${formatDate(item.end_date)} to ${formatTime(item.end_hour)}` },
+    { title: 'Date begin', content: `From ${formatDate(item.begin_date)} to ${formatTime(item?.begin_hour)}`},
+    { title: 'Date end', content:`From ${formatDate(item.end_date)} to ${formatTime(item?.end_hour)}` },
     { title: 'Status', content: item.statut},
     //{ title: 'Package price', content: `${Math.floor(item?.package_price)}XAF ` },
     { title: 'Type event', content: item.type_event?.type_event },
@@ -53,6 +54,22 @@ const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
  
   const parameters = customersDetails ? customerArray : (incomeDetail ? incomeArray : orderArray)
 
+  const handleClick = () => {
+    // Exécute une fonction en fonction des conditions
+    if (incomeDetail) {
+      onDeleteInvoice(); // Si incomeDetail est vrai, appelle onDeleteInvoice
+    } else if (customersDetails) {
+      onDeleteCust(); // Si customersDetails est vrai, appelle onDeleteCust
+    } else if (!customersDetails && !incomeDetail) {
+      onDeleteOrder(); // Si ni customersDetails ni incomeDetail ne sont vrais, appelle onDeleteOrder
+    }
+
+    // Après l'exécution de la fonction, vérifie si detailRef existe et effectue l'action
+    if (detailRef?.current) {
+      detailRef.current.click();
+    }
+  };
+
 
   return (
     <>
@@ -68,16 +85,16 @@ const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
             </div>
             {(customersDetails || incomeDetail) &&
               <div className={styles.btns}>
-                <button className={cn("button-stroke", styles.button)} onClick={onClose}>
+                <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
                   Cancel
                 </button>
-                <button className={cn("button", styles.button)}>
+                <button className={cn("button", styles.button)} onClick={handleClick}>
                   Delete
                 </button>
               </div>
             }
           </div>
-          {(customersDetails===false || incomeDetail === false) &&
+          {(!customersDetails && !incomeDetail) &&
             <div className={styles.col}>
               <div className={styles.group}>
                 <div className={styles.box}>
@@ -113,10 +130,10 @@ const Details = ({ item, customersDetails, onClose, incomeDetail }) => {
                 </div>
               </div>
               <div className={styles.btns}>
-                <button className={cn("button-stroke", styles.button)} onClick={onClose}>
+                <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
                   Cancel
                 </button>
-                <button className={cn("button", styles.button)}>
+                <button className={cn("button", styles.button)} onClick={handleClick}>
                   Delete
                 </button>
               </div>

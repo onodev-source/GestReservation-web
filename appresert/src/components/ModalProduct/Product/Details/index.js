@@ -4,10 +4,12 @@ import styles from "./Details.module.sass";
 import Icon from "../../../Icon";
 import Overview from "./Overview";
 import Products from "./Products";
+import { useTranslation } from "react-i18next";
 
 
 const Details = ({ className, setValue, activeIndex, setActiveIndex, product, detailsData, items, onClick }) => {
-  const navigation = product ? ["Product details"] : ["Package details", "Comment"];
+  const {t} = useTranslation()
+  const navigation = product ? [t('views.products.detail_product')] : [t('views.packages.detail_package'), t('views.packages.comment')];
 
   //mise a jours de l'index actif
   const handleClick = (index) => {
@@ -32,7 +34,7 @@ const Details = ({ className, setValue, activeIndex, setActiveIndex, product, de
             <span>32</span>
           </button>
           <button className={cn("button", styles.buy)}>
-            <span className={styles.price}>{!product ? `${detailsData?.package_price}XAF` : `Qty: ${detailsData.product_quantity}`}</span>
+            <span className={styles.price}>{!product ? `${Math.floor(detailsData?.package_price)}XAF` : `Qty: ${detailsData.product_quantity}`}</span>
             {/*<span className={styles.inner}>
               Download<span> now</span>
               <Icon name="download" size="24" />

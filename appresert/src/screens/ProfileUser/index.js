@@ -15,13 +15,34 @@ import { followers } from "../../mocks/followers";
 import HistoryUser from "./HistoryUser";
 import Table from "../Earning/Table";
 import Comments from "../Comments";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import RequestDashboard from "../../Services/Api/ApiServices";
 
 const navigation = ["Activity", "Reservations", "Comments"];
 const intervals = ["Most recent", "Most new", "Most popular"];
 
-const ProfileUser = () => {
+const ProfileUser = (profileId) => {
+  const { userId } = useParams()
+  const users = useSelector((state) => state.users)
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [sorting, setSorting] = useState(intervals[0]);
+  const [userData, setUserData] = useState();
+
+
+  React.useEffect(() => {
+    if (profileId && userId) {
+      const getUserById =  async(id) => {
+      
+        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'DELETE', '', users.access_token);
+        if (res.status === 200) {
+          setUserData(res.reponse);
+        }
+      };
+      getUserById(userId)
+    }
+  }, [users.access_token, profileId , userId])
 
   return (
     <>
