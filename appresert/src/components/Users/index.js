@@ -36,7 +36,7 @@ const Users = ({ className, customerList, item }) => {
     <div className={cn(styles.users, className)}>
       <div className={styles.head}>
         <div className={styles.info}>
-          {!customerList ? <> {t('words.last')} <strong>04 {t('words.users')}</strong> {t('words.online')} </> : "Most active"}{" "}
+          {!customerList ? <> {t('words.last')} <strong>04 {t('words.users')}</strong> {t('words.online')} </> : t('words.most_active')}{" "}
           <span role="img" aria-label="smile">
             😎
           </span>

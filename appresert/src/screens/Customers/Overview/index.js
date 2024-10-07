@@ -6,6 +6,7 @@ import Dropdown from "../../../components/Dropdown";
 import Users from "../../../components/Users";
 import Balance from "../../../components/Balance";
 import Chart from "./Chart";
+import { useTranslation } from "react-i18next";
 
 const intervals = ["Last 28 days", "Last 14 days", "Last 7 days"];
 
@@ -59,11 +60,12 @@ const customerDetails = {
 }
 
 const Overview = ({ className }) => {
+  const {t} = useTranslation()
   const [sorting, setSorting] = useState(intervals[0]);
 
   return (
 
-    <Card className={cn(styles.card, className)} title="Total customers" classTitle={cn("title-red", styles.cardTitle)}
+    <Card className={cn(styles.card, className)} title={t('views.customers.total_customers')} classTitle={cn("title-red", styles.cardTitle)}
       classCardHead={styles.cardHead}
       head={
         <Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead} value={sorting}
@@ -73,7 +75,7 @@ const Overview = ({ className }) => {
     >
       <div className={styles.overview}>
         <div className={styles.details}>
-          <div className={cn("h4", styles.title)}>1,509 customers</div>
+          <div className={cn("h4", styles.title)}>1,509 {t('navigation.customers')}</div>
           <div className={styles.line}>
             <Balance className={styles.balance} value="37.8" background /> vs.
             Sep 8, 2021

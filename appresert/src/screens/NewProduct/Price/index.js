@@ -12,24 +12,28 @@ const Price = ({ className, product, onChange, formAdd }) => {
   const [resolution, setResolution] = useState(true);
 
   return (
-    <Card className={cn(styles.card, className)}  title={product ? t('views.products.add.quantity') : "Price" } classTitle="title-green">
+    <Card className={cn(styles.card, className)}  title={product ? t('views.products.add.quantity') : t('views.packages.add.price') } classTitle="title-green">
       <div className={styles.price}>
-        <TextInput onChange={onChange}  value={formAdd.product_quantity} className={styles.field}  label={product ? t('views.products.add.number') : "Monthly subscription" } name={product ? "quantity" : "amount" } type={product ? "number" : "text" }  tooltip="Small description" required currency={product ? "+" : "$" } />
-        {!product && (
+        {product ? 
+          <TextInput onChange={onChange}  value={formAdd.product_quantity} className={styles.field}  label={t('views.products.add.number')} name={ "quantity"} type={ "number"  }  tooltip="Small description" required currency={"+"  } />
+          :
+          <TextInput onChange={onChange} value={formAdd.package_price} className={styles.field}  classLabel={styles.label} label={t('views.packages.add.price_subscription')} name="dayly-amount" type="text" required currency="$"/>
+        }
+        {/*!product && (
           <>
             <div className={styles.line}>
               <div className={styles.info}>
-                Allow customers to pay they want{" "}
+                {t('views.packages.add.allow_customers_to_pay')}{" "}
                 <Tooltip  className={styles.tooltip}  title="Maximum 100 characters. No HTML or emoji allowed" icon="info"  place="top"/>
               </div>
               <Switch className={styles.switch} value={resolution} onChange={() => setResolution(!resolution)}/>
             </div>
             <div className={styles.fieldset}>
-              <TextInput onChange={onChange} className={styles.field}  classLabel={styles.label} label="Weekly subscription" name="minimum-amount" type="text" required currency="$"/>
+              <TextInput onChange={onChange} className={styles.field}  classLabel={styles.label} label={t('views.packages.add.weekly_subscription')} name="minimum-amount" type="text" required currency="$"/>
               <TextInput onChange={onChange} value={formAdd.package_price} className={styles.field}  classLabel={styles.label} label="Dayly subscription" name="dayly-amount" type="text" required currency="$"/>
             </div>
           </>
-        )}
+        )*/}
       </div>
     </Card>
   );

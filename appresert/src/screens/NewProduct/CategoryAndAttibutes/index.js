@@ -10,27 +10,6 @@ import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 
-const compatibility1 = [
-  { id: 0, title: "OnoPremium" },
-  { id: 1, title: "OnoPrestige" },
-  { id: 2, title: "OnoFlash" },
-  { id: 3, title: "OnoLigth" },
-  { id: 4, title: "OnoStandart" },
-];
-const compatibility2 = [
-  { id: 0, title: "Conference" },
-  { id: 1, title: "Reunion" },
-  { id: 2, title: "Brunch" },
-];
-const compatibility3 = [
-  { id: 0, title: "Jeu" },
-  { id: 1, title: "Equipement" },
-  { id: 2, title: "Comodite" },
-  { id: 4, title: "Gadjet" },
-];
-
-const optionsCategory = ["Category product", "Category package"];
-
 const KeyCodes = {
   comma: 188,
   enter: 13,
@@ -40,7 +19,10 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, setCategoryProduct, formAdd, setForm }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
-  const [category, setCategory] = useState(optionsCategory[0]);
+  
+  const optionsCategory = [t('form.category_product'), t('form.category_package')];
+
+  const [category, setCategory] = useState(product ? [optionsCategory[0]] : [optionsCategory[1]]);
   const [categoryData, setCategoryData] = useState([]);
 
   const [selectedFilter, setSelectedFilter] = useState(null);
@@ -120,7 +102,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
   return (
     <Card className={cn(styles.card, className)} title={categoryAttribute ? t('views.products.add.category_attributes') : t('views.products.add.type_of_event')} classTitle="title-purple">
       <div className={styles.images}>
-        <Dropdown className={styles.field} label={categoryAttribute ? t('views.products.add.category') : t('views.products.add.type')} tooltip="Maximum 100 characters. No HTML or emoji allowed" value={category} setValue={setCategory} options={optionsCategory} />
+        <Dropdown className={styles.field} label={categoryAttribute ? t('views.products.add.category') : t('views.products.add.type')} tooltip="Maximum 100 characters. No HTML or emoji allowed" value={category} setValue={setCategory} options={product ? [optionsCategory[0]] : [optionsCategory[1]]} />
         <div className={styles.label}>
           {categoryAttribute ? t('views.products.add.name') : t('views.products.add.event')}{" "}
           <Tooltip className={styles.tooltip} title="Maximum 100 characters. No HTML or emoji allowed" icon="info" place="right" />

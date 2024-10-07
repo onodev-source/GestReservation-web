@@ -19,7 +19,7 @@ import { formatTime } from "../../../Utils/formatTime.js";
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
-const Table = ({activityUser}) => {
+const Table = ({activityUser, userId}) => {
   const users = useSelector((state) => state.users);
 
   const [activeTab, setActiveTab] = React.useState(navigation[0]);
@@ -29,6 +29,7 @@ const Table = ({activityUser}) => {
   const [loading, setLoading] = React.useState(false);
   const [selectedOrder, setSelectedOrder] = React.useState(null);  // État pour l'élément sélectionné
   const [orders, setOrders] = React.useState([]);
+
 
   const actions = [
     {
@@ -72,12 +73,12 @@ const Table = ({activityUser}) => {
 
   const getAllReservations = useCallback(async() => {
     setLoading(true)
-    let res = await RequestDashboard(`gestreserv/orders/`, 'GET', '', users.access_token);
+    let res = await RequestDashboard(activityUser ? `gestreserv/orders/by-user/${userId}/` : `gestreserv/orders/`, 'GET', '', users.access_token);
     if (res.status === 200) {
-      setOrders(res?.response?.results);
+      setOrders(activityUser ?  res.response : res?.response?.results);
       setLoading(false)
     }
-  },[users.access_token])
+  },[users.access_token, activityUser, userId])
 
   const deleteReservationById = async(id) => {
     let res = await RequestDashboard(`gestreserv/orders/${id}/`, 'DELETE', '', users.access_token);
@@ -92,13 +93,17 @@ const Table = ({activityUser}) => {
       order: order.id,
       invoice_amount: order.package?.package_price,
       payment_method: 'CASH',
+      payment_statut: "PENDING",
       payment_type: 'FULL',
     };
 
     let res = await RequestDashboard('gestreserv/invoices/', 'POST', data, users.access_token)
 
     if(res.status === 201) {
-      getAllReservations()
+      let resp = await RequestDashboard(`gestreserv/invoices/${res.response?.id}/update_status/`, 'PUT', data, users.access_token)
+      if (resp.status === 200) {
+        getAllReservations()
+      }
       /*setLoader(false)
       setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
       setErrorSubmit(`The reservation has been successfully ${editOrder ? 'updated' : 'created'}`); */

@@ -12,9 +12,11 @@ import Editor from "../../../components/Editor";
 import Avatar from "../../../components/Avatar";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../../Utils/formatDate";
+import { useTranslation } from "react-i18next";
 //import { EditorState, convertFromRaw, convertToRaw } from "react-draft-wysiwyg";
 
 const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, setMediaUpdate }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
   const [startDate, setStartDate] = useState(new Date(users.users?.date_of_birth));
   const [visibleDate, setVisibleDate] = useState(false);
@@ -88,9 +90,9 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
       }
     }
   }, [formUpdate.bio, content]);
-  
+
   return (
-    <Item className={cn(styles.card, className)}  title="Profile information" classTitle="title-g-reen" >
+    <Item className={cn(styles.card, className)}  title={t("views.settings.edit.profile_info")} classTitle="title-g-reen" >
       <div className={styles.profile}>
         <Avatar  user={{username: users.users?.email, photo: profileImg.length === 0 ? formUpdate.media : profileImg[0].url}} classname={styles.avatar}  width='96px'  height='96px'>
           <button className={styles.remove}>
@@ -101,16 +103,16 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
           <input type="file" accept=".jpg,.jpeg,.png" onChange={handleFileChange} />
           <button className={cn("button", styles.button)} type="button">
             <Icon name="add" size="24" />
-            <span>Upload new picture</span>
+            <span>{t("views.settings.edit.upload_new_image")}</span>
           </button>
         </div>
-        <button className={cn("button-stroke", styles.button)}>Remove</button>
+        <button className={cn("button-stroke", styles.button)}>{t("words.remove")}</button>
       </div>
       <div className={styles.fieldset}>
         <TextInput
           onChange={onChange}
           className={styles.field}
-          label="First name"
+          label={t("form.firt_name")}
           name="first-name"
           type="text"
           value={formUpdate.first_name}
@@ -120,7 +122,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
         <TextInput
           onChange={onChange}
           className={styles.field}
-          label="Last name"
+          label={t("form.last_name")}
           name="last-name"
           type="text"
           value={formUpdate.last_name}
@@ -130,7 +132,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
         <TextInput
           onChange={onChange}
           className={styles.field}
-          label="Email"
+          label={t("form.email")}
           name="email"
           value={formUpdate.email}
           type="email"
@@ -149,9 +151,9 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
         />
         <div className={styles.field}>
           <div className={cn( styles.label)}>
-            Date of Birth{" "}
+          {t("form.date_birth")}{" "}
           </div>
-          <ScheduleItem  className={styles.item} category="date Of Birth"  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+          <ScheduleItem  className={styles.item} category={t("form.date_birth")}  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
             <div className={styles.date}>
               <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
               <div className={styles.footDate}>
@@ -169,7 +171,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
           onChange={onChange}
           className={styles.field}
           value={formUpdate.location}
-          label="Country"
+          label={t("form.country")}
           name="location"
           type="text"
           tooltip="Maximum 100 characters. No HTML or emoji allowed"
@@ -179,7 +181,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
           onChange={onChange}
           className={styles.field}
           value={formUpdate.city}
-          label="City"
+          label={t("form.city")}
           name="city"
           type="text"
           tooltip="Maximum 100 characters. No HTML or emoji allowed"

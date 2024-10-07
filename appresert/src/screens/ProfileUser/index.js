@@ -35,7 +35,7 @@ const ProfileUser = (profileId) => {
     if (profileId && userId) {
       const getUserById =  async(id) => {
       
-        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'DELETE', '', users.access_token);
+        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'GET', '', users.access_token);
         if (res.status === 200) {
           setUserData(res.reponse);
         }
@@ -73,29 +73,29 @@ const ProfileUser = (profileId) => {
                 <div className={styles.products}>
                   <HistoryUser className={styles.product}/>
                 </div>
-                <div className={styles.foot}>
+                {/*<div className={styles.foot}>
                   <button  className={cn("button-stroke button-small", styles.button)} >
                     Load more
                   </button>
-                </div>
+                </div>*/}
               </>
             )}
             {activeIndex === 1 && (
               <>
                 <div className={styles.followers}>
-                  <Table activityUser={true}/>
+                  <Table activityUser={true} userId={userId ? userId : users.users.id}/>
                 </div>
-                <div className={styles.foot}>
+                {/*<div className={styles.foot}>
                   <button className={cn("button-stroke button-small", styles.button)} >
                     Load more
                   </button>
-                </div>
+                </div>*/}
               </>
             )}
             {activeIndex === 2 && (
               <>
                 <div className={styles.followers}>
-                  <Comments activityUser={true}/>
+                  <Comments activityUser={true} userId={userId ? userId : users.users.id}/>
                 </div>
                 {/*<div className={styles.foot}>
                   <button  className={cn("button-stroke button-small", styles.button)} >

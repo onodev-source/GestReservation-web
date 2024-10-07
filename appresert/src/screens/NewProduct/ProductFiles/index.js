@@ -100,13 +100,13 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
 
   
   return (
-    <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : "Upload image package"} classTitle="title-blue">
+    <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : t('views.packages.add.upload_image_package')} classTitle="title-blue">
       <div className={styles.files}>
         <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? productOrPackageImg[0].url : ((editProd || editPack)? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
         {!product &&
           <>
             <Dropdown
-              className={styles.field} label='Products' tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts} setValue={handleChange} options={productNames}
+              className={styles.field} label={t('views.products.products')} tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts} setValue={handleChange} options={productNames}
               multiple
             />
             {selectedProducts.length > 0 && (
@@ -119,7 +119,7 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
                   onClearAll={onClearAll}
                   onTagUpdate={onTagUpdate}
                   suggestions={productNamesAndId?.map((x) => ({ id: String(x.id), text: x.product_name }))}
-                  placeholder="Enter products name"
+                  placeholder={t('views.products.enter_product_name')}
                   minQueryLength={2}
                   maxLength={20}
                   autofocus={false}

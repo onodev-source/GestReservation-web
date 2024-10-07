@@ -50,14 +50,14 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
       }
     >
       <div className={styles.description}>
-        <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.package_name} className={styles.field} label={t('views.products.add.product_title')}  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.package_name} className={styles.field} label={product ? t('views.products.add.product_title') : t('views.packages.add.title_package')}  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
         <Editor state={content} onChange={(newContent) => handleEditorChange(newContent, setContent, setDescripbe)} classEditor={styles.editor} label={t('views.products.add.description')}  tooltip="Description"/>
         {product ? (
           <Editor state={contentcaract} onChange={(newContent) => handleEditorChange(newContent, setContentCaract, setCaracteristics)} classEditor={styles.editor} label={t('views.products.add.key_features')}  tooltip="Key features "/>
         ) : (
           <div className={styles.group}>
-            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('views.products.add.key_features')} name="nb_persons" type="text" placeholder={product ? t('views.products.add.value') : 'Number of persons'} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} name="nb_places" type="text" placeholder={product ? t('views.products.add.value') : 'Number of places'}  required/>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('views.products.add.key_features')} name="nb_persons" type="text" placeholder={t('form.nber_people')} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} name="nb_places" type="text" placeholder={t('form.nber_place')}  required/>
           </div>
         )}
         {/*<div className={styles.group}>

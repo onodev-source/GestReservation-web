@@ -7,11 +7,14 @@ import TextInput from "../../../components/TextInput";
 //import Editor from "../../../components/Editor";
 import Dropdown from "../../../components/Dropdown";
 import ErrorMessage from "../../../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
 
-const optionsCategory = ["Select category type","Product", "Package", "Type event"];
 
 const Category = ({ className, onChange, errorSubmit, setErrorSubmit, setTypeCategory }) => {
+  const {t} = useTranslation()
   //const [content, setContent] = useState();
+  const optionsCategory = [t('form.select_category_type'),"Product", "Package", "Type event"];
+
   const [category, setCategory] = useState(optionsCategory[0]);
 
   useEffect(()=> {
@@ -20,13 +23,13 @@ const Category = ({ className, onChange, errorSubmit, setErrorSubmit, setTypeCat
   
   return (
     <>
-      <Item className={cn(styles.card, className)}  title="Add category" classTitle="title-green" >
+      <Item className={cn(styles.card, className)}  title={t("views.settings.edit.add_category")} classTitle="title-green" >
         <div className={styles.profile}>
           {errorSubmit !== '' && (
             <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
           )}
-          <Dropdown  className={styles.field}  label={"Category type"}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
-            options={optionsCategory.filter(category => category !== "Select category type")} 
+          <Dropdown  className={styles.field}  label={t('form.category_type')}  tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={category} setValue={setCategory}
+            options={optionsCategory.filter(category => category !== t('form.select_category_type'))} 
           />
           {/*<div className={styles.avatar}>
             <img src="/images/content/avatar.jpg" alt="Avatar" />
@@ -44,7 +47,7 @@ const Category = ({ className, onChange, errorSubmit, setErrorSubmit, setTypeCat
           <button className={cn("button-stroke", styles.button)}>Remove</button>*/}
         </div>
         <div className={styles.fieldset}>
-          <TextInput onChange={onChange} className={styles.field}  label="Name"  name="category" type="text"
+          <TextInput onChange={onChange} className={styles.field}  label={t('form.name')}  name="category" type="text"
             tooltip="Maximum 100 characters. No HTML or emoji allowed"  required
           />
           {/*<TextInput className={styles.field} label="Email"  name="email" type="email"

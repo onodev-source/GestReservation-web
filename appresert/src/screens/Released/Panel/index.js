@@ -3,8 +3,10 @@ import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Panel = () => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   return (
@@ -24,10 +26,10 @@ const Panel = () => {
       </div> */}
       <div className={styles.btns}>
         <button className={cn("button-stroke-red", styles.button)}>
-          <span>Cancel</span>
+          <span>{t('words.cancel')}</span>
         </button>
         {!users.users.is_customer &&
-          <button className={cn("button", styles.button)}>Deleted
+          <button className={cn("button", styles.button)}>{t('words.deleted')}
             <Icon name="trash" size="24" />
           </button>
         }

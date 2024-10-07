@@ -45,20 +45,23 @@ const Comments = ({ className, onClose, detailsData }) => {
   }
 
   const getAllcommentByPack = useCallback(async(id) => {
-    let res = await RequestDashboard(`gestreserv/commentaries/${id}/`, 'GET', '', users.access_token);
+    let res = await RequestDashboard(`gestreserv/commentaries/by-package/${id}/`, 'GET', '', users.access_token);
     if (res.status === 200) {
       setCommentByPack(res?.response?.results);
     }
   },[users.access_token])
 
-  const deleteReservationById = async(id) => {
+  const deleteCommentById = async(id) => {
     let res = await RequestDashboard(`gestreserv/commentaries/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
       getAllcommentByPack();
     }
   }
 
-   
+  useEffect(() => {
+    getAllcommentByPack(detailsData?.id)
+  }, [getAllcommentByPack, detailsData?.id]) 
+
   // Utilisez un effet pour synchroniser le contenu de l'éditeur avec formAdd.descripbe
   useEffect(() => {
     if (comment) {

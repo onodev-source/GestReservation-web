@@ -276,7 +276,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : "Save change"}</button>}
+          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : t('words.save_change')}</button>}
         </div>
       </div>
       <TooltipGlodal />
