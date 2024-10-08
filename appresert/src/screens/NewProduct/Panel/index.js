@@ -2,14 +2,14 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
-import Actions from "../../../components/Actions";
+//import Actions from "../../../components/Actions";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/Loader";
 
-const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack, onClick, loader, isFormFilled }) => {
+const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack, onClick, loader, isFormFilled , onResetForm}) => {
   const {t} = useTranslation()
 
-  const actions = [
+  /*const actions = [
     {
       title: "Preview",
       icon: "expand",
@@ -30,7 +30,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack, onClick, loade
       icon: "close",
       action: () => console.log("Clear data"),
     },
-  ];
+  ];*/
   return (
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
@@ -38,7 +38,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, editPack, onClick, loade
         {t('words.last_saved')} <span>Oct 4, 2021 - 23:32</span>
       </div>
       <div className={styles.btns}>
-        <button className={cn("button-stroke", styles.button)}>
+        <button className={cn("button-stroke", styles.button)} onClick={onResetForm}>
           {t('words.cancel')}
         </button>
         <button onClick={onClick} disabled={!isFormFilled() ? true : false} className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})}>{loader ? <Loader/> :t('words.save_change')}</button>

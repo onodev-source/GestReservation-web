@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "./NameAndDescription.module.sass";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
@@ -9,7 +10,8 @@ import Editor from "../../../components/Editor";
 import { Routes } from "../../../Constants";
 import { ContentState, EditorState } from "draft-js";
 
-const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd }) => {
+const NameAndDescription = ({ className, onChange, formAdd }) => {
+  const {t} = useTranslation()
   const [content, setContent] = useState(EditorState.createEmpty());
 
   // Fonction qui se déclenche à chaque changement de contenu sur l'editor
@@ -34,17 +36,17 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
   }, [formAdd.descripbe, content]);
 
   return (
-    <Card className={cn(styles.card, className)} title="Name & description" classTitle="title-green"
+    <Card className={cn(styles.card, className)} title={t('views.products.add.name_and_description')} classTitle="title-green"
       head={
         <Link className={cn("button-stroke button-small", styles.button)} to= {Routes.CUSTOMERS_DASH}>
           <Icon name="arrow-left" size="24" />
-          <span>Back</span>
+          <span>{t('words.back')}</span>
         </Link>
       }
     >
       <div className={styles.description}>
-        <TextInput className={styles.field} value={formAdd.form.first_name} onChange={onChange} label="Customer name"  name="first-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <TextInput className={styles.field} value={formAdd.form.last_name} onChange={onChange} label="Customer last name"  name="last-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <TextInput className={styles.field} value={formAdd.form.first_name} onChange={onChange} label={t('views.customers.add.customere_name')}  name="first-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <TextInput className={styles.field} value={formAdd.form.last_name} onChange={onChange} label={t('views.customers.add.customere_last_name')}  name="last-name" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" />
         {/*<Editor state={content}onChange={handleEditorChange} classEditor={styles.editor} label="Description" tooltip="Description"/>
         <div className={styles.group}>
           <TextInput className={styles.field}  label="Key features" name="value1"type="text" placeholder="Value" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>

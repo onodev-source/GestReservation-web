@@ -26,9 +26,10 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
 
   const handleChange = (selectedItems) => {
     const itemsArray = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
-    setSelectedProducts(itemsArray);
+    const filteredItems = itemsArray.filter(item => item !== t('form.select_product'));
+    setSelectedProducts(filteredItems);
     
-    const newTags = itemsArray.map(item => {
+    const newTags = filteredItems.map(item => {
       const foundProduct = allProduct.find(product => product.product_name === item);
       return { id: String(foundProduct.id), text: foundProduct.product_name };
     });
@@ -37,10 +38,10 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
   };
 
   const handleDelete = (i) => {
-    const newTags = tags.filter((tag, index) => index !== i);
+    const newTags = tags?.filter((tag, index) => index !== i);
     setTags(newTags);
-    setSelectedProducts(newTags.map(tag => tag.text));
-    setProductIds(newTags.map(tag => tag.text));
+    setSelectedProducts(newTags?.map(tag => tag.text));
+    setProductIds(newTags?.map(tag => tag.text));
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -64,8 +65,8 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
     const newTags = [...tags];
     newTags[i] = newTag;
     setTags(newTags);
-    setSelectedProducts(newTags.map(tag => tag.text));
-    setProductIds(newTags.map(tag => tag.text));
+    setSelectedProducts(newTags?.map(tag => tag.text));
+    setProductIds(newTags?.map(tag => tag.text));
   };
 
   const handleFileChange = ({ target }) => {
@@ -102,11 +103,11 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
   return (
     <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : t('views.packages.add.upload_image_package')} classTitle="title-blue">
       <div className={styles.files}>
-        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? productOrPackageImg[0].url : ((editProd || editPack)? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? mediaUpdate?.url : ((editProd || editPack)? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
         {!product &&
           <>
             <Dropdown
-              className={styles.field} label={t('views.products.products')} tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts} setValue={handleChange} options={productNames}
+              className={styles.field} label={t('views.products.products')} tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts.length > 0 ? selectedProducts : [t('form.select_product')]} setValue={handleChange} options={productNames}
               multiple
             />
             {selectedProducts.length > 0 && (

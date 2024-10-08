@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useParams } from "react-router";
 import Loader from "../../components/Loader";
+import { verifyInput } from "../../Utils/verifyInput";
 
 const NewCustomer = ({product, editCust}) => {
   const users = useSelector((state) => state.users);
@@ -25,9 +26,9 @@ const NewCustomer = ({product, editCust}) => {
   const [loading, setLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState()
-  const [descripbe, setDescripbe] = useState('')
+  //const [descripbe, setDescripbe] = useState('')
   const [errorSubmit, setErrorSubmit] = useState('');
-  const [media, setMedia] = useState();
+  //const [media, setMedia] = useState();
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -52,12 +53,11 @@ const NewCustomer = ({product, editCust}) => {
     return (
       form.first_name !== '' &&
       form.last_name !== '' &&
-      form.tel !== '' &&
-      form.email !== '' &&
+      verifyInput(form.tel, 'tel') !== false &&
+      verifyInput(form.email) !== false &&
       form.password !== ''
     )
   };
-
   
   const textInputChange = (input) => {
     const target = input.target;
@@ -171,7 +171,7 @@ const NewCustomer = ({product, editCust}) => {
         <>
           <div className={styles.row}>
             <div className={styles.col}>
-              <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe}  formAdd={{form, descripbe}}/>
+              <NameAndDescription className={styles.card} product={product} onChange={textInputChange}  formAdd={{form}}/>
             {/* <ImagesAndCTA className={styles.card} />
               <CategoryAndAttibutes className={styles.card} setForm={setForm}/>*/}
 

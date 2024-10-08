@@ -5,20 +5,24 @@ import Item from "./Item";
 import Icon from "../Icon";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
-const navigationDate = [
-  { id: 1, category: "Start date", categoryHour: "Start time" },
-  { id: 2, category: "End date", categoryHour: "End time" }
-];
 
 const Schedule = ({
   className, startDate, setStartDate, endDate, setEndDate,
   startTime, setStartTime, endTime, setEndTime, addCustomer, addResert
 }) => {
+  const {t} = useTranslation()
+
   const [visibleStartDate, setVisibleStartDate] = useState(false);
   const [visibleEndDate, setVisibleEndDate] = useState(false);
   const [visibleStartTime, setVisibleStartTime] = useState(false);
   const [visibleEndTime, setVisibleEndTime] = useState(false);
+
+  const navigationDate = [
+    { id: 1, category: t('views.reservations.table.date_begin'), categoryHour: t('form.start_time') },
+    { id: 2, category: t('views.reservations.table.date_end'), categoryHour: t('form.end_time') }
+  ];
 
   const handleClearStartDate = () => {
     setStartDate(null);
@@ -44,8 +48,8 @@ const Schedule = ({
               <div className={styles.date}>
                 <DatePicker selected={x.id === 1 ? startDate : endDate} onChange={(date) => x.id === 1 ? setStartDate(date) : setEndDate(date)} dateFormatCalendar={"MMMM yyyy"} inline />
                 <div className={styles.foot}>
-                  <button className={cn("button-stroke button-small", styles.button)} onClick={x.id === 1 ? handleClearStartDate : () => setEndDate(null)}>Clear</button>
-                  <button className={cn("button-small", styles.button)} onClick={() => x.id === 1 ? setVisibleStartDate(false) : setVisibleEndDate(false)}>Close</button>
+                  <button className={cn("button-stroke button-small", styles.button)} onClick={x.id === 1 ? handleClearStartDate : () => setEndDate(null)}>{t('words.clear')}</button>
+                  <button className={cn("button-small", styles.button)} onClick={() => x.id === 1 ? setVisibleStartDate(false) : setVisibleEndDate(false)}>{t('words.close')}</button>
                 </div>
               </div>
             </Item>
@@ -57,8 +61,8 @@ const Schedule = ({
             <div className={styles.date}>
               <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormatCalendar={"MMMM yyyy"} inline />
               <div className={styles.foot}>
-                <button className={cn("button-stroke button-small", styles.button)} onClick={handleClearStartDate}>Clear</button>
-                <button className={cn("button-small", styles.button)} onClick={() => setVisibleStartDate(false)}>Close</button>
+                <button className={cn("button-stroke button-small", styles.button)} onClick={handleClearStartDate}>{t('words.clear')}</button>
+                <button className={cn("button-small", styles.button)} onClick={() => setVisibleStartDate(false)}>{t('words.close')}</button>
               </div>
             </div>
           </Item>

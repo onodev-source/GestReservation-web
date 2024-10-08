@@ -3,6 +3,7 @@ import cn from "classnames";
 import styles from "./TextInput.module.sass";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
+import { verifyInput } from "../../Utils/verifyInput";
 
 const TextInput = ({ className, classLabel, classInput, label, icon, type, copy, currency, tooltip, place, onChange, ...props}) => {
   const [visiblePass, setVisiblePass] = useState(false)
@@ -11,6 +12,8 @@ const TextInput = ({ className, classLabel, classInput, label, icon, type, copy,
   const handleChange = () => {
     setVisiblePass(!visiblePass)
   }
+  console.log('type', type);
+  console.log('verifyInput(props.value)', verifyInput(props.value));
   
   return (
     <div className={cn(styles.field, { [styles.fieldIcon]: icon }, { [styles.fieldCopy]: copy }, { [styles.fieldCurrency]: currency }, className )} >
@@ -26,7 +29,8 @@ const TextInput = ({ className, classLabel, classInput, label, icon, type, copy,
         {type === "password" ?
           <input onChange={onChange} className={cn(classInput, styles.input)} {...props} type={visiblePass ? "text" : "password"}/> 
           :
-          <input onChange={onChange} className={cn(classInput, styles.input)} {...props} />
+          <input onChange={onChange} className={cn(classInput, styles.input, {[styles.badEmail] : type === "email" && props.value !== '' && verifyInput(props.value) === false},
+          {[styles.badTel]: type === "tel" && props.value !== '' && !verifyInput(props.value, 'tel')})} {...props} />
         }
         {icon && (
           <div className={styles.icon}>

@@ -15,11 +15,13 @@ import { useSelector } from "react-redux";
 import Loader from "../../../components/Loader/index.js";
 import { formatDate } from "../../../Utils/formatDate.js";
 import { formatTime } from "../../../Utils/formatTime.js";
+import { useTranslation } from "react-i18next";
 
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
 const Table = ({activityUser, userId}) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   const [activeTab, setActiveTab] = React.useState(navigation[0]);
@@ -119,17 +121,17 @@ const Table = ({activityUser, userId}) => {
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
-      <Card className={cn(styles.card, {[styles.wrapperNone] : activityUser})} title={!activityUser && "Reservations list"} classTitle={cn("title-red", styles.cardTitle)} classCardHead={cn(styles.head)}
+      <Card className={cn(styles.card, {[styles.wrapperNone] : activityUser})} title={!activityUser && t('views.reservations.reservations_list')} classTitle={cn("title-red", styles.cardTitle)} classCardHead={cn(styles.head)}
       head={ !activityUser &&
         <>
           <Form className={styles.form} value={search}
-            setValue={setSearch} onSubmit={() => handleSubmit()} placeholder="Search by name or email" type="text"
+            setValue={setSearch} onSubmit={() => handleSubmit()} placeholder={t('views.reservations.search_by_date_and_price')} type="text"
             name="search" icon="search"
           />
           <div className={styles.sorting}>
             <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navigation} small />
             <Link className={cn("button button-small", styles.button)} to={Routes.RESERVATION_ADD} >
-              Add Reservation
+            {t('views.reservations.add_reservation')}
             </Link>
           </div>
         </>
@@ -137,12 +139,12 @@ const Table = ({activityUser, userId}) => {
       </Card>
       <div className={styles.table}>
         <div className={styles.row}>
-          <div className={styles.col}>Date begin</div>
-          <div className={styles.col}>Date end</div>
-          <div className={styles.col}>Status</div>
-          <div className={styles.col}>Package</div>
-          <div className={styles.col}>Number of people</div>
-          <div className={styles.col}>Pricing</div>
+          <div className={styles.col}>{t('views.reservations.table.date_begin')}</div>
+          <div className={styles.col}>{t('views.reservations.table.date_end')}</div>
+          <div className={styles.col}>{t('views.reservations.table.status')}</div>
+          <div className={styles.col}>{t('views.reservations.table.package')}</div>
+          <div className={styles.col}>{t('form.nber_people')}</div>
+          <div className={styles.col}>{t('views.reservations.table.pricing')}</div>
           <div className={styles.col}>Actions</div>
         </div>
         {loading ?
@@ -151,8 +153,8 @@ const Table = ({activityUser, userId}) => {
               orders?.map((x, index) => (
                 <React.Fragment key={x.order_number}>
                   <div className={styles.row} key={x.order_number}>
-                    <div className={styles.col}>From {formatDate(x.begin_date)} <br/> to {formatTime(x.begin_hour)} </div>
-                    <div className={styles.col}>To {formatDate(x.end_date)} <br/> at {formatTime(x.end_hour)}</div>
+                    <div className={styles.col}>{t('words.from')} {formatDate(x.begin_date)} <br/> {t('words.to')} {formatTime(x.begin_hour)} </div>
+                    <div className={styles.col}>{t('words.to_s')} {formatDate(x.end_date)} <br/> {t('words.at')} {formatTime(x.end_hour)}</div>
                     <div className={styles.col}>
                       {x.statut !=="PENDING" ? (
                         <div

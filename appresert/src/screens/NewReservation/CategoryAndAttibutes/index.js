@@ -10,26 +10,6 @@ import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 
-const compatibility1 = [
-  { id: 0, title: "OnoPremium" },
-  { id: 1, title: "OnoPrestige" },
-  { id: 2, title: "OnoFlash" },
-  { id: 3, title: "OnoLigth" },
-  { id: 4, title: "OnoStandart" },
-];
-const compatibility2 = [
-  { id: 0, title: "Conference" },
-  { id: 1, title: "Reunion" },
-  { id: 2, title: "Brunch" },
-];
-const compatibility3 = [
-  { id: 0, title: "Jeu" },
-  { id: 1, title: "Equipement" },
-  { id: 2, title: "Comodite" },
-  { id: 4, title: "Gadjet" },
-];
-
-const optionsCategory = ["Category product", "Category package"];
 
 const KeyCodes = {
   comma: 188,
@@ -40,8 +20,11 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
-  const [category, setCategory] = useState(optionsCategory[0]);
+
+  const optionsCategory = [t("form.category_type")];
+
   const [categoryData, setCategoryData] = useState([]);
+  const [category, setCategory] = useState(optionsCategory[0]);
 
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [tags, setTags] = useState([]);

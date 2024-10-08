@@ -10,7 +10,7 @@ import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 import { ContentState, EditorState } from "draft-js";
 
-const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd, setCaracteristics }) => {
+const NameAndDescription = ({ className, product, onChange, setDescripbe, formAdd, setCaracteristics}) => {
   const {t} = useTranslation()
   // Initialisation de l'état content avec un EditorState vide
   const [content, setContent] = useState(EditorState.createEmpty());
@@ -18,18 +18,18 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
 
   const handleEditorChange = (newContent, setter, setValue) => {
     setter(newContent);
-    setValue(newContent.getCurrentContent().getPlainText());
+    setValue(newContent?.getCurrentContent()?.getPlainText());
   };
 
   // Fonction pour synchroniser l'éditeur avec formAdd
   const useSyncEditorState  = (editorState, formValue, setter) => {
     useEffect(() => {
       if (formValue !== undefined) {
-        const currentContent = editorState.getCurrentContent();
-        const newContent = ContentState.createFromText(formValue);
+        const currentContent = editorState?.getCurrentContent();
+        const newContent = ContentState?.createFromText(formValue);
 
-        if (currentContent.getPlainText() !== formValue) {
-          const newEditorState = EditorState.createWithContent(newContent);
+        if (currentContent?.getPlainText() !== formValue) {
+          const newEditorState = EditorState?.createWithContent(newContent);
           setter(newEditorState);
         }
       }

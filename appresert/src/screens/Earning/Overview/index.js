@@ -6,35 +6,38 @@ import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import Tooltip from "../../../components/Tooltip";
 import Balance from "../../../components/Balance";
+import { useTranslation } from "react-i18next";
 
-const items = [
-  {
-    title: "Reservations",
-    counter: "128",
-    icon: "activity",
-    color: "#F0C830",
-    tooltip: "Small description Earning",
-    value: 37.8,
-  },
-  {
-    title: "Balance",
-    counter: "$512.64",
-    icon: "pie-chart",
-    color: "#6F767E",
-    tooltip: "Small description Balance",
-    value: -17.8,
-  },
-  {
-    title: "Total customer",
-    counter: "646",
-    icon: "profile-circle",
-    color: "#F0C830",
-    tooltip: "Small description Total",
-    value: 24.3,
-  },
-];
 
 const Overview = ({ className }) => {
+  const {t} = useTranslation()
+
+  const items = [
+    {
+      title: t('views.reservations.reservations'),
+      counter: "128",
+      icon: "activity",
+      color: "#F0C830",
+      tooltip: "Small description Earning",
+      value: 37.8,
+    },
+    {
+      title: t('views.reservations.balance'),
+      counter: "$512.64",
+      icon: "pie-chart",
+      color: "#6F767E",
+      tooltip: "Small description Balance",
+      value: -17.8,
+    },
+    {
+      title: t('views.reservations.total_customer'),
+      counter: "646",
+      icon: "profile-circle",
+      color: "#F0C830",
+      tooltip: "Small description Total",
+      value: 24.3,
+    },
+  ];
   return (
     <>
       <Card className={cn(styles.card, className)}>

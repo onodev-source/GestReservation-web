@@ -71,7 +71,7 @@ const ProfileUser = (profileId) => {
             {activeIndex === 0 && (
               <>
                 <div className={styles.products}>
-                  <HistoryUser className={styles.product}/>
+                  <HistoryUser className={styles.product} userId={userId ? userId : users.users.id}/>
                 </div>
                 {/*<div className={styles.foot}>
                   <button  className={cn("button-stroke button-small", styles.button)} >

@@ -38,11 +38,11 @@ const NewProduct = ({product, editPack, editProd}) => {
   const [form, setForm] = useState({
     product_name: '',
     //product_description: '',    
-    product_quantity: '',
+    product_quantity: 0,
     package_name: '',
     package_price: '',
-    nb_persons: '',
-    nb_places: '',
+    nb_persons: 0,
+    nb_places: 0,
     category_id: 0
   });
 
@@ -59,16 +59,16 @@ const NewProduct = ({product, editPack, editProd}) => {
         setForm({ ...form, [product ? 'product_name' : 'package_name']: value });
           break;
       case 'quantity':
-        setForm({ ...form, product_quantity: parseInt(value) });
+        setForm({ ...form, product_quantity: value === '' ? 0 : parseInt(value) });
           break;
       case 'dayly-amount':
         setForm({ ...form, package_price: value });
           break;
       case 'nb_persons':
-        setForm({ ...form, nb_persons: parseInt(value) });
+        setForm({ ...form, nb_persons: value === '' ? 0 : parseInt(value)  });
           break;
       case 'nb_places':
-        setForm({ ...form, nb_places: parseInt(value) });
+        setForm({ ...form, nb_places: value === '' ? 0 : parseInt(value)  });
           break;
       default:
           break;
@@ -87,6 +87,7 @@ const NewProduct = ({product, editPack, editProd}) => {
   const isFormFilled = () => {
       if (product) {
         return (
+          typeof media === 'object' &&
           category !== '' &&
           descripbe !== '' &&
           form.product_name !== '' &&
@@ -94,7 +95,10 @@ const NewProduct = ({product, editPack, editProd}) => {
         )
       } else {
         return (
+          typeof media === 'object' &&
           category !== '' &&
+          descripbe !== '' &&
+          productIds?.length > 0 &&
           form.package_name !== '' &&
           form.package_price !== '' &&
           form.nb_persons > 0 &&
@@ -197,6 +201,16 @@ const NewProduct = ({product, editPack, editProd}) => {
     }
   };
 
+  const handleResetForm = () => {
+    if (product) {
+      setMedia()
+      setForm({ ...form, product_name: '', product_quantity: 0});
+    } else {
+      setMedia()
+      setForm({ ...form, package_name: '', package_price: '', nb_persons: 0, nb_places: 0});
+    }
+  }
+
   useEffect(() => {
     if (editProd && productId) {
       const getProductById = async(id) => {
@@ -281,7 +295,7 @@ const NewProduct = ({product, editPack, editProd}) => {
           </div>
         </>
       )}
-      <Panel onClick={!product ? addorEditPackage : addorEditProduct} isFormFilled={isFormFilled} loader={loader} setVisiblePreview={setVisiblePreview} setVisibleSchedule={setVisibleModal} product={product} editPack={editPack}/>
+      <Panel onClick={!product ? addorEditPackage : addorEditProduct} onResetForm={handleResetForm} isFormFilled={isFormFilled} loader={loader} setVisiblePreview={setVisiblePreview} setVisibleSchedule={setVisibleModal} product={product} editPack={editPack}/>
       <TooltipGlodal />
       <Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
         <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>

@@ -133,7 +133,7 @@ const en = {
             add: {
                 price: "Price",
                 monthly_subscription: "Monthly subscription ",
-                weekly_subscription: "Weekly subscription",
+                dayly_subscription: "Dayly subscription",
                 hourly_subscription: "Hourly subscription ",
                 price_subscription: "Package price",
                 title_package: "Package title ",
@@ -148,7 +148,30 @@ const en = {
             total_customers: 'Total customers',
             list_customers: 'Customers List',
             search_by_name: 'Search by name or email',
-            add_customer: 'Add Customer'
+            add_customer: 'Add Customer',
+            add: {
+                customere_name: 'Customer name',
+                customere_last_name: 'Customer last name',
+                contact: 'Contact',
+                customer_profile: 'Customer profile',
+            }
+        },
+        reservations: {
+            performance_by_day: 'Performance by day',
+            reservations: 'Reservations',
+            reservations_list: 'Reservations list',
+            balance: 'Balance',
+            total_customer: 'Total customer',
+            search_by_date_and_price: "Search by date or price",
+            add_reservation: "Add Reservation",
+            period: "Period",
+            table: {
+                date_begin: 'Date begin',
+                date_end: 'Date end',
+                status: 'Status',
+                package: 'Package',
+                pricing: 'Pricing',
+            }
         },
         settings: {
             account: "Account",
@@ -184,14 +207,23 @@ const en = {
         event_type : 'Type event',
         choose_language : 'Choose language',
         select_language : 'Select language',
+        select_product : 'Select product',
         nber_place: 'Number of places',
-        nber_people: 'Number of persons'
+        nber_people: 'Number of persons',
+        start_time: 'Start time',
+        end_time: 'End time',
     },
     words: {
         last: 'Last',
         last_saved: 'Last saved',
         cancel: 'Cancel',
         back: 'Back',
+        from: 'From',
+        to: 'to',
+        to_s: 'To',
+        at: 'at',
+        clear: 'Clear',
+        close: 'Close',
         most_active: 'Most active',
         features: 'Features',
         save_change: 'Save change',

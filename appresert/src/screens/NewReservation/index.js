@@ -23,6 +23,7 @@ import Slider from "react-slick";
 import Icon from "../../components/Icon";
 import { useParams } from "react-router";
 import { formatTime } from "../../Utils/formatTime";
+import { useTranslation } from "react-i18next";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
@@ -57,6 +58,7 @@ const settings = {
 };
 
 const NewReservation = ({product, editOrder}) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users)
   const { orderId } = useParams();
   
@@ -73,7 +75,7 @@ const NewReservation = ({product, editOrder}) => {
     price_hour: '',
     price_day: '',
     price_month: '',    
-    nb_persons: '',
+    nb_persons: 0,
     package: '',
     type_event: '',
   });
@@ -100,7 +102,7 @@ const NewReservation = ({product, editOrder}) => {
 
     switch (name) {
       case 'nb_persons':
-        setForm({ ...form, nb_persons: parseInt(value) });
+        setForm({ ...form, nb_persons: value === '' ? 0 : parseInt(value) });
           break;
       case 'price_hour':
         setForm({ ...form, price_hour: value });
@@ -199,7 +201,7 @@ const NewReservation = ({product, editOrder}) => {
         <div className={styles.col}>
           <NameAndDescription className={styles.card} product={product} form={form} onChange={textInputChange}/>
 
-          <Card className={cn(styles.card)} title="Packages" classTitle="title-purple" head={''}  >
+          <Card className={cn(styles.card)} title={t('navigation.title.products_released')} classTitle="title-purple" head={''}  >
             <div className={styles.description}>
               {/*<TextInput className={styles.field} label="Product title"  name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
               <Editor state={content}onChange={setContent} classEditor={styles.editor} label="Description" tooltip="Description"/>*/}

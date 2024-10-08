@@ -59,23 +59,23 @@ const App = () => {
         <Route path="/products/add" element={<AuthGuard props={<Page title={t('navigation.title.products_add')}><NewProduct product={true}/></Page>} />} />
         <Route path="/products/edit/:productId" element={<AuthGuard props={<Page title={t('navigation.title.products_edit')}><NewProduct product={true} editProd={true}/></Page>} />} />
         <Route path="/products/drafts" element={<AuthGuard props={<Page title="Drafts"><Drafts /></Page>} />} />
-        <Route path="/products/released" element={<AuthGuard props={<Page title={t('navigation.title.products_released')}><Released /></Page>} />} />
+        <Route path="/packages/list" element={<AuthGuard props={<Page title={t('navigation.title.products_released')}><Released /></Page>} />} />
         <Route path="/packages/add" element={<AuthGuard props={<Page title={t('navigation.title.packages_add')}><NewProduct /></Page>} />} />
         <Route path="/packages/edit/:packageId" element={<AuthGuard props={<Page title={t('navigation.title.packages_edit')}><NewProduct  editPack={true}/></Page>} />} />
         <Route path="/packages/comments" element={<AuthGuard props={<Page title={t('navigation.title.packages_comments')}><Comments /></Page>} />} />
         <Route path="/customers/overview" element={<Page title={t('navigation.title.customers_overview')}><Customers /></Page>} />
         <Route path="/customers/add" element={<AuthGuard props={<Page title={t('navigation.title.customers_add')}><NewCustomer/></Page>} />} />
         <Route path="/customers/edit/:customerId" element={<AuthGuard props={<Page title={t('navigation.title.customers_edit')}><NewCustomer editCust={true}/></Page>} />} />
-        <Route path="/customers/customer-list" element={<AuthGuard props={<Page title={t('navigation.title.customers_list')}><CustomerList /></Page>} />} />
+        <Route path="/customers/list" element={<AuthGuard props={<Page title={t('navigation.title.customers_list')}><CustomerList /></Page>} />} />
         <Route path="/shop" element={<Page wide><Shop /></Page>} />
         <Route path="/profile" element={<AuthGuard props={<Page wide><ProfileUser /></Page>} />} />
         <Route path="/profile/:userId" element={<AuthGuard props={<Page wide><ProfileUser profileId={true}/></Page>} />} />
-        <Route path="/reservations/reservationList" element={<AuthGuard props={<Page title={t('navigation.title.reservations_list')}><Earning resertList={true} /></Page>} />} />
+        <Route path="/reservations/list" element={<AuthGuard props={<Page title={t('navigation.title.reservations_list')}><Earning resertList={true} /></Page>} />} />
         <Route path="/reservations/add" element={<AuthGuard props={<Page title={t('navigation.title.reservations_add')}><NewReservation  /></Page>} />} />
         <Route path="/reservations/edit/:orderId" element={<AuthGuard props={<Page title={t('navigation.title.reservations_edit')}><NewReservation   editOrder={true}/></Page>} />} />
         <Route path="/reservations/agenda" element={<AuthGuard props={<Page title={t('navigation.title.reservations_agenda')}><Scheduled /></Page>} />} />
         <Route path="/income/earning" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Earning /></Page>} />} />
-        <Route path="/income/incomeList" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Refunds /></Page>} />} />
+        <Route path="/incomes/list" element={<AuthGuard props={<Page title={t('navigation.title.income_earning')}><Refunds /></Page>} />} />
         {/*<Route path="/income/add/:idOrder" element={<AuthGuard props={<Page title={t('navigation.title.income_add')}><NewIncome /></Page>} />} />*/}
         <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />
         <Route path="/income/statements" element={<Page title="Statements"><Statements /></Page>} />

@@ -4,9 +4,11 @@ import styles from "./Panel.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 import Loader from "../../../components/Loader";
+import { useTranslation } from "react-i18next";
 
 const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormFilled, setForm }) => {
-  const actions = [
+  const {t} = useTranslation()
+ /* const actions = [
     {
       title: "Preview",
       icon: "expand",
@@ -27,7 +29,7 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormF
       icon: "close",
       action: () => console.log("Clear data"),
     },
-  ];
+  ];*/
 
   const handleResetInput = () => {  
     setForm(prev => ({ ...prev, email: '', first_name: '', last_name: '', tel: '', password: '' }));
@@ -37,13 +39,13 @@ const Panel = ({ setVisiblePreview, setVisibleSchedule, onClick, loader, isFormF
     <div className={cn("panel", styles.panel)}>
       <div className={styles.info}>
         <Icon name="check-all" size="24" />
-        Last saved <span>Oct 4, 2021 - 23:32</span>
+        {t('words.last_saved')} <span>Oct 4, 2021 - 23:32</span>
       </div>
       <div className={styles.btns}>
         <button className={cn("button-stroke", styles.button)} onClick={handleResetInput}>
-          Cancel
+        {t('words.cancel')}
         </button>
-        <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} disabled={!isFormFilled() ? true : false} onClick={onClick} >{loader ? <Loader/> : 'Save change'}</button>
+        <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} disabled={!isFormFilled() ? true : false} onClick={onClick} >{loader ? <Loader/> : t('words.save_change')}</button>
         {/*<Actions
           className={styles.actions}
           classActionsHead={styles.actionsHead}

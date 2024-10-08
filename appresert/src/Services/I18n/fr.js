@@ -99,7 +99,7 @@ const fr = {
                 key_features : "Caractéristiques principales",
                 value : "Valeur",
                 quantity : "Quantité",
-                number : "Numbre",
+                number : "Nombre",
                 category_attributes : "Catégorie et attributs",
                 category : "Catégorie",
                 select_category : "Sélectionner une catégorie",
@@ -123,8 +123,8 @@ const fr = {
             add: {
                 price: "Prix",
                 monthly_subscription: "Abonnement par mois ",
-                weekly_subscription: "Abonnement par semaine",
-                hourly_subscription: "Abonnement par jour",
+                dayly_subscription: "Abonnement par jour",
+                hourly_subscription: "Abonnement par heure",
                 price_subscription: "Prix du forfait",
                 title_package: "Titre du forfait ",
                 upload_image_package: "Télécharger l'image du lot",
@@ -138,7 +138,30 @@ const fr = {
             total_customers: 'Total des clients',
             list_customers: 'Liste des clients',
             search_by_name: 'Chercher par nom ou email',
-            add_customer: 'Ajouter un client'
+            add_customer: 'Ajouter un client',
+            add: {
+                customere_name: 'Nom du client',
+                customere_last_name: 'Prénom du client',
+                contact: 'Contact',
+                customer_profile: 'Profil du client',
+            }
+        },
+        reservations: {
+            performance_by_day: 'Performance par jour',
+            reservations: 'Réservations',
+            reservations_list: 'Liste des réservations',
+            balance: 'Solde',
+            total_customer: 'Total des clients',
+            search_by_date_and_price: "Chercher par date ou prix",
+            add_reservation: "Ajouter une Réservation",
+            period: "Période",
+            table: {
+                date_begin: 'Date de début',
+                date_end: 'Date de fin',
+                status: 'Status',
+                package: 'Lot',
+                pricing: 'Montant',
+            }
         },
         settings: {
             account: "Mon compte",
@@ -168,6 +191,7 @@ const fr = {
         category_type : 'Type de la catégorie',
         select_category_type : 'Sélectionner le type',
         product : 'Produit',
+        select_product : 'Sélectionner des produits',
         category_product : 'Catégorie du produit',
         package : 'Forfait',
         category_package : 'Catégorie du Forfait',
@@ -175,7 +199,9 @@ const fr = {
         choose_language : 'Choisir une langue',
         select_language : 'Sélectionner une langue',
         nber_place: 'Numbre de places',
-        nber_people: 'Number de personnes'
+        nber_people: 'Number de personnes',
+        start_time: 'Heure de début',
+        end_time: 'Heure de fin',
     },
     words: {
         last: 'Derniers',
@@ -183,6 +209,12 @@ const fr = {
         cancel: 'Annuler',
         features: 'Caractéristiques',
         back: 'Retour',
+        from: 'Du',
+        to: 'Au',
+        to_s: 'De',
+        at: 'à',
+        clear: 'Effacer',
+        close: 'Fermer',
         save_change: 'Enregistrer',
         most_active: 'Les plus actifs',
         users: 'utilisateurs',

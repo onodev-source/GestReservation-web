@@ -4,6 +4,8 @@ import styles from "./PayoutHistory.module.sass";
 import Card from "../../../components/Card/index.js";
 import { numberWithCommas } from "../../../utils.js";
 import Actions from "../../../components/Actions/index.js";
+import RequestDashboard from "../../../Services/Api/ApiServices.js";
+import { useSelector } from "react-redux";
 
 const items = [
   {
@@ -105,7 +107,21 @@ const actions = [
   }
 ];
 
-const HistoryUser = ({ className }) => {
+const HistoryUser = ({ className, userId }) => {
+  const users = useSelector((state) => state.users)
+  const [userActivity, setUserActivity] = React.useState()
+  
+  React.useEffect(() => {
+    const getUserActivityById =  async(id) => {
+        
+      let res = await RequestDashboard(`gestreserv/activity/${id}/`, 'GET', '', users.access_token);
+      if (res.status === 200) {
+        setUserActivity(res.reponse);
+      }
+    };
+    getUserActivityById(userId)
+  },[userId, users.access_token])
+
   return (
     <Card className={cn(styles.card, className)} >
       <div className={styles.wrapper}>
