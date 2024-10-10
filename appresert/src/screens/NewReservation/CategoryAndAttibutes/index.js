@@ -35,6 +35,7 @@ const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
     if (selectedFilter === id) {
       setSelectedFilter(null);
       setTags([]);
+      setForm(prevForm => ({...prevForm, type_event: '' }));
     } else {
       setSelectedFilter(id);
       setTags([{ id: String(id), text: title }]);
@@ -45,6 +46,7 @@ const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
   const handleDelete = () => {
     setTags([]);
     setSelectedFilter(null);
+    setForm(prevForm => ({...prevForm, type_event: '' }));
   };
 
   const handleAddition = (tag) => {
@@ -66,6 +68,7 @@ const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
   const onClearAll = () => {
     setTags([]);
     setSelectedFilter(null);
+    setForm(prevForm => ({...prevForm, type_event: '' }));
   };
 
   const onTagUpdate = (i, newTag) => {

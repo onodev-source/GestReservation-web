@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
 import ErrorMessage from "../../../components/ErrorMessage";
 import { useTranslation } from "react-i18next";
+import { verifyInput } from "../../../Utils/verifyInput";
 
 const Entry = ({ onConfirm }) => {
   const {t} = useTranslation()
@@ -33,6 +34,13 @@ const Entry = ({ onConfirm }) => {
     }
   }
   
+  const isFormFilled = () => {
+      
+    return (
+      verifyInput(form.email) !== false
+    )
+  };
+
   const sendEmailResetPassword =  async() => {
     setLoader(true)
     const data = {
@@ -98,7 +106,7 @@ const Entry = ({ onConfirm }) => {
       <TextInput className={styles.field}  name="email"  type="email" value={form.email}
         placeholder={t('sign.email')}  required  icon="mail" onChange={textInputChange}
       />
-      <button className={cn("button", styles.button)} onClick={sendEmailResetPassword}>{loader ? <Loader/> : t('words.send')}</button>
+      <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} onClick={sendEmailResetPassword}  disabled={!isFormFilled() ? true : false}>{loader ? <Loader/> : t('words.send')}</button>
       <div className={styles.note}>
       {t('sign.protected_to_recaptcha')}
       </div>

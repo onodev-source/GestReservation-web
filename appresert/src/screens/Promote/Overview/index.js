@@ -7,52 +7,55 @@ import Dropdown from "../../../components/Dropdown";
 import Icon from "../../../components/Icon";
 import Tooltip from "../../../components/Tooltip";
 import Balance from "../../../components/Balance";
+import { useTranslation } from "react-i18next";
 
 const intervals = ["Last 7 days", "This month", "All time"];
 
-const items = [
-  {
-    title: "People reached",
-    counter: "256k",
-    icon: "profile-circle",
-    color: "#EFEFEF",
-    tooltip: "Small description People reached",
-    value: 37.8,
-  },
-  {
-    title: "Engagement",
-    counter: "1.2x",
-    icon: "arrows-up-down",
-    color: "#FFBC99",
-    tooltip: "Small description Engagement",
-    value: -17.8,
-  },
-  {
-    title: "Comments",
-    counter: "128",
-    icon: "messages",
-    color: "#F2D45F",
-    tooltip: "Small description Comments",
-    value: 24.3,
-  },
-  {
-    title: "Link clicks",
-    counter: "80",
-    icon: "mouse",
-    color: "#6F767E",
-    tooltip: "Small description Link clicks",
-    value: -11.3,
-  },
-];
 
 const Overview = ({ className }) => {
+  const {t} = useTranslation()
   const [sorting, setSorting] = useState(intervals[0]);
+
+  const items = [
+    {
+      title: t('views.reservations.agenda.people_reached'),
+      counter: "256k",
+      icon: "profile-circle",
+      color: "#EFEFEF",
+      tooltip: "Small description People reached",
+      value: 37.8,
+    },
+    {
+      title: t('views.reservations.agenda.engagement'),
+      counter: "1.2x",
+      icon: "arrows-up-down",
+      color: "#FFBC99",
+      tooltip: "Small description Engagement",
+      value: -17.8,
+    },
+    {
+      title: t('views.reservations.agenda.comments'),
+      counter: "128",
+      icon: "messages",
+      color: "#F2D45F",
+      tooltip: "Small description Comments",
+      value: 24.3,
+    },
+    {
+      title: t('views.publicity.link_click'),
+      counter: "80",
+      icon: "mouse",
+      color: "#6F767E",
+      tooltip: "Small description Link clicks",
+      value: -11.3,
+    },
+  ];
 
   return (
     <>
       <Card
         className={cn(styles.card, className)}
-        title="Insights"
+        title={t('views.publicity.insights')}
         classTitle="title-red"
         head={
           <Dropdown

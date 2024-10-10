@@ -18,13 +18,16 @@ import Comments from "../Comments";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../Services/Api/ApiServices";
+import { useTranslation } from "react-i18next";
 
-const navigation = ["Activity", "Reservations", "Comments"];
 const intervals = ["Most recent", "Most new", "Most popular"];
 
 const ProfileUser = (profileId) => {
+  const {t} = useTranslation()
   const { userId } = useParams()
   const users = useSelector((state) => state.users)
+
+  const navigation = [t('views.tabs.activity'), t('views.reservations.reservations'), t('views.reservations.agenda.comments')];
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [sorting, setSorting] = useState(intervals[0]);

@@ -12,8 +12,6 @@ const TextInput = ({ className, classLabel, classInput, label, icon, type, copy,
   const handleChange = () => {
     setVisiblePass(!visiblePass)
   }
-  console.log('type', type);
-  console.log('verifyInput(props.value)', verifyInput(props.value));
   
   return (
     <div className={cn(styles.field, { [styles.fieldIcon]: icon }, { [styles.fieldCopy]: copy }, { [styles.fieldCurrency]: currency }, className )} >

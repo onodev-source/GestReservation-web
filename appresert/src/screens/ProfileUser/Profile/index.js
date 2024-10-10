@@ -3,6 +3,7 @@ import cn from "classnames";
 import styles from "./Profile.module.sass";
 import Avatar from "../../../components/Avatar";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 //import Icon from "../../../components/Icon";
 
 /*const socials = [
@@ -21,6 +22,7 @@ import { useSelector } from "react-redux";
 ];*/
 
 const Profile = () => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   return (
@@ -54,7 +56,7 @@ const Profile = () => {
             </a>
           ))}
         </div>*/}
-        <a className={cn("button", styles.button)} href="/settings">Edit profile</a>
+        <a className={cn("button", styles.button)} href="/settings">{t('navigation.edit_profile')}</a>
       </div>
     </div>
   );

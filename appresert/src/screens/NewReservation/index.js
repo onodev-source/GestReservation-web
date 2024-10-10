@@ -72,9 +72,9 @@ const NewReservation = ({product, editOrder}) => {
   const [selectedFilters, setSelectedFilters] = useState();
   const [form, setForm] = useState({
     order_number: '',
-    price_hour: '',
-    price_day: '',
-    price_month: '',    
+    price_hour: 0,
+    price_day: 0,
+    price_month: 0,    
     nb_persons: 0,
     package: '',
     type_event: '',
@@ -105,20 +105,37 @@ const NewReservation = ({product, editOrder}) => {
         setForm({ ...form, nb_persons: value === '' ? 0 : parseInt(value) });
           break;
       case 'price_hour':
-        setForm({ ...form, price_hour: value });
+        setForm({ ...form, price_hour: value === '' ? 0 : parseInt(value) });
           break;
       case 'price_day':
-        setForm({ ...form, price_day: value });
+        setForm({ ...form, price_day: value === '' ? 0 : parseInt(value)  });
           break;
       case 'price_month':
-        setForm({ ...form, price_month: value });
+        setForm({ ...form, price_month: value === '' ? 0 : parseInt(value)  });
           break;
       default:
           break;
     }
   }
 
+  const isFormFilled = () => {
+    return (
+      startDate !== '' &&
+      endDate !== '' &&
+      typeof selectedFilters === 'number' &&
+      form.price_hour > 0 &&
+      form.price_day > 0 &&
+      form.price_month > 0 &&
+      form.type_event !== '' &&
+      form.nb_persons > 0 
+    )
+  };
+  console.log('typevent', form.type_event);
   
+  const handleResetForm = () => {
+    setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: 0});
+  }
+
   const addOrEditReservation = async() => {
     setLoader(true)
     
@@ -240,7 +257,7 @@ const NewReservation = ({product, editOrder}) => {
           />*/}
         </div>
       </div>
-      <Panel  setVisiblePreview={setVisiblePreview} onClick={addOrEditReservation} setVisibleSchedule={setVisibleModal} product={product}/>
+      <Panel loader={loader} setVisiblePreview={setVisiblePreview} isFormFilled={isFormFilled} onClick={addOrEditReservation} onResetForm={handleResetForm} setVisibleSchedule={setVisibleModal} product={product}/>
       <TooltipGlodal />
       {/*<Modal visible={visibleModal} onClose={() => setVisibleModal(false)}>
         <Schedule  startDate={startDate}  setStartDate={setStartDate} startTime={startTime} setStartTime={setStartTime}/>

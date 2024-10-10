@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import Loader from "../../../components/Loader";
 import ErrorMessage from "../../../components/ErrorMessage";
+import { verifyInput } from "../../../Utils/verifyInput";
 
 const Entry = ({ onConfirm }) => {
   const {t} = useTranslation()
@@ -37,6 +38,15 @@ const Entry = ({ onConfirm }) => {
             break;
     }
   }
+  
+  const isFormFilled = () => {
+      
+    return (
+      verifyInput(form.tel, 'tel') !== false &&
+      verifyInput(form.email) !== false &&
+      form.password !== ''
+    )
+  };
   
   const register =  async() => {
     setLoader(true)
@@ -102,7 +112,7 @@ const Entry = ({ onConfirm }) => {
         <TextInput onChange={textInputChange} value={form.tel}  className={styles.field}  name="tel"  type="tel" placeholder={t('sign.phone_number')} required  icon="phone" />
         <TextInput onChange={textInputChange} value={form.email} className={styles.field}  name="email" type="email" placeholder={t('sign.email')} required  icon="mail"/>
         <TextInput onChange={textInputChange} value={form.password} className={styles.field} name="password" type="password"  placeholder={t('sign.password')} required icon="lock" />
-        <button className={cn("button", styles.button)} onClick={register}>
+        <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} onClick={register} disabled={!isFormFilled() ? true : false}>
           {!loader ? t('sign.continue') : <Loader className={styles.loader} />}
         </button>
         <div className={styles.note}>

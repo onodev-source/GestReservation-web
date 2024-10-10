@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../../components/ErrorMessage";
+import { verifyInput } from "../../../Utils/verifyInput";
 
 const Entry = ({ onConfirm }) => {
   const {t} = useTranslation()
@@ -41,6 +42,14 @@ const Entry = ({ onConfirm }) => {
     }
   }
   
+  const isFormFilled = () => {
+      
+    return (
+      verifyInput(form.email) !== false &&
+      form.password !== ''
+    )
+  };
+
   const login =  async() => {
     setLoader(true)
     const data = {
@@ -130,15 +139,15 @@ const Entry = ({ onConfirm }) => {
         <Link className={cn(styles.link, styles.linkPwd)} to={Routes.FORGOT_PASS}>
           {t('sign.forgot_pass')}
         </Link>
-        <button className={cn("button", styles.button)} onClick={login}>
-          {!loader ? 'Sign in' : <Loader className={styles.loader} />}
+        <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} onClick={login} disabled={!isFormFilled() ? true : false}>
+          {!loader ? t('sign.signin_connexion') : <Loader className={styles.loader} />}
         </button>
         <div className={styles.note}>
           {t('sign.protected_to_recaptcha')}
         </div>
         <div className={styles.info}>
           {t('sign.not_have_account')}{"  "}
-          <Link className={cn(styles.link, styles.linkPwd)} to={Routes.SIGN_UP}>
+          <Link className={cn(styles.link, styles.linkPwd)} to={Routes.SIGN_UP} >
             {t('sign.sign_up')}
           </Link>
         </div>

@@ -11,6 +11,9 @@ import Item from "../../../../components/Schedule/Item";
 import { format } from "date-fns";
 import { formatDate } from "../../../../Utils/formatDate";
 import ErrorMessage from "../../../../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Routes } from "../../../../Constants";
 
 const items = [
   {
@@ -28,13 +31,14 @@ const files = [
     icon: 'image-stroke',
     accept: '.jpg,.jpeg,.png'
   },
-  {
+  /*{
     icon: 'video-stroke',
     accept: '.mp4'
-  }
+  }*/
 ];
 
 const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   const [loader, setLoader] = useState(false)
@@ -94,6 +98,17 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
     target.value = '';  // Réinitialiser l'input file
   };
 
+  const isFormFilled = () => {
+    return (
+      media.length > 0 &&
+      startDate !== '' &&
+      endDate !== '' &&
+      form.title !== '' &&
+      form.description !== '' &&
+      form.description !== '' 
+    )
+  }
+
   const addOrEditPublicity = async() => {
     setLoader(true)
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
@@ -137,7 +152,7 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
 
   return (
     <div className={styles.post}>
-      <div className={cn("title-purple", styles.title)}>{updatePost? 'Update post' : 'New post'}</div>
+      <div className={cn("title-purple", styles.title)}>{updatePost? t('views.publicity.update_post') : t('views.publicity.new_post')}</div>
       <div className={styles.list}>
         {items.map((x, index) => (
           <div className={styles.group} key={index}>
@@ -147,15 +162,15 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
               </div>
             </Avatar>
             <div className={styles.profile}>
-              <span>{users.users.full_name ? users.users.full_name : users.users.email}</span>
+              <Link to={Routes.MY_PROFILE} className={styles.link}><span>{users.users.full_name ? users.users.full_name : users.users.email}</span></Link>
               <span>@{users.users.email.length > 12 ? `${users.users.email.slice(0, 12)}...` : users.users.email}</span>
             </div>
           </div>
         ))}
       </div>
       <div className={styles.field}>
-        <TextInput onChange={textInputChange}  className={styles.field} placeholder='Title' value={form.title} name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-        <textarea className={styles.textarea}  onChange={textInputChange} value={form.description} name="description" placeholder="What you would like to share?" />
+        <TextInput onChange={textInputChange}  className={styles.field} placeholder={t('views.publicity.add.title')} value={form.title} name="title" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+        <textarea className={styles.textarea}  onChange={textInputChange} value={form.description} name="description" placeholder={t('views.publicity.add.what_you_like_to_share')} />
       </div>
       {form.title !== '' && (
         <div className={styles.info}>
@@ -183,28 +198,28 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
         </div>
       }
       <div className={styles.dateContent}>
-        <Item  className={styles.item} category="Start date"  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
+        <Item  className={styles.item} category={t('views.reservations.table.date_begin')}  icon="calendar" value={startDate && format(startDate, "MMMM dd, yyyy")} visible={visibleDate} setVisible={setVisibleDate} >
           <div className={styles.date}>
             <DatePicker  selected={startDate}  onChange={(date) => setStartDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
             <div className={styles.footDate}>
               <button className={cn("button-stroke button-small", styles.button)} onClick={() => handleClick()} >
-                Clear
+                {t('words.clear')}
               </button>
               <button className={cn("button-small", styles.button)} onClick={() => setVisibleDate(false)}>
-                Close
+                {t('words.close')}
               </button>
             </div>
           </div>
         </Item>
-        <Item  className={styles.item} category="End date"  icon="calendar" value={endDate && format(endDate, "MMMM dd, yyyy")} visible={visibleDateEnd} setVisible={setVisibleDateEnd} >
+        <Item  className={styles.item} category={t('views.reservations.table.date_end')}  icon="calendar" value={endDate && format(endDate, "MMMM dd, yyyy")} visible={visibleDateEnd} setVisible={setVisibleDateEnd} >
           <div className={styles.date}>
             <DatePicker  selected={endDate}  onChange={(date) => setEndDate(date)}   dateFormatCalendar={"MMMM yyyy"} inline/>
             <div className={styles.footDate}>
               <button className={cn("button-stroke button-small", styles.button)} onClick={() => handleClick()} >
-                Clear
+                {t('words.clear')}
               </button>
               <button className={cn("button-small", styles.button)} onClick={() => setVisibleDateEnd(false)}>
-                Close
+                {t('words.close')}
               </button>
             </div>
           </div>
@@ -224,12 +239,12 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
             </div>
           ))}
         </div>
-        <button onClick={addOrEditPublicity} className={cn("button", styles.button)}>
+        <button onClick={addOrEditPublicity} className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} disabled={!isFormFilled() ? true : false}>
           {loader ? (
             <loader/>
           ) : (
             <>
-              <span>{updatePost? 'Edit' : 'Post'}</span>
+              <span>{updatePost? t('views.publicity.add.edit') : t('views.publicity.post')}</span>
               <Icon name="arrow-right" size="24" />
             </>
           )}

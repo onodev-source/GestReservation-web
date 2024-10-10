@@ -15,7 +15,7 @@ const Price = ({ className, form, onChange }) => {
   return (
     <Card className={cn(styles.card, className, styles.preview)}  title={t('views.packages.add.price') } classTitle="title-green">
       <div className={styles.price}>
-        <TextInput  className={styles.field} onChange={onChange} label={t("views.packages.add.monthly_subscription") } name={"price_month" } type={"number"} value={form.price_month} tooltip="Small description" required currency={"$" } />
+        <TextInput  className={styles.field} onChange={onChange} label={t("views.packages.add.monthly_subscription") } name={"price_month" } type={"text"} value={form.price_month} tooltip="Small description" required currency={"CFA" } />
         
           <>
             {/*<div className={styles.line}>
@@ -26,8 +26,8 @@ const Price = ({ className, form, onChange }) => {
               <Switch className={styles.switch} value={resolution} onChange={() => setResolution(!resolution)}/>
             </div>*/}
             <div className={styles.fieldset}>
-              <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label={t("views.packages.add.dayly_subscription") } value={form.price_day} name="price_day" type="text" required currency="$"/>
-              <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label={t("views.packages.add.hourly_subscription") } value={form.price_hour} name="price_hour" type="text" required currency="$"/>
+              <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label={t("views.packages.add.dayly_subscription") } value={form.price_day} name="price_day"  type="text" required currency="CFA"/>
+              <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label={t("views.packages.add.hourly_subscription") } value={form.price_hour} name="price_hour"  type="text" required currency="CFA"/>
             </div>
             {/*<div className={styles.line}>
               <TextInput className={styles.field} onChange={onChange} classLabel={styles.label} label="Total subscription price" name="total-amount" type="text" required currency="$"/>

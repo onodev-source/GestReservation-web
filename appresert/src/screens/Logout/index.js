@@ -41,12 +41,12 @@ const Logout = () => {
           📴
         </span>
       </div>
-      <div className={styles.info}>Quit ?</div>
-      <div className={cn("h2", styles.price)}>Logout Account</div>
+      <div className={styles.info}>{t('words.quit')}</div>
+      <div className={cn("h2", styles.price)}>{t('words.logout_account')}</div>
       <div className={styles.text}>
-        Are you sure you want to log out of the <span>{users.users.email}</span> account? 
+        {t('words.sure_to_logout')} <span>{users.users.email}</span> ? 
       </div>
-      <button onClick={logout} className={cn("button", styles.button)}>{!loader ? 'Logout' : <Loader className={styles.loader} />}</button>
+      <button onClick={logout} className={cn("button", styles.button)}>{!loader ? t('words.logout') : <Loader className={styles.loader} />}</button>
     </div>
   );
 };

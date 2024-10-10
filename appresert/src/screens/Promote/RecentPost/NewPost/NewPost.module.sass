@@ -123,11 +123,12 @@
     .profile
         display: flex
         flex-direction: column
-        span
+        .link
             text-transform: capitalize;
-            &:last-child
-                color: $shades1
-                text-transform: none
+            color: $n1
+        &:last-child
+            color: $shades1
+            text-transform: none
 
 
 .item
@@ -176,3 +177,10 @@
     gap: 10px
     justify-content: space-between
     
+
+.disabled
+    background: #F3D562
+    color: $n4
+    &:hover
+        background: #F3D562
+        cursor: none

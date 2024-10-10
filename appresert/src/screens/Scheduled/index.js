@@ -10,21 +10,23 @@ import interactionPlugin from '@fullcalendar/interaction'; // needed for dateCli
 //import '@fullcalendar/common/main.css'
 import styles from "./Scheduled.module.sass";
 import Card from "../../components/Card";
-import Form from "../../components/Form";
-import Panel from "./Panel";
+//import Form from "../../components/Form";
+//import Panel from "./Panel";
 import Overview from "./Overview";
 import Icon from "../../components/Icon";
-import Actions from "../../components/Actions";
+//import Actions from "../../components/Actions";
 import Modal from "../../components/Modal";
 //import Details from "../Refunds/Row/Details";
 import Details from "./Details";
-import TextInput from "../../components/TextInput";
-import Schedule from "../../components/Schedule";
+//import TextInput from "../../components/TextInput";
+//import Schedule from "../../components/Schedule";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../Services/Api/ApiServices";
+//import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 
-const item = 
+/*const item = 
 {
   id: 4,
   product: "Academe 3D Education Icons",
@@ -73,9 +75,10 @@ const item =
       price: 72.88,
     },
   ],
-}
+}*/
 
 const Scheduled = () => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   const [loading, setLoading] = useState(false);
@@ -205,7 +208,7 @@ const Scheduled = () => {
                   color: '#1A1D1F', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', boxShadow: `0 0 1px 2px ${getEventBackgroundColor(eventInfo)}` }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', wordBreak: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal' }}>
                     {/*eventInfo.event.title*/}
-                    <Icon name="reserved" size="18" style={{marginRight: '20px' }}/> Reserved
+                    <Icon name="reserved" size="18" style={{marginRight: '20px' }}/> {t('views.reservations.aganda.reserved')}
                   </div>
                   <Icon name="more-horizontal" size="24" style={{  marginLeft: '8px' }} />
                 </div>
@@ -223,32 +226,34 @@ const Scheduled = () => {
         {/*<Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption}
         items={actions}/>*/}
       </Card>
-      <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={handleCloseModal} >
-        {/*{visibleAddModal ?
-          <div className={styles.details}>
-            <div className={cn("title-purple", styles.title)}>View reservation details</div>
-            <div className={styles.row}>
-              <div className={styles.col}>
-                <div className={styles.group}>
-                  <TextInput className={styles.field} label="Event name" placeHolder="Name of event" name="nameEvent" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-                  <Schedule  startDate={startDate}  setStartDate={setStartDate} endDate={endDate}  setEndDate={setEndDate} startTime={startTime} setStartTime={setStartTime} addResert={true}/>
-                  fhjfjjfjfviejdmndmn
-                </div>
-                <div className={styles.btns}>
-                  <button className={cn("button-stroke", styles.button)} onClick={handleCloseModal}>
-                    Cancel
-                  </button>
-                  <button className={cn("button", styles.button)}>
-                    Add event
-                  </button>
+      {orderSelect !== null &&
+        <Modal  outerClassName={styles.outer}  visible={visibleModal} onClose={handleCloseModal} >
+          {/*{visibleAddModal ?
+            <div className={styles.details}>
+              <div className={cn("title-purple", styles.title)}>View reservation details</div>
+              <div className={styles.row}>
+                <div className={styles.col}>
+                  <div className={styles.group}>
+                    <TextInput className={styles.field} label="Event name" placeHolder="Name of event" name="nameEvent" type="text" tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+                    <Schedule  startDate={startDate}  setStartDate={setStartDate} endDate={endDate}  setEndDate={setEndDate} startTime={startTime} setStartTime={setStartTime} addResert={true}/>
+                    fhjfjjfjfviejdmndmn
+                  </div>
+                  <div className={styles.btns}>
+                    <button className={cn("button-stroke", styles.button)} onClick={handleCloseModal}>
+                      Cancel
+                    </button>
+                    <button className={cn("button", styles.button)}>
+                      Add event
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>*/}
+            </div>*/}
 
-        {orderSelect !== null && <Details item={orderSelect} onClose={handleCloseModal}/>}
+          <Details item={orderSelect} onClose={handleCloseModal}/>
 
-      </Modal>
+        </Modal>
+      }
       {/*<Panel />*/}
     </>
   );

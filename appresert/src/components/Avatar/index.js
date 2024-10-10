@@ -10,7 +10,7 @@ const Avatar = ({ width, height, editPhoto, onClick, user, classname, children})
     if (user?.photo === '' || user?.photo === null) {
         return (
             <Component onClick={onClick} className={cn(styles.head, styles.noPhoto, classname)} style={{width: width, height: height, }}>
-                <span>{user?.username.slice(0, 2)}</span>
+                <span>{user?.username?.slice(0, 2)}</span>
                 {children}
             </Component>
         )

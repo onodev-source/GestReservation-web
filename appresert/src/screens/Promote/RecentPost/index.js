@@ -12,10 +12,12 @@ import NewPost from "./NewPost";
 import { posts } from "../../../mocks/posts";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useTranslation } from "react-i18next";
 
 const intervals = ["Last 7 days", "This month", "All time"];
 
 const RecentPost = ({ className }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users)
   const postRef = useRef(null)
 
@@ -49,7 +51,7 @@ const RecentPost = ({ className }) => {
     <>
       <Card
         className={cn(styles.card, className)}
-        title="Recent post"
+        title={t('views.publicity.recent_post')}
         classTitle={cn("title-blue", styles.title)}
         classCardHead={styles.head}
         head={
@@ -64,7 +66,7 @@ const RecentPost = ({ className }) => {
             />
             {!users.users.is_customer &&
               <button className={cn("button-small", styles.button)}  onClick={() => setVisibleModal(true)} >
-                New post
+                {t('views.publicity.new_post')}
               </button>
             }
           </>
@@ -72,11 +74,11 @@ const RecentPost = ({ className }) => {
       >
         <div className={styles.table}>
           <div className={styles.row}>
-            <div className={styles.col}>Post</div>
-            <div className={styles.col}>Start date</div>
-            <div className={styles.col}>End Date</div>
-            <div className={styles.col}>Views</div>
-            <div className={styles.col}>Engagement</div>
+            <div className={styles.col}>{t('views.publicity.posts')}</div>
+            <div className={styles.col}>{t('views.reservations.table.date_begin')}</div>
+            <div className={styles.col}>{t('views.reservations.table.date_end')}</div>
+            <div className={styles.col}>{t('views.publicity.views')}</div>
+            <div className={styles.col}>{t('views.reservations.agenda.engagement')}</div>
           </div>
           {loader ?
             <Loader/> :

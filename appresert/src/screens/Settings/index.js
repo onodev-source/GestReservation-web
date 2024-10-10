@@ -72,7 +72,7 @@ const Settings = () => {
   const [form, setForm] = useState({
     first_name: users.users.first_name,
     last_name: users.users.last_name,
-    tel: users.users.phone_number,
+    tel: users.users.phone_number.startsWith('+') ? users.users.phone_number.replace('+', '') : users.users.phone_number,
     email: users.users.email,    
     password: users.users.password,
     sexe: users.users.gender,
@@ -93,6 +93,7 @@ const Settings = () => {
 
   const handleClick = (x, index) => {
     setActiveIndex(index);
+    setForm({ ...form, category: '' });
     if(x.action){
       x.action();
     } else {
@@ -138,6 +139,15 @@ const Settings = () => {
     }
   }
  
+  const isFormFilled = () => {
+    if (isCategory) {
+      return (
+        typeCategory !== '' &&
+        typeCategory !== t('form.select_category_type') &&
+        form.category !== ''
+      )
+    }
+  }
 
   //start_date: formatDate(startDate, 'SEND'),
   const updateAccountAndCategory = async (language) => {
@@ -214,6 +224,8 @@ const Settings = () => {
     }
   };
   
+  console.log('category', form.category);
+  console.log('typeCategory', typeCategory);
   
   return (
     <>
@@ -276,7 +288,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} className={cn("button", styles.button, styles.buttonStyle)}>{loader ? <Loader/> : t('words.save_change')}</button>}
+          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} disabled={(!isFormFilled() && isCategory) ? true : false} className={cn("button", styles.button, styles.buttonStyle, {[styles.disabled]: (!isFormFilled() && isCategory)})}>{loader ? <Loader/> : t('words.save_change')}</button>}
         </div>
       </div>
       <TooltipGlodal />

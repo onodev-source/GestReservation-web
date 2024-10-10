@@ -9,47 +9,49 @@ import Avatar from "../../../../components/Avatar";
 import Icon from "../../../../components/Icon";
 import { formatDate } from "../../../../Utils/formatDate";
 import { formatTime } from "../../../../Utils/formatTime";
+import { useTranslation } from "react-i18next";
 
 
 const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoice, onDeleteOrder, onDeleteCust }) => {
+  const {t} = useTranslation()
   //const [content, setContent] = useState();
   const detailRef = useRef(null)
 
   const customerArray = [
-    { title: 'Full name', content: item.full_name },
-    { title: 'Email', content: item.email },
-    { title: 'Date of birth', content: item.date_of_birth },
-    { title: 'Gender', content: item.gender },
-    { title: 'Phone', content: item.phone_number },
-    { title: 'City', content: item.city },
-    { title: 'Country', content: item.country },
-    { title: 'Language', content: item.language },
-    { title: 'Mode session', content: item.mode_session },
+    { title: t('form.full_name'), content: item.full_name },
+    { title: t('form.email'), content: item.email },
+    { title: t('form.date_birth'), content: item.date_of_birth },
+    { title: t('form.gender'), content: item.gender },
+    { title: t('form.phone_number'), content: item.phone_number },
+    { title: t('form.city'), content: item.city },
+    { title: t('form.country'), content: item.country },
+    { title: t('views.settings.language'), content: item.language },
+    { title: t('form.mode_session'), content: item.mode_session },
   ];
   const orderArray = [
-    { title: 'Date begin', content: `From ${formatDate(item.begin_date)} to ${formatTime(item?.begin_hour)}`},
-    { title: 'Date end', content:`From ${formatDate(item.end_date)} to ${formatTime(item?.end_hour)}` },
-    { title: 'Status', content: item.statut},
+    { title: t('views.reservations.table.date_begin'), content: `From ${formatDate(item.begin_date)} to ${formatTime(item?.begin_hour)}`},
+    { title: t('views.reservations.table.date_end'), content:`From ${formatDate(item.end_date)} to ${formatTime(item?.end_hour)}` },
+    { title: t('views.reservations.table.status'), content: item.statut},
     //{ title: 'Package price', content: `${Math.floor(item?.package_price)}XAF ` },
-    { title: 'Type event', content: item.type_event?.type_event },
-    { title: 'Price month', content: `${Math.floor(item?.price_month)}XAF ` },
-    { title: 'Price Day', content: `${Math.floor(item?.price_day)}XAF` },
-    { title: 'Price hour', content: `${Math.floor(item?.price_hour)}XAF`  },
-    { title: 'Date created', content: `${formatDate(item.created_at)}`  },
+    { title: t('views.products.add.type_of_event'), content: item.type_event?.type_event },
+    { title: t('views.packages.add.monthly_subscription'), content: `${Math.floor(item?.price_month)}XAF ` },
+    { title: t('views.packages.add.dayly_subscription'), content: `${Math.floor(item?.price_day)}XAF` },
+    { title: t('views.packages.add.hourly_subscription'), content: `${Math.floor(item?.price_hour)}XAF`  },
+    { title: t('views.reservations.table.date_created'), content: `${formatDate(item.created_at)}`  },
   ];
   const suggestions = [
-    { title: 'Package name:', content: item.package?.package_name},
+    { title: `${t('views.packages.add.title_package')}:`, content: item.package?.package_name},
     //{ title: 'Package Des:', content: item.package?.package_name},
-    { title: 'Package price:', content: ` ${Math.floor(item.package?.package_price)}XAF`},
+    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item.package?.package_price)}XAF`},
   ];
   const incomeArray = [
-    { title: 'Order number:', content: item.order_number},
-    { title: 'Invoice Number:', content: item.invoice_number},
-    { title: 'Invoice amount:', content: `${Math.floor(item.invoice_amount)}XAF `},
-    { title: 'Invoice date:', content: ` ${formatDate(item.invoice_date, 'GET')}`},
-    { title: 'Invoice method:', content: item.payment_method},
-    { title: 'Invoice type:', content: item.payment_type},
-    { title: 'Payment statut:', content: item.payment_statut},
+    { title: t('views.reservations.number_reservation'), content: item.order_number},
+    { title: t('views.invoice.number_income'), content: item.invoice_number},
+    { title: t('views.invoice.amount_income'), content: `${Math.floor(item.invoice_amount)}XAF `},
+    { title: t('views.invoice.date_income'), content: ` ${formatDate(item.invoice_date, 'GET')}`},
+    { title: t('views.invoice.method_income'), content: item.payment_method},
+    { title: t('views.invoice.type_income'), content: item.payment_type},
+    { title: t('views.invoice.statut_paiement'), content: item.payment_statut},
   ];
  
   const parameters = customersDetails ? customerArray : (incomeDetail ? incomeArray : orderArray)
@@ -74,7 +76,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
   return (
     <>
       <div className={styles.details}>
-        <div className={cn("title-purple", styles.title)}>{customersDetails ? "Customer details" : (incomeDetail ? "Income detail" : "Order details")}</div>
+        <div className={cn("title-purple", styles.title)}>{customersDetails ? t('views.customers.detail_customer') : (incomeDetail ? t('views.invoice.detail_income') : t('views.reservations.detail_reservation'))}</div>
         <div className={styles.row}>
           <div className={cn(styles.col, { [styles.colMax]: customersDetails || incomeDetail })}>
             {!incomeDetail && <Product className={styles.product} item={item} customersDetails={customersDetails}/>}
@@ -86,10 +88,10 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
             {(customersDetails || incomeDetail) &&
               <div className={styles.btns}>
                 <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
-                  Cancel
+                  {t('words.cancel')}
                 </button>
                 <button className={cn("button", styles.button)} onClick={handleClick}>
-                  Delete
+                  {t('words.deleted')}
                 </button>
               </div>
             }
@@ -98,13 +100,13 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
             <div className={styles.col}>
               <div className={styles.group}>
                 <div className={styles.box}>
-                  <div className={styles.info}>Package category</div>
+                  <div className={styles.info}>{t('form.category_package')}</div>
                   <ul className={styles.list}>
                       <li >{item.package?.category_name}</li>
                   </ul>
                 </div>
                 <div className={styles.box}>
-                  <div className={styles.info}>Package details</div>
+                  <div className={styles.info}>{t('views.packages.detail_package')}</div>
                   <ul className={styles.list}>
                     {suggestions.map((x, index) => (
                       <li key={index}>{x.title}  {x.content}</li>
@@ -112,29 +114,29 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                   </ul>
                 </div>
                 <div className={styles.box}>
-                  <div className={styles.info}>Client</div>
-                  <div className={styles.user}>
-                    <Avatar user={{username: item.man, photo: item.avatar}} classname={styles.avatar}  width='32px'  height='32px'/>
-                    {item.man}
+                  <div className={styles.info}>{t('views.customers.customer')}</div>
+                  <div className={styles.user} style={{textTransform: 'capitalize'}}>
+                    <Avatar user={{username: item.user.full_name !== '' ? item.user.full_name : item.user.email, photo: item.user?.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
+                    {item.user.full_name !== '' ? item.user.full_name : item.user.email}
                   </div>
                   <div className={styles.text}>
                     <div className={styles.textTel}>
                       <Icon name="phone" size="24" />
-                      +237 698664117
+                      {item.user.phone_number}
                     </div>
                     <div>
                       <Icon name="mail" size="24" />
-                      pouakoaudrey54@gmail.com
+                      {item.user.email}
                     </div>
                   </div>
                 </div>
               </div>
               <div className={styles.btns}>
                 <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
-                  Cancel
+                  {t('words.cancel')}
                 </button>
                 <button className={cn("button", styles.button)} onClick={handleClick}>
-                  Delete
+                  {t('words.deleted')}
                 </button>
               </div>
             </div>

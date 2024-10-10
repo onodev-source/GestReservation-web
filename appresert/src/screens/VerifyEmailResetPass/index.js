@@ -48,6 +48,14 @@ const VerifyEmailResetPass = () => {
     }
   }
   
+  const isFormFilled = () => {
+      
+    return (
+      form.password !== '' &&
+      form.passwordConfirm !== '' 
+    )
+  };
+
   const resetPasswordConfirm =  async() => {
     
     if(form.password !== form.passwordConfirm) {
@@ -121,20 +129,20 @@ const VerifyEmailResetPass = () => {
           </div>
           <div className={cn(styles.wrapper)}>
             <div className={cn("h2", styles.title)}>
-              Reset password
+              {t('sign.reset_pass')}
             </div>
             {errorSubmit !== '' && (
               <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
             )}
             <div className={styles.bodyText}>
-              <TextInput onChange={textInputChange} className={styles.field} name="password" type="password"  placeholder="Enter new password" required icon="lock" />
-              <TextInput onChange={textInputChange} className={styles.field} name="passwordConfirm" type="password"  placeholder="Confirm new password" required icon="lock" />
+              <TextInput onChange={textInputChange} className={styles.field} name="password" type="password"  placeholder={t('form.new_password')} required icon="lock" />
+              <TextInput onChange={textInputChange} className={styles.field} name="passwordConfirm" type="password"  placeholder={t('form.confirm_password')} required icon="lock" />
             </div>
-            <button className={cn("button", styles.button)} onClick={resetPasswordConfirm}>
-              {loader ? <Loader /> : <span>Continue</span>}
+            <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} onClick={resetPasswordConfirm} disabled={!isFormFilled() ? true : false}>
+              {loader ? <Loader /> : <span>{t('sign.continue')}</span>}
             </button>
             <div className={styles.note}>
-              This site is protected by reCAPTCHA and the Google Privacy Policy.
+              {t('sign.protected_to_recaptcha')}
             </div>
           </div>
         </div>
