@@ -107,20 +107,20 @@ const actions = [
   }
 ];
 
-const HistoryUser = ({ className, userId }) => {
+const HistoryUser = ({ className, userId, profileId }) => {
   const users = useSelector((state) => state.users)
   const [userActivity, setUserActivity] = React.useState()
   
   React.useEffect(() => {
     const getUserActivityById =  async(id) => {
         
-      let res = await RequestDashboard(`gestreserv/activity/${id}/`, 'GET', '', users.access_token);
+      let res = await RequestDashboard(profileId ? `gestreserv/activity/${id}/` : 'gestreserv/activity/', 'GET', '', users.access_token);
       if (res.status === 200) {
         setUserActivity(res.reponse);
       }
     };
     getUserActivityById(userId)
-  },[userId, users.access_token])
+  },[userId, users.access_token, profileId])
 
   return (
     <Card className={cn(styles.card, className)} >

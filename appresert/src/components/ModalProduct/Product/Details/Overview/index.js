@@ -36,7 +36,7 @@ const Overview = ({product, detailsData}) => {
           {product ? detailsData?.product_name : detailsData?.package_name}
         </div>
         <div className={styles.info}>
-          {product ? detailsData?.product_name : detailsData?.package_name}
+        {t('views.products.add.category')} : {product ? detailsData?.category : detailsData?.category.category_name}
         </div>
         <div className={styles.line}>
           <div className={styles.author}>
@@ -77,8 +77,8 @@ const Overview = ({product, detailsData}) => {
                 <li>{detailsData?.caracteristics_products}</li>
               ) : (
                 <>
-                  <li>Number of persons: {detailsData?.nb_persons}</li>
-                  <li>Number of place: {detailsData?.nb_places}</li>
+                  <li>{t('form.nber_people')} : {detailsData?.nb_persons}</li>
+                  <li>{t('form.nber_place')} : {detailsData?.nb_places}</li>
                 </>
               )}
             </ul>

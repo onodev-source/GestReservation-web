@@ -85,11 +85,13 @@ const Overview = ({ className }) => {
           setAllPosts(res.response?.results);
           setLoader(false)
         }
-      }, [users.access_token]);
+    }, [users.access_token]);
       
-      React.useEffect(() => {
+    React.useEffect(() => {
+      if(users.users.is_customer){
         getAllPublicity()
-      }, [getAllPublicity])
+      }
+    }, [getAllPublicity, users.users.is_customer])
 
     return (
         <Card className={cn(styles.card, className)} title={t("views.home.overview")}  classTitle="title-red"

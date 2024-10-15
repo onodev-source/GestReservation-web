@@ -19,7 +19,6 @@ const Home = () => {
   const getAllHomeData = useCallback(async() => {
     setLoader(true)
     let res = await RequestDashboard('gestreserv/dashboard/', 'GET', '', users.access_token);
-    console.log('res.reponse', res.response);
     if (res.status === 200) {
       
       setHomeData(res.response?.results);

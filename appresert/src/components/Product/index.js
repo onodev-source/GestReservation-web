@@ -8,7 +8,7 @@ import ModalProduct from "../ModalProduct";
 import ModalPreview from "../ModalPreview";
 import { formatDate } from "../../Utils/formatDate";
 
-const gallery = [
+/*const gallery = [
   {
     img: "/images/content/photo-1.jpg",
     img2x: "/images/content/photo2xx-1.jpg"
@@ -17,7 +17,7 @@ const gallery = [
     img: "/images/content/photo-2.jpg",
     img2x: "/images/content/photo-2.jpg"
   }
-];
+];*/
 
 const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, released, isReserved, withoutСheckbox, modalDetail, isPreviewHidden, product, getAllPackages, onClickDelete, showPreview}) => {
 
@@ -73,24 +73,25 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
             )}
           </div>
           {!isReserved && (
-            <>
+            <div className={cn({[styles.flexContent]: isPackage})}>
+              {isPackage && <span> <Icon name='check-all' size="24"/> {item.category.category_name}</span>}
               {released ? (
                 <div className={styles.date}>
                   <Icon name="clock" size="24" /> {isPackage ? formatDate(item?.created_at) : item.date}
                 </div>
               ) : ratingValue ? (
-                <div className={styles.rating}>
-                  <Icon name="star-fill" size="24" />
-                  {ratingValue}{" "}
-                  <span className={styles.counter}>({ratingCounter})</span>
-                </div>
+                  <div className={styles.rating}>
+                    <Icon name="star-fill" size="24" />
+                    {ratingValue}{" "}
+                    <span className={styles.counter}>({ratingCounter})</span>
+                  </div>
               ) : (
                 <div className={cn(styles.rating, styles.ratingEmpty)}>
                   <Icon name="star-stroke" size="24" />
                   No ratings
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

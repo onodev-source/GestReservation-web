@@ -16,7 +16,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, setCategoryProduct, formAdd, setForm }) => {
+const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd, editPack, setCategoryProduct, formAdd, setForm }) => {
   const { t } = useTranslation();
   const users = useSelector((state) => state.users);
   
@@ -80,7 +80,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
         const categories = res.response.results;
         setCategoryData(product ? categories?.filter((cat) => cat.type_category === "Product") : categories?.filter((cat) => cat.type_category === "Package"));
   
-        if (editProd && formAdd) {
+        if ((editProd && formAdd) || (editPack && formAdd)) {
           // Vérifiez si formAdd a un champ category_name ou similaire
           const defaultCategory = formAdd || optionsCategory[0];  // Assurez-vous que ce soit une chaîne de caractères
           setCategory(defaultCategory);
@@ -96,7 +96,7 @@ const CategoryAndAttibutes = ({ className, categoryAttribute, product, editProd,
       }
     };
     getAllCategory();
-  }, [editProd, formAdd, users.access_token, product]);
+  }, [editProd, formAdd, editPack, users.access_token, product]);
   
   
   return (

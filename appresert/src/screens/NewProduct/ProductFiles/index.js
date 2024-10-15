@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./ProductFiles.module.sass";
 import Card from "../../../components/Card";
@@ -13,7 +13,7 @@ const KeyCodes = {
 };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpdate, editProd, setProductIds, editPack }) => {
+const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpdate, editProd, setProductIds, editPack, formUpdate }) => {
   const { t } = useTranslation();
 
   // State to manage the selected products
@@ -27,9 +27,18 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
   const handleChange = (selectedItems) => {
     const itemsArray = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
     const filteredItems = itemsArray.filter(item => item !== t('form.select_product'));
-    setSelectedProducts(filteredItems);
-    
-    const newTags = filteredItems.map(item => {
+    let filteredItemsAddOrEdit = []
+
+    if(editPack) {
+      const updatedSelectedProducts = [ ...filteredItems]; // Ajoute la nouvelle sélection 
+      filteredItemsAddOrEdit = updatedSelectedProducts
+      setSelectedProducts(updatedSelectedProducts); // Met à jour avec la nouvelle sélection + formUpdate
+    } else {
+      filteredItemsAddOrEdit = filteredItems
+      setSelectedProducts(filteredItems);
+    }                                        
+     
+    const newTags = filteredItemsAddOrEdit?.map(item => {
       const foundProduct = allProduct.find(product => product.product_name === item);
       return { id: String(foundProduct.id), text: foundProduct.product_name };
     });
@@ -99,18 +108,30 @@ const ProductFiles = ({ className, product, allProduct, setMediaUpdate, mediaUpd
     }
   };
 
+  useEffect(() => {
+    if (editPack && formUpdate) {
+      setSelectedProducts(formUpdate?.map(product => product.product_name))
+      const initialTags = formUpdate.map(item => ({
+        id: String(item.id),
+        text: item.product_name
+      }));
+      setTags(initialTags);
+      setProductIds(initialTags.map(tag => tag.text));
+    }
+  }, [formUpdate, editPack])
+  
   
   return (
     <Card className={cn(styles.card, className, styles.preview)} title={product ? t('views.products.add.upload_image') : t('views.packages.add.upload_image_package')} classTitle="title-blue">
       <div className={styles.files}>
-        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? mediaUpdate?.url : ((editProd || editPack)? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
+        <File className={styles.field} onChange={handleFileChange} mediaUrl={productOrPackageImg.length > 0 ? mediaUpdate?.url : ((editProd || editPack) ? mediaUpdate : '')} title={t('views.products.add.click_or_drop_image')} label={t('views.products.add.preload')} tooltip="Maximum 100 characters. No HTML or emoji allowed" />
         {!product &&
           <>
             <Dropdown
-              className={styles.field} label={t('views.products.products')} tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts.length > 0 ? selectedProducts : [t('form.select_product')]} setValue={handleChange} options={productNames}
+              className={styles.field} label={t('views.products.products')} tooltip="Maximum 100 characters. No HTML or emoji allowed"  value={selectedProducts?.length > 0 ? selectedProducts : [t('form.select_product')]} setValue={handleChange} options={productNames}
               multiple
             />
-            {selectedProducts.length > 0 && (
+            {selectedProducts?.length > 0 && (
               <div className={styles.tags}>
                 <ReactTags
                   handleDelete={handleDelete}

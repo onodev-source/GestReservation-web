@@ -7,8 +7,10 @@ import styles from "./ModalProduct.module.sass";
 import Icon from "../Icon";
 import Product from "./Product";
 import { Routes } from "../../Constants";
+import { useTranslation } from "react-i18next";
 
 const ModalProduct = ({ visible, onClose, product, detailsData, items }) => {
+  const {t} = useTranslation()
   
   // Définition de la fonction escFunction en utilisant useCallback pour éviter de recréer la fonction à chaque rendu.
   const escFunction = useCallback(
@@ -50,7 +52,7 @@ const ModalProduct = ({ visible, onClose, product, detailsData, items }) => {
       <div id="modal-product" className={styles.modal}>
         <div className={styles.control}>
           <Link className={cn("button-white", styles.button)} to={product ? `${Routes.PRODUITS_EDIT}/${detailsData?.id}` : `${Routes.PACKAGES_EDIT}/${detailsData?.id}`} >
-          {product ? "Edit product" : "Edit package"}
+          {product ? t('navigation.title.products_edit') : t('navigation.title.packages_edit')}
           </Link>
           <button className={styles.close} onClick={onClose}>
             <Icon name="close" size="20" />

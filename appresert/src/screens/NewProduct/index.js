@@ -87,7 +87,7 @@ const NewProduct = ({product, editPack, editProd}) => {
   const isFormFilled = () => {
       if (product) {
         return (
-          typeof media === 'object' &&
+          (typeof media === editProd ? 'string' :  'object') &&
           category !== '' &&
           descripbe !== '' &&
           form.product_name !== '' &&
@@ -95,7 +95,7 @@ const NewProduct = ({product, editPack, editProd}) => {
         )
       } else {
         return (
-          typeof media === 'object' &&
+          (typeof media === editPack ? 'string' : 'object') &&
           category !== '' &&
           descripbe !== '' &&
           productIds?.length > 0 &&
@@ -250,20 +250,20 @@ const NewProduct = ({product, editPack, editProd}) => {
     if (packageEdit) {
       setForm({
         package_name: packageEdit.package_name,
-        package_price: packageEdit.package_price,
+        package_price: Math.floor(packageEdit.package_price),
         nb_persons: packageEdit.nb_persons,
         nb_places: packageEdit.nb_places,
       });
-      setCategory(packageEdit?.category || '');
+      setCategory(packageEdit?.category?.category_name || '');
       setMedia(packageEdit?.photos_packages || '');
-      //setDescripbe(packageEdit?.product_description || '');
+      setDescripbe(packageEdit?.package_description || '');
     }
   }, [productEdit, packageEdit]);
   
   React.useEffect(() => {
     getAllProduct()
   }, [getAllProduct])
-  
+
   
   return (
     <>
@@ -276,7 +276,7 @@ const NewProduct = ({product, editPack, editProd}) => {
               <NameAndDescription className={styles.card} product={product} onChange={textInputChange} setDescripbe={setDescripbe} setCaracteristics={setCaracteristics}  formAdd={{form, descripbe, caracteristics}}/>
             {/* <ImagesAndCTA className={styles.card} />*/}
               <Price className={styles.card} product={product} onChange={textInputChange} formAdd={form}/>
-              <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
+              <CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} editPack={editPack} formAdd={product ? productEdit?.category : packageEdit?.category.category_name} setForm={setForm}/>
               {/*<CategoryAndAttibutes className={styles.card} product={product} onChange={textInputChange} setCategoryProduct={setCategory} editProd={editProd} formAdd={productEdit?.category} setForm={setForm}/>
               <ProductFiles className={styles.card} />*/}
               {/*<Discussion className={styles.card} />*/}
@@ -286,7 +286,7 @@ const NewProduct = ({product, editPack, editProd}) => {
               )}
             </div>
             <div className={styles.col}>
-              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct} editProd={editProd} mediaUpdate={media} setMediaUpdate={setMedia} setProductIds={setProductIds} editPack={editPack}/>
+              <ProductFiles className={styles.card} product={product} onChange={textInputChange} allProduct={allProduct} editProd={editProd} mediaUpdate={media} setMediaUpdate={setMedia} formUpdate={packageEdit?.products} setProductIds={setProductIds} editPack={editPack}/>
               {/*<Preview
                 visible={visiblePreview}
                 onClose={() => setVisiblePreview(false)}

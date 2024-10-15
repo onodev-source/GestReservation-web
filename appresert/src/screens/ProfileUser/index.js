@@ -38,7 +38,7 @@ const ProfileUser = (profileId) => {
     if (profileId && userId) {
       const getUserById =  async(id) => {
       
-        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'GET', '', users.access_token);
+        let res = await RequestDashboard(`accounts/auth/user/${id}/`, 'GET', '', users.access_token);
         if (res.status === 200) {
           setUserData(res.reponse);
         }
@@ -54,7 +54,7 @@ const ProfileUser = (profileId) => {
           <img src="/images/content/bg-shop.jpg" alt="Background" />
         </div>
         <Card className={styles.card}>
-          <Profile />
+          <Profile userData={userData}/>
           <div className={cn({[styles.control] : navigation[0]})}>
             <div className={styles.nav}>
               {navigation.map((x, index) => (
@@ -74,7 +74,7 @@ const ProfileUser = (profileId) => {
             {activeIndex === 0 && (
               <>
                 <div className={styles.products}>
-                  <HistoryUser className={styles.product} userId={userId ? userId : users.users.id}/>
+                  <HistoryUser className={styles.product} userId={userId ? userId : users.users.id} profileId={profileId}/>
                 </div>
                 {/*<div className={styles.foot}>
                   <button  className={cn("button-stroke button-small", styles.button)} >

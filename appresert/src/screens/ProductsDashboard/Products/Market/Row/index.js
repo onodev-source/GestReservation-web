@@ -10,8 +10,10 @@ import { numberWithCommas } from "../../../../../utils.js";
 import RequestDashboard from "../../../../../Services/Api/ApiServices.js";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../../../../Utils/formatDate.js";
+import { useTranslation } from "react-i18next";
 
 const Row = ({ item, value, onChange, up, onClick, items }) => {
+  const {t} = useTranslation()
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
@@ -63,12 +65,12 @@ const Row = ({ item, value, onChange, up, onClick, items }) => {
           </div>
         </div>
         <div className={styles.col}>
-          <div className={styles.label}>Views</div>
+          <div className={styles.label}>{t('views.products.add.category')}</div>
           <div className={styles.box}>
             <div className={styles.number}>
-              {(item.product_quantity / 1000).toFixed(0)}k
+              {/*(item.product_quantity / 1000).toFixed(0)*/} {item.category}
             </div>
-            <div className={styles.line}>
+            {/*<div className={styles.line}>
               <div
                 className={styles.progress}
                 style={{
@@ -76,7 +78,7 @@ const Row = ({ item, value, onChange, up, onClick, items }) => {
                   width: item.product_quantity,
                 }}
               ></div>
-            </div>
+            </div>*/}
           </div>
         </div>
         <div className={styles.col}>

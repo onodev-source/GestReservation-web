@@ -115,7 +115,7 @@ const fr = {
         },
         packages: {
             packages: "Forfaits",
-            search_package: "Rechercher un lots",
+            search_package: "Rechercher un lot",
             add_package: "Ajouter un Forfait",
             detail_package: "Détails du forfait",
             description_package: "Description du forfait",

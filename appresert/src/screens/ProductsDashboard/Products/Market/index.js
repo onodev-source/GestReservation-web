@@ -50,7 +50,7 @@ const Market = ({ items, loader, getAllProduct }) => {
             <div className={styles.col}>Status</div>
             <div className={styles.col}>{t('views.products.add.quantity')}</div>
             <div className={styles.col}>Sales</div>
-            <div className={styles.col}>Views</div>
+            <div className={styles.col}>{t('views.products.add.category')}</div>
             <div className={styles.col}>Likes</div>
             <div className={styles.col}>Create at</div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.sass";
@@ -13,6 +13,7 @@ import Logout from "../../screens/Logout";
 import { Routes } from "../../Constants";
 import { useSelector } from "react-redux";
 import i18n from "../../Services/I18n/i18n";
+import RequestDashboard from "../../Services/Api/ApiServices";
 
 
 
@@ -24,6 +25,8 @@ const Sidebar = ({ className, onClose }) => {
     //const [visibleHelp, setVisibleHelp] = useState(false);
     const [visible, setVisible] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
+    const [packNumber, setPackNumber] = useState(0);
+    const [orderNumber, setOrderNumber] = useState(0);
   
     const navigation = [
         {
@@ -48,7 +51,7 @@ const Sidebar = ({ className, onClose }) => {
                     id: 22,
                     title: t('navigation.packages'),
                     url: Routes.PACKAGES,
-                    counter: "4",
+                    counter: packNumber,
                     colorCounter: "#F2D45F",
                 },
             ],
@@ -75,7 +78,7 @@ const Sidebar = ({ className, onClose }) => {
                     id: 42,
                     title: t('navigation.agenda'),
                     url: Routes.AGENDA_DASH,
-                    counter: "8",
+                    counter: orderNumber || 3,
                     colorCounter: "#F2D45F",
                 },
             ],
@@ -110,10 +113,25 @@ const Sidebar = ({ className, onClose }) => {
         },
     ];
 
+    const getAllPackagesAndOrders = useCallback(async() => {
+        let res = await RequestDashboard('gestreserv/packages/', 'GET', '', users.access_token);
+        let resp = await RequestDashboard('gestreserv/orders/', 'GET', '', users.access_token);
+
+        if (res.status === 200) {
+            setPackNumber(res.response?.results?.length);
+        }
+        if (resp.status === 200) {
+            setOrderNumber(res.response?.results?.length);
+        }
+    }, [users.access_token]);
     
     React.useEffect(() => {
         i18n.changeLanguage(language);
     }, [language]);
+
+    React.useEffect(() => {
+        getAllPackagesAndOrders();
+    }, [getAllPackagesAndOrders]);
 
     return (
         <>
