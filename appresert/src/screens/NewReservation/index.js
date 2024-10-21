@@ -69,7 +69,7 @@ const NewReservation = ({product, editOrder}) => {
   const [packages, setPackages] = useState([]);
   const [orderEdit, setOrderEdit] = useState();
   const [errorSubmit, setErrorSubmit] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState();
+  const [selectedFilters, setSelectedFilters] = useState([]);
   const [form, setForm] = useState({
     order_number: '',
     price_hour: 0,
@@ -85,13 +85,13 @@ const NewReservation = ({product, editOrder}) => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
 
-  const handleChange = (id) => {
-    // Si le produit est déjà sélectionné, désélectionnez-le
-    if (selectedFilters === id) {
-      setSelectedFilters(null); // Désélectionner
+  const handleChange = (id) => { 
+    // Si l'élément est déjà sélectionné, on le désélectionne
+    if (selectedFilters?.includes(id)) {
+      setSelectedFilters([]); // Désélectionner tout
     } else {
-      // Sinon, sélectionnez le produit
-      setSelectedFilters(id);
+      // Sinon, on sélectionne cet élément uniquement
+      setSelectedFilters([id]); // Remplacer par l'élément sélectionné
     }
   };
   
@@ -122,7 +122,7 @@ const NewReservation = ({product, editOrder}) => {
     return (
       startDate !== '' &&
       endDate !== '' &&
-      typeof selectedFilters === 'number' &&
+      selectedFilters?.length > 0 &&
       form.price_hour > 0 &&
       form.price_day > 0 &&
       form.price_month > 0 &&
@@ -130,10 +130,9 @@ const NewReservation = ({product, editOrder}) => {
       form.nb_persons > 0 
     )
   };
-  console.log('typevent', form.type_event);
   
   const handleResetForm = () => {
-    setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: 0});
+    setForm({ ...form, price_hour: 0, price_day: 0, price_month: 0, nb_persons: 0});
   }
 
   const addOrEditReservation = async() => {
@@ -149,7 +148,7 @@ const NewReservation = ({product, editOrder}) => {
       end_date: formatDate(endDate, 'SEND'),
       begin_hour: formatDate(startTime, 'HOUR'),
       end_hour: formatDate(endTime, 'HOUR'),
-      package_id: selectedFilters,
+      package_ids: selectedFilters,
       type_event_id: parseInt(form.type_event)
     };
 
@@ -158,7 +157,8 @@ const NewReservation = ({product, editOrder}) => {
 
     if(res.status === status) {
       setLoader(false)
-      setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
+      setForm({ ...form, price_hour: 0, price_day: 0, price_month: 0, nb_persons: 0 });
+      setSelectedFilters([])
       setErrorSubmit(`The reservation has been successfully ${editOrder ? 'updated' : 'created'}`); 
     } else {
       setLoader(false)
@@ -198,8 +198,8 @@ const NewReservation = ({product, editOrder}) => {
       dateStart.setHours(hours, minutes, seconds);
       dateEnd.setHours(hoursEnd, minutesEnd, secondsEnd);
 
-      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons });  
-      setSelectedFilters(orderEdit?.package?.id) 
+      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons, type_event: orderEdit.type_event?.id });  
+      setSelectedFilters([orderEdit?.packages[0]?.id]) 
       //setStartDate(new Date(item.start_date));
       setStartDate(new Date(orderEdit?.begin_date)) 
       setEndDate(new Date(orderEdit.end_date)) 
@@ -211,6 +211,7 @@ const NewReservation = ({product, editOrder}) => {
   useEffect(() => {
     getAllPackages();
   }, [getAllPackages]);
+console.log('selection packaghe', selectedFilters);
 
   return (
     <>
@@ -228,7 +229,7 @@ const NewReservation = ({product, editOrder}) => {
                   <Loader/> : 
                   <Slider className={cn("products-slider", {"products-sliderSpacing" : !product})} {...settings}>
                     {packages?.map((x, index) => (
-                      <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters === x.id} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} isReserved={true} isPreviewHidden = {true}/>
+                      <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters?.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} isReserved={true} isPreviewHidden = {true}/>
                     ))}
                   </Slider>
                 }

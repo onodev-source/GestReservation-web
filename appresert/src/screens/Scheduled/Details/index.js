@@ -31,9 +31,9 @@ const Details = ({ item, onClose }) => {
   ];
 
   const suggestions = [
-    { title: `${t('views.packages.add.title_package')}:`, content: item.package?.package_name},
+    { title: `${t('views.packages.add.title_package')}:`, content: item.packages[0]?.package_name},
     //{ title: 'Package Des:', content: item.package?.package_name},
-    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item.package?.package_price)}XAF`},
+    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item.packages[0]?.package_price)}XAF`},
   ];
   //const parameters = customersDetails ? customerArray : orderArray
 
@@ -55,7 +55,7 @@ const Details = ({ item, onClose }) => {
               <div className={styles.box}>
                 <div className={styles.info}>{t('form.category_package')}</div>
                 <ul className={styles.list}>
-                    <li >{item.package?.category_name}</li>
+                    <li >{item.packages[0]?.category_name}</li>
                 </ul>
               </div>
               <div className={styles.box}>

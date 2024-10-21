@@ -208,7 +208,7 @@ const Scheduled = () => {
                   color: '#1A1D1F', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', boxShadow: `0 0 1px 2px ${getEventBackgroundColor(eventInfo)}` }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', wordBreak: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal' }}>
                     {/*eventInfo.event.title*/}
-                    <Icon name="reserved" size="18" style={{marginRight: '20px' }}/> {t('views.reservations.aganda.reserved')}
+                    <Icon name="reserved" size="18" style={{marginRight: '20px' }}/> {t('views.reservations.agenda.reserved')}
                   </div>
                   <Icon name="more-horizontal" size="24" style={{  marginLeft: '8px' }} />
                 </div>

@@ -114,7 +114,7 @@ const HistoryUser = ({ className, userId, profileId }) => {
   React.useEffect(() => {
     const getUserActivityById =  async(id) => {
         
-      let res = await RequestDashboard(profileId ? `gestreserv/activity/${id}/` : 'gestreserv/activity/', 'GET', '', users.access_token);
+      let res = await RequestDashboard(`gestreserv/activities/by-user/${id}/`, 'GET', '', users.access_token);
       if (res.status === 200) {
         setUserActivity(res.reponse);
       }

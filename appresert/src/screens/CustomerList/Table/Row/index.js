@@ -8,12 +8,12 @@ import Modal from "../../../../components/Modal";
 import Avatar from "../../../../components/Avatar";
 import Details from "../../../Refunds/Row/Details";
 
-import Refunds from "../../../Refunds";
+//import Refunds from "../../../Refunds";
 import { refunds } from "../../../../mocks/refunds";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../../Constants";
 
-const customerDetails = {
+/*const customerDetails = {
   product: "Filomena Fahey",
   login: "@username",
   status: true,
@@ -60,7 +60,7 @@ const customerDetails = {
       price: 72.88,
     },
   ],
-}
+}*/
 
 const Row = ({
   item,
@@ -95,6 +95,8 @@ const Row = ({
     if (isMobile) {
       setSelectedItem(itemSelected)
       setVisibleModal(true);
+    } else{
+      setSelectedItem(itemSelected)
     }
   };
   const handleClick = (id) => {

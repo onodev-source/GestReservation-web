@@ -90,10 +90,12 @@ const Table = ({activityUser, userId}) => {
   }
 
   const PayReservation = async(order) => {
+    console.log(order);
     
     let data = {
       order: order.id,
-      invoice_amount: order.package?.package_price,
+      order_event: order.type_event?.type_event,
+      invoice_amount: order.packages[0]?.package_price,
       payment_method: 'CASH',
       payment_statut: "PENDING",
       payment_type: 'FULL',
@@ -176,9 +178,9 @@ const Table = ({activityUser, userId}) => {
                         </div>
                       )}
                     </div>
-                    <div className={styles.col}>{x.package?.package_name}</div>
+                    <div className={styles.col}>{x.packages[0]?.package_name}</div>
                     <div className={styles.col}>{x.nb_persons}</div>
-                    <div className={styles.col}>{Math?.floor(x.package?.package_price)}XAF 
+                    <div className={styles.col}>{Math?.floor(x.packages[0]?.package_price)}XAF 
                       {/*${numberWithCommas(x?.price_month?.toFixed(2))*/}
                     </div>
                     <div className={styles.col}>

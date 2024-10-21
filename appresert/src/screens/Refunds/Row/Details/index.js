@@ -39,10 +39,10 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
     { title: t('views.packages.add.hourly_subscription'), content: `${Math.floor(item?.price_hour)}XAF`  },
     { title: t('views.reservations.table.date_created'), content: `${formatDate(item.created_at)}`  },
   ];
-  const suggestions = [
-    { title: `${t('views.packages.add.title_package')}:`, content: item.package?.package_name},
+  const suggestions = (!customersDetails && !incomeDetail) && [
+    { title: `${t('views.packages.add.title_package')}:`, content: item?.packages[0]?.package_name},
     //{ title: 'Package Des:', content: item.package?.package_name},
-    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item.package?.package_price)}XAF`},
+    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item?.packages[0]?.package_price)}XAF`},
   ];
   const incomeArray = [
     { title: t('views.reservations.number_reservation'), content: item.order_number},
@@ -71,7 +71,6 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
       detailRef.current.click();
     }
   };
-
 
   return (
     <>
@@ -102,7 +101,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                 <div className={styles.box}>
                   <div className={styles.info}>{t('form.category_package')}</div>
                   <ul className={styles.list}>
-                      <li >{item.package?.category_name}</li>
+                      <li >{item.packages[0]?.category_name}</li>
                   </ul>
                 </div>
                 <div className={styles.box}>

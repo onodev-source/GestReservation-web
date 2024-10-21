@@ -9,8 +9,10 @@ import Row from "./Row";
 import { customers } from "../../../mocks/customers";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useTranslation } from "react-i18next";
 
 const Table = ({ className, activeTable, setActiveTable }) => {
+  const {t}= useTranslation()
   const users = useSelector((state) => state.users);
 
   const [loader, setLoader] = useState(false);
@@ -63,11 +65,11 @@ const Table = ({ className, activeTable, setActiveTable }) => {
                 onChange={() => setСhooseAll(!chooseAll)}
               />
             </div>
-            <div className={styles.col}>Name</div>
-            <div className={styles.col}>Email</div>
+            <div className={styles.col}>{t('form.name')}</div>
+            <div className={styles.col}>{t('form.email')}</div>
             <div className={styles.col}>Purchase</div>
             <div className={styles.col}>Lifetime</div>
-            <div className={styles.col}>Comments</div>
+            <div className={styles.col}>{t('views.reservations.agenda.comments')}</div>
             <div className={styles.col}>Likes</div>
           </div>
           {allCustomers?.map((x, index) => (
