@@ -211,7 +211,6 @@ const NewReservation = ({product, editOrder}) => {
   useEffect(() => {
     getAllPackages();
   }, [getAllPackages]);
-console.log('selection packaghe', selectedFilters);
 
   return (
     <>

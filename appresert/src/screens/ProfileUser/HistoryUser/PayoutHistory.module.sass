@@ -7,54 +7,63 @@
         margin: 0 -16px
     +dark
         background: transparent
+    
 
-.table
-    display: table
-    width: 100%
 
-.row
-    display: table-row
-    &:first-child
-        .col
-            padding-top: 12px
-            padding-bottom: 16px
-            +caption2
-            font-weight: 500
-            color: $n4
-    &:nth-child(2n)
-        .col
-            background: rgba($n3, .35)
-            +dark
-                background: rgba($n6, .5)
+.card
+    padding-top: 0px
+    padding-bottom: 0px
 
-.col
-    display: table-cell
-    padding: 10px 16px
-    +base2
-    +m
-        padding: 12px
-    &:first-child
-        padding-left: 24px
-        color: $n4
-        +m
-            padding-left: 16px
-    &:last-child
-        padding-right: 24px 
-        +m
-            padding-right: 16px
-            text-align: right
-    &:nth-child(2),
-    &:nth-child(3)
-        +m
-            display: none
-
-.status
-    font-size: 14px
-    line-height: 28px
-    font-weight: 600
-    color: $n7
 
 .actions
     +dark
         background: transparent
-        
+
+
+.message
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 10px
+    
+    &:nth-of-type(2n-1) 
+        background: rgba($n3, .35)
+        +dark
+            background: rgba($n6, .5)
+
+.avatar
+    flex-shrink: 0
+    width: 40px
+    height: 40px
+
+.details
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: 20px
+    svg
+        fill: $shades1
+
+.head
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: 4px
+    gap: 20px
+
+.man
+    color: $n4
+    background: $s4
+    padding: 5px 8px
+    border-radius: 8px
+
+.time
+    margin-left: 12px
+    +caption1
+    color: $shades1
+
+.content
+    font-weight: 500
+    a
+        font-weight: 600
+        color: $p1      

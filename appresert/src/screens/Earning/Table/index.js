@@ -155,8 +155,8 @@ const Table = ({activityUser, userId}) => {
               orders?.map((x, index) => (
                 <React.Fragment key={x.order_number}>
                   <div className={styles.row} key={x.order_number}>
-                    <div className={styles.col}>{t('words.from')} {formatDate(x.begin_date)} <br/> {t('words.to')} {formatTime(x.begin_hour)} </div>
-                    <div className={styles.col}>{t('words.to_s')} {formatDate(x.end_date)} <br/> {t('words.at')} {formatTime(x.end_hour)}</div>
+                    <div className={styles.col}>{t('words.from')} {formatDate(x.begin_date)} <br/> {t('words.to_s')} {formatTime(x.begin_hour)} </div>
+                    <div className={styles.col}>{t('words.to')} {formatDate(x.end_date)} <br/> {t('words.at')} {formatTime(x.end_hour)}</div>
                     <div className={styles.col}>
                       {x.statut !=="PENDING" ? (
                         <div

@@ -6,6 +6,9 @@ import { numberWithCommas } from "../../../utils.js";
 import Actions from "../../../components/Actions/index.js";
 import RequestDashboard from "../../../Services/Api/ApiServices.js";
 import { useSelector } from "react-redux";
+import Icon from "../../../components/Icon.js";
+import Loader from "../../../components/Loader/index.js";
+import { formatTime } from "../../../Utils/formatTime.js";
 
 const items = [
   {
@@ -109,14 +112,17 @@ const actions = [
 
 const HistoryUser = ({ className, userId, profileId }) => {
   const users = useSelector((state) => state.users)
-  const [userActivity, setUserActivity] = React.useState()
+  const [userActivity, setUserActivity] = React.useState([])
+  const [loader, setLoader] = React.useState(false)
   
   React.useEffect(() => {
     const getUserActivityById =  async(id) => {
-        
+      setLoader(true)
       let res = await RequestDashboard(`gestreserv/activities/by-user/${id}/`, 'GET', '', users.access_token);
+      
       if (res.status === 200) {
-        setUserActivity(res.reponse);
+        setUserActivity(res.response);
+        setLoader(false)
       }
     };
     getUserActivityById(userId)
@@ -124,64 +130,28 @@ const HistoryUser = ({ className, userId, profileId }) => {
 
   return (
     <Card className={cn(styles.card, className)} >
-      <div className={styles.wrapper}>
-        <div className={styles.table}>
-          <div className={styles.row}>
-            <div className={styles.col}>Month</div>
-            <div className={styles.col}>Status</div>
-            <div className={styles.col}>Method</div>
-            <div className={styles.col}>Earnings</div>
-            <div className={styles.col}>Amount withdrawn</div>
-            <div className={styles.col}>Actions</div>
-          </div>
-          {items.map((x, index) => (
-            <div className={styles.row} key={index}>
-              <div className={styles.col}>{x.date}</div>
-              <div className={styles.col}>
-                {x.status ? (
-                  <div
-                    className={cn(
-                      { "status-green-dark": x.status === true },
-                      styles.status
-                    )}
-                  >
-                    Paid
+      {loader ? <Loader/> : (
+        <div className={cn(styles.wrapper)}>
+          {userActivity?.length > 0 ? (
+            userActivity.map((activity) => (
+              <div className={cn(styles.message)}>
+                <div className={styles.details}>
+                  <div className={styles}>
+                    <Icon name={activity.activity_type === 'RESERVATION' ? "reservation" : 'activity'} size="24" />
                   </div>
-                ) : (
-                  <div
-                    className={cn(
-                      { "status-yellow": x.status === false },
-                      styles.status
-                    )}
-                  >
-                    Pending
+                  <div className={styles.head}>
+                    <div className={styles.man}>{activity.activity_type}</div>
+                    <div className={styles.content} dangerouslySetInnerHTML={{ __html: activity.activity_type === 'RESERVATION' ? `${activity.activity_type_display} of package with id ${activity.package}` : activity.activity_type_display }}></div>
                   </div>
-                )}
-              </div>
-              <div className={styles.col}>
-                <div
-                  className={cn(
-                    { "status-blue": x.method === "Paypal" },
-                    { "status-purple": x.method === "SWIFT" },
-                    styles.status
-                  )}
-                >
-                  {x.method}
                 </div>
+                <div className={styles.time}>{formatTime(activity.timestamp, 'GET')}</div>
               </div>
-              <div className={styles.col}>
-                ${numberWithCommas(x.earnings.toFixed(2))}
-              </div>
-              <div className={styles.col}>
-                ${numberWithCommas(x.amount.toFixed(2))}
-              </div>
-              <div className={styles.col}>
-                <Actions className={styles.actions} classActionsHead={styles.actionsHead} classActionsBody={styles.actionsBody}classActionsOption={styles.actionsOption} items={actions}/>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h3>No content</h3>
+          )}
         </div>
-      </div>
+      )}
     </Card>
   );
 };
