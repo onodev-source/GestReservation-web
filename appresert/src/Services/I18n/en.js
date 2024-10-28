@@ -130,6 +130,7 @@ const en = {
             detail_package: "Package details",
             description_package: "Package description",
             comment: "Comment",
+            reviews_this_package: 'Review this package ?',
             add: {
                 price: "Price",
                 monthly_subscription: "Monthly subscription ",

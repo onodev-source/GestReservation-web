@@ -4,27 +4,29 @@ import styles from "./Item.module.sass";
 import Icon from "../../../../Icon";
 import Avatar from "../../../../Avatar";
 import Control from "./Control";
+import { formatTime } from "../../../../../Utils/formatTime";
+import { Routes } from "../../../../../Constants";
 
-const Item = ({ className, item }) => {
+const Item = ({ className, item, getAllcommentByPack }) => {
   const [currentValue, setCurrentValue] = useState("");
   const [currentValueAnswer, setCurrentValueAnswer] = useState("");
 
   return (
     <>
       <div className={cn(styles.item, className)}>
-        <Avatar user={{username: item.author, photo: item.avatar}} classname={styles.avatar} />
+        <Avatar user={{username: item.user?.full_name !== null ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar} />
         <div className={styles.details}>
           <div className={styles.line}>
-            <div className={styles.author}>{item.author}</div>
-            <div className={styles.time}>{item.time}</div>
+            <a href={`${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
+            <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
             <div className={styles.rating}>
-              {item.rating.toFixed(1)}
+              {item.rating?.toFixed(1) || 5.8}
               <Icon name="star-fill" size="24" />
             </div>
           </div>
-          <div className={styles.login}>{item.login}</div>
-          <div className={styles.comment}  dangerouslySetInnerHTML={{ __html: item.comment }}></div>
-          <Control valueAnswer={currentValue} setValueAnswer={setCurrentValue}/>
+          <div className={styles.login}>@{item.user?.email}</div>
+          <div className={styles.comment}  dangerouslySetInnerHTML={{ __html: item.content }}></div>
+          <Control valueAnswer={currentValue} setValueAnswer={setCurrentValue} item={item} getAllcommentByPack={getAllcommentByPack}/>
         </div>
       </div>
       {item.answer && (

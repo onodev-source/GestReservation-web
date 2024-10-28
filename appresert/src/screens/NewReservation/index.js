@@ -149,7 +149,7 @@ const NewReservation = ({product, editOrder}) => {
       begin_hour: formatDate(startTime, 'HOUR'),
       end_hour: formatDate(endTime, 'HOUR'),
       package_ids: selectedFilters,
-      type_event_id: parseInt(form.type_event)
+      type_event_ids: [parseInt(form.type_event)]
     };
 
     let res = await RequestDashboard(editOrder ? `gestreserv/orders/${orderId}/` : 'gestreserv/orders/', editOrder ? 'PUT' : 'POST', data, users.access_token)

@@ -66,9 +66,9 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
             <div className={styles.title}>{isPackage ? item?.package_name : item?.product_name}</div>
             {(!isDetailsPack && isPackage) && (
               price > 0 ? (
-                <div className={styles.price}>{price}XAF</div>
+                <div className={styles.price}>{Math.floor(price)}XAF</div>
               ) : (
-                <div className={styles.empty}>{price}XAF</div>
+                <div className={styles.empty}>{Math.floor(price)}XAF</div>
               )
             )}
           </div>

@@ -34,16 +34,16 @@ const Refunds = () => {
 
         // Créer un tableau de promesses pour récupérer les détails des commandes
         const ordersPromises = res.response.results.map(async (invoice) => {
-          const orderId = invoice.order;
+          const orderId = invoice.order_number[0]?.id;
           
           // Requête pour chaque commande via son orderId
           return RequestDashboard(`gestreserv/orders/${orderId}/`, 'GET', '', users.access_token)
             .then(orderRes => {
                 if (orderRes.status === 200) {
                   // Extraire uniquement l'utilisateur et le package
-                  const { user, package: packageDetails } = orderRes.response;
+                  const { user, packages: packageDetails } = orderRes.response;
 
-                  return { ...invoice, orderDetails: { user, package: packageDetails  } };
+                  return { ...invoice, orderDetails: { user, packages: packageDetails  } };
 
                 } else {
                     // Si la commande n'est pas trouvée ou renvoie une erreur

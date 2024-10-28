@@ -45,7 +45,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
     { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item?.packages[0]?.package_price)}XAF`},
   ];
   const incomeArray = [
-    { title: t('views.reservations.number_reservation'), content: item.order_number},
+    { title: t('views.reservations.number_reservation'), content: item.order_number[0]?.order_number},
     { title: t('views.invoice.number_income'), content: item.invoice_number},
     { title: t('views.invoice.amount_income'), content: `${Math.floor(item.invoice_amount)}XAF `},
     { title: t('views.invoice.date_income'), content: ` ${formatDate(item.invoice_date, 'GET')}`},

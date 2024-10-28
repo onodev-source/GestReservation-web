@@ -12,7 +12,11 @@ const Control = ({
   valueAnswer,
   setValueAnswer,
   visibleSmile,
-  setVisibleSmile,
+  packageComment,
+  setVisibleSmile, 
+  commentContent,
+  onDeleteComment,
+  getAllcomment
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -25,6 +29,7 @@ const Control = ({
     setValue(false);
     setVisible(false);
   };
+  
 
   return (
     <>
@@ -34,8 +39,8 @@ const Control = ({
         <button  className={cn(styles.button, { [styles.active]: visible })} onClick={() => handleClick()} >
           <Icon name="repeat" size="24" />
         </button>
-        <Favorite className={cn(styles.favorite, styles.button)} size="24" />
-        <button className={styles.button}>
+        <Favorite packageComment={packageComment} commentContent={commentContent} getAllcomment={getAllcomment} className={cn(styles.favorite, styles.button)} size="24" />
+        <button className={styles.button} onClick={onDeleteComment}>
           <Icon name="trash" size="24" />
         </button>
         <Smile

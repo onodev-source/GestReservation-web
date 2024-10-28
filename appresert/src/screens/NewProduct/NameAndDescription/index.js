@@ -56,8 +56,8 @@ const NameAndDescription = ({ className, product, onChange, setDescripbe, formAd
           <Editor state={contentcaract} onChange={(newContent) => handleEditorChange(newContent, setContentCaract, setCaracteristics)} classEditor={styles.editor} label={t('views.products.add.key_features')}  tooltip="Key features "/>
         ) : (
           <div className={styles.group}>
-            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('views.products.add.key_features')} name="nb_persons" type="text" placeholder={t('form.nber_people')} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
-            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} name="nb_places" type="text" placeholder={t('form.nber_place')}  required/>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_persons} className={styles.field}  label={t('form.nber_people')} name="nb_persons" type="text" placeholder={t('form.nber_people')} tooltip="Maximum 100 characters. No HTML or emoji allowed" required/>
+            <TextInput onChange={onChange} value={product ? formAdd.form?.product_name : formAdd.form?.nb_places}  className={styles.field} label={t('form.nber_place')} name="nb_places" type="text" placeholder={t('form.nber_place')}  required/>
           </div>
         )}
         {/*<div className={styles.group}>

@@ -5,6 +5,7 @@ import { Editor as ReactEditor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Tooltip from "../Tooltip";
 import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
 
 const Editor = ({
   state,
@@ -16,12 +17,16 @@ const Editor = ({
   tooltip,
   place,
   value,
-  button, onComment, loader
+  button, onComment, loader, errorSubmit, setErrorSubmit, comment
 }) => {
 
 
   return (
     <div className={cn( styles.editor, { [styles.editorButton]: button }, classEditor)} >
+      
+      {(errorSubmit && errorSubmit !== '') && (
+        <ErrorMessage message={errorSubmit} onClose={() => setErrorSubmit('')}/>
+      )}
       {label && (
         <div className={cn(classLabel, styles.label)}>
           {label}{" "}
@@ -51,7 +56,7 @@ const Editor = ({
         }}
       />
       {button && (
-        <button className={cn("button-small", styles.button)} onClick={onComment}>{loader ? <Loader/> : button}</button>
+        <button className={cn("button-small", styles.button, {[styles.disabled]: comment === ''})} disabled={comment === '' ? true : false} onClick={onComment}>{loader ? <Loader/> : button}</button>
       )}
     </div>
   );

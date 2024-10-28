@@ -6,16 +6,19 @@ import Item from "./Item";
 import TooltipGlodal from "../../../TooltipGlodal";
 import Editor from "../../../Editor";
 
-// data
-import { commentsProduct } from "../../../../mocks/comments";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../../Services/Api/ApiServices";
 import { ContentState, EditorState } from "draft-js";
+import NoContent from "../../../NoContent";
+import { useTranslation } from "react-i18next";
 
 const Comments = ({ className, onClose, detailsData }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
   const [content, setContent] = useState(EditorState.createEmpty());
+  const [message, setMessage] = useState('');
   const [comment, setComment] = useState('');
+  const [errorSubmit, setErrorSubmit] = useState('')
   const [commentByPack, setCommentByPack] = useState([]);
   const [loader, setLoader] = useState()
 
@@ -31,16 +34,22 @@ const Comments = ({ className, onClose, detailsData }) => {
     
     let data = {
       content: comment,
-      package: detailsData?.id,
-      parent_comment: users.users.id,
+      user: {
+        email: users.users.email
+      },
+      packages: [detailsData?.id]
     };
     
     let res = await RequestDashboard('gestreserv/commentaries/', 'POST', data, users.access_token)
 
     if(res.status === 201) {
+      setComment('')
+      setContent(EditorState.createEmpty())
+      getAllcommentByPack(detailsData?.id)
       setLoader(false)
     } else {
-      //setLoader(false)
+      setLoader(false)
+      setErrorSubmit('An error has occurred please try again')
     }
   }
 
@@ -48,6 +57,9 @@ const Comments = ({ className, onClose, detailsData }) => {
     let res = await RequestDashboard(`gestreserv/commentaries/by-package/${id}/`, 'GET', '', users.access_token);
     if (res.status === 200) {
       setCommentByPack(res?.response?.results);
+    } else if(res.status === 404) {
+      setCommentByPack([]);
+      setMessage(res.response?.detail)
     }
   },[users.access_token])
 
@@ -81,18 +93,21 @@ const Comments = ({ className, onClose, detailsData }) => {
       <div className={cn(styles.comments, className)}>
         <div className={styles.head}>
           <div className={styles.title}>
-            <div className={styles.counter}>4</div>
-            Comments
+            <div className={styles.counter}>{commentByPack?.length}</div>
+            {t('views.packages.comment')}
           </div>
           <button className={styles.close} onClick={onClose}>
             <Icon name="close" size="24" />
           </button>
         </div>
-        <Editor state={content} onComment={addComment} loader={loader} onChange={handleEditorChange}  classEditor={styles.editor} label="Review this product?"  tooltip="You’re product owner"  button="Comment" />
-        <div className={styles.list}>
-          {commentsProduct.map((x, index) => (
-            <Item className={styles.item} item={x} key={index} />
-          ))}
+        <Editor state={content} onComment={addComment} errorSubmit={errorSubmit}  setErrorSubmit={setErrorSubmit} loader={loader} onChange={handleEditorChange} comment={comment}  classEditor={styles.editor} label={t('views.packages.reviews_this_package')}  tooltip="You’re product owner"  button="Comment" />
+        <div className={cn(styles.list, styles.overflowAuto)}>
+          {commentByPack.length > 0 ?
+            commentByPack.map((x, index) => (
+              <Item className={cn(styles.item)} item={x} key={index} getAllcommentByPack={() => getAllcommentByPack(detailsData?.id)}/>
+            ))
+            : <NoContent message={message !== '' ? message : ''}/>
+          }
         </div>
       </div>
       <TooltipGlodal />

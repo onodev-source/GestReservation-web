@@ -16,6 +16,7 @@ import Loader from "../../../components/Loader/index.js";
 import { formatDate } from "../../../Utils/formatDate.js";
 import { formatTime } from "../../../Utils/formatTime.js";
 import { useTranslation } from "react-i18next";
+import NoContent from "../../../components/NoContent/index.js";
 
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
@@ -90,10 +91,9 @@ const Table = ({activityUser, userId}) => {
   }
 
   const PayReservation = async(order) => {
-    console.log(order);
     
     let data = {
-      order: order.id,
+      order_ids: [order.id],
       order_event: order.type_event?.type_event,
       invoice_amount: order.packages[0]?.package_price,
       payment_method: 'CASH',
@@ -194,7 +194,7 @@ const Table = ({activityUser, userId}) => {
               ))
             ) : (
               <div className={styles.row} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <h5>No content</h5>
+                <NoContent message={activityUser ? 'No reservations found for this user.' : ''}/>
               </div>
             )
           )

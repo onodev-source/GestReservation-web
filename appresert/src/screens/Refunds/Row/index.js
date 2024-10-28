@@ -24,6 +24,7 @@ const Row = ({ item, onDeleteInvoice }) => {
       action: () => setVisibleModal(true),
     }
   ];
+console.log('item invoice', item);
 
   return (
     <>
@@ -31,15 +32,22 @@ const Row = ({ item, onDeleteInvoice }) => {
         <div className={styles.col} onClick={() => setVisibleModal(true)}>
           <div className={styles.item}>
             <div className={styles.preview}>
-              <img
-                srcSet={`${item.orderDetails?.package?.photos_packages} 2x`}
-                src={item.orderDetails?.package?.photos_packages}
-                alt="Package"
-              />
+              {item.orderDetails?.packages?.map((pack, index) => (
+                <img
+                  srcSet={`${pack?.photos_packages} 2x`}
+                  src={pack?.photos_packages}
+                  alt="Package"
+                  key={index}
+                />
+              ))}
             </div>
             <div className={styles.details}>
-              <div className={styles.product}>{item.orderDetails?.package?.package_name}</div>
-              <div className={styles.category}>{item.orderDetails?.package?.category_name}</div>
+              {item.orderDetails?.packages?.map((pack, index) => (
+                <>
+                  <div className={styles.product}>{pack?.package_name.length >= 17 ? `${pack?.package_name.slice(0, 17)}...` : pack?.package_name}</div>
+                  <div className={styles.category}>{pack?.category_name}</div>
+                </>
+              ))}
               {item.payment_statut !== 'PENDING' ? (
                 <div className={styles.new}>{item.payment_statut}</div>
               ) : (

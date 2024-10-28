@@ -120,6 +120,7 @@ const fr = {
             detail_package: "Détails du forfait",
             description_package: "Description du forfait",
             comment: "Commentaires",
+            reviews_this_package: 'Donnez votre avis sur ce lot ?',
             add: {
                 price: "Prix",
                 monthly_subscription: "Abonnement par mois ",
