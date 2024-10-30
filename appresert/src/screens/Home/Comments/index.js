@@ -90,7 +90,7 @@ const Comments = ({ className }) => {
                       <Link className={styles.link} to={`${Routes.MY_PROFILE}/${x.user?.id}`}>
                         <Icon name="profile-circle" size="20" />
                       </Link>
-                      <Favorite className={cn(styles.favorite, styles.link)} />
+                      <Favorite className={cn(styles.favorite, styles.link)} packageComment={x.package} commentContent={x} getAllcomment={getAllcomment}/>
                       <Link className={styles.link} to={Routes.COMMENTS}>
                         <Icon name="link" size="20" />
                       </Link>

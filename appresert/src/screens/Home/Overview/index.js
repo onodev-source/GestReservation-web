@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { formatDate } from "../../../Utils/formatDate";
+import Loader from "../../../components/Loader";
+import NoContent from "../../../components/NoContent";
 
 const intervals = ["All time", "In a year", "Per month"];
 
@@ -122,26 +124,30 @@ const Overview = ({ className }) => {
                     ) : (
                         <div className={cn("slider-container", styles.wrapper)}>
                           <Slider className={cn("products-slider products-sliderPub")} {...settings}>
-                            {allPosts?.map((x, index) => (
-                                <div className={cn(styles.product, styles.active )} key={index}>
-                                    <div className={styles.preview}>
-                                        <img srcSet={`${x.photo_publicity} 2x`} src={x.photo_publicity} alt="Product" />
-                                    </div>
-                                    <div className={styles.line}>
-                                        <div className={styles.title}>{x.title}</div>
-                                        <div className={styles.price}>From {formatDate(x.start_date)} to {formatDate(x.end_date)}</div>
-                                        {/*x.price > 0 ? (
-                                        ) : (
-                                            <div className={styles.empty}>${x.price}</div>
-                                        )*/}
-                                    </div>
-                                    {/*released ? (
-                                        <div className={styles.date}>
-                                        <Icon name="clock" size="24" /> {x.date}
+                            {loader ? <Loader/> :
+                              allPosts?.length > 0 ?
+                                allPosts?.map((x, index) => (
+                                    <div className={cn(styles.product, styles.active )} key={index}>
+                                        <div className={styles.preview}>
+                                            <img srcSet={`${x.photo_publicity} 2x`} src={x.photo_publicity} alt="Product" />
                                         </div>
-                                    }) : */}
-                                </div>
-                            ))}
+                                        <div className={styles.line}>
+                                            <div className={styles.title}>{x.title}</div>
+                                            <div className={styles.price}>From {formatDate(x.start_date)} to {formatDate(x.end_date)}</div>
+                                            {/*x.price > 0 ? (
+                                            ) : (
+                                                <div className={styles.empty}>${x.price}</div>
+                                            )*/}
+                                        </div>
+                                        {/*released ? (
+                                            <div className={styles.date}>
+                                            <Icon name="clock" size="24" /> {x.date}
+                                            </div>
+                                        }) : */}
+                                    </div>
+                                ))
+                              : <NoContent message={''}/>
+                            }
                           </Slider>
                         </div>
                     )}

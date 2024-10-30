@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
-import { numberWithCommas } from "../../../utils.js";
+//import { numberWithCommas } from "../../../utils.js";
 import Card from "../../../components/Card/index.js";
 import Form from "../../../components/Form/index.js";
 import Dropdown from "../../../components/Dropdown/index.js";
@@ -17,6 +17,7 @@ import { formatDate } from "../../../Utils/formatDate.js";
 import { formatTime } from "../../../Utils/formatTime.js";
 import { useTranslation } from "react-i18next";
 import NoContent from "../../../components/NoContent/index.js";
+import { getAllReservations } from "../../../Utils/LikeComment.js";
 
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
@@ -72,21 +73,11 @@ const Table = ({activityUser, userId}) => {
     setSelectedOrder(order);  // On met à jour l'élément sélectionné
     setVisibleModal(true);    // On rend le modal visible
   };
-  
-
-  const getAllReservations = useCallback(async() => {
-    setLoading(true)
-    let res = await RequestDashboard(activityUser ? `gestreserv/orders/by-user/${userId}/` : `gestreserv/orders/`, 'GET', '', users.access_token);
-    if (res.status === 200) {
-      setOrders(activityUser ?  res.response : res?.response?.results);
-      setLoading(false)
-    }
-  },[users.access_token, activityUser, userId])
 
   const deleteReservationById = async(id) => {
     let res = await RequestDashboard(`gestreserv/orders/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
-      getAllReservations();
+      getAllReservations({setLoading: setLoading, activityUser: activityUser, userId: userId, users: users, setOrders: setOrders})
     }
   }
 
@@ -106,7 +97,7 @@ const Table = ({activityUser, userId}) => {
     if(res.status === 201) {
       let resp = await RequestDashboard(`gestreserv/invoices/${res.response?.id}/update_status/`, 'PUT', data, users.access_token)
       if (resp.status === 200) {
-        getAllReservations()
+        getAllReservations({setLoading: setLoading, activityUser: activityUser, userId: userId, users: users, setOrders: setOrders})
       }
       /*setLoader(false)
       setForm({ ...form, price_hour: '', price_day: '', price_month: '', nb_persons: '' });
@@ -118,8 +109,8 @@ const Table = ({activityUser, userId}) => {
   }
 
   useEffect(() => {
-    getAllReservations();
-  }, [getAllReservations]);
+    getAllReservations({setLoading: setLoading, activityUser: activityUser, userId: userId, users: users, setOrders: setOrders})
+  }, [users, activityUser, userId]);
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>

@@ -7,7 +7,7 @@ import Avatar from "../../../Avatar";
 import Share from "./Share";
 import { useSelector } from "react-redux";
 
-const Panel = ({ className, product }) => {
+const Panel = ({ className, product, productOrPackImg }) => {
   const users = useSelector((state) => state.users);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -24,7 +24,7 @@ const Panel = ({ className, product }) => {
         </button>
       </div>
       <Modal outerClassName={styles.outer} visible={visibleModal} onClose={() => setVisibleModal(false)} >
-        <Share product={product}/>
+        <Share product={product} productOrPackImg={productOrPackImg}/>
       </Modal>
     </>
   );

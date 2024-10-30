@@ -6,8 +6,10 @@ import NoContent from "../../../components/NoContent";
 import cn from "classnames";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Table = ({ items, message, getAllcomment }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users)
   const [chooseAll, setСhooseAll] = useState(false);
 
@@ -39,8 +41,8 @@ const Table = ({ items, message, getAllcomment }) => {
               onChange={() => setСhooseAll(!chooseAll)}
             />
           </div>
-          <div className={styles.col}>Comments</div>
-          <div className={styles.col}>Packages</div>
+          <div className={styles.col}>{t('views.reservations.agenda.comments')}</div>
+          <div className={styles.col}>{t('views.packages.packages')}</div>
         </div>
         {items.length > 0 ?
           items?.map((x, index) => (

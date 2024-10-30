@@ -1,3 +1,5 @@
+import { format, isToday, isYesterday, subDays, formatDistanceToNow } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export const formatDate = (dateString, formatPost) => {
     if (formatPost === 'SEND') {
@@ -19,6 +21,33 @@ export const formatDate = (dateString, formatPost) => {
         
         // Format hh:mm:ss.uuuuuu
         return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+        
+    } else if(formatPost ==='GETDATE'){ 
+        //Convertit la chaîne de date en un objet Date
+        const date = new Date(dateString);
+        const currentYear = new Date().getFullYear();
+        const yearOfDate = date.getFullYear();
+
+        if (isToday(date)) {
+            const hoursAgo = formatDistanceToNow(date, { locale: fr, addSuffix: true });
+
+            // Si la date est d'aujourd'hui et qu'il y a moins de 12 heures, afficher "il y a X heures"
+            const hoursDifference = Math.abs(new Date().getHours() - date.getHours());
+            if (hoursDifference < 12) {
+                return hoursAgo;
+            }
+
+            // Si la date est d'aujourd'hui mais plus ancienne que 12 heures, afficher "Aujourd'hui, heure"
+            return `Aujourd'hui`;
+        } else if (isYesterday(date)) {
+            return `Hier`;
+        } else if (date >= subDays(new Date(), 2)) {
+            return `Avant-hier`;
+        } else {
+            // Formater la date en fonction de l'année
+            const dateFormat = yearOfDate === currentYear ? "dd MMM" : "dd MMM yyyy";
+            return format(date, dateFormat, { locale: fr });
+        }
         
     } else {
         // Convertir la chaîne de date en objet Date

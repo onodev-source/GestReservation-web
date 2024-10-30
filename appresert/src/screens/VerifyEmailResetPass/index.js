@@ -68,7 +68,7 @@ const VerifyEmailResetPass = () => {
         new_password: form.password
       }
       let res = await RequestDashboard('accounts/auth/users/reset_password_confirm/', 'POST', data);
-      console.log(res);
+      
       
       if (res.status === 204) { 
         setForm({ ...form, passwordConfirm: '', password: '' });

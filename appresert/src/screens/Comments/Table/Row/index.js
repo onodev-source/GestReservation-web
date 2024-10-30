@@ -5,6 +5,7 @@ import Checkbox from "../../../../components/Checkbox";
 import Avatar from "../../../../components/Avatar";
 import Control from "./Control";
 import { formatTime } from "../../../../Utils/formatTime";
+import { Routes } from "../../../../Constants";
 
 const Row = ({ item, value, onChange, onDeleteComment, getAllcomment }) => {
   const [visible, setVisible] = useState(false);
@@ -21,7 +22,7 @@ const Row = ({ item, value, onChange, onDeleteComment, getAllcomment }) => {
           <Avatar user={{username: item.user?.full_name !== null ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar}/>
           <div className={styles.details}>
             <div className={styles.line}>
-              <div className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</div>
+              <a href={`${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
               <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
             </div>
             <div className={styles.comment} dangerouslySetInnerHTML={{ __html: item.content }} ></div>

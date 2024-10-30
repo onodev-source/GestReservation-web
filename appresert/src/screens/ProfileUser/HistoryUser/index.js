@@ -56,8 +56,8 @@ const HistoryUser = ({ className, userId, profileId }) => {
             userActivity.map((activity) => (
               <div className={cn(styles.message)}>
                 <div className={styles.details}>
-                  <div className={cn({[styles.rounded]: activity.activity_type !== 'RESERVATION'})}>
-                    <Icon name={activity.activity_type === 'RESERVATION' ? "reservation" : 'activity'} size="24" />
+                  <div className={cn(styles.rounded, {[styles.reservedSpace]: activity.activity_type === 'RESERVATION' })}>
+                    <Icon name={activity.activity_type === 'RESERVATION' ? "reservation" : (activity.activity_type === 'MAKE_COMMENT' ? 'message' : 'activity')} size={activity.activity_type === 'RESERVATION' ? "20" : "24"} />
                   </div>
                   <div className={styles.head}>
                     <div className={styles.man}>{activity.activity_type}</div>

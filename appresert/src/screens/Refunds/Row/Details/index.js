@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef} from "react";
 import styles from "./Details.module.sass";
 import cn from "classnames";
 import Product from "./Product";
 import Parameter from "./Parameter";
 import TooltipGlodal from "../../../../components/TooltipGlodal";
-import Editor from "../../../../components/Editor";
+//import Editor from "../../../../components/Editor";
 import Avatar from "../../../../components/Avatar";
 import Icon from "../../../../components/Icon";
 import { formatDate } from "../../../../Utils/formatDate";
@@ -44,7 +44,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
     //{ title: 'Package Des:', content: item.package?.package_name},
     { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item?.packages[0]?.package_price)}XAF`},
   ];
-  const incomeArray = [
+  const incomeArray = incomeDetail && [
     { title: t('views.reservations.number_reservation'), content: item.order_number[0]?.order_number},
     { title: t('views.invoice.number_income'), content: item.invoice_number},
     { title: t('views.invoice.amount_income'), content: `${Math.floor(item.invoice_amount)}XAF `},
@@ -56,7 +56,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
  
   const parameters = customersDetails ? customerArray : (incomeDetail ? incomeArray : orderArray)
 
-  const handleClick = () => {
+  /*const handleClick = () => {
     // Exécute une fonction en fonction des conditions
     if (incomeDetail) {
       onDeleteInvoice(); // Si incomeDetail est vrai, appelle onDeleteInvoice
@@ -70,7 +70,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
     if (detailRef?.current) {
       detailRef.current.click();
     }
-  };
+  };*/
 
   return (
     <>
@@ -89,9 +89,9 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                 <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
                   {t('words.cancel')}
                 </button>
-                <button className={cn("button", styles.button)} onClick={handleClick}>
+                {/*<button className={cn("button", styles.button)} onClick={handleClick}>
                   {t('words.deleted')}
-                </button>
+                </button>*/}
               </div>
             }
           </div>
@@ -121,11 +121,11 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                   <div className={styles.text}>
                     <div className={styles.textTel}>
                       <Icon name="phone" size="24" />
-                      {item.user.phone_number}
+                      {item.user?.phone_number}
                     </div>
                     <div>
                       <Icon name="mail" size="24" />
-                      {item.user.email}
+                      {item.user?.email}
                     </div>
                   </div>
                 </div>
@@ -134,9 +134,9 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                 <button className={cn("button-stroke", styles.button)} onClick={onClose} ref={detailRef}>
                   {t('words.cancel')}
                 </button>
-                <button className={cn("button", styles.button)} onClick={handleClick}>
+                {/*<button className={cn("button", styles.button)} onClick={handleClick}>
                   {t('words.deleted')}
-                </button>
+                </button>*/}
               </div>
             </div>
           }

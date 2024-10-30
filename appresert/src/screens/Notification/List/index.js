@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import cn from "classnames";
 import styles from "./List.module.sass";
 import Card from "../../../components/Card";
@@ -9,6 +9,8 @@ import Item from "./Item";
 
 // data
 import { notifications } from "../../../mocks/notifications";
+import RequestDashboard from "../../../Services/Api/ApiServices";
+import { useSelector } from "react-redux";
 
 const intervals = ["Recent", "New", "This year"];
 
@@ -26,7 +28,24 @@ const actions = [
 ];
 
 const List = ({ className }) => {
+  const users = useSelector((state) => state.users)
+
+  const [loader, setLoader] = useState(false);
   const [sorting, setSorting] = useState(intervals[0]);
+  const [notifs, setNotifs] = useState([]);
+
+  const getAllNotifications = useCallback(async() => {
+    setLoader(true)
+    let res = await RequestDashboard('gestreserv/notifications/', 'GET', '', users.access_token);
+    if (res.status === 200) {
+      setNotifs(res.response?.results);
+      setLoader(false)
+    }
+  }, [users.access_token]);
+    
+  React.useEffect(() => {
+    getAllNotifications()
+  }, [getAllNotifications])
 
   return (
     <Card

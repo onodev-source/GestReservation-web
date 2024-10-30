@@ -51,8 +51,17 @@
     +dark
         border-color: $n6
         svg
-            fill: $n1
+            fill: $s3
 
+.iconColor
+    border-color: rgba(#83BF6E, .15)
+    svg
+        fill: $n4
+    +dark
+        border-color: rgba(#83BF6E, .15)
+        svg
+            fill: $n3
+        
 .title
     margin-bottom: 8px
 
@@ -75,16 +84,34 @@
 
 .avatar
     flex-shrink: 0
-    width: 20px
-    height: 20px
+    width: 24px
+    height: 24px
     margin-right: 4px
-    font-size: 0
+    span
+        color: $s2
+        text-transform: uppercase 
+        border: 1px solid $n3  
+        border-radius: 2px  
+        padding: 0px 2px   
+        +dark 
+            border: 1px solid $n6 
     img
         width: 100%
         height: 100%
         object-fit: cover
         border-radius: 2px
 
+.avatarFlex
+    display: flex
+    align-items: center
+
 .action
     +caption2
     color: $n4
+
+
+.outer
+    max-width: 896px
+    & > div
+        +m
+            padding: 26px 16px 16px

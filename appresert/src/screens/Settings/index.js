@@ -152,6 +152,7 @@ const Settings = () => {
   //start_date: formatDate(startDate, 'SEND'),
   const updateAccountAndCategory = async (language) => {
     setLoader(true);
+    const lang = language ? language : form.language
   
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
   
@@ -167,7 +168,7 @@ const Settings = () => {
       formData.append("city", form.city);
       formData.append("date_of_birth", form.date_of_birth);
       formData.append("bio", form.bio);
-      formData.append("language", language ? language : form.language);
+      formData.append("language", lang);
       formData.append("password", form.password);
   
       // Ajout du fichier photo_user
@@ -223,9 +224,6 @@ const Settings = () => {
       setErrorSubmit("An unexpected error occurred. Please try again.");
     }
   };
-  
-  console.log('category', form.category);
-  console.log('typeCategory', typeCategory);
   
   return (
     <>

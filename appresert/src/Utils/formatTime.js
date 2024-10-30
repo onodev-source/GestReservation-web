@@ -24,6 +24,8 @@ export const formatTime = (time, type) => {
     if(type ==='GETDATEHOUR'){ 
         //Convertit la chaîne de date en un objet Date
         const date = new Date(time);
+        const currentYear = new Date().getFullYear();
+        const yearOfDate = date.getFullYear();
 
         if (isToday(date)) {
             const hoursAgo = formatDistanceToNow(date, { locale: fr, addSuffix: true });
@@ -41,12 +43,10 @@ export const formatTime = (time, type) => {
         } else if (date >= subDays(new Date(), 2)) {
             return `Avant-hier, ${format(date, 'HH:mm', { locale: fr })}`;
         } else {
-            return format(date, "dd MMM yyyy, HH:mm", { locale: fr });
+            // Formater la date en fonction de l'année
+            const dateFormat = yearOfDate === currentYear ? "dd MMM, HH:mm" : "dd MMM yyyy, HH:mm";
+            return format(date, dateFormat, { locale: fr });
         }
-        /* Convertit la chaîne de date en un objet Date
-        const date = new Date(time);
-    
-        return format(date, "dd MMM yyyy, hh:mma", { locale: frCA });*/
     } else {
         const [hour, minute] = time?.split(":");
         const formattedHour = hour?.padStart(2, "0");

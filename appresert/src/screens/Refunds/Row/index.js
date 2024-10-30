@@ -24,7 +24,7 @@ const Row = ({ item, onDeleteInvoice }) => {
       action: () => setVisibleModal(true),
     }
   ];
-console.log('item invoice', item);
+
 
   return (
     <>

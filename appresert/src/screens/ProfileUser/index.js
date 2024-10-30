@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 
 const intervals = ["Most recent", "Most new", "Most popular"];
 
-const ProfileUser = (profileId) => {
+const ProfileUser = ({profileId}) => {
   const {t} = useTranslation()
   const { userId } = useParams()
   const users = useSelector((state) => state.users)
@@ -38,9 +38,9 @@ const ProfileUser = (profileId) => {
     if (profileId && userId) {
       const getUserById =  async(id) => {
       
-        let res = await RequestDashboard(`accounts/auth/user/${id}/`, 'GET', '', users.access_token);
+        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'GET', '', users.access_token);
         if (res.status === 200) {
-          setUserData(res.reponse);
+          setUserData(res.response);
         }
       };
       getUserById(userId)
@@ -54,7 +54,7 @@ const ProfileUser = (profileId) => {
           <img src="/images/content/bg-shop.jpg" alt="Background" />
         </div>
         <Card className={styles.card}>
-          <Profile userData={userData}/>
+          <Profile userData={userData} profileId={profileId}/>
           <div className={cn({[styles.control] : navigation[0]})}>
             <div className={styles.nav}>
               {navigation.map((x, index) => (
