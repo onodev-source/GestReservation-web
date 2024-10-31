@@ -6,8 +6,11 @@ import Avatar from "../../../../components/Avatar";
 import Control from "./Control";
 import { formatTime } from "../../../../Utils/formatTime";
 import { Routes } from "../../../../Constants";
+import { useSelector } from "react-redux";
 
 const Row = ({ item, value, onChange, onDeleteComment, getAllcomment }) => {
+  const users = useSelector((state) => state.users);
+
   const [visible, setVisible] = useState(false);
   const [visibleSmile, setVisibleSmile] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
@@ -22,7 +25,7 @@ const Row = ({ item, value, onChange, onDeleteComment, getAllcomment }) => {
           <Avatar user={{username: item.user?.full_name !== null ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar}/>
           <div className={styles.details}>
             <div className={styles.line}>
-              <a href={`${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
+              <a href={item?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
               <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
             </div>
             <div className={styles.comment} dangerouslySetInnerHTML={{ __html: item.content }} ></div>

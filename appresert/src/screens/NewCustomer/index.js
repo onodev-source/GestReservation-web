@@ -16,6 +16,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import { useParams } from "react-router";
 import Loader from "../../components/Loader";
 import { verifyInput } from "../../Utils/verifyInput";
+import { formatDate } from "../../Utils/formatDate";
 
 const NewCustomer = ({product, editCust}) => {
   const users = useSelector((state) => state.users);
@@ -104,6 +105,7 @@ const NewCustomer = ({product, editCust}) => {
       first_name: form.first_name,
       last_name: form.last_name,
       password: form.password,
+      date_of_commitment: formatDate(new Date(), 'SEND'),
       /*date_of_birth: form.date_of_birth,
       bio: descripbe,
       is_online: true,*/

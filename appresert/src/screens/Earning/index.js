@@ -17,6 +17,7 @@ const intervals = ["Last 28 days", "Last 14 days", "Last 7 days"];
 const Earning = ({resertList}) => {
   const {t} = useTranslation()
   const [sorting, setSorting] = React.useState(intervals[0]);
+  
   return (
     <>
       <div className={styles.section}>

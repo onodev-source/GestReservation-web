@@ -29,7 +29,7 @@ const users = [
   },
 ];
 
-const Users = ({ className, customerList, item }) => {
+const Users = ({ className, customerList }) => {
   const {t} = useTranslation()
 
   return (

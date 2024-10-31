@@ -10,14 +10,16 @@ import { customers } from "../../../mocks/customers";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
+import NoContent from "../../../components/NoContent";
+import { getAllCustomers } from "../../../Utils/LikeComment";
 
-const Table = ({ className, activeTable, setActiveTable }) => {
+const Table = ({ className, activeTable, setActiveTable, allCustomers, loader, setLoader, setAllCustomers }) => {
   const {t}= useTranslation()
   const users = useSelector((state) => state.users);
 
-  const [loader, setLoader] = useState(false);
+  //const [loader, setLoader] = useState(false);
   const [chooseAll, setСhooseAll] = useState(false);
-  const [allCustomers, setAllCustomers] = useState([]);
+  //const [allCustomers, setAllCustomers] = useState([]);
   const [activeId, setActiveId] = useState(customers[0].id);
 
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -29,28 +31,15 @@ const Table = ({ className, activeTable, setActiveTable }) => {
       setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
     }
   };
-
-  const getAllCustomers = useCallback(async() => {
-    setLoader(true)
-    let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
-    if (res.status === 200) {
-      setAllCustomers(res.response?.results);
-      setLoader(false)
-    }
-  }, [users.access_token]);
-
+  
 
   const deleteCustomerById =  async(id) => {
     
     let res = await RequestDashboard(`gestreserv/customers/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
-      getAllCustomers();
+      getAllCustomers(setLoader, users, setAllCustomers)
     }
   };
-
-  React.useEffect(() => {
-    getAllCustomers()
-  }, [getAllCustomers])
 
   return (
     <div className={cn(styles.wrapper, className)}>
@@ -72,22 +61,25 @@ const Table = ({ className, activeTable, setActiveTable }) => {
             <div className={styles.col}>{t('views.reservations.agenda.comments')}</div>
             <div className={styles.col}>Likes</div>
           </div>
-          {allCustomers?.map((x, index) => (
-            <Row
-              item={x.user}
-              allItem={x}
-              key={index}
-              activeTable={activeTable}
-              setActiveTable={setActiveTable}
-              activeId={activeId}
-              setActiveId={setActiveId}
-              up={allCustomers?.length - index <= 2}
-              value={selectedFilters.includes(x.user.id)}
-              onChange={() => handleChange(x.user.id)}
-              onDeleteCust={() => deleteCustomerById(x.customer_id)}
-              customersDetails={true}
-            />
-          ))}
+          {allCustomers?.length > 0 ?
+            allCustomers?.map((x, index) => (
+              <Row
+                item={x.user}
+                allItem={x}
+                key={index}
+                activeTable={activeTable}
+                setActiveTable={setActiveTable}
+                activeId={activeId}
+                setActiveId={setActiveId}
+                up={allCustomers?.length - index <= 2}
+                value={selectedFilters.includes(x.user.id)}
+                onChange={() => handleChange(x.user.id)}
+                onDeleteCust={() => deleteCustomerById(x.customer_id)}
+                customersDetails={true}
+              />
+            ))
+            : <NoContent message={''}/>
+          }
         </div>
       }
       {/*<div className={styles.foot}>

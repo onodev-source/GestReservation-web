@@ -73,16 +73,16 @@ const List = ({ className }) => {
     >
       <div className={styles.notifications}>
         <div className={styles.list}>
-          {notifications.map((x, index) => (
+          {notifs?.map((x, index) => (
             <Item className={cn(styles.item, className)} item={x} key={index} />
           ))}
         </div>
-        <div className={styles.foot}>
+        {/*<div className={styles.foot}>
           <button className={cn("button-stroke button-small", styles.button)}>
             <Loader className={styles.loader} />
             <span>Load more</span>
           </button>
-        </div>
+        </div>*/}
       </div>
     </Card>
   );

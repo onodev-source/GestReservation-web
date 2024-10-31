@@ -6,8 +6,11 @@ import Avatar from "../../../../Avatar";
 import Control from "./Control";
 import { formatTime } from "../../../../../Utils/formatTime";
 import { Routes } from "../../../../../Constants";
+import { useSelector } from "react-redux";
 
-const Item = ({ className, item, getAllcommentByPack }) => {
+const Item = ({ className, item, getAllcommentByPack, onDeleteCommment }) => {
+  const users = useSelector((state) => state.users);
+
   const [currentValue, setCurrentValue] = useState("");
   const [currentValueAnswer, setCurrentValueAnswer] = useState("");
 
@@ -17,7 +20,7 @@ const Item = ({ className, item, getAllcommentByPack }) => {
         <Avatar user={{username: item.user?.full_name !== null ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar} />
         <div className={styles.details}>
           <div className={styles.line}>
-            <a href={`${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
+            <a href={item?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
             <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
             <div className={styles.rating}>
               {item.rating?.toFixed(1) || 5.8}
@@ -26,7 +29,7 @@ const Item = ({ className, item, getAllcommentByPack }) => {
           </div>
           <div className={styles.login}>@{item.user?.email}</div>
           <div className={styles.comment}  dangerouslySetInnerHTML={{ __html: item.content }}></div>
-          <Control valueAnswer={currentValue} setValueAnswer={setCurrentValue} item={item} getAllcommentByPack={getAllcommentByPack}/>
+          <Control valueAnswer={currentValue} setValueAnswer={setCurrentValue} item={item} getAllcommentByPack={getAllcommentByPack} onDeleteCommment={onDeleteCommment} isCommentUser={item?.user?.id === users.users.id ? true : false}/>
         </div>
       </div>
       {item.answer && (

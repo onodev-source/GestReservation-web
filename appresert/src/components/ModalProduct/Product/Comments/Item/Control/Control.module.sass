@@ -6,7 +6,8 @@
     margin-top: 20px
 
 .favorite,
-.reply
+.reply,
+.delete
     display: flex
     align-items: center
     font-size: 13px
@@ -42,6 +43,15 @@
                 display: inline-block
                 fill: $p6
             
+.delete
+    &:hover
+        color: $s1
+        svg
+            fill: $s1
+        +dark
+            color: $s1
+            svg
+                fill: $s1
 
 .answer
     &.show

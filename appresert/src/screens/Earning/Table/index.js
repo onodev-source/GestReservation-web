@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, {useEffect } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
 //import { numberWithCommas } from "../../../utils.js";

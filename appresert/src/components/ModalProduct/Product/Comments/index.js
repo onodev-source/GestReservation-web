@@ -66,7 +66,7 @@ const Comments = ({ className, onClose, detailsData }) => {
   const deleteCommentById = async(id) => {
     let res = await RequestDashboard(`gestreserv/commentaries/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
-      getAllcommentByPack();
+      getAllcommentByPack(detailsData?.id);
     }
   }
 
@@ -104,7 +104,7 @@ const Comments = ({ className, onClose, detailsData }) => {
         <div className={cn(styles.list, styles.overflowAuto)}>
           {commentByPack.length > 0 ?
             commentByPack.map((x, index) => (
-              <Item className={cn(styles.item)} item={x} key={index} getAllcommentByPack={() => getAllcommentByPack(detailsData?.id)}/>
+              <Item className={cn(styles.item)} item={x} key={index} getAllcommentByPack={() => getAllcommentByPack(detailsData?.id)} onDeleteCommment= {() => deleteCommentById(x.id)}/>
             ))
             : <NoContent message={message !== '' ? message : ''}/>
           }

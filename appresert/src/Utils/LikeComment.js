@@ -32,6 +32,15 @@ export const getAllInvoices = async(setLoader, users, setAllInvoice) => {
   }
 }
 
+export const getAllCustomers = async(setLoader, users, setAllCustomers) => {
+  setLoader(true)
+  let res = await RequestDashboard('gestreserv/customers/', 'GET', '', users.access_token);
+  if (res.status === 200) {
+    setAllCustomers(res.response?.results);
+    setLoader(false)
+  }
+};
+
 export const likeCommentById = async(packageId, users, commentId, getAllcomment, setVisible) => {
     
     let data = {

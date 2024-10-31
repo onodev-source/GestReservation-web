@@ -187,7 +187,7 @@ const NewProduct = ({product, editPack, editProd}) => {
     else if (res.status === 400) { 
       setLoader(false)
       //setForm({ ...form, package_name: '', package_price: '', nb_persons: '', nb_places: '',});
-      setErrorSubmit("Incorrect Email or Password"); 
+      setErrorSubmit(res.response?.package_name[0]); 
     }
     else if (res.status === 401) { 
       setLoader(false)

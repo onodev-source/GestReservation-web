@@ -1,7 +1,7 @@
 import { format, isToday, isYesterday, subDays, formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-export const formatTime = (time, type) => {
+export const formatTime = (time, type, isoFormat) => {
     
     // Vérifie si "time" est défini, est une chaîne de caractères et contient ":"
     if (!time || typeof time !== "string" || !time.includes(":")) {

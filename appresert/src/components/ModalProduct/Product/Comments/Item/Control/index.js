@@ -6,10 +6,11 @@ import Answer from "../../../../../Answer";
 import { likeCommentById } from "../../../../../../Utils/LikeComment";
 import { useSelector } from "react-redux";
 
-const Control = ({ valueAnswer, setValueAnswer, item, getAllcommentByPack }) => {
+const Control = ({ valueAnswer, setValueAnswer, item, getAllcommentByPack, isCommentUser, onDeleteCommment }) => {
   const users = useSelector((state) => state.users)
   const [visibleFavorite, setVisibleFavorite] = useState(item.liked_by_user);
   const [visibleReply, setVisibleReply] = useState(false);
+
   return (
     <>
       <div className={styles.control}>
@@ -26,6 +27,14 @@ const Control = ({ valueAnswer, setValueAnswer, item, getAllcommentByPack }) => 
           </span>
           Reply
         </button>
+        {isCommentUser &&
+          <button  className={cn(styles.delete)} onClick={onDeleteCommment}>
+            <span>
+              <Icon name="trash" size="20" />
+            </span>
+            Delete
+          </button>
+        }
       </div>
       <Answer className={cn(styles.answer, { [styles.show]: visibleReply })}  avatar="/images/content/avatar.jpg"
         onClose={() => setVisibleReply(false)}

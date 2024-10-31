@@ -38,7 +38,7 @@ const ProfileUser = ({profileId}) => {
     if (profileId && userId) {
       const getUserById =  async(id) => {
       
-        let res = await RequestDashboard(`accounts/auth/users/${id}/`, 'GET', '', users.access_token);
+        let res = await RequestDashboard(`accounts/api/v1/gestreserv/users/profile/${id}/`, 'GET', '', users.access_token);
         if (res.status === 200) {
           setUserData(res.response);
         }

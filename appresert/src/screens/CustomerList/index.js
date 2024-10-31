@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CustomerList.module.sass";
 import cn from "classnames";
 import Card from "../../components/Card";
@@ -10,11 +10,17 @@ import Dropdown from "../../components/Dropdown";
 import { Link } from "react-router-dom";
 import { Routes } from "../../Constants";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { getAllCustomers } from "../../Utils/LikeComment";
 
 const navigation = ["Active", "New", "A-Z", "Z-A"];
 
 const CustomerList = () => {
   const {t} = useTranslation()
+  const users = useSelector((state) => state.users);
+
+  const [loader, setLoader] = useState(false);
+  const [allCustomers, setAllCustomers] = useState([]);
   //const [activeIndex, setActiveIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(navigation[0]);
   const [search, setSearch] = useState("");
@@ -24,10 +30,14 @@ const CustomerList = () => {
     alert();
   };
 
+  useEffect(() => {
+    getAllCustomers(setLoader, users, setAllCustomers)
+  }, [users])
+
   return (
     <>
       <div className={styles.section}>
-        <Overview className={styles.card}/>
+        <Overview className={styles.card} allCustomers={allCustomers} loader={loader}/>
         <Card className={styles.card} title={t('views.customers.list_customers')}  classTitle={cn("title-purple", styles.title)} classCardHead={cn(styles.head, { [styles.hidden]: visible })}
           head={
             <>
@@ -60,7 +70,7 @@ const CustomerList = () => {
             <Table
               className={styles.table}
               activeTable={visible}
-              setActiveTable={setVisible}
+              setActiveTable={setVisible} allCustomers={allCustomers} loader={loader} setLoader={setLoader} setAllCustomers= {setAllCustomers}
             />
             <Details
               className={styles.details}

@@ -14,33 +14,6 @@ import NoContent from "../../../components/NoContent";
 import Loader from "../../../components/Loader";
 import { formatTime } from "../../../Utils/formatTime";
 
-const comments = [
-  {
-    title: "Ethel",
-    login: "@ethel",
-    time: "1h",
-    content: "On <strong>Smiles – 3D icons</strong>",
-    comment: 'Great work <span role="img" aria-label="smile">😊</span>',
-    avatar: "/images/content/avatar.jpg",
-  },
-  {
-    title: "Jazmyn",
-    login: "@jaz.designer",
-    time: "8h",
-    content: "On <strong>Fleet - Travel shopping</strong>",
-    comment: "I need react version asap!",
-    avatar: "/images/content/avatar-1.jpg",
-  },
-  {
-    title: "Ethel",
-    login: "@ethel",
-    time: "1h",
-    content: "On <strong>Smiles – 3D icons</strong>",
-    comment: "How can I buy only the design?",
-    avatar: "/images/content/avatar-2.jpg",
-  },
-];
-
 const Comments = ({ className }) => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users)
@@ -87,7 +60,7 @@ const Comments = ({ className }) => {
                       dangerouslySetInnerHTML={{ __html: x.content }}
                     ></div>
                     <div className={styles.control}>
-                      <Link className={styles.link} to={`${Routes.MY_PROFILE}/${x.user?.id}`}>
+                      <Link className={styles.link} to={x?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${x.user?.id}`}>
                         <Icon name="profile-circle" size="20" />
                       </Link>
                       <Favorite className={cn(styles.favorite, styles.link)} packageComment={x.package} commentContent={x} getAllcomment={getAllcomment}/>

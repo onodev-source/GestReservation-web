@@ -12,6 +12,7 @@ import Details from "../../../Refunds/Row/Details";
 import { refunds } from "../../../../mocks/refunds";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../../Constants";
+import { useSelector } from "react-redux";
 
 /*const customerDetails = {
   product: "Filomena Fahey",
@@ -75,6 +76,8 @@ const Row = ({
   onDeleteCust,
   customersDetails
 }) => {
+  const users = useSelector((state) => state.users);
+
   const [visibleActions, setVisibleActions] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -119,7 +122,7 @@ const Row = ({
           <div className={styles.item} onClick={() => handleClick(item.id)}>
             <Avatar user={{username: item.email, photo: item.photo_user}} classname={styles.avatar}/>
             <div className={styles.details}>
-              <Link className={styles.user} style={{ textTransform: "capitalize",}} to={`${Routes.MY_PROFILE}/${item?.id}`}>{item.full_name}</Link>
+              <Link className={styles.user} style={{ textTransform: "capitalize",}} to={item?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item?.id}`}>{item.full_name}</Link>
               <div className={styles.login}>@{item.email}</div>
               <div className={styles.email}>{item.email}
               </div>
