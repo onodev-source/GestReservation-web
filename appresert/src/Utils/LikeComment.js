@@ -41,6 +41,15 @@ export const getAllCustomers = async(setLoader, users, setAllCustomers) => {
   }
 };
 
+export const getAllNotifications = async(setLoader, users, setNotifs) => {
+  setLoader(true)
+  let res = await RequestDashboard('gestreserv/notifications/', 'GET', '', users.access_token);
+  if (res.status === 200) {
+    setNotifs(res.response?.results);
+    setLoader(false)
+  }
+};
+
 export const likeCommentById = async(packageId, users, commentId, getAllcomment, setVisible) => {
     
     let data = {
@@ -58,3 +67,22 @@ export const likeCommentById = async(packageId, users, commentId, getAllcomment,
         setVisible(res.response?.like)
     } 
 };
+
+export const markAllReadNotifications = async(users, notifs, setLoader, setNotifs) => {
+  //setLoader(true)
+  
+  let data = {
+    user: {
+      email: users?.users.email
+    },
+    notifications_type: notifs[0]?.notifications_type,
+    is_read: notifs[0]?.is_read ? false : true
+  };
+
+  let res = await RequestDashboard('gestreserv/notifications/mark_all_as_read/', 'POST', data, users.access_token)
+  
+  if(res.status === 200) {
+    getAllNotifications(setLoader, users, setNotifs) 
+    //setIsRead(!isRead)    
+  } 
+} 

@@ -25,8 +25,12 @@ export const formatDate = (dateString, formatPost) => {
     } else if(formatPost ==='GETDATE'){ 
         //Convertit la chaîne de date en un objet Date
         const date = new Date(dateString);
-        const currentYear = new Date().getFullYear();
+        const dateNow = new Date();
+        const currentYear = dateNow.getFullYear();
         const yearOfDate = date.getFullYear();
+        
+        // Calculer la différence en jours entre la date fournie et aujourd'hui
+        const diffDays = Math.ceil((date - dateNow) / (1000 * 60 * 60 * 24)); // Convertir en jours
 
         if (isToday(date)) {
             const hoursAgo = formatDistanceToNow(date, { locale: fr, addSuffix: true });
@@ -41,8 +45,15 @@ export const formatDate = (dateString, formatPost) => {
             return `Aujourd'hui`;
         } else if (isYesterday(date)) {
             return `Hier`;
-        } else if (date >= subDays(new Date(), 2)) {
+        }  else if (diffDays === -2) {
+            // Avant-hier
             return `Avant-hier`;
+        } else if (diffDays === 1) {
+            // Demain
+            return `Demain`;
+        } else if (diffDays === 2) {
+            // Après-demain
+            return `Après-demain`;
         } else {
             // Formater la date en fonction de l'année
             const dateFormat = yearOfDate === currentYear ? "dd MMM" : "dd MMM yyyy";

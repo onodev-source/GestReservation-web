@@ -70,8 +70,8 @@ const Details = ({ item, onClose }) => {
                 <div className={styles.box}>
                   <div className={styles.info}>{t('views.customers.customer')}</div>
                   <div className={styles.user} style={{textTransform: 'capitalize'}}>
-                    <Avatar user={{username: item.user.full_name !== '' ? item.user.full_name : item.user.email, photo: item.user?.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
-                    {item.user.full_name !== '' ? item.user.full_name : item.user.email}
+                    <Avatar user={{username: item.user.full_name.trim() !== '' ? item.user.full_name : item.user.email, photo: item.user?.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
+                    {item.user.full_name.trim() !== '' ? item.user.full_name : item.user.email}
                   </div>
                   <div className={styles.text}>
                     <div className={styles.textTel}>

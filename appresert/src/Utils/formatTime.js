@@ -24,14 +24,18 @@ export const formatTime = (time, type, isoFormat) => {
     if(type ==='GETDATEHOUR'){ 
         //Convertit la chaîne de date en un objet Date
         const date = new Date(time);
-        const currentYear = new Date().getFullYear();
+        const dateNow = new Date()
+        const currentYear = dateNow.getFullYear();
         const yearOfDate = date.getFullYear();
+
+        // Calculer la différence en jours entre la date fournie et aujourd'hui
+        const diffDays = Math.ceil((date - dateNow) / (1000 * 60 * 60 * 24)); // Convertir en jours
 
         if (isToday(date)) {
             const hoursAgo = formatDistanceToNow(date, { locale: fr, addSuffix: true });
 
             // Si la date est d'aujourd'hui et qu'il y a moins de 12 heures, afficher "il y a X heures"
-            const hoursDifference = Math.abs(new Date().getHours() - date.getHours());
+            const hoursDifference = Math.abs(dateNow.getHours() - date.getHours());
             if (hoursDifference < 12) {
                 return hoursAgo;
             }
@@ -40,8 +44,15 @@ export const formatTime = (time, type, isoFormat) => {
             return `Aujourd'hui, ${format(date, 'HH:mm', { locale: fr })}`;
         } else if (isYesterday(date)) {
             return `Hier, ${format(date, 'HH:mm', { locale: fr })}`;
-        } else if (date >= subDays(new Date(), 2)) {
+        } else if (diffDays === -2) {
+            // Avant-hier
             return `Avant-hier, ${format(date, 'HH:mm', { locale: fr })}`;
+        } else if (diffDays === 1) {
+            // Demain
+            return `Demain, ${format(date, 'HH:mm', { locale: fr })}`;
+        } else if (diffDays === 2) {
+            // Après-demain
+            return `Après-demain, ${format(date, 'HH:mm', { locale: fr })}`;
         } else {
             // Formater la date en fonction de l'année
             const dateFormat = yearOfDate === currentYear ? "dd MMM, HH:mm" : "dd MMM yyyy, HH:mm";

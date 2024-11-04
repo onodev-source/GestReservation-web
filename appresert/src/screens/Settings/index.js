@@ -174,7 +174,7 @@ const Settings = () => {
       // Ajout du fichier photo_user
       if (media?.file) {
         formData.append("photo_user", media.file);
-      }
+      } 
     } else {
       if(typeCategory === 'Type event'){
         // Si c'est un type d'evenement on envoit ca
@@ -286,7 +286,7 @@ const Settings = () => {
               <Payment />
             </div>*/}
           </div> 
-          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={updateAccountAndCategory} disabled={(!isFormFilled() && isCategory) ? true : false} className={cn("button", styles.button, styles.buttonStyle, {[styles.disabled]: (!isFormFilled() && isCategory)})}>{loader ? <Loader/> : t('words.save_change')}</button>}
+          {((users.users.is_customer && activeIndex !== 3) || (!users.users.is_customer && activeIndex !== 4)) && <button onClick={() => updateAccountAndCategory(form.language)} disabled={(!isFormFilled() && isCategory) ? true : false} className={cn("button", styles.button, styles.buttonStyle, {[styles.disabled]: (!isFormFilled() && isCategory)})}>{loader ? <Loader/> : t('words.save_change')}</button>}
         </div>
       </div>
       <TooltipGlodal />

@@ -198,7 +198,7 @@ const NewReservation = ({product, editOrder}) => {
       dateStart.setHours(hours, minutes, seconds);
       dateEnd.setHours(hoursEnd, minutesEnd, secondsEnd);
 
-      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons, type_event: orderEdit.type_event?.id });  
+      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons, type_event: orderEdit.type_event[0]?.id });  
       setSelectedFilters([orderEdit?.packages[0]?.id]) 
       //setStartDate(new Date(item.start_date));
       setStartDate(new Date(orderEdit?.begin_date)) 
@@ -212,6 +212,7 @@ const NewReservation = ({product, editOrder}) => {
     getAllPackages();
   }, [getAllPackages]);
 
+  
   return (
     <>
       <div className={styles.row}>
@@ -241,7 +242,7 @@ const NewReservation = ({product, editOrder}) => {
           {/*<CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product}/>
           <ProductFiles className={styles.card} />*/}
 
-          <CategoryAndAttibutes className={styles.card} setForm={setForm} editOrder={editOrder} formEdit={orderEdit?.type_event?.type_event}/>
+          <CategoryAndAttibutes className={styles.card} setForm={setForm} editOrder={editOrder} formEdit={orderEdit?.type_event[0]?.type_event}/>
 
           {/*<Discussion className={styles.card} />*/}
         

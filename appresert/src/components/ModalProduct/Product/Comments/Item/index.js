@@ -17,10 +17,10 @@ const Item = ({ className, item, getAllcommentByPack, onDeleteCommment }) => {
   return (
     <>
       <div className={cn(styles.item, className)}>
-        <Avatar user={{username: item.user?.full_name !== null ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar} />
+        <Avatar user={{username: item.user?.full_name.trim() !== '' ? item.user?.full_name : item.user?.email, photo: item.user?.photo_user}} classname={styles.avatar} />
         <div className={styles.details}>
           <div className={styles.line}>
-            <a href={item?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name !== null ? item.user?.full_name : item.user?.email}</a>
+            <a href={item?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name.trim() !== '' ? item.user?.full_name : item.user?.email}</a>
             <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
             <div className={styles.rating}>
               {item.rating?.toFixed(1) || 5.8}

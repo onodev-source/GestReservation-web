@@ -34,7 +34,7 @@ const Profile = ({userData, profileId}) => {
           </button>
         </Avatar>
         <div className={styles.wrap}>
-          <div className={cn("h4", styles.man)}>{profileId ? (userData?.full_name ? userData?.full_name : userData?.email) : (users.users.full_name ? users.users.full_name : users.users.email)}</div>
+          <div className={cn("h4", styles.man)}>{profileId ? (userData?.full_name.trim() !== '' ? userData?.full_name : userData?.email) : (users.users.full_name.trim() !== '' ? users.users.full_name : users.users.email)}</div>
           {((profileId && userData?.bio) || (!profileId && users.users?.bio)) && (
             <div className={styles.info}>
               {profileId ? userData?.bio : users.users?.bio}

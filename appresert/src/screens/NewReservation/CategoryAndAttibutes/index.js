@@ -75,6 +75,7 @@ const CategoryAndAttibutes = ({ className, setForm, editOrder, formEdit }) => {
     setTags([newTag]);
     setSelectedFilter(parseInt(newTag.id));
   };
+  
 
   useEffect(() => {
     const getAllCategory = async () => {

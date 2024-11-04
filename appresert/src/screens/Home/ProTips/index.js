@@ -125,7 +125,7 @@ const ProTips = ({ className, loader, orders }) => {
                     }
                   </React.Fragment>
                 ))
-                : <NoContent message={""}/>
+                : <NoContent message={""} styleSpace={{margin: '20px 0px 0px 20px',}}/>
             }
           </div>
         </div>

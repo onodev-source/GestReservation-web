@@ -66,8 +66,9 @@ const Row = ({ item, onDeleteInvoice }) => {
         <div className={styles.col}>{formatDate(item.invoice_date)}</div>
         <div className={styles.col}>
           <div className={styles.user} style={{textTransform: 'capitalize'}}>
-            <Avatar user={{username: item.orderDetails?.user.full_name , photo: item.orderDetails?.user.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
-            {item.orderDetails?.user.full_name.length > 12 ? `${item.orderDetails?.user.full_name.slice(0, 11)}...` : item.orderDetails?.user.full_name}
+            <Avatar user={{username: item.orderDetails?.user.full_name.trim() !== '' ? item.orderDetails?.user.full_name : item.orderDetails?.user.email, photo: item.orderDetails?.user.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
+            {item.orderDetails?.user.full_name.trim() !== '' ? (item.orderDetails?.user.full_name.length > 12 ? `${item.orderDetails?.user.full_name.slice(0, 11)}...` : item.orderDetails?.user.full_name)
+            : (item.orderDetails?.user.email.length > 12 ? `${item.orderDetails?.user.email.slice(0, 11)}...` : item.orderDetails?.user.email)}
           </div>
         </div>
         <div className={styles.col}>{Math?.floor(item.invoice_amount)}XAF</div>

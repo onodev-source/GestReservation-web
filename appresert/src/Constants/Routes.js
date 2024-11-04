@@ -5,7 +5,7 @@ const Routes = {
     SIGN_IN: '/sign-in',
     FORGOT_PASS: '/forgot-password',
     HOME: '/',
-    NOTIFICATIONS: '/notification',
+    NOTIFICATIONS: '/notifications',
     MESSAGES: '/message-center',
     MY_PROFILE: '/profile',
     PROFILE_ID: '/profile:id',

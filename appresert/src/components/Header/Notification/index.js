@@ -7,25 +7,38 @@ import Icon from "../../Icon";
 import Actions from "../../Actions";
 import Item from "./Item";
 
-// data
-import { notifications } from "../../../mocks/notifications";
 import { Routes } from "../../../Constants";
+import { useSelector } from "react-redux";
+import { getAllNotifications, markAllReadNotifications } from "../../../Utils/LikeComment";
+import NoContent from "../../NoContent";
+import Loader from "../../Loader";
+import { useTranslation } from "react-i18next";
 
-const actions = [
-  {
-    title: "Mark as read",
-    icon: "check",
-    action: () => console.log("Mark as read"),
-  },
-  {
-    title: "Delete notifications",
-    icon: "trash",
-    action: () => console.log("Delete notifications"),
-  },
-];
 
 const Notification = ({ className }) => {
+  const {t} = useTranslation()
+  const users = useSelector((state) => state.users)
+
   const [visible, setVisible] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [notifs, setNotifs] = useState([]);
+
+  const actions = [
+    {
+      title: notifs[0]?.is_read ? t('words.mark_as_unread') : t('words.mark_as_read'),
+      icon: "check",
+      action: () => markAllReadNotifications(users, notifs, setLoader, setNotifs),
+    },
+    {
+      title: t("words.go_setting"),
+      icon: "setting",
+      url: Routes.SETTINGS,
+    },
+  ];
+
+  React.useEffect(() => {
+    getAllNotifications(setLoader, users, setNotifs)
+  }, [users])
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
@@ -42,7 +55,7 @@ const Notification = ({ className }) => {
         </button>
         <div className={styles.body}>
           <div className={styles.top}>
-            <div className={styles.title}>Notification</div>
+            <div className={styles.title}>Notifications</div>
             <Actions
               className={styles.actions}
               classActionsHead={styles.actionsHead}
@@ -51,14 +64,18 @@ const Notification = ({ className }) => {
             />
           </div>
           <div className={styles.list}>
-            {notifications.map((x, index) => (
-              <Item
-                className={cn(styles.item, className)}
-                item={x}
-                key={index}
-                onClose={() => setVisible(false)}
-              />
-            ))}
+            {loader ? <Loader/> :
+              notifs?.length > 0 ?
+                notifs.slice(0, 4).map((x, index) => (
+                  <Item
+                    className={cn(styles.item, className)}
+                    item={x}
+                    key={index}
+                    onClose={() => setVisible(false)}
+                  />
+                ))
+              : <NoContent message={''}/>
+            }
           </div>
           <Link
             className={cn("button", styles.button)}

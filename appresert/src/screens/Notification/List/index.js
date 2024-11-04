@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./List.module.sass";
 import Card from "../../../components/Card";
@@ -7,46 +7,62 @@ import Actions from "../../../components/Actions";
 import Loader from "../../../components/Loader";
 import Item from "./Item";
 
-// data
-import { notifications } from "../../../mocks/notifications";
-import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import NoContent from "../../../components/NoContent";
+import { getAllNotifications, markAllReadNotifications } from "../../../Utils/LikeComment";
+import { Routes } from "../../../Constants";
 
 const intervals = ["Recent", "New", "This year"];
 
-const actions = [
-  {
-    title: "Mark as read",
-    icon: "check",
-    action: () => console.log("Mark as read"),
-  },
-  {
-    title: "Go setting",
-    icon: "setting",
-    action: () => console.log("Go setting"),
-  },
-];
 
-const List = ({ className }) => {
+const List = ({ className, selectedFilters, filterMapping }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users)
 
   const [loader, setLoader] = useState(false);
   const [sorting, setSorting] = useState(intervals[0]);
   const [notifs, setNotifs] = useState([]);
+  const [filteredNotifs, setFilteredNotifs] = useState([]);
 
-  const getAllNotifications = useCallback(async() => {
-    setLoader(true)
-    let res = await RequestDashboard('gestreserv/notifications/', 'GET', '', users.access_token);
-    if (res.status === 200) {
-      setNotifs(res.response?.results);
-      setLoader(false)
-    }
-  }, [users.access_token]);
-    
+  
+  const actions = [
+    {
+      title: notifs[0]?.is_read ? t('words.mark_as_unread') : t('words.mark_as_read'),
+      icon: "check",
+      action: () => markAllReadNotifications(users, notifs, setLoader, setNotifs),
+    },
+    {
+      title: t("words.go_setting"),
+      icon: "setting",
+      url: Routes.SETTINGS,
+    },
+  ];
+
+  // Charger toutes les notifications au montage du composant
   React.useEffect(() => {
-    getAllNotifications()
-  }, [getAllNotifications])
+    getAllNotifications(setLoader, users, setNotifs);
+  }, [users]);
 
+  // Filtrer les notifications en fonction des éléments de selectedFilters
+  React.useEffect(() => {
+    if (selectedFilters?.length > 0 && notifs?.length > 0) {
+
+      // Utilisation de flatMap pour collecter tous les types de notification à inclure dans le filtre
+      const typesToInclude = selectedFilters.flatMap((filter) => filterMapping[filter] || []);
+      
+       // Filtrage pour inclure toutes les notifications qui correspondent à l'un des types dans typesToInclude
+      const newFilteredNotifs = notifs.filter((notif) =>
+        typesToInclude.some(type => type === notif.notifications_type)
+      );
+      setFilteredNotifs(newFilteredNotifs);
+
+    } else if(selectedFilters?.length === 0) {   
+      setFilteredNotifs(notifs);
+    }
+  }, [selectedFilters, filterMapping, notifs]);
+
+  
   return (
     <Card
       className={cn(styles.card, className)}
@@ -73,9 +89,13 @@ const List = ({ className }) => {
     >
       <div className={styles.notifications}>
         <div className={styles.list}>
-          {notifs?.map((x, index) => (
-            <Item className={cn(styles.item, className)} item={x} key={index} />
-          ))}
+          {loader ? <Loader/> :
+            ((filteredNotifs.length >= 0 && selectedFilters?.length > 0) ? filteredNotifs : notifs)?.length > 0 ?
+              ((filteredNotifs.length >= 0 && selectedFilters?.length > 0) ? filteredNotifs : notifs)?.map((x, index) => (
+                <Item className={cn(styles.item, className)} item={x} key={index} />
+              ))
+              : <NoContent message={''}/>
+          }
         </div>
         {/*<div className={styles.foot}>
           <button className={cn("button-stroke button-small", styles.button)}>

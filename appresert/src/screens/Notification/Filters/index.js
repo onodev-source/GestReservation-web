@@ -9,8 +9,11 @@ const Filters = ({
   className,
   filters,
   selectedFilters,
-  setSelectedFilters,
+  setSelectedFilters
 }) => {
+  
+  const [users, setUsers] = useState(false);
+
   const handleChange = (filter) => {
     if (selectedFilters.includes(filter)) {
       setSelectedFilters(selectedFilters.filter((x) => x !== filter));
@@ -19,7 +22,6 @@ const Filters = ({
     }
   };
 
-  const [users, setUsers] = useState(false);
 
   return (
     <Card
@@ -40,29 +42,30 @@ const Filters = ({
             />
           ))}
         </div>
-        <div className={styles.btns}>
+       {/* <div className={styles.btns}>
           <button className={cn("button-stroke button-small", styles.button)}>
             Select all
           </button>
           <button className={cn("button-stroke button-small", styles.button)}>
             Unslect all
           </button>
-        </div>
+        </div>*/}
         <div className={styles.variants}>
           <Radio
             className={styles.radio}
             name="confirm"
-            value={users}
-            onChange={() => setUsers(true)}
+            value={selectedFilters?.length === 0 && !users}
+            onChange={() => setUsers(false)}
             content="Everyone"
+            onReset={() => setSelectedFilters([])}
           />
-          <Radio
+          {/*<Radio
             className={styles.radio}
             name="confirm"
             value={!users}
             onChange={() => setUsers(false)}
             content="Customers"
-          />
+          />*/}
         </div>
       </div>
     </Card>

@@ -45,7 +45,7 @@ const App = () => {
   const users = useSelector((state) => state.users)
   const language = useSelector(state => state.language);
 
-  const name = users.users.full_name ? users.users.full_name : users.users.email; 
+  const name = users.users.full_name.trim() === '' ? users.users.email : users.users.full_name; 
 
   React.useEffect(() => {
     i18n.changeLanguage(users.authenticated ? language.language : navigator?.language);
@@ -80,7 +80,7 @@ const App = () => {
         <Route path="/income/payouts" element={<Page title="Payouts"><Payouts /></Page>} />
         <Route path="/income/statements" element={<Page title="Statements"><Statements /></Page>} />
         <Route path="/promote" element={<AuthGuard props={<Page title={t('navigation.title.promote')}><Promote /></Page>} />} />
-        <Route path="/notification" element={<AuthGuard props={<Page title={t('navigation.title.notification')}><Notification /></Page>} />} />
+        <Route path="/notifications" element={<AuthGuard props={<Page title={t('navigation.title.notification')}><Notification /></Page>} />} />
         <Route path="/settings" element={<AuthGuard props={<Page title={t('navigation.title.settings')}><Settings /></Page>} />} />
         <Route path="/upgrade-to-pro" element={<Page title="Upgrade to Pro"><UpgradeToPro /></Page>} />
         <Route path="/message-center" element={<Page title="Message center"><MessageCenter /></Page>} />

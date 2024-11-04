@@ -42,11 +42,11 @@ const Comments = ({ className }) => {
             lastComments.length > 0 ?
               lastComments.map((x, index) => (
                 <div className={styles.item} key={index}>
-                  <Avatar user={{username: x.user?.full_name !== null ? x.user?.full_name : x.user?.email, photo: x.user.photo_user}} classname={styles.avatar}/>
+                  <Avatar user={{username: x.user?.full_name.trim() !== '' ? x.user?.full_name : x.user?.email, photo: x.user.photo_user}} classname={styles.avatar}/>
                   <div className={styles.details}>
                     <div className={styles.line}>
                       <div className={styles.user}>
-                        <span className={styles.title}>{x.user?.full_name !== null ? (x.user?.full_name.length > 8 ? `${x.user?.full_name.slice(0, 8)}...` : x.user?.full_name) : (x.user?.email.length > 8 ? `${x.user?.email.slice(0, 8)}...` : x.user?.email)}</span>{" "}
+                        <span className={styles.title}>{x.user?.full_name.trim() !== '' ? (x.user?.full_name.length > 8 ? `${x.user?.full_name.slice(0, 8)}...` : x.user?.full_name) : (x.user?.email.length > 8 ? `${x.user?.email.slice(0, 8)}...` : x.user?.email)}</span>{" "}
                         <span className={styles.login}>@{x.user?.email.length > 7 ? `${x.user?.email.slice(0, 7)}...` : x.user?.email}</span>
                       </div>
                       <div className={styles.time}>{formatTime(x.updated_at, 'GETDATEHOUR')}</div>

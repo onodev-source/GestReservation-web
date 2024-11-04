@@ -162,7 +162,7 @@ const NewPost = ({updatePost, postRef, postId, item, onRefresh}) => {
               </div>
             </Avatar>
             <div className={styles.profile}>
-              <Link to={Routes.MY_PROFILE} className={styles.link}><span>{users.users.full_name ? users.users.full_name : users.users.email}</span></Link>
+              <Link to={Routes.MY_PROFILE} className={styles.link}><span>{users.users.full_name.trim() !== '' ? users.users.full_name : users.users.email}</span></Link>
               <span>@{users.users.email.length > 12 ? `${users.users.email.slice(0, 12)}...` : users.users.email}</span>
             </div>
           </div>

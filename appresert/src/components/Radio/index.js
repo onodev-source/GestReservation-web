@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Radio.module.sass";
 
-const Radio = ({ className, content, name, value, onChange }) => {
+const Radio = ({ className, content, name, value, onChange, onReset }) => {
   return (
     <label className={cn(styles.radio, className)}>
       <input
@@ -17,7 +17,7 @@ const Radio = ({ className, content, name, value, onChange }) => {
           className={styles.text}
           dangerouslySetInnerHTML={{ __html: content }}
         ></span>
-        <span className={styles.tick}></span>
+        <span className={styles.tick} onClick={onReset}></span>
       </span>
     </label>
   );
