@@ -13,6 +13,7 @@ import { refunds } from "../../../../mocks/refunds";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../../Constants";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 /*const customerDetails = {
   product: "Filomena Fahey",
@@ -76,6 +77,7 @@ const Row = ({
   onDeleteCust,
   customersDetails
 }) => {
+  const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
   const [visibleActions, setVisibleActions] = useState(false);
@@ -142,8 +144,13 @@ const Row = ({
         </div>
         <div className={styles.col}>
           <div className={styles.lifetime}>
-            <div className={styles.price}>{item.price || '0.00'}XAF</div>
-            <Balance className={styles.balance} value={item.balance || '0.0'} />
+            {item.is_active ? (
+              <div className={cn("status-green", styles.status)}>{t('words.active')}</div>
+            ) : (
+              <div className={cn("status-red", styles.statusRed)}>{t('words.not_active')}</div>
+            )}
+            {/*<div className={styles.price}>{item.is_active ? t('words.active') : t('words.not_active')}</div>
+            <Balance className={styles.balance} value={item.user.is_active ? t('words.active') : t('words.not_active')} />*/}
           </div>
         </div>
         <div className={styles.col}>{item.comments || '0'}</div>

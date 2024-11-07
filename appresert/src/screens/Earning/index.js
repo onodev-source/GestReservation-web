@@ -8,15 +8,15 @@ import TopCountries from "./TopCountries";
 import Table from "./Table";
 //import Balance from "../../components/Balance";
 import Chart from "./Chart";
-import Dropdown from "../../components/Dropdown";
+//import Dropdown from "../../components/Dropdown";
 import Card from "../../components/Card";
 import { useTranslation } from "react-i18next";
 
-const intervals = ["Last 28 days", "Last 14 days", "Last 7 days"];
+//const intervals = ["Last 28 days", "Last 14 days", "Last 7 days"];
 
 const Earning = ({resertList}) => {
   const {t} = useTranslation()
-  const [sorting, setSorting] = React.useState(intervals[0]);
+  //const [sorting, setSorting] = React.useState(intervals[0]);
   
   return (
     <>
@@ -27,10 +27,11 @@ const Earning = ({resertList}) => {
             <>
               <Card className={cn(styles.card)} title={t('views.reservations.performance_by_day')} classTitle={cn("title-red", styles.cardTitle)}
                 classCardHead={styles.cardHead}
-                head={
-                  <Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead} value={sorting}
+                head={<>
+                  {/*<Dropdown className={styles.dropdown}  classDropdownHead={styles.dropdownHead} value={sorting}
                     setValue={setSorting} options={intervals} small
-                  />
+                  />*/}
+                </>
                 }
               >
                 <div className={styles.overview}>

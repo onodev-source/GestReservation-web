@@ -9,17 +9,18 @@ import { useSelector } from "react-redux";
 const Control = ({ valueAnswer, setValueAnswer, item, getAllcommentByPack, isCommentUser, onDeleteCommment }) => {
   const users = useSelector((state) => state.users)
   const [visibleFavorite, setVisibleFavorite] = useState(item.liked_by_user);
+  const [statusLike, setStatusLike] = useState(item.liked_by_user ? 'Disliked' : 'Liked');
   const [visibleReply, setVisibleReply] = useState(false);
 
   return (
     <>
       <div className={styles.control}>
-        <button className={cn(styles.favorite, { [styles.active]: visibleFavorite })} onClick={() => likeCommentById(item.package[0]?.id, users, item?.id, getAllcommentByPack, setVisibleFavorite) }>
+        <button className={cn(styles.favorite, { [styles.active]: visibleFavorite })} onClick={() => likeCommentById(item.package[0]?.id, users, item?.id, setStatusLike, setVisibleFavorite) }>
           <span>
             <Icon name="heart" size="20" />
             <Icon name="heart-fill" size="20" />
           </span>
-          Like
+          {statusLike}
         </button>
         <button  className={cn(styles.reply, { [styles.active]: visibleReply })} onClick={() => setVisibleReply(true)} >
           <span>

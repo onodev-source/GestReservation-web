@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import cn from "classnames";
 import styles from "./Row.module.sass";
 import Modal from "../../../components/Modal";
 import Details from "./Details";
@@ -31,7 +32,7 @@ const Row = ({ item, onDeleteInvoice }) => {
       <div className={styles.row} >
         <div className={styles.col} onClick={() => setVisibleModal(true)}>
           <div className={styles.item}>
-            <div className={styles.preview}>
+            <div className={cn(styles.preview, {[styles.previewImg]: item.orderDetails?.packages?.length >= 2})}>
               {item.orderDetails?.packages?.map((pack, index) => (
                 <img
                   srcSet={`${pack?.photos_packages} 2x`}

@@ -15,15 +15,16 @@ import RequestDashboard from "../../Services/Api/ApiServices";
 //import { Link } from "react-router-dom";
 //import { Routes } from "../../Constants";
 
-const intervals = ["Sort by: All", "Sort by: in progress", "Sort by: new request", "Sort by: A-Z"];
-
 const Refunds = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
+  const intervals = [t('words.filter'), t('words.Completed'), t('words.pending')];
+
   //const [activeIndex, setActiveIndex] = useState(0);
   const [loader, setLoader] = useState(false);
   const [incomes, setIncomes] = useState([]);
+  const [filterIncomes, setFilterIncomes] = useState([]);
   const [sorting, setSorting] = React.useState(intervals[0]);
 
   const getAllInvoices = useCallback(async() => {
@@ -41,9 +42,9 @@ const Refunds = () => {
             .then(orderRes => {
                 if (orderRes.status === 200) {
                   // Extraire uniquement l'utilisateur et le package
-                  const { user, packages: packageDetails } = orderRes.response;
+                  const { user_detail, packages_detail: packageDetails } = orderRes.response;
 
-                  return { ...invoice, orderDetails: { user, packages: packageDetails  } };
+                  return { ...invoice, orderDetails: { user: user_detail, packages: packageDetails  } };
 
                 } else {
                     // Si la commande n'est pas trouvée ou renvoie une erreur
@@ -80,6 +81,23 @@ const Refunds = () => {
     getAllInvoices()
   }, [getAllInvoices])
 
+  // Filtrer les reservations en fonction des éléments de navigation
+  React.useEffect(() => {
+    if (intervals?.indexOf(sorting) === 1) {
+      // Filtrage pour inclure toutes les factures et affiche par status complet
+      const filtered = incomes?.filter((income) => income.payment_statut === "COMPLETED")  
+      setFilterIncomes(filtered);
+      
+    } else if (intervals?.indexOf(sorting) === 2) {
+      // Filtrage pour inclure toutes les factures  et affiche par status pending
+      const filtered = incomes?.filter((income) => income.payment_statut === "PENDING")
+      setFilterIncomes(filtered);
+
+    } 
+     else {  
+      setFilterIncomes(incomes);
+    }
+  }, [incomes, sorting]);
 
   return (
     <>
@@ -103,8 +121,8 @@ const Refunds = () => {
             </div>
             {loader ? 
               <Loader/> :
-              incomes?.length > 0 ?
-                incomes.map((x, index) => (
+              (intervals?.indexOf(sorting) === 0 ? incomes : filterIncomes)?.length > 0 ?
+                (intervals?.indexOf(sorting) === 0 ? incomes : filterIncomes).map((x, index) => (
                   <Row item={x} key={index} onDeleteInvoice={() => deleteInvoiceById(x.id)}/>
                 ))
               :

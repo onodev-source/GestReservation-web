@@ -20,7 +20,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
   const customerArray = [
     { title: t('form.full_name'), content: item.full_name },
     { title: t('form.email'), content: item.email },
-    { title: t('form.date_birth'), content: item.date_of_birth },
+    { title: t('views.reservations.table.status'), content: item.is_active ? t('words.active') : t('words.not_active') },
     { title: t('form.gender'), content: item.gender },
     { title: t('form.phone_number'), content: item.phone_number },
     { title: t('form.city'), content: item.city },
@@ -33,16 +33,16 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
     { title: t('views.reservations.table.date_end'), content:`From ${formatDate(item.end_date)} to ${formatTime(item?.end_hour)}` },
     { title: t('views.reservations.table.status'), content: item.statut},
     //{ title: 'Package price', content: `${Math.floor(item?.package_price)}XAF ` },
-    { title: t('views.products.add.type_of_event'), content: item.type_event?.type_event },
+    { title: t('views.products.add.type_of_event'), content: item.type_event_detail?.type_event },
     { title: t('views.packages.add.monthly_subscription'), content: `${Math.floor(item?.price_month)}XAF ` },
     { title: t('views.packages.add.dayly_subscription'), content: `${Math.floor(item?.price_day)}XAF` },
     { title: t('views.packages.add.hourly_subscription'), content: `${Math.floor(item?.price_hour)}XAF`  },
     { title: t('views.reservations.table.date_created'), content: `${formatDate(item.created_at)}`  },
   ];
   const suggestions = (!customersDetails && !incomeDetail) && [
-    { title: `${t('views.packages.add.title_package')}:`, content: item?.packages[0]?.package_name},
+    { title: `${t('views.packages.add.title_package')}:`, content: item?.packages_detail[0]?.package_name},
     //{ title: 'Package Des:', content: item.package?.package_name},
-    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item?.packages[0]?.package_price)}XAF`},
+    { title: `${t('views.packages.add.price_subscription')}:`, content: ` ${Math.floor(item?.packages_detail[0]?.package_price)}XAF`},
   ];
   const incomeArray = incomeDetail && [
     { title: t('views.reservations.number_reservation'), content: item.order_number[0]?.order_number},
@@ -101,7 +101,7 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                 <div className={styles.box}>
                   <div className={styles.info}>{t('form.category_package')}</div>
                   <ul className={styles.list}>
-                      <li >{item.packages[0]?.category_name}</li>
+                      <li >{item.packages_detail[0]?.category_name}</li>
                   </ul>
                 </div>
                 <div className={styles.box}>
@@ -115,17 +115,17 @@ const Details = ({ item, customersDetails, onClose, incomeDetail, onDeleteInvoic
                 <div className={styles.box}>
                   <div className={styles.info}>{t('views.customers.customer')}</div>
                   <div className={styles.user} style={{textTransform: 'capitalize'}}>
-                    <Avatar user={{username: item.user.full_name.trim() !== '' ? item.user.full_name : item.user.email, photo: item.user?.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
-                    {item.user.full_name.trim() !== '' ? item.user.full_name : item.user.email}
+                    <Avatar user={{username: item.user_detail.full_name.trim() !== '' ? item.user_detail.full_name : item.user_detail.email, photo: item.user_detail?.photo_user}} classname={styles.avatar}  width='32px'  height='32px'/>
+                    {item.user_detail.full_name.trim() !== '' ? item.user_detail.full_name : item.user_detail.email}
                   </div>
                   <div className={styles.text}>
                     <div className={styles.textTel}>
                       <Icon name="phone" size="24" />
-                      {item.user?.phone_number}
+                      {item.user_detail?.phone_number}
                     </div>
                     <div>
                       <Icon name="mail" size="24" />
-                      {item.user?.email}
+                      {item.user_detail?.email}
                     </div>
                   </div>
                 </div>

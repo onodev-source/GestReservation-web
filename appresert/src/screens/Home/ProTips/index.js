@@ -93,7 +93,7 @@ const ProTips = ({ className, loader, orders }) => {
                         <Icon name='schedule' size="24" />
                       </div>
                       <div className={styles.details}>
-                        <div className={styles.title}>{t('views.reservations.reserved_lots')} : {x.packages[0]?.package_name.length >= 20 ? `${x.packages[0]?.package_name.slice(0, 17)}...` : x.packages[0]?.package_name}</div>
+                        <div className={styles.title}>{t('views.reservations.reserved_lots')} : {x.packages_detail[0]?.package_name?.length >= 20 ? `${x.packages_detail[0]?.package_name?.slice(0, 17)}...` : x.packages_detail[0]?.package_name}</div>
                         <div className={styles.line}>
                           {x.statut && (
                             <div  className={cn(

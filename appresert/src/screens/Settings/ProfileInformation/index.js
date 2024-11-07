@@ -39,7 +39,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
     
     setFormUpdate({...formUpdate, bio: newContent.getCurrentContent().getPlainText()})
   };
-  
+
 
   const handleFileChange = ({ target }) => {
     const file = target.files[0];
@@ -73,6 +73,11 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
     }
   };
 
+  const handleRemoveMedia = () => {   
+    setProfileImg([]);
+    setMediaUpdate();
+  }
+  
   useEffect(() => {
     setFormUpdate({ ...formUpdate, date_of_birth: formatDate(startDate, 'SEND') })
   },[startDate])
@@ -95,7 +100,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
     <Item className={cn(styles.card, className)}  title={t("views.settings.edit.profile_info")} classTitle="title-g-reen" >
       <div className={styles.profile}>
         <Avatar  user={{username: users.users?.email, photo: profileImg.length === 0 ? formUpdate.media : profileImg[0].url}} classname={styles.avatar}  width='96px'  height='96px'>
-          <button className={styles.remove}>
+          <button className={styles.remove} onClick={handleRemoveMedia}>
             <Icon name="close" />
           </button>
         </Avatar>
@@ -106,7 +111,7 @@ const ProfileInformation = ({ className, onChange, formUpdate, setFormUpdate, se
             <span>{t("views.settings.edit.upload_new_image")}</span>
           </button>
         </div>
-        <button className={cn("button-stroke", styles.button)}>{t("words.remove")}</button>
+        <button className={cn("button-stroke", styles.button)} onClick={handleRemoveMedia}>{t("words.remove")}</button>
       </div>
       <div className={styles.fieldset}>
         <TextInput

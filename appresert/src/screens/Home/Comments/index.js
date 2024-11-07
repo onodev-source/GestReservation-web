@@ -49,7 +49,7 @@ const Comments = ({ className }) => {
                         <span className={styles.title}>{x.user?.full_name.trim() !== '' ? (x.user?.full_name.length > 8 ? `${x.user?.full_name.slice(0, 8)}...` : x.user?.full_name) : (x.user?.email.length > 8 ? `${x.user?.email.slice(0, 8)}...` : x.user?.email)}</span>{" "}
                         <span className={styles.login}>@{x.user?.email.length > 7 ? `${x.user?.email.slice(0, 7)}...` : x.user?.email}</span>
                       </div>
-                      <div className={styles.time}>{formatTime(x.updated_at, 'GETDATEHOUR')}</div>
+                      <div className={styles.time}>{formatTime(x.created_at, 'GETDATEHOUR')}</div>
                     </div>
                     <div
                       className={styles.content}

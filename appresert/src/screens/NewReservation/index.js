@@ -148,8 +148,8 @@ const NewReservation = ({product, editOrder}) => {
       end_date: formatDate(endDate, 'SEND'),
       begin_hour: formatDate(startTime, 'HOUR'),
       end_hour: formatDate(endTime, 'HOUR'),
-      package_ids: selectedFilters,
-      type_event_ids: [parseInt(form.type_event)]
+      package: selectedFilters,
+      type_event: parseInt(form.type_event)
     };
 
     let res = await RequestDashboard(editOrder ? `gestreserv/orders/${orderId}/` : 'gestreserv/orders/', editOrder ? 'PUT' : 'POST', data, users.access_token)
@@ -198,8 +198,8 @@ const NewReservation = ({product, editOrder}) => {
       dateStart.setHours(hours, minutes, seconds);
       dateEnd.setHours(hoursEnd, minutesEnd, secondsEnd);
 
-      setForm({ price_hour: orderEdit.price_hour, price_day: orderEdit.price_day, price_month: orderEdit.price_month, nb_persons: orderEdit.nb_persons, type_event: orderEdit.type_event[0]?.id });  
-      setSelectedFilters([orderEdit?.packages[0]?.id]) 
+      setForm({ price_hour: Math.floor(orderEdit.price_hour), price_day: Math.floor(orderEdit.price_day), price_month: Math.floor(orderEdit.price_month), nb_persons: orderEdit.nb_persons, type_event: orderEdit.type_event_detail?.id });  
+      setSelectedFilters([orderEdit?.packages_detail[0]?.id]) 
       //setStartDate(new Date(item.start_date));
       setStartDate(new Date(orderEdit?.begin_date)) 
       setEndDate(new Date(orderEdit.end_date)) 
@@ -242,7 +242,7 @@ const NewReservation = ({product, editOrder}) => {
           {/*<CategoryAndAttibutes className={styles.card} categoryAttribute={true} product={product}/>
           <ProductFiles className={styles.card} />*/}
 
-          <CategoryAndAttibutes className={styles.card} setForm={setForm} editOrder={editOrder} formEdit={orderEdit?.type_event[0]?.type_event}/>
+          <CategoryAndAttibutes className={styles.card} setForm={setForm} editOrder={editOrder} formEdit={orderEdit?.type_event_detail?.type_event}/>
 
           {/*<Discussion className={styles.card} />*/}
         

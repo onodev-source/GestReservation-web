@@ -9,7 +9,7 @@ import Notifications from "./Notifications";
 //import Payment from "./Payment";
 import Category from "./Category";
 import Help from "./Help";
-import Item from "./Item";
+//import Item from "./Item";
 import Language from "./Language";
 import { useTranslation } from "react-i18next";
 import RequestDashboard from "../../Services/Api/ApiServices";
@@ -224,7 +224,7 @@ const Settings = () => {
       setErrorSubmit("An unexpected error occurred. Please try again.");
     }
   };
-  
+
   return (
     <>
       <div className={styles.settings}>

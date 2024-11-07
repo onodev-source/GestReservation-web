@@ -4,14 +4,19 @@ import cn from "classnames";
 import Icon from "../../../../components/Icon";
 //import Actions from "../../../../components/Actions";
 import { NavLink } from "react-router-dom";
-import ModalProduct from "../../../../components/ModalProduct";
+//import ModalProduct from "../../../../components/ModalProduct";
 import { Routes } from "../../../../Constants";
 import { useSelector } from "react-redux";
 
 
-const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId, selectedItem }) => {
-  const [visibleModalProduct, setVisibleModalProduct] = React.useState(false);
+const Control = ({ className, visibleActions, setVisibleActions, up, onClick, productId, item, setSelectedItem, setVisibleModalProduct }) => {
+  //const [visibleModalProduct, setVisibleModalProduct] = React.useState(false);
   const users = useSelector((state) => state.users)
+
+  const handleChangeVisibleDetails= (itemSelected) => {
+    setSelectedItem(itemSelected); 
+    setVisibleModalProduct(true)
+  };
 
   const actions = [
     {
@@ -35,7 +40,7 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick, pr
       icon: "arrow-right",
       action: () => {
         console.log("Details action triggered");
-        setVisibleModalProduct(true); // Affiche le modal
+        handleChangeVisibleDetails(item); // Affiche le modal
       },
     }
   ];
@@ -68,9 +73,9 @@ const Control = ({ className, visibleActions, setVisibleActions, up, onClick, pr
       )
     )}
     
-    {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>)}
+    {/*selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true} detailsData={selectedItem} key={selectedItem?.id}/>)}
       
-      {/*<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
+      <ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} product={true}/>
       <Actions
         className={styles.actions}
         classActionsHead={styles.actionsHead}

@@ -19,20 +19,21 @@ import { useTranslation } from "react-i18next";
 import NoContent from "../../../components/NoContent/index.js";
 import { getAllReservations } from "../../../Utils/LikeComment.js";
 
-
-const navigation = ["Active", "New", "A-Z", "Z-A"];
+;
 
 const Table = ({activityUser, userId}) => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
+  const navigation = [t("words.filter"), t("words.Completed"), t("words.pending"), t("words.canceled")]
 
-  const [activeTab, setActiveTab] = React.useState(navigation[0]);
-  const [search, setSearch] = React.useState("");
   //const [visible, setVisible] = React.useState(false);
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const [selectedOrder, setSelectedOrder] = React.useState(null);  // État pour l'élément sélectionné
+  const [activeTab, setActiveTab] = React.useState(navigation[0]);
   const [orders, setOrders] = React.useState([]);
+  const [filterOrders, setFilterOrders] = React.useState([]);
 
 
   const actions = [
@@ -86,7 +87,7 @@ const Table = ({activityUser, userId}) => {
     let data = {
       order_ids: [order.id],
       order_event: order.type_event?.type_event,
-      invoice_amount: order.packages[0]?.package_price,
+      invoice_amount: order.packages_detail[0]?.package_price,
       payment_method: 'CASH',
       payment_statut: "PENDING",
       payment_type: 'FULL',
@@ -111,6 +112,29 @@ const Table = ({activityUser, userId}) => {
   useEffect(() => {
     getAllReservations({setLoading: setLoading, activityUser: activityUser, userId: userId, users: users, setOrders: setOrders})
   }, [users, activityUser, userId]);
+ 
+
+  // Filtrer les reservations en fonction des éléments de navigation
+  React.useEffect(() => {
+    if (navigation?.indexOf(activeTab) === 1) {
+      // Filtrage pour inclure toutes les reservations et affiche par status complet
+      const filtered = orders?.filter((order) => order.statut === "COMPLETED")  
+      setFilterOrders(filtered);
+      
+    } else if (navigation?.indexOf(activeTab) === 2) {
+      // Filtrage pour inclure toutes les reservations  et affiche par status pending
+      const filtered = orders?.filter((order) => order.statut === "PENDING")
+      setFilterOrders(filtered);
+    } else if (navigation?.indexOf(activeTab) === 3) {
+      // Filtrage pour inclure toutes les reservations  et affiche par status cancel
+      const filtered = orders?.filter((order) => order.statut === "CANCELED")
+      setFilterOrders(filtered);
+    }
+     else {  
+      setFilterOrders(orders);
+    }
+  }, [orders, activeTab]);
+
 
   return (
     <div className={cn(styles.wrapper, {[styles.wrapperNone] : activityUser})}>
@@ -142,8 +166,8 @@ const Table = ({activityUser, userId}) => {
         </div>
         {loading ?
           <Loader/> : (
-            orders.length > 0 ? (
-              orders?.map((x, index) => (
+            (navigation?.indexOf(activeTab) !== 0 ? filterOrders : orders).length > 0 ? (
+              (navigation?.indexOf(activeTab) !== 0 ? filterOrders : orders)?.map((x, index) => (
                 <React.Fragment key={x.order_number}>
                   <div className={styles.row} key={x.order_number}>
                     <div className={styles.col}>{t('words.from')} {formatDate(x.begin_date)} <br/> {t('words.to_s')} {formatTime(x.begin_hour)} </div>
@@ -152,7 +176,7 @@ const Table = ({activityUser, userId}) => {
                       {x.statut !=="PENDING" ? (
                         <div
                           className={cn(
-                            { "status-green-dark": x.statut !== "PENDING" },
+                            { "status-green-dark": x.statut === "COMPLETED" }, { "status-red-dark": x.statut === "CANCELED" },
                             styles.status
                           )}
                         >
@@ -169,9 +193,9 @@ const Table = ({activityUser, userId}) => {
                         </div>
                       )}
                     </div>
-                    <div className={styles.col}>{x.packages[0]?.package_name}</div>
+                    <div className={styles.col}>{x.packages_detail[0]?.package_name}</div>
                     <div className={styles.col}>{x.nb_persons}</div>
-                    <div className={styles.col}>{Math?.floor(x.packages[0]?.package_price)}XAF 
+                    <div className={styles.col}>{Math?.floor(x.packages_detail[0]?.package_price)}XAF 
                       {/*${numberWithCommas(x?.price_month?.toFixed(2))*/}
                     </div>
                     <div className={styles.col}>

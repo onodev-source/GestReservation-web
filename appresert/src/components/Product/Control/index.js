@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import styles from "./Control.module.sass";
 import cn from "classnames";
 import Icon from "../../Icon";
-import ModalProduct from "../../ModalProduct";
+//import ModalProduct from "../../ModalProduct";
 import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
 import RequestDashboard from "../../../Services/Api/ApiServices";
 import { useSelector } from "react-redux";
 
-const Control = ({ className, selectedItem, getAllPackages, packageId, product, productId, onClickDelete }) => {
+const Control = ({ className, item, getAllPackages, product, prodOrPackId, onClickDelete, handleChangeVisibleProduct }) => {
   const users = useSelector((state) => state.users);
-  const [visibleModalProduct, setVisibleModalProduct] = useState(false);
+  //const [visibleModalProduct, setVisibleModalProduct] = useState(false);
 
   
   const deletePackagesById = async(id) => {
@@ -24,17 +24,17 @@ const Control = ({ className, selectedItem, getAllPackages, packageId, product, 
     {
       id: 1,
       icon: "edit",
-      url: product ? `${Routes.PACKAGES_EDIT}/${packageId}` : `${Routes.PRODUITS_EDIT}/${productId}`,
+      url: product ? `${Routes.PACKAGES_EDIT}/${prodOrPackId}` : `${Routes.PRODUITS_EDIT}/${prodOrPackId}`,
     },
     {
       id: 2,
       icon: "trash",
-      action: () => product ? deletePackagesById(packageId) : onClickDelete(productId),
+      action: () => product ? deletePackagesById(prodOrPackId) : onClickDelete(prodOrPackId),
     },
     {
       id: 3,
       icon: "arrow-right",
-      action: () => setVisibleModalProduct(true),
+      action: () => handleChangeVisibleProduct(item),
     },
   ];
   const filteredActions = users.users.is_customer ? actions.filter(item => item.id !== 1 && item.id !== 2)  : actions;
@@ -54,7 +54,7 @@ const Control = ({ className, selectedItem, getAllPackages, packageId, product, 
           )
         ))}
       </div>
-      {selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} detailsData={selectedItem} key={selectedItem?.id}/>)}
+      {/*selectedItem !== null && (<ModalProduct visible={visibleModalProduct} onClose={() => setVisibleModalProduct(false)} detailsData={selectedItem} key={selectedItem?.id}/>)*/}
     </>
   );
 };

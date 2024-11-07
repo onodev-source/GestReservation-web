@@ -7,9 +7,7 @@ import ModalProduct from "../../../../../components/ModalProduct";
 import Control from "../../Control";
 
 import { numberWithCommas } from "../../../../../utils.js";
-import RequestDashboard from "../../../../../Services/Api/ApiServices.js";
-import { useSelector } from "react-redux";
-import { formatDate } from "../../../../../Utils/formatDate.js";
+//import { formatDate } from "../../../../../Utils/formatDate.js";
 import { useTranslation } from "react-i18next";
 
 const Row = ({ item, value, onChange, up, onClick, items }) => {
@@ -53,7 +51,7 @@ const Row = ({ item, value, onChange, up, onClick, items }) => {
           ) : (
             <div className={cn("status-red", styles.statusRed)}>Deactive</div>
           )}
-          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} selectedItem={selectedItem}/>
+          <Control className={styles.control}  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} item={item} setSelectedItem={setSelectedItem} setVisibleModalProduct={setVisibleModalProduct}/>
         </div>
         <div className={styles.col}>{item.product_quantity}</div>
         <div className={styles.col}>
@@ -81,12 +79,12 @@ const Row = ({ item, value, onChange, up, onClick, items }) => {
             </div>*/}
           </div>
         </div>
-        <div className={styles.col}>
+        {/*<div className={styles.col}>
           <div className={styles.label}>Likes</div>
           <div className={styles.box}>
             <div className={styles.number}>{item.product_quantity}</div>
             <div className={styles.line}>
-              {/*<div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.likesPercent, }}></div>*/}
+              {/*<div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.likesPercent, }}></div>
               <div className={styles.progress} style={{ backgroundColor: "#8E59FF",  width: item.product_quantity, }}></div>
             </div>
           </div>
@@ -94,14 +92,14 @@ const Row = ({ item, value, onChange, up, onClick, items }) => {
         <div className={styles.col}>
           <div className={styles.label}>Create at</div>
           <div className={styles.box}>
-            <div className={styles.number}>{formatDate(item.updated_at)}</div>
+            <div className={styles.number}>{formatDate(item.created_at)}</div>
           </div>
-        </div>
+        </div>*/}
         <div className={cn(styles.col, styles.colHide)}>
           <div className={styles.colContaint}>
             <div className={styles.label}>Options</div>
             <div className={styles.box}>
-              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} selectedItem={selectedItem}/>
+              <Control  visibleActions={visibleActions} setVisibleActions={setVisibleActions} up={up} onClick={onClick} productId={item.id} item={item} setSelectedItem={setSelectedItem} setVisibleModalProduct={setVisibleModalProduct}/>
             </div>
           </div>
         </div>

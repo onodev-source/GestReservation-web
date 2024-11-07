@@ -13,14 +13,16 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { getAllCustomers } from "../../Utils/LikeComment";
 
-const navigation = ["Active", "New", "A-Z", "Z-A"];
 
 const CustomerList = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
+  const navigation = [t('words.filter'), t("words.active"), t("words.not_active")];
+
   const [loader, setLoader] = useState(false);
   const [allCustomers, setAllCustomers] = useState([]);
+  const [filterCustomers, setFilterCustomers] = useState([]);
   //const [activeIndex, setActiveIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(navigation[0]);
   const [search, setSearch] = useState("");
@@ -30,10 +32,30 @@ const CustomerList = () => {
     alert();
   };
 
+  // Charger toutes les customers au montage du composant
   useEffect(() => {
     getAllCustomers(setLoader, users, setAllCustomers)
   }, [users])
 
+
+  // Filtrer les customers en fonction des éléments de navigation
+  React.useEffect(() => {
+    if (navigation?.indexOf(activeTab) === 1) {
+      // Filtrage pour inclure tous les customers et affiche de ceux qui sont actif
+      const filtered = allCustomers?.filter((cust) => cust.user.is_active)
+      setFilterCustomers(filtered);
+      
+    } else if (navigation?.indexOf(activeTab) === 2) {
+      // Filtrage pour inclure tous les customers et affiche de ceux qui sont pas actif
+      const filtered = allCustomers?.filter((cust) => !cust.user.is_active)
+      setFilterCustomers(filtered);
+    }
+     else {  
+      setFilterCustomers(allCustomers);
+    }
+  }, [allCustomers, activeTab]);
+
+  
   return (
     <>
       <div className={styles.section}>
@@ -70,7 +92,7 @@ const CustomerList = () => {
             <Table
               className={styles.table}
               activeTable={visible}
-              setActiveTable={setVisible} allCustomers={allCustomers} loader={loader} setLoader={setLoader} setAllCustomers= {setAllCustomers}
+              setActiveTable={setVisible} allCustomers={(filterCustomers?.length >= 0 && navigation?.indexOf(activeTab) !== 0) ? filterCustomers : allCustomers} loader={loader} setLoader={setLoader} setAllCustomers= {setAllCustomers}
             />
             <Details
               className={styles.details}

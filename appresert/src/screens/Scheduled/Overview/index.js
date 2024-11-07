@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import cn from "classnames";
 import styles from "./Overview.module.sass";
 import TooltipGlodal from "../../../components/TooltipGlodal";
 import Card from "../../../components/Card";
-import Dropdown from "../../../components/Dropdown";
+//import Dropdown from "../../../components/Dropdown";
 import Icon from "../../../components/Icon";
 import Tooltip from "../../../components/Tooltip";
 import Balance from "../../../components/Balance";
@@ -11,12 +11,12 @@ import { Link } from "react-router-dom";
 import { Routes } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 
-const intervals = ["Last 7 days", "This month", "All time"];
+//const intervals = ["Last 7 days", "This month", "All time"];
 
 
 const Overview = ({ className }) => {
   const {t} = useTranslation()
-  const [sorting, setSorting] = useState(intervals[0]);
+  //const [sorting, setSorting] = useState(intervals[0]);
 
   const items = [
     {
@@ -61,9 +61,9 @@ const Overview = ({ className }) => {
         classTitle="title-red"
         head={
           <>
-            <Dropdown className={styles.dropdown} classDropdownHead={styles.dropdownHead}  value={sorting}  setValue={setSorting}
+            {/*<Dropdown className={styles.dropdown} classDropdownHead={styles.dropdownHead}  value={sorting}  setValue={setSorting}
               options={intervals} small
-            />
+            />*/}
             <Link className={cn("button-small", styles.button)} to={Routes.RESERVATION_ADD}>
               {t('views.reservations.add_reservation')}
             </Link>

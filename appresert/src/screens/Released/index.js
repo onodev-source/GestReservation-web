@@ -10,22 +10,22 @@ import Loader from "../../components/Loader";
 import Panel from "./Panel";
 
 // data
-import { products } from "../../mocks/products";
+//import { products } from "../../mocks/products";
 import { Link } from "react-router-dom";
-import Dropdown from "../../components/Dropdown";
+//import Dropdown from "../../components/Dropdown";
 import { Routes } from "../../Constants";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
 
 //const sorting = ["list", "grid"];
-const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
+//const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
 
 const Released = () => {
   //const [activeIndex, setActiveIndex] = useState(0);
   const {t} =useTranslation()
   const users = useSelector((state) => state.users);
-  const [activeTab, setActiveTab] = useState(navDropdown[0]);
+  //const [activeTab, setActiveTab] = useState(navDropdown[0]);
   const [packages, setPackages] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,8 +68,8 @@ const Released = () => {
                 <button className={cn(styles.link, {  [styles.active]: index === activeIndex, })}  onClick={() => setActiveIndex(index)} key={index}>
                   <Icon name={x} size="24" />
                 </button>
-              ))}*/}
-              <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />
+              ))}
+              <Dropdown classDropdownHead={styles.dropdownHead} value={activeTab} setValue={setActiveTab} options={navDropdown} small />*/}
               {!users.users.is_customer &&
                 <Link className={cn("button button-small", styles.button)} to={Routes.PACKAGES_ADD} >
                   {t("views.packages.add_package")} 

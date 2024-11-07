@@ -26,7 +26,7 @@ const Row = ({ item, value, onChange, onDeleteComment, getAllcomment }) => {
           <div className={styles.details}>
             <div className={styles.line}>
               <a href={item?.user?.id === users.users.id ? Routes.MY_PROFILE : `${Routes.MY_PROFILE}/${item.user?.id}`} className={styles.author}>{item.user?.full_name.trim() !== '' ? item.user?.full_name : item.user?.email}</a>
-              <div className={styles.time}>{formatTime(item.updated_at, 'GETDATEHOUR')}</div>
+              <div className={styles.time}>{formatTime(item.created_at, 'GETDATEHOUR')}</div>
             </div>
             <div className={styles.comment} dangerouslySetInnerHTML={{ __html: item.content }} ></div>
             <Control className={styles.control} value={visible} packageComment={item.package} commentContent={item} setValue={setVisible} valueAnswer={currentValue} setValueAnswer={setCurrentValue}

@@ -1,5 +1,13 @@
 import RequestDashboard from "../Services/Api/ApiServices";
 
+export const getAllProduct = async(setLoader, users, setProduct) => {
+  setLoader(true)
+  let res = await RequestDashboard('gestreserv/products/', 'GET', '', users.access_token);
+  if (res.status === 200) {
+    setProduct(res.response.results);
+    setLoader(false)
+  }
+};
 
 export const getAllComment = async(setLoader, activityUser, userId, users,setAllComments, setMessage) => {
   setLoader(true)
@@ -50,7 +58,7 @@ export const getAllNotifications = async(setLoader, users, setNotifs) => {
   }
 };
 
-export const likeCommentById = async(packageId, users, commentId, getAllcomment, setVisible) => {
+export const likeCommentById = async(packageId, users, commentId, getAllcomment, setVisible, setTotalLike) => {
     
     let data = {
         content: '',
@@ -62,9 +70,13 @@ export const likeCommentById = async(packageId, users, commentId, getAllcomment,
       
     let res = await RequestDashboard(`gestreserv/commentaries/${commentId}/like/`, 'POST', data, users?.access_token)
 
-    if(res.status === 200) {
-        getAllcomment()
-        setVisible(res.response?.like)
+    if(res.status === 200 || res.status === 201) {
+      if (setTotalLike) {
+        setTotalLike(res.response?.like_count)
+      } else {
+        getAllcomment(res.response?.like_data.like ? 'Disliked' : 'Liked' )
+      }
+      setVisible(res.response?.like_data.like)
     } 
 };
 

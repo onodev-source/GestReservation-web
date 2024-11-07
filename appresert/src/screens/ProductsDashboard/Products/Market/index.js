@@ -8,8 +8,9 @@ import Loader from "../../../../components/Loader";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
+import { getAllProduct } from "../../../../Utils/LikeComment";
 
-const Market = ({ items, loader, getAllProduct }) => {
+const Market = ({ items, loader, setLoader, setProducts }) => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
   const [chooseAll, setСhooseAll] = useState(false);
@@ -28,7 +29,8 @@ const Market = ({ items, loader, getAllProduct }) => {
     
     let res = await RequestDashboard(`gestreserv/products/${id}/`, 'DELETE', '', users.access_token);
     if (res.status === 204) {
-      getAllProduct();
+      //getAllProduct();
+      getAllProduct(setLoader, users, setProducts)
     }
   };
 
@@ -51,8 +53,8 @@ const Market = ({ items, loader, getAllProduct }) => {
             <div className={styles.col}>{t('views.products.add.quantity')}</div>
             <div className={styles.col}>Sales</div>
             <div className={styles.col}>{t('views.products.add.category')}</div>
-            <div className={styles.col}>Likes</div>
-            <div className={styles.col}>Create at</div>
+            {/*<div className={styles.col}>Likes</div>
+            <div className={styles.col}>Create at</div>*/}
           </div>
           {items?.map((x, index) => (
               <Row

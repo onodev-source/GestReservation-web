@@ -81,7 +81,7 @@ const Scheduled = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [events, setEvents] = useState([]);
@@ -154,10 +154,11 @@ const Scheduled = () => {
   }
 
   const getAllReservations = useCallback(async() => {
-    setLoading(true)
+    //setLoading(true)
     let res = await RequestDashboard(`gestreserv/orders/`, 'GET', '', users.access_token);
     if (res.status === 200) {
-      const reservations = res.response?.results?.map(reservation => ({
+      const reservations = res.response?.results?.filter(reservation => reservation.statut === "COMPLETED") // Filtrer pour ne garder que les réservations avec le statut 'completed'
+      .map(reservation => ({
         id: reservation.id,
         title: reservation.title || "Reserved", // Assure-toi que la propriété 'title' existe dans tes données
         start: new Date(`${reservation.begin_date}T${reservation.begin_hour}`), // Assure-toi que 'start_date' est bien au format ISO 8601
@@ -166,7 +167,7 @@ const Scheduled = () => {
       }));
   
       setEvents(reservations);
-      setLoading(false)
+      //setLoading(false)
     }
   },[users.access_token])
 

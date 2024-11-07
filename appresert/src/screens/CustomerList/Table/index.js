@@ -57,7 +57,7 @@ const Table = ({ className, activeTable, setActiveTable, allCustomers, loader, s
             <div className={styles.col}>{t('form.name')}</div>
             <div className={styles.col}>{t('form.email')}</div>
             <div className={styles.col}>Purchase</div>
-            <div className={styles.col}>Lifetime</div>
+            <div className={styles.col}>{t('views.reservations.table.status')}</div>
             <div className={styles.col}>{t('views.reservations.agenda.comments')}</div>
             <div className={styles.col}>Likes</div>
           </div>

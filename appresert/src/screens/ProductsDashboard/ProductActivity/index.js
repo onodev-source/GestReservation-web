@@ -57,7 +57,7 @@ const items = [
 
 const ProductActivity = () => {
   const {t} = useTranslation()
-  const intervals = ["Last 2 weeks", "Last 7 days"];
+  const intervals = [];
 
   const [activeTab, setActiveTab] = useState(intervals[0]);
 
@@ -65,7 +65,9 @@ const ProductActivity = () => {
   return (
     <Card className={styles.card} title={t('views.products.most_order_product')} classTitle="title-green"
       head={
-        <Dropdown  className={cn(styles.dropdown, "mobile-hide")} classDropdownHead={styles.dropdownHead} value={activeTab}  setValue={setActiveTab} options={intervals} small  />
+        <>
+          <Dropdown  className={cn(styles.dropdown, "mobile-hide")} classDropdownHead={styles.dropdownHead} value={activeTab}  setValue={setActiveTab} options={intervals} small  />
+        </>
       }
     >
       <div className={styles.table}>
@@ -102,7 +104,7 @@ const ProductActivity = () => {
         ))}
       </div>
       <div className={styles.nav}>
-        {intervals.map((x, index) => (
+        {intervals?.map((x, index) => (
           <button  className={cn(styles.link, {[styles.active]: x === activeTab,})} onClick={() => setActiveTab(x)} key={index}>
             {x}
           </button>

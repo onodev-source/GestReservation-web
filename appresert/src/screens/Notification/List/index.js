@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import cn from "classnames";
 import styles from "./List.module.sass";
 import Card from "../../../components/Card";
@@ -13,12 +13,13 @@ import NoContent from "../../../components/NoContent";
 import { getAllNotifications, markAllReadNotifications } from "../../../Utils/LikeComment";
 import { Routes } from "../../../Constants";
 
-const intervals = ["Recent", "New", "This year"];
 
 
 const List = ({ className, selectedFilters, filterMapping }) => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users)
+
+  const intervals = [t('words.filter'), t('words.read'), t('words.unread')];
 
   const [loader, setLoader] = useState(false);
   const [sorting, setSorting] = useState(intervals[0]);
@@ -39,6 +40,20 @@ const List = ({ className, selectedFilters, filterMapping }) => {
     },
   ];
 
+  const handleChangeFilterData = useCallback((notifs) => {
+    if (intervals?.indexOf(sorting) === 1) {
+      // Filtrage pour inclure toutes les notifications et affiche de celle qui sont lu
+      const filteredReadNotifs = notifs?.filter((notif) => notif.is_read)
+      setFilteredNotifs(filteredReadNotifs);
+      
+    } else if (intervals?.indexOf(sorting) === 2) {
+      // Filtrage pour inclure toutes les notifications et affiche de celle qui sont non lu
+      const filteredUnreadNotifs = notifs?.filter((notif) => !notif.is_read)
+      setFilteredNotifs(filteredUnreadNotifs);
+      
+    }
+  }, [sorting])
+
   // Charger toutes les notifications au montage du composant
   React.useEffect(() => {
     getAllNotifications(setLoader, users, setNotifs);
@@ -56,13 +71,14 @@ const List = ({ className, selectedFilters, filterMapping }) => {
         typesToInclude.some(type => type === notif.notifications_type)
       );
       setFilteredNotifs(newFilteredNotifs);
+      handleChangeFilterData(newFilteredNotifs);
 
-    } else if(selectedFilters?.length === 0) {   
+    } else if (selectedFilters?.length === 0) {  
       setFilteredNotifs(notifs);
+      handleChangeFilterData(notifs);
     }
-  }, [selectedFilters, filterMapping, notifs]);
+  }, [selectedFilters, filterMapping, notifs, handleChangeFilterData]);
 
-  
   return (
     <Card
       className={cn(styles.card, className)}
@@ -90,8 +106,8 @@ const List = ({ className, selectedFilters, filterMapping }) => {
       <div className={styles.notifications}>
         <div className={styles.list}>
           {loader ? <Loader/> :
-            ((filteredNotifs.length >= 0 && selectedFilters?.length > 0) ? filteredNotifs : notifs)?.length > 0 ?
-              ((filteredNotifs.length >= 0 && selectedFilters?.length > 0) ? filteredNotifs : notifs)?.map((x, index) => (
+            (((filteredNotifs.length >= 0 && selectedFilters?.length > 0) || (filteredNotifs.length >= 0 && intervals?.indexOf(sorting) !== 0)) ? filteredNotifs : notifs)?.length > 0 ?
+              (((filteredNotifs.length >= 0 && selectedFilters?.length > 0) || (filteredNotifs.length >= 0 && intervals?.indexOf(sorting) !== 0)) ? filteredNotifs : notifs)?.map((x, index) => (
                 <Item className={cn(styles.item, className)} item={x} key={index} />
               ))
               : <NoContent message={''}/>

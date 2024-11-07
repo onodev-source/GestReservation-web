@@ -53,7 +53,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
           {!withoutСheckbox && (
             <Checkbox className={styles.checkbox} classCheckboxTick={styles.checkboxTick} value={value}  onChange={() => handleClick()}/>
           )}
-          {!isReserved && <Control className={styles.control} selectedItem={selectedItem} getAllPackages={getAllPackages} packageId={item?.id} productId={item?.id} product={isPackage} onClickDelete={onClickDelete}/>}
+          {!isReserved && <Control className={styles.control} item={item} getAllPackages={getAllPackages} prodOrPackId={item?.id} product={isPackage} onClickDelete={onClickDelete} handleChangeVisibleProduct={handleChangeVisibleProduct}/>}
           <img srcSet={`${isPackage ? item.photos_packages : item.photo_products} 2x`} src={isPackage ? item.photos_packages :  item.photo_products } alt="Product" />
           {!isPreviewHidden &&
             <button className={cn("button-white button-small", styles.buttonPreview)} onClick={() => handleChangeVisibleProduct(item)} >

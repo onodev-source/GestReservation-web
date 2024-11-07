@@ -12,14 +12,13 @@
         display: block
 
 .row
-    display: table-row
+    display: flex
     +t
         display: block
         margin-bottom: 24px
 
 .col
     position: relative
-    display: table-cell
     padding: 0 12px 16px
     vertical-align: middle
     +caption1
@@ -57,6 +56,7 @@
 .line
     display: flex
     align-items: center
+    gap: 50px
     +t
         display: block
 
@@ -85,6 +85,14 @@
     +t
         margin-left: 24px
         padding-left: 24px
+
+.rowCategory
+    h2
+        text-align: center
+        margin-left: -160px
+        +m
+            text-align: auto
+            margin-left: 0px
 
 .color
     position: absolute
