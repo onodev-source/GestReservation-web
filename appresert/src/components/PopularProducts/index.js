@@ -7,68 +7,17 @@ import ModalProduct from "../ModalProduct";
 import { Routes } from "../../Constants";
 import { useTranslation } from "react-i18next";
 
-const products = [
-  {
-    title: "Crypter - NFT UI kit",
-    price: "$2,453.80",
-    active: true,
-    image: "/images/content/product-pic-1.jpg",
-    image2x: "/images/content/product-pic-1@2x.jpg",
-  },
-  {
-    title: "Bento Matte 3D illustration 1.0",
-    price: "$105.60",
-    active: false,
-    image: "/images/content/product-pic-2.jpg",
-    image2x: "/images/content/product-pic-2@2x.jpg",
-  },
-  {
-    title: "Fleet - travel shopping kit",
-    price: "$648.60",
-    active: true,
-    image: "/images/content/product-pic-3.jpg",
-    image2x: "/images/content/product-pic-3@2x.jpg",
-  },
-  {
-    title: "Fleet - travel shopping kit",
-    price: "$648.60",
-    active: true,
-    image: "/images/content/product-pic-4.jpg",
-    image2x: "/images/content/product-pic-4@2x.jpg",
-  },
-  {
-    title: "Crypter - NFT UI kit",
-    price: "$2,453.80",
-    active: true,
-    image: "/images/content/product-pic-5.jpg",
-    image2x: "/images/content/product-pic-5@2x.jpg",
-  },
-  {
-    title: "Bento Matte 3D illustration 1.0",
-    price: "$105.60",
-    active: false,
-    image: "/images/content/product-pic-2.jpg",
-    image2x: "/images/content/product-pic-2@2x.jpg",
-  },
-  {
-    title: "Fleet - travel shopping kit",
-    price: "$648.60",
-    active: true,
-    image: "/images/content/product-pic-3.jpg",
-    image2x: "/images/content/product-pic-3@2x.jpg",
-  },
-  {
-    title: "Fleet - travel shopping kit",
-    price: "$648.60",
-    active: true,
-    image: "/images/content/product-pic-4.jpg",
-    image2x: "/images/content/product-pic-4@2x.jpg",
-  },
-];
 
-const PopularProducts = ({ className, views }) => {
+const PopularProducts = ({ className, views, popularProducts }) => {
   const {t} = useTranslation()
+
   const [visibleModalProduct, setVisibleModalProduct] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // Pour stocker l'élément sélectionné
+
+  const handleChangeVisiblePackage = (itemSelected) => {
+    setSelectedItem(itemSelected); 
+    setVisibleModalProduct(true)
+  };
 
   return (
     <>
@@ -80,38 +29,37 @@ const PopularProducts = ({ className, views }) => {
         <div className={styles.popular}>
           <div className={styles.head}>
             <div className={styles.stage}>{t('navigation.products')}</div>
-            <div className={styles.stage}>Earning</div>
+            <div className={styles.stage}>{t('views.home.no_occurences')}</div>
           </div>
           <div className={styles.list}>
-            {products.map(
+            {popularProducts?.map(
               (x, index) =>
                 views > index && (
-                  <div
-                    className={styles.item}
-                    key={index}
-                    onClick={() => setVisibleModalProduct(true)}
-                  >
-                    <div className={styles.preview}>
-                      <img
-                        srcSet={`${x.image2x} 2x`}
-                        src={x.image}
-                        alt="Product"
-                      />
+                  <>
+                    <div className={styles.item}  key={index} onClick={() => handleChangeVisiblePackage(x.details)} >
+                      <div className={styles.preview}>
+                        <img
+                          srcSet={`${x.details.photo_products} 2x`}
+                          src={x.details.photo_products}
+                          alt="Product"
+                        />
+                      </div>
+                      <div className={styles.title}>{x.product_name}</div>
+                      <div className={styles.details}>
+                        <div className={styles.price}>{x.num_package}</div>
+                        {x.details.is_active ? (
+                          <div className={cn("status-green", styles.status)}>
+                            {t('words.active')}
+                          </div>
+                        ) : (
+                          <div className={cn("status-red", styles.status, styles.statusRed)}>
+                            {t('words.not_active')}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className={styles.title}>{x.title}</div>
-                    <div className={styles.details}>
-                      <div className={styles.price}>{x.price}</div>
-                      {x.active ? (
-                        <div className={cn("status-green", styles.status)}>
-                          Active
-                        </div>
-                      ) : (
-                        <div className={cn("status-red", styles.status, styles.statusRed)}>
-                          Deactive
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                    {selectedItem !== null && (<ModalProduct visible={visibleModalProduct}  onClose={() => setVisibleModalProduct(false)} product={true} items={[]} detailsData={selectedItem} key={selectedItem?.id}/>)}
+                  </>
                 )
             )}
           </div>
@@ -123,7 +71,7 @@ const PopularProducts = ({ className, views }) => {
           </Link>
         </div>
       </Card>
-      <ModalProduct visible={visibleModalProduct}  onClose={() => setVisibleModalProduct(false)} product={true}/>
+        
     </>
   );
 };

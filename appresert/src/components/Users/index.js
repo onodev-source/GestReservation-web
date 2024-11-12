@@ -6,7 +6,7 @@ import { Routes } from "../../Constants";
 import { useTranslation } from "react-i18next";
 import Avatar from "../Avatar"
 
-const users = [
+/*const users = [
   {
     title: "Gladyce",
     avatar: "/images/content/avatar.jpg",
@@ -27,9 +27,9 @@ const users = [
     avatar: "/images/content/avatar.jpg",
     url: "/details-user",
   },
-];
+];*/
 
-const Users = ({ className, customerList }) => {
+const Users = ({ className, customerList, lastUsersOnline }) => {
   const {t} = useTranslation()
 
   return (
@@ -46,10 +46,10 @@ const Users = ({ className, customerList }) => {
         </Link>}
       </div>
       <div className={styles.list}>
-        {users.map((x, index) => (
-          <Link className={styles.item} key={index} to={Routes.MY_PROFILE}>
-            <Avatar user={{username: x.title, photo: x.avatar}} width='64px' height='64px' classname={styles.avatar}/>
-            <div className={styles.title}>{x.title}</div>
+        {lastUsersOnline?.map((x, index) => (
+          <Link className={styles.item} key={index} to={`${Routes.MY_PROFILE}/${x.id}`}>
+            <Avatar user={{username: x.username, photo: `http://192.168.1.103:8000${x.photo_user}`}} width='64px' height='64px' classname={styles.avatar}/>
+            <div className={styles.title}>{x.username}</div>
           </Link>
         ))}
       </div>

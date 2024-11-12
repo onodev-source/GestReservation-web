@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styles from "./Products.module.sass";
 import cn from "classnames";
 import Card from "../../../components/Card";
@@ -57,7 +57,7 @@ const Products = () => {
   const {t} = useTranslation()
   const users = useSelector((state) => state.users);
 
-  const navDropdown = [t('words.filter'), t("views.products.add.category"), t('words.active')];
+  const navDropdown = useMemo( () => [t('words.filter'), t("views.products.add.category"), t('words.active')], [t]);
 
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false)
@@ -70,18 +70,12 @@ const Products = () => {
     alert();
   };
   
-  // Charger toutes les produits au montage du composant
-  React.useEffect(() => {
-    getAllProduct(setLoader, users, setProducts)
-  }, [users])
-  
-
-  // Filtrer les produits en fonction des éléments de navDropdown
-  React.useEffect(() => {
-    if (navDropdown?.indexOf(activeTab) === 1) {
-      // Filtrage pour inclure tous les produits et affiche par categorie
-      setLoading(true)
-      const groupedCategory = products.reduce((acc, product) => {
+  // Filtrer les produits en fonction de activeTab
+  const handleFilterProducts = useCallback(() => {
+    if (activeTab === navDropdown[1]) {
+      // Grouper les produits par catégorie
+      setLoading(true);
+      const groupedCategory = products?.reduce((acc, product) => {
         const category = product.category;
         if (!acc[category]) {
           acc[category] = [];
@@ -90,17 +84,32 @@ const Products = () => {
         return acc;
       }, {});
       setFilterProducts(groupedCategory);
-      setLoading(false)
-      
-    } else if (navDropdown?.indexOf(activeTab) === 2) {
-      // Filtrage pour inclure tous les produits et affiche de celle qui sont actif
-      const filtered = products?.filter((product) => product.is_active)
+      setLoading(false);
+    } else if (activeTab === navDropdown[2]) {
+      // Filtrer uniquement les produits actifs
+      const filtered = products?.filter((product) => product.is_active);
+      console.log('Produits actifs filtrés :', filtered);
       setFilterProducts(filtered);
-    }
-     else {  
+    } else {
+      // Par défaut, afficher tous les produits
       setFilterProducts(products);
     }
-  }, [products, activeTab]);
+  }, [activeTab, navDropdown, products])
+
+  // Charger toutes les produits au montage du composant
+  React.useEffect(() => {
+    getAllProduct(setLoader, users, setProducts)
+  }, [users])
+  
+
+  // charger les produits en fonction de activeTab
+  React.useEffect(() => {
+    handleFilterProducts()
+  }, [handleFilterProducts]);
+
+console.log('filterProduct', filterProducts);
+console.log('activetab if', activeTab === navDropdown[1]);
+console.log('activetab if', activeTab === navDropdown[2]);
 
   return (
     <Card className={styles.card}  title={t('views.products.products')} classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}
@@ -134,7 +143,7 @@ const Products = () => {
     >
       <div className={styles.products}>
         <div className={styles.wrapper}>
-          {(activeTab === navDropdown[0] || activeTab === navDropdown[2]) && <Market items={activeTab === navDropdown[0] ? products : (activeTab === navDropdown[2] && filterProducts)} loader={loader} setLoader={setLoader} setProducts={activeTab === navDropdown[0] ? setProducts : (activeTab === navDropdown[2] && setFilterProducts)}/>}
+          {(activeTab === navDropdown[0] || activeTab === navDropdown[2]) && <Market items={activeTab === navDropdown[0] ? products : filterProducts} loader={loader} setLoader={setLoader} setProducts={setProducts}/>}
           {activeTab === navDropdown[1] && (
             loading ? <Loader/> :
               <Table title={t('words.categories')}

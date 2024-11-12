@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 //import cn from "classnames";
 import styles from "./Chart.module.sass";
 import {
@@ -11,53 +11,55 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import useDarkMode from "@fisch0920/use-dark-mode";
-import { getAllInvoices } from "../../../../Utils/LikeComment";
-import { useSelector } from "react-redux";
+//import { getAllInvoices } from "../../../../Utils/LikeComment";
+//import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../../../Utils/formatDate";
-import Loader from "../../../../components/Loader";
+//import Loader from "../../../../components/Loader";
 
-const Chart = () => {
+const Chart = ({invoiceByDate}) => {
   const {t} = useTranslation()
   const darkMode = useDarkMode(false);
-  const users = useSelector((state) => state.users);
+  //const users = useSelector((state) => state.users);
 
-  const [invoices, setInvoices] = useState([])
-  const [loader, setLoader] = useState(false)
+  //const [invoices, setInvoices] = useState([])
+  //const [loader, setLoader] = useState(false)
 
   const invoiceKey = t("views.reservations.agenda.total_amout");
 
-  const invoiceAmountsByDate = invoices?.reduce((acc, invoice) => {
-    const { invoice_date, invoice_amount } = invoice;
+  /*const invoiceAmountsByDate = invoices?.filter(invoice => invoice.payment_statut === "COMPLETED") // prendre celle que le paiement a reussi
+    .reduce((acc, invoice) => {
+      const { invoice_date, invoice_amount } = invoice;
 
-    // Convertit le montant en nombre si ce n'est pas déjà fait
-    const amount = parseFloat(invoice_amount);
+      // Convertit le montant en nombre si ce n'est pas déjà fait
+      const amount = parseFloat(invoice_amount);
 
-    if (acc[invoice_date]) {
-      acc[invoice_date] += amount;
-    } else {
-      acc[invoice_date] = amount;
-    }
+      if (acc[invoice_date]) {
+        acc[invoice_date] += amount;
+      } else {
+        acc[invoice_date] = amount;
+      }
 
-    return acc;
-  }, {});
+      return acc;
+  }, {});*/
 
-  // Conversion en tableau d'objets avec tri des dates
-  const resultArrayInvoiceByAmount = Object.keys(invoiceAmountsByDate)
-    .sort((a, b) => new Date(a) - new Date(b)) // Trier les dates de la plus ancienne à la plus récente
-    .map(date => ({
-      name: formatDate(date, 'GETDATE'),
-      [invoiceKey]: invoiceAmountsByDate[date]
+  // Filtrer les dates nulles, trier et formater
+  const resultArrayInvoiceByAmount = invoiceByDate?.filter(invoice => invoice.invoice_date !== null) // Exclure les dates nulles
+    .sort((a, b) => new Date(a.invoice_date) - new Date(b.invoice_date)) // Trier les dates de la plus ancienne à la plus récente
+    .map(invoice => ({
+      name: formatDate(invoice.invoice_date, 'GETDATE'),
+      [invoiceKey]: invoice.total_amount
     }));
 
 
-  useEffect(() => {
+
+  /*useEffect(() => {
     getAllInvoices(setLoader, users, setInvoices)
-  }, [users])
+  }, [users])*/
 
   return (
     <div className={styles.chart}>
-      {loader ? <Loader/> :
+      {/*loader ? <Loader/> :*/}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart  width={500}   height={300}   data={resultArrayInvoiceByAmount}  margin={{  top: 0,  right: 0,  left: 0, bottom: 0, }} >
             <CartesianGrid  strokeDasharray="none" stroke={darkMode.value ? "#272B30" : "#EFEFEF"}  vertical={false} />
@@ -83,7 +85,7 @@ const Chart = () => {
             <Line  type="monotone"  dataKey={invoiceKey}  dot={false}  strokeWidth={4} stroke="#F2D45F" />
           </LineChart>
         </ResponsiveContainer>
-      }
+      {/*}*/}
     </div>
   );
 };

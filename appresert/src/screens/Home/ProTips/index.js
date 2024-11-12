@@ -12,60 +12,11 @@ import { formatTime } from "../../../Utils/formatTime";
 import Details from "../../Refunds/Row/Details/index.js";
 import Modal from "../../../components/Modal";
 import Loader from "../../../components/Loader/index.js";
-import { getAllReservations } from "../../../Utils/LikeComment.js";
 
-/*const tips = [
-  {
-    title: "Early access",
-    icon: "schedule",
-    statusColor: "purple",
-    statusText: "New",
-    avatar: "/images/content/avatar.jpg",
-    action: "3 mins read",
-  },
-  {
-    title: "Asset use guidelines",
-    icon: "arrow-right",
-    statusColor: "green",
-    statusText: "Small label",
-    avatar: "/images/content/avatar.jpg",
-    action: "Time",
-  },
-  {
-    title: "Exclusive downloads",
-    icon: "design",
-    avatar: "/images/content/avatar-1.jpg",
-    action: "2 mins read",
-  },
-  {
-    title: "Behind the scenes",
-    icon: "video-recorder",
-    statusColor: "red",
-    statusText: "Hot",
-    avatar: "/images/content/avatar-2.jpg",
-    action: "3 mins read",
-  },
-  {
-    title: "Asset use guidelines",
-    icon: "phone",
-    statusColor: "green",
-    statusText: "Popular",
-    avatar: "/images/content/avatar-3.jpg",
-    action: "Time",
-  },
-  {
-    title: "Life & work updates",
-    icon: "multiselect",
-    avatar: "/images/content/avatar-4.jpg",
-    action: "3 mins read",
-  },
-];*/
 
 const ProTips = ({ className, loader, orders }) => {
   const {t} = useTranslation()
-  /*const users = useSelector((state) => state.users)
-  const [orders, setOrders] = useState([]);
-  const [loader, setLoading] = useState(false);*/
+ 
   const [visibleModalPreview, setVisibleModalPreview] = useState(false);
   const [selectedOrder, setSelectedOrder] = React.useState(null);  // État pour l'élément sélectionné
 
@@ -107,10 +58,10 @@ const ProTips = ({ className, loader, orders }) => {
                           )}
                           <div className={styles.user}>
                             <div className={cn(styles.avatar, styles.avatarFlex)}>
-                              {x.user?.photo_user ? 
-                                <img src={x.user?.photo_user} alt="Avatar" />
+                              {x.user_detail?.photo_user ? 
+                                <img src={x.user_detail?.photo_user} alt="Avatar" />
                                 : 
-                                <span>{x.user?.email?.slice(0, 2)}</span>
+                                <span>{x.user_detail?.email?.slice(0, 2)}</span>
                               }
                             </div>
                             <div className={styles.action}>{formatTime(`${x.begin_date}T${x.begin_hour}`, 'GETDATEHOUR')} {t('words.to')} <br/> {formatTime(`${x.end_date}T${x.end_hour}`, 'GETDATEHOUR')}</div>

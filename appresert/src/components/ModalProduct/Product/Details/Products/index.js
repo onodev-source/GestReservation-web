@@ -6,15 +6,15 @@ import Icon from "../../../../Icon";
 import Product from "../../../../Product";
 import Slider from "react-slick";
 
-// data
-import { products } from "../../../../../mocks/products";
 import { Routes } from "../../../../../Constants";
+import { useTranslation } from "react-i18next";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
 );
 
 const Products = ({product, productData, onClick}) => {
+  const {t} = useTranslation()
 
   const settings = {
     infinite: true,
@@ -47,7 +47,7 @@ const Products = ({product, productData, onClick}) => {
   return (
     <div className={styles.products}>
       <div className={styles.head}>
-        <div className={cn("title-green", styles.title)}>{product ? "More like this" : "Products included in package"}</div>
+        <div className={cn("title-green", styles.title)}>{product ? t("words.more_like_this") : t("words.products_included_in_pack")}</div>
         <Link  className={cn("button-stroke button-small", styles.button)}  to={Routes.PRODUITS_DASH} >
           <span>View all</span>
           <Icon name="arrow-right" size="24" />

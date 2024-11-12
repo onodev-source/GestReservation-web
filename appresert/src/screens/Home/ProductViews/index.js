@@ -32,7 +32,7 @@ const ProductViews = ({ className, loader, orders }) => {
   const orderKey = t("views.home.order_total");
 
 
-  const reservationCountsByDate = orders?.reduce((acc, reservation) => {
+  /*const reservationCountsByDate = orders?.reduce((acc, reservation) => {
     const { begin_date } = reservation;
     
     if (acc[begin_date]) {
@@ -42,16 +42,15 @@ const ProductViews = ({ className, loader, orders }) => {
     }
 
     return acc;
-  }, {});
+  }, {});*/
 
-  // Conversion en tableau d'objets avec tri des dates
-  const resultArray = Object.keys(reservationCountsByDate)
-    .sort((a, b) => new Date(a) - new Date(b)) // Trier les dates de la plus ancienne à la plus récente
-    .map(date => ({
-      name: formatDate(date, 'GETDATE'),
-      [orderKey]: reservationCountsByDate[date]
-    }));
- 
+  // Filtrer les dates nulles, trier et formater
+  const resultArray = orders?.filter(order => order.begin_date !== null) // Exclure les dates nulles
+  .sort((a, b) => new Date(a.begin_date) - new Date(b.begin_date)) // Trier par date
+  .map(order => ({
+    name: formatDate(order.begin_date, 'GETDATE'), // Convertir la date
+    [orderKey]: order.total_reservations
+  }));
 
   return (
     <Card
@@ -72,7 +71,7 @@ const ProductViews = ({ className, loader, orders }) => {
       <div className={styles.chart}>
         {loader ? <Loader/> :
           <ResponsiveContainer width="100%" height="100%">
-            {resultArray.length > 0 ?
+            {resultArray?.length > 0 ?
               <BarChart
                 width={500}
                 height={300}

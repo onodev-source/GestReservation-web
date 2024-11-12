@@ -11,8 +11,8 @@ import Slider from "react-slick";
 import Icon from "../../../components/Icon";
 
 // data
-import { products } from "../../../mocks/products";
-import { User } from "../../../Constants";
+//import { products } from "../../../mocks/products";
+//import { User } from "../../../Constants";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../../Services/Api/ApiServices";
@@ -54,7 +54,7 @@ const settings = {
     ],
   };
 
-const Overview = ({ className }) => {
+const Overview = ({ className, homeData }) => {
     const darkMode = useDarkMode(false);
     const {t} = useTranslation()
     const users =useSelector((state)=> state.users)
@@ -66,14 +66,14 @@ const Overview = ({ className }) => {
     const nav = [
         {
             title: !users.users.is_customer ? t("navigation.customers") : t("views.home.order_number"),
-            counter: "1024",
+            counter: !users.users.is_customer ? homeData?.total_clients[0]?.totalclients : homeData?.total_orders[0]?.total_orders,
             icon: !users.users.is_customer ? "profile-circle" : "basket",
             color: "#F2D45F",
             value: -37.8,
         },
         {
             title: !users.users.is_customer ? t("navigation.income") : t("views.home.reservations_number"),
-            counter: "256k",
+            counter: !users.users.is_customer ? `${homeData?.total_invoices[0]?.total_amount}XAF` : homeData?.total_orders[1]?.total_amount,
             icon: !users.users.is_customer ? "activity" : "store",
             color: darkMode.value ? "#33383F" : "#9A9FA5",
             value: 37.8,
@@ -94,6 +94,7 @@ const Overview = ({ className }) => {
         getAllPublicity()
       }
     }, [getAllPublicity, users.users.is_customer])
+
 
     return (
         <Card className={cn(styles.card, className)} title={t("views.home.overview")}  classTitle="title-red"
@@ -118,8 +119,8 @@ const Overview = ({ className }) => {
                 <div className={styles.body}>
                     {!users.users.is_customer  ? (
                         <>
-                            {activeIndex === 0 && <Users />}
-                            {activeIndex === 1 && <Chart />}
+                            {activeIndex === 0 && <Users lastUsersOnline={homeData?.latest_online_users}/>}
+                            {activeIndex === 1 && <Chart invoiceByDate={homeData?.invoices_summary}/>}
                         </>
                     ) : (
                         <div className={cn("slider-container", styles.wrapper)}>
