@@ -1,7 +1,7 @@
 
 
-const BASE_URL = "http://192.168.1.103:8000/api/v1/";
-const BASE_URL_ACCOUNTS = "http://192.168.1.103:8000/";
+const BASE_URL = "https://onospaceworkingad.onograph.online/api/v1/";
+const BASE_URL_ACCOUNTS = "https://onospaceworkingad.onograph.online/";
 
 export default async function RequestDashboard(link, method, form, token) {
     let headers = {};

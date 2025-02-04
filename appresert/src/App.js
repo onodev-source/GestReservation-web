@@ -45,7 +45,7 @@ const App = () => {
   const users = useSelector((state) => state.users)
   const language = useSelector(state => state.language);
 
-  const name = users.users.full_name.trim() === '' ? users.users.email : users.users.full_name; 
+  const name = users.users.full_name?.trim() === '' ? users.users.email : users.users.full_name; 
 
   React.useEffect(() => {
     i18n.changeLanguage(users.authenticated ? language.language : navigator?.language);
