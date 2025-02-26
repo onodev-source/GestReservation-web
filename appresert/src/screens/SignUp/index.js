@@ -9,19 +9,20 @@ import Code from "./Code";
 import Image from "../../components/Image";
 import { Routes } from "../../Constants";
 import Success from "./Success";
+import Icon from "../../components/Icon";
 
-const items = [
-  "Unlimited product uploads",
-  "Pro tips",
-  "Free forever",
-  "Full author options",
-];
 
 const SignUp = () => {
   const {t} = useTranslation()
   const [visible, setVisible] = useState(true);
   const [success, setSuccess] = useState(false);
   const heightWindow = use100vh();
+
+  const items = [
+    t("sign.include.text1"),
+    t("sign.include.text2"),
+    t("sign.include.text3"),
+  ];
 
   const changeState = () => {
     setVisible(false)
@@ -41,6 +42,11 @@ const SignUp = () => {
             {items.map((x, index) => (
               <li key={index}>{x}</li>
             ))}
+            <li >
+              <Link className={styles.linkFaq} to={Routes.FAQ} target="_blank" rel="noopener noreferrer">FAQ 
+                <Icon name='arrow-right' size="16"/>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

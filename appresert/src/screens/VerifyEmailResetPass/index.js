@@ -10,13 +10,8 @@ import Loader from "../../components/Loader";
 import RequestDashboard from "../../Services/Api/ApiServices";
 import ErrorMessage from "../../components/ErrorMessage";
 import TextInput from "../../components/TextInput";
+import Icon from "../../components/Icon";
 
-const items = [
-  "Unlimited product uploads",
-  "Pro tips",
-  "Free forever",
-  "Full author options",
-];
 
 const VerifyEmailResetPass = () => {
   const {t} = useTranslation()
@@ -24,6 +19,12 @@ const VerifyEmailResetPass = () => {
   const navigate = useNavigate();
   const heightWindow = use100vh();
   
+  const items = [
+    t("sign.include.text1"),
+    t("sign.include.text2"),
+    t("sign.include.text3"),
+  ];
+
   const [loader, setLoader] = useState('')
   const [errorSubmit, setErrorSubmit] = useState('')
   const [form, setForm] = useState({
@@ -107,6 +108,11 @@ const VerifyEmailResetPass = () => {
               {items.map((x, index) => (
                 <li key={index}>{x}</li>
               ))}
+              <li >
+                <Link className={styles.linkFaq} to={Routes.FAQ} target="_blank" rel="noopener noreferrer">FAQ 
+                  <Icon name='arrow-right' size="16"/>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

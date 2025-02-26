@@ -45,7 +45,7 @@ const ProductViews = ({ className, loader, orders }) => {
   }, {});*/
 
   // Filtrer les dates nulles, trier et formater
-  const resultArray = orders?.filter(order => order.begin_date !== null) // Exclure les dates nulles
+  const resultArray = orders?.length > 0 && orders?.filter(order => order.begin_date !== null) // Exclure les dates nulles
   .sort((a, b) => new Date(a.begin_date) - new Date(b.begin_date)) // Trier par date
   .map(order => ({
     name: formatDate(order.begin_date, 'GETDATE'), // Convertir la date

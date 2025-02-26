@@ -37,7 +37,7 @@ const ProTips = ({ className, loader, orders }) => {
           <div className={styles.list}>
             {loader ? <Loader/> :
               orders?.length > 0 ?
-                orders.slice(0, 6).map((x, index) => (
+                orders?.slice(0, 6).map((x, index) => (
                   <React.Fragment key={x.order_number}>
                     <div className={styles.item}  key={x.order_number} onClick={() => handleShowDetails(x)}>
                       <div className={cn(styles.icon, {'status-green': x.statut === "COMPLETED", [styles.iconColor]: x.statut === "COMPLETED"})}>

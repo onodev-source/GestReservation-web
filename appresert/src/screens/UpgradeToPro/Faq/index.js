@@ -5,9 +5,11 @@ import Item from "./Item";
 import Dropdown from "../../../components/Dropdown";
 
 // data
-import { items } from "../../../mocks/faq";
+import { useItems } from "../../../mocks/faq";
 
 const Faq = () => {
+  const items = useItems();
+
   const options = [];
   items.map((x) => options.push(x.title));
 

@@ -7,15 +7,17 @@ import Image from "../../components/Image";
 import Entry from "./Entry";
 import { Routes } from "../../Constants";
 import { useTranslation } from "react-i18next";
-const items = [
-  "Unlimited product uploads",
-  "Pro tips",
-  "Free forever",
-  "Full author options",
-];
+import Icon from "../../components/Icon";
+
 const SignIn = () => {
   const {t} = useTranslation()
   const heightWindow = use100vh();
+
+  const items = [
+    t("sign.include.text1"),
+    t("sign.include.text2"),
+    t("sign.include.text3"),
+  ];
 
   return (
     <div className={styles.row}>
@@ -29,6 +31,11 @@ const SignIn = () => {
             {items.map((x, index) => (
               <li key={index}>{x}</li>
             ))}
+            <li >
+              <Link className={styles.linkFaq} to={Routes.FAQ} target="_blank" rel="noopener noreferrer">FAQ 
+                <Icon name='arrow-right' size="16"/>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

@@ -32,7 +32,8 @@ const PopularProducts = ({ className, views, popularProducts }) => {
             <div className={styles.stage}>{t('views.home.no_occurences')}</div>
           </div>
           <div className={styles.list}>
-            {popularProducts?.map(
+            {popularProducts?.length > 0 &&
+            popularProducts?.map(
               (x, index) =>
                 views > index && (
                   <>

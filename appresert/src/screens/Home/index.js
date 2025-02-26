@@ -24,10 +24,10 @@ const Home = () => {
     setLoader(true)
     let res = await RequestDashboard('gestreserv/dashboard/detailed/', 'GET', '', users.access_token);
     if (res.status === 200) {
-      setHomeData(res.response.data);
+      setHomeData(res.response?.data);
 
       // Créer un tableau de promesses pour récupérer les détails des produits
-      const productsPromises = res.response.data.popular_products.map(async (product) => {
+      const productsPromises = res.response?.data?.popular_products?.map(async (product) => {
         const productId = product?.id;
         
         // Requête pour chaque commande via son orderId
@@ -52,7 +52,7 @@ const Home = () => {
       const results = await Promise.allSettled(productsPromises);
 
       // Récupérer uniquement les résultats réussis ou avec les détails manquants (gestion d'erreur)
-      const products = results?.map(result => result.value);
+      const products = results?.map(result => result?.value);
         
       // Mettre à jour le state avec le details des produits enrichies
       setPopularProducts(products);
@@ -108,8 +108,8 @@ const Home = () => {
     <>
       <div className={styles.row}>
         <div className={styles.col}>
-          <Overview className={styles.card} homeData={homeData}/>
-          <ProductViews className={styles.card} loader={loader} orders={homeData?.reservations_summary}/>
+          <Overview className={styles.card} homeData={homeData ? homeData : {}}/>
+          <ProductViews className={styles.card} loader={loader} orders={homeData?.reservations_summary ? homeData?.reservations_summary : []}/>
           <ProTips className={styles.card} loader={loader} orders={orders}/>
           {/*<MoreCustomers />*/}
         </div>

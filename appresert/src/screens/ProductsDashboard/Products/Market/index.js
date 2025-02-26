@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import RequestDashboard from "../../../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
 import { getAllProduct } from "../../../../Utils/LikeComment";
+import NoContent from "../../../../components/NoContent";
 
 const Market = ({ items, loader, setLoader, setProducts }) => {
   const {t} = useTranslation()
@@ -56,17 +57,19 @@ const Market = ({ items, loader, setLoader, setProducts }) => {
             {/*<div className={styles.col}>Likes</div>
             <div className={styles.col}>Create at</div>*/}
           </div>
-          {items?.map((x, index) => (
-              <Row
-                item={x}
-                key={index}
-                up={items?.length - index <= 2}
-                value={selectedFilters.includes(x.id)}
-                onChange={() => handleChange(x.id)}
-                onClick={() => deleteProductById(x.id)}
-                items={items}
-              />
-            ))}
+          {items?.length > 0 ?
+            items?.map((x, index) => (
+                <Row
+                  item={x}
+                  key={index}
+                  up={items?.length - index <= 2}
+                  value={selectedFilters.includes(x.id)}
+                  onChange={() => handleChange(x.id)}
+                  onClick={() => deleteProductById(x.id)}
+                  items={items}
+                />
+              ))
+            : <NoContent message={''}/>}
         </div>
       )}
       <div className={styles.foot}>

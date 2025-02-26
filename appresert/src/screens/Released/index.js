@@ -17,6 +17,7 @@ import { Routes } from "../../Constants";
 import { useSelector } from "react-redux";
 import RequestDashboard from "../../Services/Api/ApiServices";
 import { useTranslation } from "react-i18next";
+import NoContent from "../../components/NoContent";
 
 //const sorting = ["list", "grid"];
 //const navDropdown = ["Sort by", "Category", "A-Z", "Z-A"];
@@ -86,9 +87,11 @@ const Released = () => {
             <Loader/> :
             <>
               <div className={styles.list}>
-                {packages?.map((x, index) => (
-                  <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters?.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} modalDetail={true} isPreviewHidden = {true}/>
-                ))}
+                {packages?.length > 0 ?
+                  packages?.map((x, index) => (
+                    <Product getAllPackages={getAllPackages} className={styles.product} value={selectedFilters?.includes(x.id)} isPackage={true} onChange={() => handleChange(x.id)} item={x}  key={x.id} modalDetail={true} isPreviewHidden = {true}/>
+                  ))
+                  : <NoContent message={''}/>}
               </div>
               {/*<div className={styles.foot}>
                 <button  className={cn("button-stroke button-small", styles.button)} >

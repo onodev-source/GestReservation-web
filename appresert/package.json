@@ -1,5 +1,5 @@
 {
-  "name": "core-digital-marketplace-dashboards",
+  "name": "onospaceworking",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -67,6 +67,8 @@
   },
   "devDependencies": {
     "eslint": "^8.42.0",
-    "eslint-plugin-react": "^7.32.2"
+    "eslint-plugin-react": "^7.32.2",
+    "gulp": "^5.0.0",
+    "gulp-sass": "^6.0.0"
   }
 }

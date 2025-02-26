@@ -155,7 +155,9 @@ const Settings = () => {
     const lang = language ? language : form.language
   
     let formData = new FormData();  // Utilisation de FormData pour gérer le fichier
-  
+    
+    let data = null
+
     if (!isCategory) {
       // Ajout des données utilisateur au FormData
       formData.append("first_name", form.first_name);
@@ -178,17 +180,24 @@ const Settings = () => {
     } else {
       if(typeCategory === 'Type event'){
         // Si c'est un type d'evenement on envoit ca
-        formData.append("type_event", form.category);
+        //formData.append("type_event", form.category);
+        data = {
+          type_event: form.category
+        }
       } else {
         // Si c'est une catégorie, on ajoute seulement le nom de la catégorie
-        formData.append("category_name", form.category);
-        formData.append("type_category", typeCategory);
+        //formData.append("category_name", form.category);
+        //formData.append("type_category", typeCategory);
+        data = {
+          category_name: form.category,
+          type_category: typeCategory,
+        }
       }
     }
   
     try {
       // Appel API avec FormData
-      let res = await RequestDashboard( !isCategory ? 'accounts/auth/users/me/' : (typeCategory === 'Type event' ? 'gestreserv/eventype/' : 'gestreserv/categories/'), !isCategory ? 'PUT' : 'POST', formData,   users.access_token );
+      let res = await RequestDashboard( !isCategory ? 'accounts/auth/users/me/' : (typeCategory === 'Type event' ? 'gestreserv/eventype/' : 'gestreserv/categories/'), !isCategory ? 'PUT' : 'POST', (typeCategory && isCategory) ? data : formData,   users.access_token );
       let status = !isCategory ? 200 : 201
       
       if (res.status === status) {

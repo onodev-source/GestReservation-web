@@ -39,7 +39,7 @@ const Comments = ({ className }) => {
       <div className={styles.comments}>
         <div className={styles.list}>
           {loader ? <Loader/> :
-            lastComments.length > 0 ?
+            lastComments?.length > 0 ?
               lastComments.map((x, index) => (
                 <div className={styles.item} key={index}>
                   <Avatar user={{username: x.user?.full_name.trim() !== '' ? x.user?.full_name : x.user?.email, photo: x.user.photo_user}} classname={styles.avatar}/>

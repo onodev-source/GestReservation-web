@@ -38,6 +38,7 @@ import VerifyAccount from "./screens/VerifyAccount";
 import VerifyEmailResetPass from "./screens/VerifyEmailResetPass";
 import React from "react";
 import i18n from "./Services/I18n/i18n";
+import FaqView from "./screens/FaqView";
 
 
 const App = () => {
@@ -91,6 +92,7 @@ const App = () => {
         <Route path="/password/reset/confirm/:uid/:token" element={<AuthGuard props={<VerifyEmailResetPass />} />} />
         <Route path="/sign-in" element={ <AuthGuard props={<SignIn />} />} />
         <Route path="/forgot-password" element={ <AuthGuard props={<ForgotPassword />} />} />
+        <Route path="/faq" element={<FaqView />} />
         <Route path="*" element={<Error404View />} />
         <Route path="/pagelist" element={<PageList />} />
       </Route>

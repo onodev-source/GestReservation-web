@@ -46,9 +46,10 @@ const Users = ({ className, customerList, lastUsersOnline }) => {
         </Link>}
       </div>
       <div className={styles.list}>
-        {lastUsersOnline?.map((x, index) => (
+        {lastUsersOnline?.length > 0 &&
+        lastUsersOnline?.map((x, index) => (
           <Link className={styles.item} key={index} to={`${Routes.MY_PROFILE}/${x.id}`}>
-            <Avatar user={{username: x.username, photo: `http://192.168.1.103:8000${x.photo_user}`}} width='64px' height='64px' classname={styles.avatar}/>
+            <Avatar user={{username: x.username, photo: `http://onospaceworking.onograph.online${x.photo_user}`}} width='64px' height='64px' classname={styles.avatar}/>
             <div className={styles.title}>{x.username}</div>
           </Link>
         ))}

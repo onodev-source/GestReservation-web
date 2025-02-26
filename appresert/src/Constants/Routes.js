@@ -3,6 +3,7 @@ const Routes = {
     SIGN_UP_SUCCESS: '/sign-up/success',
     SIGN_UP: '/sign-up',
     SIGN_IN: '/sign-in',
+    FAQ: '/faq',
     FORGOT_PASS: '/forgot-password',
     HOME: '/',
     NOTIFICATIONS: '/notifications',

@@ -5,18 +5,20 @@ import Item from "./Item";
 import Dropdown from "../../../components/Dropdown";
 
 // data
-import { items } from "../../../mocks/faq";
+import {useItems } from "../../../mocks/faq";
 
 const Help = () => {
+  const items = useItems();
+  
   const options = [];
-  items.map((x) => options.push(x.title));
+  items?.map((x) => options.push(x.title));
 
   const [category, setCategory] = useState(options[0]);
 
   return (
     <div className={styles.faq}>
       <div className={styles.list}>
-        {items.find((x) => x.title === category).items.map((x, index) => (
+        {items?.find((x) => x.title === category).items?.map((x, index) => (
             <Item className={styles.item} item={x} key={index} />
         ))}
       </div>

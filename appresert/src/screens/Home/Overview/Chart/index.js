@@ -44,11 +44,11 @@ const Chart = ({invoiceByDate}) => {
   }, {});*/
 
   // Filtrer les dates nulles, trier et formater
-  const resultArrayInvoiceByAmount = invoiceByDate?.filter(invoice => invoice.invoice_date !== null) // Exclure les dates nulles
+  const resultArrayInvoiceByAmount = invoiceByDate?.length > 0 && invoiceByDate?.filter(invoice => invoice.invoice_date !== null) // Exclure les dates nulles
     .sort((a, b) => new Date(a.invoice_date) - new Date(b.invoice_date)) // Trier les dates de la plus ancienne à la plus récente
     .map(invoice => ({
-      name: formatDate(invoice.invoice_date, 'GETDATE'),
-      [invoiceKey]: invoice.total_amount
+      name: formatDate(invoice?.invoice_date, 'GETDATE'),
+      [invoiceKey]: invoice?.total_amount
     }));
 
 

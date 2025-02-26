@@ -66,14 +66,14 @@ const Overview = ({ className, homeData }) => {
     const nav = [
         {
             title: !users.users.is_customer ? t("navigation.customers") : t("views.home.order_number"),
-            counter: !users.users.is_customer ? homeData?.total_clients[0]?.totalclients : homeData?.total_orders[0]?.total_orders,
+            counter: !users.users.is_customer ? (homeData?.total_clients?.length > 0 && homeData?.total_clients[0]?.totalclients) : (homeData?.total_orders?.length > 0 && homeData?.total_orders[0]?.total_orders),
             icon: !users.users.is_customer ? "profile-circle" : "basket",
             color: "#F2D45F",
             value: -37.8,
         },
         {
             title: !users.users.is_customer ? t("navigation.income") : t("views.home.reservations_number"),
-            counter: !users.users.is_customer ? `${homeData?.total_invoices[0]?.total_amount}XAF` : homeData?.total_orders[1]?.total_amount,
+            counter: !users.users.is_customer ? `${homeData?.total_invoices?.length > 0 && homeData?.total_invoices[0]?.total_amount}XAF` : (homeData?.total_orders?.length > 1 && homeData?.total_orders[1]?.total_amount),
             icon: !users.users.is_customer ? "activity" : "store",
             color: darkMode.value ? "#33383F" : "#9A9FA5",
             value: 37.8,
