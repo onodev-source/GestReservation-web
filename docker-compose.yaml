@@ -1,10 +1,10 @@
 version: '3.8'
-services:
+services:                             
   appresert:
-    build: ./appresert
+    build: ./appresert                                 
     container_name: appresert_c
-    ports:
-      - '3000:3000'
+    ports:                                                                     
+      - '3001:3000'
     stdin_open: true
     tty: true
  

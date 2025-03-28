@@ -31,7 +31,7 @@ const Product = ({ className, item, value, isPackage, isDetailsPack, onChange, r
   const ratingValue = isPackage ? 4.9 : (isDetailsPack ? '' : item.ratingValue)
   const ratingCounter = isPackage ? 123 : (isDetailsPack ? '' : item.ratingCounter)
 
-  const handleClick = () => {
+  const  handleClick = () => {
     onChange();
     setVisible(!visible);
   };

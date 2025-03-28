@@ -27,7 +27,7 @@ const FaqView = () => {
           </div>
           <div className={cn("h4", styles.subtitle)}>{t('sign.plan_include')}</div>
           <ul className={styles.list}>
-            {items.map((x, index) => (
+            {items?.map((x, index) => (
               <li key={index}>{x}</li>
             ))}
           </ul>

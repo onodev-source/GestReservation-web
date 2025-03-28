@@ -30,6 +30,7 @@ import NewCustomer from "./screens/NewCustomer";
 import NewReservation from "./screens/NewReservation";
 import ProfileUser from "./screens/ProfileUser";
 import ForgotPassword from "./screens/ForgotPassword";
+import FaqView from "./screens/FaqView";                                      
 import Error404View from "./screens/ErrorView";
 import { useTranslation } from "react-i18next";
 import { AuthGuard } from "./Utils/AuthGuard";
@@ -38,7 +39,6 @@ import VerifyAccount from "./screens/VerifyAccount";
 import VerifyEmailResetPass from "./screens/VerifyEmailResetPass";
 import React from "react";
 import i18n from "./Services/I18n/i18n";
-import FaqView from "./screens/FaqView";
 
 
 const App = () => {
