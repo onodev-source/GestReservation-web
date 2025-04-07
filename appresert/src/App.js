@@ -87,11 +87,11 @@ const App = () => {
         <Route path="/message-center" element={<Page title="Message center"><MessageCenter /></Page>} />
         <Route path="/explore-creators" element={<Page title="Explore creators"><ExploreCreators /></Page>} />
         <Route path="/affiliate-center" element={<Page title="Affiliate center"><AffiliateCenter /></Page>} />
-        <Route path="/sign-up" element={<AuthGuard props={<SignUp />} />} />
-        <Route path="accounts/auth/users/activation/:uid/:token" element={<AuthGuard props={<VerifyAccount />} />} />
-        <Route path="/password/reset/confirm/:uid/:token" element={<AuthGuard props={<VerifyEmailResetPass />} />} />
-        <Route path="/sign-in" element={ <AuthGuard props={<SignIn />} />} />
-        <Route path="/forgot-password" element={ <AuthGuard props={<ForgotPassword />} />} />
+        <Route path="/sign-up" element={<AuthGuard props={<SignUp />} isAuthPage={true} />} />
+        <Route path="accounts/auth/users/activation/:uid/:token" element={<AuthGuard props={<VerifyAccount />} isAuthPage={true} />} />
+        <Route path="/password/reset/confirm/:uid/:token" element={<AuthGuard props={<VerifyEmailResetPass />} isAuthPage={true} />} />
+        <Route path="/sign-in" element={ <AuthGuard props={<SignIn />}  isAuthPage={true}/>} />
+        <Route path="/forgot-password" element={ <AuthGuard props={<ForgotPassword />}  isAuthPage={true}/>} />
         <Route path="/faq" element={<FaqView />} />
         <Route path="*" element={<Error404View />} />
         <Route path="/pagelist" element={<PageList />} />
