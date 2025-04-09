@@ -58,6 +58,9 @@ const Entry = ({ onConfirm }) => {
       re_password: form.password
     }
     let res = await RequestDashboard('accounts/auth/users/', 'POST', data);
+    console.log('res.response', res.response);
+    console.log('res.messagedata', res.response.data);
+    console.log('res.message content', res.response.message);
     
     
     if (res.status === 201) {
@@ -67,9 +70,14 @@ const Entry = ({ onConfirm }) => {
       setLoader(false)
     }
     else if (res.status === 400) { 
+      const errorData = res.response;
+      if (errorData?.email) {
+        console.log(errorData.email[0]); 
+        setErrorSubmit(errorData.email[0]);
+      } else {
+        setErrorSubmit(errorData?.phone_number ? errorData?.phone_number[0] : errorData?.password[0]);
+      }
       setLoader(false)
-      //setForm({ ...form, email: '', password: '' });
-      setErrorSubmit("Incorrect Email or Password"); 
     }
     else if (res.status === 401) { 
       setLoader(false)
@@ -109,7 +117,7 @@ const Entry = ({ onConfirm }) => {
         )}
         <div className={styles.info}>{t('sign.continue_with_email')}</div>
         {/*<TextInput onChange={textInputChange} className={styles.field} name="name"  type="text" placeholder={t('sign.name')} required />*/}
-        <TextInput onChange={textInputChange} value={form.tel}  className={styles.field}  name="tel"  type="tel" placeholder={t('sign.phone_number')} required  icon="phone" />
+        <TextInput onChange={textInputChange} value={form.tel}  className={styles.field}  name="tel"  type="tel" placeholder='2376xxxxxxxx' required  icon="phone" />
         <TextInput onChange={textInputChange} value={form.email} className={styles.field}  name="email" type="email" placeholder={t('sign.email')} required  icon="mail"/>
         <TextInput onChange={textInputChange} value={form.password} className={styles.field} name="password" type="password"  placeholder={t('sign.password')} required icon="lock" />
         <button className={cn("button", styles.button, {[styles.disabled]: !isFormFilled()})} onClick={register} disabled={!isFormFilled() ? true : false}>

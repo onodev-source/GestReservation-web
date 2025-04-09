@@ -213,6 +213,11 @@ const en = {
             language: "Language",
             change_language: "Change language",
             help: "Help",
+            comment_notif: "Comments",
+            liked_notif: "Likes",
+            invoice_notif: "Invoices",
+            pack_notif: "Packages",
+            reservation_notif: "Reservation updates",
         },
         tabs: {
             activity: 'Activity'
@@ -312,6 +317,7 @@ const en = {
     },
     words: {
         last: 'Last',
+        no_content: 'No content at the moment',
         last_saved: 'Last saved',
         cancel: 'Cancel',
         back: 'Back',

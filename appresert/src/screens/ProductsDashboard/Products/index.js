@@ -107,9 +107,9 @@ const Products = () => {
     handleFilterProducts()
   }, [handleFilterProducts]);
 
-console.log('filterProduct', filterProducts);
+/*console.log('filterProduct', filterProducts);
 console.log('activetab if', activeTab === navDropdown[1]);
-console.log('activetab if', activeTab === navDropdown[2]);
+console.log('activetab if', activeTab === navDropdown[2]);*/
 
   return (
     <Card className={styles.card}  title={t('views.products.products')} classTitle={cn("title-purple", styles.title)}  classCardHead={styles.head}

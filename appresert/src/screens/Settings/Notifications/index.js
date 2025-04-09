@@ -4,32 +4,41 @@ import styles from "./Notifications.module.sass";
 import Item from "../Item";
 import Tooltip from "../../../components/Tooltip";
 import Switch from "../../../components/Switch";
+import { useTranslation } from "react-i18next";
 
-const settings = [
-  {
-    id: 0,
-    title: "Product updates and community announcements",
-    tooltip: "Small description",
-  },
-  {
-    id: 1,
-    title: "Market newsletter",
-    tooltip: "Small description",
-  },
-  {
-    id: 2,
-    title: "Comments",
-    tooltip: "Small description",
-  },
-  {
-    id: 3,
-    title: "Purchases",
-    tooltip: "Small description",
-  },
-];
+
 
 const Notifications = ({ className }) => {
+  const {t} = useTranslation()
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  const settings = [
+    {
+      id: 0,
+      title: t("views.settings.reservation_notif"),
+      tooltip: "Small description",
+    },
+    {
+      id: 1,
+      title: t("views.settings.liked_notif"),
+      tooltip: "Small description",
+    },
+    {
+      id: 2,
+      title: t("views.settings.comment_notif"),
+      tooltip: "Small description",
+    },
+    {
+      id: 3,
+      title: t("views.settings.pack_notif"),
+      tooltip: "Small description",
+    },
+    {
+      id: 4,
+      title: t("views.settings.invoice_notif"),
+      tooltip: "Small description",
+    },
+  ];
 
   const handleChange = (id) => {
     if (selectedFilters.includes(id)) {

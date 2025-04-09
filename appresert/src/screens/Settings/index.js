@@ -210,14 +210,18 @@ const Settings = () => {
           dispatch(action);
           setErrorSubmit('The users has been successfully updated');
         } else {
-          setForm({ ...form, category: '' });
+          //setForm({ ...form, category: '' });
           setErrorSubmit(`The ${typeCategory==='Type event' ? 'event type' : 'category'} has been successfully created`);
         }
         setLoader(false);
       } else if (res.status === 400) {
-        setLoader(false);
         //setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });
-        setErrorSubmit("Incorrect Email or Password");
+        if (isCategory) {
+          setErrorSubmit(res.response?.category_name[0]);
+        } else {
+          setErrorSubmit("Incorrect Email or Password");
+        }
+        setLoader(false);
       } else if (res.status === 401) {
         setLoader(false);
         //setForm({ ...form, email: '', tel: '', sexe: '', location: '', password: '' });

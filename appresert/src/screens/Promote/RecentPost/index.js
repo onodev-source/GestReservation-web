@@ -87,7 +87,7 @@ const RecentPost = ({ className }) => {
                 <Row item={x} key={index} postRef={postRef} setRefresh={setRefresh} refresh={refresh} onDeletePub={() => deletePublicityById(x.id)}/>
               ))
             :
-            <div><h5>no content</h5></div>
+            <div><h5>{t('words.no_content')}</h5></div>
           }
         </div>
         {/*<div className={styles.foot}>

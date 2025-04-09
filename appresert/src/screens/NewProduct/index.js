@@ -86,16 +86,18 @@ const NewProduct = ({product, editPack, editProd}) => {
 
   const isFormFilled = () => {
       if (product) {
+        const type = editProd ? 'string' :  'object'
         return (
-          (typeof media === editProd ? 'string' :  'object') &&
+          (typeof media === type) &&
           category !== '' &&
           descripbe !== '' &&
           form.product_name !== '' &&
           form.product_quantity > 0
         )
       } else {
+        const type = editPack ? 'string' : 'object'
         return (
-          (typeof media === editPack ? 'string' : 'object') &&
+          (typeof media === type) &&
           category !== '' &&
           descripbe !== '' &&
           productIds?.length > 0 &&

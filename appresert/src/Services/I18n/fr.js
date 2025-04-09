@@ -203,6 +203,11 @@ const fr = {
             language: "Langue",
             change_language: "Changer la langue",
             help: "Aide",
+            comment_notif: "Commentaires",
+            liked_notif: "Likes",
+            invoice_notif: "Factures",
+            pack_notif: "Forfaits / lots",
+            reservation_notif: "Mises à jour des réservations",
         },
         tabs: {
             activity: 'Activités'
@@ -302,6 +307,7 @@ const fr = {
     },
     words: {
         last: 'Derniers',
+        no_content: 'Pas de contenu pour le moment',
         last_saved: 'Dernière sauvegarde',
         cancel: 'Annuler',
         features: 'Caractéristiques',
